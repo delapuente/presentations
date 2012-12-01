@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Metaprogramming in Python &amp; JavaScript</title>
+
+  <meta name="description" content="A crash course about metaprogramming">
+  <meta name="author" content="Salvador de la Puente González">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/default.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- For syntax highlighting -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+  <script>
+    document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+  </script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+  <div class="reveal linear">
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+      <section>
+        <h1>Metaprogramming in<br/>python &amp;<br/>javascript</h1>
+      </section>
+
+      <section>
+        <section>
+          <h2>Programs manipulating programs</h2>
+          <img src="imgs/hands.jpg" style="width:600px;"/>
+        </section>
+
+        <section>
+          <h3>What is metaprogramming?</h3>
+          <ul>
+            <li class="fragment">Programs <strong>writing</strong> another programs</li>
+            <li class="fragment">Programs <strong>executing</strong> another programs</li>
+            <li class="fragment">Programs understanding their own <strong>semantics</strong></li>
+            <li class="fragment">Programs <strong>changing themselves</strong></li>
+          </ul>
+        </section>
+
+        <section>
+          <blockquote>Write a program, in <strong>just one line</strong> and using no recursion, nor loops, nor "go-to"s to print 100 times: <strong>I do not talk in class</strong></blockquote>
+          <pre class="fragment"><code class="python" contenteditable>exec("for n in range(100):\n  print 'I do not talk in class'")</code></pre>
+          <pre class="fragment"><code class="javascript" contenteditable>eval("for(var i=0; i++&lt;100;) console.log('I do not talk in class');");</code></pre>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>First-class objects:<br/>Behaviour as data</h2>
+          <h4>Javascript</h4>
+          <pre><code contenteditable>function get_projects(id) {
+  console.log('GET http://mycompany.com/projects/' + (id || ''));
+}</code></pre>
+          <h4>Python</h4>
+          <pre><code contenteditable>def get_projects(id=''):
+  print 'GET http://mycompany.com/projects/%s' % str(id)</code></pre>
+        </section>
+
+        <section>
+          <h3>Functions are objects</h3>
+          <ul>
+            <li class="fragment">Functions are the <strong>best way</strong> to define behaviour</li>
+            <li class="fragment">They have properties and methods</li>
+            <li class="fragment">A special method <code>call()</code> executes the function</li>
+          </ul>
+        </section>
+
+        <section>
+          <pre><code contenteditable>>>> get_projects instanceof Object
+true
+>>> get_projects.call
+call()
+>>> get_projects.call(null, 8)
+GET http://mycompany.com/projects/8
+          </code></pre>
+          <pre><code contenteditable class="python">>>> isinstance(get_projects, object)
+True
+>>> get_projects.__call__
+&lt;method-wrapper '__call__' of function object at 0xd3b7d0&gt;
+>>> get_projects.__call__(8)
+GET http://mycompany.com/projects/8</code></pre>
+        </section>
+
+        <section>
+          <h3>Functions in expressions</h3>
+          <ul>
+            <li class="fragment">Functions are values (<em>R-values</em>), they can be anywhere a value could be</li>
+            <li class="fragment">They can be used as <strong>parameters</strong>...</li>
+            <li class="fragment">...or as <strong>return values</strong></li>
+          </ul>
+        </section>
+
+        <section>
+          <pre><code contenteditable>function count(f) {           // Accepts a function as parameter
+  function wrapped_f() {      // Here is a totally new function!
+    wrapped_f.count++;
+    return f.apply(null, arguments);
+  }
+
+  wrapped_f.count = 0; // Used as an object
+  return wrapped_f;    // Function as the return expression
+}
+
+// Reuse the name (L-value) to get an augmented version of the function
+get_projects = count(get_projects); // Function as a parameter
+get_projects(8);
+get_projects(10);
+console.log(get_projects.count)</code></pre>
+        </section>
+
+        <section>
+          <pre><code contenteditable>def count(f):                     # Accepts a function as parameter
+  def wrapped_f(*args, **kwargs): # Here is a totally new function!
+    wrapped_f.count += 1
+    return f(*args, **kwargs)
+
+  wrapped_f.count = 0  # Used as an object
+  return wrapped_f     # Function as the return expression
+
+# Reuse the name (L-value) to get an augmented version of the function
+get_projects = count(get_projects) # Function as a parameter
+get_projects(8);
+get_projects(10);
+print get_projects.count</code></pre>
+        </section>
+
+        <section>
+          <h3>Extra!<br/>decorators in Python</h3>
+          <img class="deco" src="imgs/bow.png" style="position: absolute; z-index: 10; top: 200px; right: 10px; width:250px; border: none; -moz-transform: rotate(15deg);"/>
+          <pre><code contenteditable># A decorator only requires to accept a function and return a function
+def count(f):
+  def wrapped_f(*args, **kwargs):
+    wrapped_f.count += 1
+    return f(*args, **kwargs)
+  wrapped_f.count = 0
+  return wrapped_f
+
+# This is only syntactic sugar 
+@count
+def get_projects(id=''):
+  print 'GET http://mycompany.com/projects/%s' % str(id)</code></pre>
+          <p>Used with <code contenteditable>@</code> before a function definition, <code contenteditable>count()</code> applies itself to the function and updates the name to point the returned value.</p>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Don't Repeat Yourself!</h2>
+          <img src="imgs/loop.jpg" class="deco" style="width:125%;"/>
+        </section>
+
+        <section>
+          <pre><code contenteditable>class MyCompany(object):
+  def get_projects(self, id=''):
+    print 'GET http://mycompany.com/projects/%s' % str(id)
+
+  def get_employees(self, id=''):
+    print 'GET http://mycompany.com/employees/%s' % str(id)
+
+  def get_profiles(self, id=''):
+    print 'GET http://mycompany.com/profiles/%s' % str(id)
+
+  def get_partners(self, id=''):
+    print 'GET http://mycompany.com/partners/%s' % str(id)</code></pre>
+          <p>Do you see the repetition?</p>
+          <pre><code contenteditable>def get_&lt;concept&gt;(self, id=''):
+  print 'GET http://mycompany.com/&lt;concept&gt;/%s' % str(id)</code></pre>
+        </section>
+
+        <section>
+          <pre><code contenteditable>function MyCompany() { }
+MyCompany.prototype.get_projects = function(id) {
+  console.log('GET http://mycompany.com/projects/' + (id || ''));
+}
+MyCompany.prototype.get_employees = function(id) {
+  console.log('GET http://mycompany.com/employees/' + (id || ''));
+}
+MyCompany.prototype.get_profiles = function(id) {
+  console.log('GET http://mycompany.com/profiles/' + (id || ''));
+}
+MyCompany.prototype.get_partners = function(id) {
+  console.log('GET http://mycompany.com/partners/' + (id || ''));
+}</code></pre>
+          <p>Do you see the repetition?</p>
+          <pre><code contenteditable class="javascript">MyCompany.prototype.get_&lt;concept&gt; = function(id) {
+  console.log('GET http://mycompany.com/&lt;concept&gt;/' + (id || ''));
+}</code></pre>
+        </section>
+
+        <section>
+          <h3>Solution?<br/>Function factories</h3>
+          <ul>
+            <li class="fragment">Please, not to be confused with <code contenteditable>factory method</code> pattern</li>
+            <li class="fragment">They act as templates for other functions</li>
+            <li class="fragment">Return <strong>another customized function</strong></li>
+          </ul>
+        </section>
+
+        <section>
+          <pre><code contenteditable>def build_get(concept):
+  # A template for get_&lt;concept&gt;() methods
+  def get_concept(self, id=''):
+    print 'GET http://mycompany.com/%s/%s' % (concept, str(id))
+  return get_concept</code></pre>
+          <pre><code contenteditable>function build_get(concept) {
+  // A template for get_&lt;concept&gt;() methods
+  function get_concept(id) {
+    console.log('GET http://mycompany.com/' + concept + '/' + (id || ''));
+  }
+  return get_concept;
+}</code></pre>
+        </section>
+
+        <section>
+          <pre><code contenteditable>def build_get(concept):
+  def get_concept(self, id):
+    print 'GET http://mycompany.com/%s/%s' % (concept, str(id))
+  return get_concept
+
+class MyCompany(object):
+  get_projects  = build_get('projects')
+  get_employees = build_get('employees')
+  get_profiles  = build_get('profiles')
+  get_partners  = build_get('partners')</code></pre>
+        </section>
+
+        <section>
+          <pre><code contenteditable>function build_get(concept) {
+  function get_concept() {
+    console.log('GET http://mycompany.com/' + concept + '/' + (id || ''));
+  }
+  return get_concept;
+}
+
+function MyCompany() { }
+MyCompany.prototype.get_projects = build_get('projects');
+MyCompany.prototype.get_employees = build_get('employees');
+MyCompany.prototype.get_profiles = build_get('profiles');
+MyCompany.prototype.get_partners = build_get('partners');</code></pre>
+        </section>
+
+        <section>
+          <h3>More improvements?</h3>
+          <p class="fragment">More D.R.Y?</p>
+          <p class="fragment">It depends on language capabilites:</p>
+          <ul>
+            <li class="fragment">Dynamic languages</li>
+            <li class="fragment">Extensible APIs</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Live APIs</h2>
+          <img src="imgs/alive.jpg" class="deco" style="width: 700px;"/>
+          <p>It's <strong>alive</strong>!</p>
+        </section>
+
+        <section>
+          <pre><code contenteditable class="python">>>> class MyClass(object):
+...   '''A test class'''
+>>> a = MyClass()
+>>> a.me()
+AttributeError: 'MyClass' object has no attribute 'me'
+>>> def here_I_am(self):
+...   print 'Here I am'
+>>> MyClass.me = here_I_am
+>>> a.me()
+Here I am</code></pre>
+          <pre><code contenteditable class="javascript">>>> function MyClass() { /* A test class */ }
+>>> var a = new MyClass();
+>>> a.me()
+TypeError: a.me is not a function
+>>> MyClass.prototype.me = function() { console.log('Here I am'); }
+>>> a.me()
+Here I am</code></pre>
+        </section>
+
+        <section>
+          <h3>From DRY to DRY-est</h3>
+          <pre><code contenteditable>class MyCompany(object):
+  '''My company website'''
+
+for concept in ['projects', 'employees', 'profiles', 'partners']:
+  setattr(MyCompany, 'get_%s' % concept, build_get(concept))</code></pre>
+          <pre><code contenteditable>function MyCompany() { /*My company website*/ }
+
+['projects', 'employees', 'profiles', 'partners'].forEach(
+function(concept) {
+  MyCompany.prototype['get_' + concept] = build_get(concept);
+});</code></pre>
+        </section>
+
+        <section>
+          <h3>Beware:</h3>
+          <ul>
+            <li class="fragment">Metaprogramming is an <strong>advanced and versatile feature</strong></li>
+            <li class="fragment">Use only when it make sense</li>
+            <li class="fragment">You can end writing <code>only-write</code> code</li>
+          </ul>
+          <img src="imgs/rope-bridge.jpg" style="float: left; height:350px;" class="fragment"/>
+          <img src="imgs/hanged-knot.jpg" style="float: right; height:350px;" class="fragment"/>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Dynamic dispatching</h2>
+          <p>the art of building interfaces on the fly</p>
+        </section>
+
+        <section data-state="beautiful">
+          <h3>Beautiful API</h3>
+          <ul>
+            <li class="fragment">Natural</li>
+            <li class="fragment">Predictible</li>
+            <li class="fragment">Easy to extend</li>
+            <li class="fragment">Easy to maintain</li>
+            <li class="fragment"><a href="http://coding.smashingmagazine.com/2012/10/09/designing-javascript-apis-usability/">Usability in JavaScript APIs</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>How will it fail?</h3>
+          <pre><code contenteditable>>>> function MyCompany() {}
+>>> var mc = new MyCompany();
+>>> mc.get_reports();</code></pre>
+          <pre><code contenteditable>>>> class MyCompany(object):
+...   '''My company website'''
+>>> mc = MyCompany();
+>>> mc.get_reports();</code></pre>
+          <p class="fragment">The method does not even exist!</p>
+          <p class="fragment">But it sounds reasonable to guess it exists...</p>
+          <p class="fragment">So let's generate it <strong>on the fly!</strong></p>
+        </section>
+
+        <section>
+          <h3>Retrieving process I</h3>
+          <pre><code contenteditable>>>> class MyCompany(object):
+...   '''My company website'''
+>>> mc = MyCompany();
+>>> mc.get_reports();
+AttributeError: 'MyCompany' object has no attribute 'get_reports'</code></pre>
+          <p>Before calling, Python tries first to get the name <code>get_reports</code> looking in...</p>
+          <ol>
+            <li class="fragment">The object <strong>itself</strong></li>
+            <li class="fragment">The object <strong>class</strong></li>
+            <li class="fragment">The object <strong>superclass</strong> and so on...</li>
+          </ol>
+        </section>
+
+        <section>
+          <h3>Retrieving process II</h3>
+          <ol>
+            <li class="fragment">The <em>dot notation</em> is a shortcut for using <code>__getattribute__()</code></li>
+            <li class="fragment">Method <code>__getattribute__()</code> is a member of class <code>object</code></li>
+            <li class="fragment">As any other member, it can be <strong>overriden</strong></li>
+          </ol>
+        </section>
+
+        <section>
+          <img src="./imgs/dr-doofenshmirtz.jpg" class="deco" style="width: 75%;"/>
+          <p>Let's <strong>combine</strong> with metaprogramming!</p>
+        </section>
+
+        <section>
+          <pre><code contenteditable>class MyCompany(object):
+
+  @staticmethod
+  def __build_get(concept):
+    def get_concept(self, id=''):
+      print 'GET http://mycompany.com/%s/%s' % (concept, str(id))
+    return get_concept
+
+  def __getattribute__(self, name):
+    # Check for the existence of the name
+    if not hasattr(self, name):
+      # If the name is recognized as a get method, creates a new one
+      if name[:4] == 'get_':
+        setattr(MyCompany, name, self.__build_get(name[4:]))
+
+    # Retrieve the name normally
+    return super(MyCompany, self).__getattribute__(name)</code></pre>
+        </section>
+
+        <section>
+          <p>And what about JavaScript?</p>
+          <ul>
+            <li class="fragment">No way for intervene dispatching process</li>
+            <li class="fragment">Wait for <em>proxy objects</em> in <a href="http://en.wikipedia.com/wiki/ECMAScript#ECMAScript_Harmony_.286th_Edition.29">Harmony</a> or...</li>
+            <li class="fragment"><strong>Hack</strong> a little bit!</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Retrieving process I</h3>
+          <pre><code contenteditable>>>> function MyCompany() {}
+>>> var mc = new MyCompany();
+>>> mc.get_reports();
+TypeError: mc.get_reports is not a function</code></pre>
+          <p>JavaScript see the calling as a whole.</p>
+          <p>JavaScript tries to look for the method following the <strong>prototype chain</strong></p>
+          <ol>
+            <li class="fragment">The object <strong>itself</strong></li>
+            <li class="fragment"><strong>Prototype</strong> of the object</li>
+            <li class="fragment"><strong>Prototype of the prototype</strong> of the object and so on...</li>
+          </ol>
+        </section>
+
+        <section>
+          <h3>Retrieving process II</h3>
+          <ol>
+            <li class="fragment">Let's send messages with a custom method <code>send()</code></li>
+            <li class="fragment">Borrow <a href="http://rubylearning.com/satishtalim/ruby_method_missing.html">method_missing()</a> from Ruby</li>
+            <li class="fragment">And follow a special (but a little bit artificial) pattern</li>
+          </ol>
+          <pre class="fragment javascript"><code>try {
+  // Try to call the method in a normal way
+  mc.get_reports(9);
+
+// Catch if there is no such method
+} catch (err) {
+
+  // Use send to itervene the message sending
+  mc.send('get_reports', 9);
+}
+
+// Now the method exists, use normally
+mc.get_reports(10);</pre></code>
+        </section>
+
+        <section>
+          <h3 style="text-transform: none !important;">method_missing</h3>
+          <p>When Ruby does not find a method, calls <code>method_missing()</code> with the <strong>name</strong> of the original function and its <strong>parameters</strong></p>
+          <pre><code contenteditable>// Default implementation just raises an error
+Object.prototype.method_missing = function() {
+  throw new Error('NoMethodError');
+}
+
+Object.prototype.send = function(name) {
+  try {
+    // Arguments for the function are after the name of the message
+    var args = [].slice.call(arguments, 1);
+    this[name].apply(this, args);
+
+  // Does not exists? Call method missing on the object
+  } catch (err) {
+    this.method_missing.apply(this, arguments);
+  }
+}</code></pre>
+        </section>
+
+        <section>
+          <pre><code contenteditable>// Override method missing
+MyCompany.prototype.method_missing = function (name) {
+  function build_get(concept) {
+    function get_concept(id) {
+      console.log('GET http://mycompany.com/' + concept + '/' + (id || ''))
+    }
+    return get_concept;
+  }
+
+  // Identify method, add to the class and invoke it
+  if (name.substr(0, 4) === 'get_') {
+    MyCompany.prototype[name] = build_get(name.substr(4));
+    var args = [].slice.call(arguments, 1);
+    return MyCompany.prototype[name].apply(this, args);
+  }
+  // fallback to default implementation
+  throw new Error('NoMethodError');
+}</code></pre>
+        </section>
+
+        <section>
+          <p>Excuse me...</p>
+          <p class="fragment">What the hell are <strong>proxies</strong>?</p>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Forecasting!<br/>JavaScript proxies</h2>
+          <p>Proxies are the way to define <em>semantics</em> for an object</p>
+          <pre><code contenteditable>>>> var target = {};
+>>> var semantics = {
+  get: function (target, name, receiver) { return 42; }
+}
+>>> var p = new Proxy(target, semantics);
+>>> p.answer_to_life_the_universe_and_everything_else
+/* 
+Same as:
+semantics.get(target, 'answer_to_life_the_universe_and_everything_else', p)
+*/
+42</code></pre>
+          <img class="fragment deco" src="imgs/bug.png" style="position:absolute; bottom: 0; left: 0; z-index:10;"/>
+        </section>
+      </section>
+
+      <section>
+        <h2>Further reading</h2>
+        <ul>
+          <li><a href="http://www.sonicbyte.com/metaprogramacion-ruby/">Metaprogramación en Ruby</a> by Sergio Gil</li>
+          <li><a href="http://pyvideo.org/video/302/pycon-2010--python-metaprogramming---64">Python Metaprogramming</a> by Nicolas Lara (<strong>awesome!</strong>)</li>
+          <li><a href="http://www.diveintopython.net/dynamic_functions/index.html">Dive into Python: Chapter 17, Dynamic Functions</a> by Mark Pilgrim</li>
+          <li><a href="http://docs.python.org/2/reference/datamodel.html#customizing-attribute-access">Data model</a> in Python's reference</li>
+          <li><a href="http://mdn.beonex.com/en/JavaScript/Introduction_to_Object-Oriented_JavaScript.html">Introduction to Object-Oriented JavaScript</a> in MDN</li>
+          <li><a href="http://coding.smashingmagazine.com/2012/10/09/designing-javascript-apis-usability/">Designing Better JavaScript APIs</a> by Rodney Rhem</li>
+          <li><a href="http://unoyunodiez.com/2012/03/31/metaprogramacion-en-python/">Metaprogramación en Python</a> by Salvador de la Puente</li>
+          <li><a href="http://unoyunodiez.com/2012/04 /03/metaprogramacion-en-javascript/">Metaprogramación en JavaScript</a> by Salvador de la Puente</li>
+          <li><a href="http://www.slideshare.net/BrendanEich/metaprog-5303821">Proxies are awesome</a> by Brendam Eich</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>About me ;)</h2>
+        <img src="imgs/chibi.png" class="deco" style="float:left; width: 250px; height:auto;"/>
+        <dl>
+          <dt>me</dt>
+          <dd>Salvador de la Puente González</dd>
+          <dt>twitter</dt>
+          <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+          <dt>My sites</dt>
+          <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/lodr">http://github.com/lodr</a></dd>
+        </dl>
+      </section>
+
+    </div>
+  </div>
+
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.min.js"></script>
+
+  <script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+      transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+      // Optional libraries used to extend on reveal.js
+      dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+      ]
+    });
+
+  </script>
+
+</body>
+</html>

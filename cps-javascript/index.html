@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Continuation-Passing style in JavaScript</title>
+
+  <meta name="description" content="Informal introduction and practical demonstration.">
+  <meta name="author" content="Salvador de la Puente González">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/default.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- For syntax highlighting -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+  <script>
+    document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+  </script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+  <div class="reveal linear">
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+      <section>
+        <h1>Continuation-Passing Style in<br/>JavaScript</h1>
+      </section>
+
+      <section>
+        <section>
+          <h3>Return-based, classical style</h3>
+          <pre><code spellcheck="false" contenteditable>function concat(x, y) {
+  return '' + x + y;
+}
+
+function capitalize(x) {
+  return x.toUpperCase();
+}
+
+var result = concat("Pi is exactly ", 3);
+var capitalized = capitalize(result);
+console.log(capitalized + '!');</code></pre>
+        </section>
+
+        <section>
+          <p>Flow is lineal, function nesting <strong>keeps low</strong></p>
+          <img src="imgs/return-based-style.png" style="width:500px;" class="deco"/>
+          <p class="fragment">Control is <strong>returned to the main program</strong> over and over after exiting a function</p>
+        </section>
+
+        <section>
+          <h3>Continuation-Passing style</h3>
+          <pre><code spellcheck="false" contenteditable>function concat(x, y, continuation) {
+  var result = '' + x + y;
+  continuation(result);
+}
+
+function capitalize(x, continuation) {
+  var result = x.toUpperCase();
+  continuation(result);
+}
+
+concat("Pi is exactly ", 3, function nowCapitalizeAndPrint (result) {
+  capitalize(result, function nowPrint (capitalized) {
+    console.log(capitalized + '!');
+  });
+});</code></pre>
+        </section>
+
+        <section>
+          <p>Flow is chained, function nesting <strong>increases with each call</strong></p>
+          <img src="imgs/continuation-passing-style.png" style="width:400px;" class="deco"/>
+          <p class="fragment">Control is <strong>explicitely defined</strong> as the continuation parameter</p>
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+          <h2>CPS is among us</h2>
+          <img src="imgs/among-us.jpg" />
+        </section>
+
+        <section>
+          <h3>CPS is here since <em>Scheme</em> age (1975)</h3>
+          <ul>
+            <li class="fragment">It is very common as <strong>intermediate representation</strong> for functional languages</li>
+            <li class="fragment">JavaScript <strong>callbacks</strong> are continuations</li>
+            <li class="fragment">Synchronization tools as <a href="http://www.neilmix.com/narrativejs/doc/overview.html">Narrative JavaScript</a>, <a href="http://maxtaco.github.com/coffee-script/">IcedCoffeeScript</a> or <a href="https://github.com/creationix/step">Step</a> use CPS</li>
+          </ul>
+        </section>
+
+        <section>
+          <p>Why callbacks are continuations?</p>
+        </section>
+
+        <section>
+          <pre><code spellcheck="false" contenteditable>function get(url, onsuccess, onerror) {
+  var xnr = new XMLHttpRequest();
+  xhr.open('GET', url, true); // send asynchronously!
+  xhr.send(null);
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== 4)
+      return;
+
+    if (xhr.status === 200)
+        onsuccess(xhr.responseText);
+
+    else if (typeof onerror === 'function')
+        onerror(xhr.responseText);
+  }
+}</code></pre>
+        <p>The <code>get()</code> function is written in CPS with <strong>two continuations</strong>, one in case of success and other in case of error</p>
+        </section>
+
+        <section>
+          <p>Wait a moment. What is a <strong>continuation</strong>?</p>
+          <ul>
+            <li class="fragment">A continuation is an object that captures the <strong>current state</strong> of a program</li>
+            <li class="fragment">Easier: it is <strong>the work that remains to be done</strong></li>
+            <li class="fragment">A common representation is a function</li>
+            <li class="fragment">I takes only one parameter with the result of previous computations</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Do not confuse a<br/>function in CPS with a continuation!</h3>
+          <pre class="fragment"><code spellcheck="false" class="javascript" contenteditable>function get(url, continuation) { // &lt;-- this is a function in CPS 
+  // Do some async stuff
+}</code></pre>
+          <pre class="fragment"><code spellcheck="false" class="javascript" contenteditable>function nowShow(result) { // &lt;-- this is a continuation
+  console.log(JSON.stringify(result));
+}</code></pre>
+          <pre class="fragment"><code spellcheck="false" class="javascript" contenteditable>get('http://calc.org/functions/', nowShow); // &lt;-- this is call in CPS</code></pre>
+        </section>
+
+        <section>
+          <h3>(Our) Constrains</h3>
+          <p>Let's write CPS manually</p>
+          <ol>
+            <li class="fragment">It is forbidden to use <code>return</code> explicitely</li>
+            <li class="fragment">The <strong>last parameter</strong> of a function is always its continuation</li>
+            <li class="fragment">Every function must end <strong>calling its continuation with the result of its computation</strong></li>
+          </ol>
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+          <h2>The Pyramid of Doom</h2>
+          <img src="imgs/pyramid.JPG"/>
+        </section>
+
+        <section>
+          <p>Continuations could be annoying. Try converting this:</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>var a = 1, b = 4, c = 3;
+console.log((a+Math.sqrt(b*b-4*a*c))/(2*a));</code></pre>
+          <p>into CPS...</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>// Suppose these operators
+function add(x, y, cont) { cont(x+y); }
+function mul(x, y, cont) { cont(x*y); }
+function div(x, y, cont) { cont(x/y); }
+function sqr(x, cont)    { cont(Math.sqrt(x); }
+
+// Compute acum = mul(b, b)
+  // Then compute acum2 = mul(-4, a)
+    // Then compute acum2 = mul(acum2, c)
+      // Then compute acum2 = add(acum, acum2)
+        // Then compute acum2 = sqr(acum2)
+          // Then compute acum2 = add(a, acum2)
+            // Then compute acum3 = mul(2, a)
+              // Then compute acum3 = div(acum2, acum3)
+                // Then console.log(acum3)</code></pre>
+        </section>
+
+        <section>
+          <p>Here it is <em>the Pyramid of Doom</em></p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>mul(b, b, function (acum) {
+  mul(-4, a, function (acum2) {
+    mul(acum2, c, function (acum2) {
+      add(acum, acum2, function (acum2) {
+        sqr(acum2, function (acum2) {
+          add(a, acum2, function (acum2) {
+            mul(2, a, function (acum3) {
+              div(acum2, acum3, function (acum3) {
+                console.log(acum3);
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});</code></pre>
+        </section>
+
+        <section>
+          <p>But now suppose these alternative implementations...</p>
+          <pre class="fragment"><code spellcheck="false" class="javascript" contenteditable>function add(x, y, cont) {
+  get('http://calc.org/add/' + x + '/' + y, cont);
+}
+function mul(x, y, cont) {
+  get('http://calc.org/mul/' + x + '/' + y, cont);
+}
+function div(x, y, cont) {
+  get('http://calc.org/div/' + x + '/' + y, cont);
+}
+function sqr(x, cont)    {
+  get('http://calc.org/sqr/' + x, cont);
+}</code></pre>
+          <p class="fragment">Now CPS allow us to compute the formula <strong>in the server</strong>, in an <strong>asynchronous fashion</strong> and <strong>without blocking</strong> the interface</p>
+        </section>
+
+      </section>
+
+      <section>
+        <h2>Applications</h2>
+        <p class="fragment">How about supporting <strong>tail call optimization</strong>?</p>
+        <p class="fragment">Or writing <strong>non-blocking</strong> tasks?</p>
+        <p class="fragment">Even <strong>coordinating asynchronous</strong> functions?</p>
+      </section>
+
+      <section>
+        <section>
+          <h2>Example I:<br/>Tail call optimization</h2>
+          <ul>
+            <li class="fragment">Every function in CPS is a <strong>tail call</strong></li>
+            <li class="fragment">Are you worried about producing a stack overflow?</li> 
+            <li class="fragment">Do not! Use <code>setTimeout</code> to reset the stack!</li>
+          </ul>
+        </section>
+
+        <section>
+          <p>This code produces an error in Firefox</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>function sum(n) {
+  if (!n)
+    return 0;
+
+  return n + sum(n-1);
+}
+console.log(sum(100000));
+InternalError: too much recursion</code></pre>
+          <div class="fragment">
+            <img src="imgs/tail-recursion.png" class="deco" style="position:absolute; bottom: 0; right: 20px; width: 350px; z-index: 10;"/>
+            <p>Its CPS form hangs Firefox console as well, :(</p>
+            <pre><code spellcheck="false" class="javascript" contenteditable>function sum(n, acum, continuation) {
+  if (!n)
+    continuation(acum);
+  else
+    sum(n-1, n+acum, continuation);
+}
+sum(100000, 0, console.log);
+InternalError: too much recursion</code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h3>Use <span style="text-transform: none !important;">setTimeout()</span></h3>
+            <pre><code spellcheck="false" class="javascript" contenteditable>var skip = 0;
+function sum(n, acum, continuation) {
+  if (!n)
+    setTimeout(function () { continuation(acum); });
+
+  // Reset stack every 1000 calls
+  else if (skip++ % 1000 === 0)
+      setTimeout(function () { sum(n-1, n+acum, continuation); });
+
+  else
+      sum(n-1, n+acum, continuation);
+
+}
+sum(100000, 0, console.log);
+5000050000</code></pre>
+          <p><code>setTimeout()</code> forces the function to return <strong>clearing the call stack</strong> and scheduling the next call to be executed ASAP</p>
+        </section>
+      </section>
+
+
+      <section>
+        <section>
+          <h2>Example II:<br/>Non-blocking computations</h2>
+          <ul>
+            <li class="fragment">Another problem is not exhausting the stack</li>
+            <li class="fragment">But keeping the CPU busy performing computations</li> 
+            <li class="fragment">Blocking the UI or the <strong>entire thread</strong></li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Traversing a XXL website</h3>
+          <p>Try this on:<br/><a href="http://www.whatwg.org/specs/web-apps/current-work/">http://www.whatwg.org/specs/web-apps/current-work/</a></p>
+          <p>A real pain to convert into CPS, x(</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>function traverse(node, f) {
+  // A- Call f on the node
+  f(node);
+
+  // B- Get the children
+  var children = node.childNodes;
+
+  for (var i=0, len=children.length; i&lt;len; i++) {
+    traverse(children[i], f);
+  }
+}</code></pre>
+        </section>
+
+        <section>
+          <p>Easy to convert in CPS, xP</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>var stats = {};
+function histogram(node, continuation) {
+  if (node.nodeType === 3) 
+    node.nodeValue.replace(/\w+/g, function(match) {
+      stats[match] = stats[match] ?
+                     stats[match] + 1 : 1;
+      return match;
+    });
+}</code></pre>
+        </section>
+
+        <section>
+          <p>A paradigmatyc example, x):</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>function show() {
+  var keys = Object.keys(stats);
+  for (var i=0; i &lt; keys.length; i++) {
+    var key = keys[i];
+    console.log(key + ': ' + stats[key]);
+  }
+}</code></pre>
+<pre><code spellcheck="false" class="javascript" contenteditable>function show() {
+  var keys = Object.keys(stats);
+  var i = 0; // Initialization
+  while (i &lt; keys.length) { // Condition
+    var key = keys[i];
+    console.log(key + ': ' + stats[key]);
+    i++; // Increment
+  } // Nothing more remains
+}</code></pre>
+        </section>
+
+        <section>
+          <p>The invocation:</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>traverse(document.body, histogram);
+show();</code></pre>
+        </section>
+
+        <section>
+          <p>Now into CPS...</p>
+        </section>
+
+        <section>
+          <p>The simplest one</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>var stats = {};
+function histogram(node, continuation) {
+  if (node.nodeType === 3) 
+    node.nodeValue.replace(/\w+/g, function(match) {
+      stats[match] = stats[match] ?
+                     stats[match] + 1 : 1;
+      return match;
+    });
+
+    // Just call the continuation at the end
+    continuation();
+}</code></pre>
+        </section>
+
+        <section>
+          <p>The paradygmatic example: a <code>for</code> loop</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>function show(continuation) {
+  function handleOne(i, keys, continuation) {
+    if (i &lt; keys.length) {  // Condition
+      var key = keys[i];
+      handleOne(i+1, keys, continuation); // Increment
+    }
+    else {
+      continuation();       // Continuation is what to do after
+    }
+  }
+  // --&gt; STARTS HERE &lt;--
+  handleOne(0, Object.keys(stats), continuation);   // Initialization
+}</code></pre>
+        </section>
+
+        <section>
+          <p>The tough guy: <strong>recursion</strong></p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>function traverse(node, f, continuation) {
+  f(node, function handleChildren() {      // A- Call f on the node
+    var children = node.childNodes;        // B- Get the children
+    function handleOne(i, len, continuation) {
+      if (i &lt; len)                      // Condition
+        traverse(children[i], f, function handleNext() {
+          handleOne(i+1, len, continuation);    // Increment
+        });
+      else
+        continuation();          // Continuation is what to do after
+    }
+    // --&gt; STARTS HERE &lt;--
+    handleOne(0, children.length, continuation) // Initialization
+  });
+}</code></pre>
+        </section>
+
+        <section>
+          <p>The invocation</strong></p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>function end() {}
+traverse(document.body, histogram, function () {
+  show(end);
+});</code></pre>
+        </section>
+
+        <section>
+          <p>But this implementation introduce <strong>soo much recursion</strong></p>
+        </section>
+
+        <section>
+          <p>So let's restart the stack...</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>var stats = {};
+function histogram(node, continuation) {
+  if (node.nodeType === 3) 
+    node.nodeValue.replace(/\w+/g, function(match) {
+      stats[match] = stats[match] ?
+                     stats[match] + 1 : 1;
+      return match;
+    });
+
+  // Restart the stack every 400 nodes (give up for 10ms)
+  if ((histogram.skip++ % 400) === 0) {
+    console.log('400 nodes processed');
+    setTimeout(continuation, 10);
+  } else
+    continuation();
+}
+histogram.skip = 0;</code></pre>
+        </section>
+
+        <section>
+          <p>And allow other stuff to get control from time to time</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>function show(continuation) {
+  function handleOne(i, keys, continuation) {
+    if (i &lt; keys.length) {
+      var key = keys[i];
+      console.log(key + ': ' + stats[key]);
+      // Stop processing for 1s (you can not read so fast)  
+      if ((i % 20) === 0)
+        setTimeout(function() {
+          handleOne(i+1, keys, continuation);
+        }, 1000);
+      else
+        handleOne(i+1, keys, continuation);
+    } else {
+      continuation();
+    }
+  }
+  handleOne(0, Object.keys(stats), continuation);
+}
+</code></pre>
+        </section>
+
+      </section>
+
+
+      <section>
+        <section>
+          <h2>Example III:<br/>Synchronizing the asynchronous</h2>
+          <ul>
+            <li class="fragment">How to avoid Pyramid of Doom?</li>
+            <li class="fragment">Provide a <code>sync()</code> function to <em>flat</em> the pyramid</li>
+            <li class="fragment">Support with <strong>lazy evaluation</strong> of parameters</li> 
+          </ul>
+        </section>
+
+        <section>
+          <h3>Proposed API</h3>
+          <pre><code spellcheck="false" class="javascript" contenteditable>sync(
+  // Format: [function, param1, param2, ..., where to store result]
+  [get, 'http://mycompany.com/employees', 'result'],
+  [filterByFunction, result, 'developer', 'filtered'],
+  [show, filtered, '']
+);
+</code></pre>
+          <p><code>sync()</code> takes several async functions to be synchronized</p>
+          <p class="fragment">But be careful! <code>result</code> and <code>filtered</code> are both <code>undefined</code> at the time they are evaluated</p>
+        </section>
+
+        <section>
+          <h3>Lazy evaluation:<br/>Wrapping parameters</h3>
+          <pre><code spellcheck="false" class="javascript" contenteditable>sync(
+  // Format: [function, "param1, param2, ...", where to store result]
+  [get, "'http://mycompany.com/employees'", 'result'],
+  [filterByFunction, "result, 'developer'", 'filtered'],
+  [show, "filtered", '']
+);
+</code></pre>
+          <p>Wrap list of parameters into a string</p>
+          <p>Now they are not evaluated, they are only text</p>
+        </section>
+
+        <section>
+          <h3>Lazy evaluation:<br/>Unwrapping parameters</h3>
+          <p>To unwrap, build an array-like string...</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>var parameters_array = '[' + parameters_string + ']'</code></pre>
+          <p>...and safetly evaluate them using <code>with</code> and <code>eval</code></p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>with (some_namespace)
+  var parameters = eval(parameters_array);</code></pre>
+        </section>
+
+        <section>
+          <h3>The <span style="text-transform: none !important;">sync()</span> function</h3>
+          <pre><code spellcheck="false" class="javascript" contenteditable>function sync() {
+  // Convert arguments into an array
+  var args = [].slice.call(arguments);
+
+  // Provide a namespace to store results
+  var namespace = {};
+
+  // next() computes the continuation
+  var f, parameters, store_name;
+  function next(result) {
+
+    // Functions remain so...
+    if (args.length) {
+
+      // Store the result of former one into the namespace
+      if (store_name)
+        namespace[store_name] = result;
+
+      // Take the next function
+      var tuple = args.shift();
+      f = tuple[0];
+
+      // Take parameters from the namespace
+      with (namespace)
+        parameters = eval('['+tuple[1]+']');
+
+      // Take where to store the next result
+      store_name = tuple[2];
+
+      // Add the continuation to the parameters of the function
+      parameters.push(next);
+
+      // Call the function
+      f.apply(null, parameters);
+    }
+  }
+
+  next();
+}</code></pre>
+        </section>
+
+        <section>
+          <p>Let's flat that doomed pyramid...</p>
+          <pre><code spellcheck="false" class="javascript" contenteditable>sync(
+  [mul, "b, b", 'acum'],
+  [mul, "-4, a", 'acum2'],
+  [mul, "acum2, c", 'acum2'],
+  [add, "acum, acum2", 'acum2'],
+  [sqr, "acum2", 'acum2'],
+  [add, "a, acum2", 'acum2'],
+  [mul, "2, a", 'acum3'],
+  [div, "acum2, acum3", 'acum3'],
+  [console.log, "acum3", '']
+);
+</code></pre>
+        </section>
+      </section>
+
+      <section>
+        <h2>Resources &amp; further reading</h2>
+        <ul>
+          <li><a href="http://nil.fdi.ucm.es/index.php?q=node/93">Carlos Leon</a> (Thank for an entire month of deep though!)</li>
+          <li><a href="http://www.crockford.com/javascript/little.html">The little JavaScripter</a> by Douglas Crockford</li>
+          <li><a hred="http://learnyousomeerlang.com/">Learning you some Erlang</a></li>
+          <li><a href="http://matt.might.net/articles/by-example-continuation-passing-style/">By example: Continuation-passing style in JavaScript</a> by Matt Might</li>
+          <li><a href="http://marijnhaverbeke.nl/cps/">Continuation-Passing Style</a> by Marjin Haverbeke</li>
+          <li><a href="http://maxtaco.github.com/coffee-script/">IcedCoffeeScript</a></li>
+          <li><a href="http://www.neilmix.com/narrativejs/doc/overview.html">Narrative Javascript</a></li>
+          <li><a href="https://github.com/creationix/step">Step</a></li>
+        </ul>
+          <p style="font-size: smaller;">I saw the term <em>Pyramid of Doom</em> for the first time in <a href="http://calculist.org/blog/2011/12/14/why-coroutines-wont-work-on-the-web/">Why coroutines won't work on the web</a> by Dave Herman</p>
+      </section>
+
+      <section>
+        <h2>About me ;)</h2>
+        <img src="imgs/chibi.png" class="deco" style="float:left; width: 250px; height:auto;"/>
+        <dl>
+          <dt>me</dt>
+          <dd>Salvador de la Puente González</dd>
+          <dt>twitter</dt>
+          <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+          <dt>My sites</dt>
+          <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/lodr">http://github.com/lodr</a></dd>
+        </dl>
+      </section>
+
+
+    </div>
+  </div>
+
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.min.js"></script>
+
+  <script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+      transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+      // Optional libraries used to extend on reveal.js
+      dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+      ]
+    });
+
+  </script>
+
+</body>
+</html>

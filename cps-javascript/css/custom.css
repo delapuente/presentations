@@ -1,0 +1,72 @@
+p code, li code {
+  border: 1px solid #334 !important;
+  background-color: #445;
+  color: #DDD;
+  font-size: .75em !important;
+  padding: 0 5px !important;
+  display: inline-block;
+  min-width: 2ex !important;
+  vertical-align: middle !important;
+  border-radius: 5px !important;
+}
+
+strong {
+  color: #13DAEC;
+}
+
+a {
+  color: #13daec;
+  text-decoration: underline !important;
+  vertical-align: text-bottom !important;
+}
+
+img.deco {
+  border: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+code.python:before {
+  content: '';
+  display: block;
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  background-image: url(../imgs/python-logo.png);
+  background-size: 40px 40px;
+}
+
+code.javascript:before {
+  content: '';
+  display: block;
+  position: absolute;
+  right: -25px;
+  top: -25px;
+  z-index: 10;
+  width: 50px;
+  height: 50px;
+  background-image: url(../imgs/html5-logo.png);
+  background-size: 50px 50px;
+}
+
+pre code {
+  margin-top: 40px !important; 
+}
+
+html.beautiful body {
+  background-image: url(../imgs/beautiful.jpg);
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position: 12% center;
+}
+
+dl * {
+  text-align: left;
+}
+
+dl dd {
+  color: #13DAEC;
+}
