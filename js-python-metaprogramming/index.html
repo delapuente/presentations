@@ -369,8 +369,8 @@ AttributeError: 'MyCompany' object has no attribute 'get_reports'</code></pre>
         <section>
           <h3>Retrieving process II</h3>
           <ol>
-            <li class="fragment">The <em>dot notation</em> is a shortcut for using <code>__getattribute__()</code></li>
-            <li class="fragment">Method <code>__getattribute__()</code> is a member of class <code>object</code></li>
+            <li class="fragment">If finally not found, <code>__getattr__()</code> is called</li>
+            <li class="fragment">Method <code>__getattr__()</code> is a member of class <code>object</code></li>
             <li class="fragment">As any other member, it can be <strong>overriden</strong></li>
           </ol>
         </section>
@@ -389,15 +389,13 @@ AttributeError: 'MyCompany' object has no attribute 'get_reports'</code></pre>
       print 'GET http://mycompany.com/%s/%s' % (concept, str(id))
     return get_concept
 
-  def __getattribute__(self, name):
-    # Check for the existence of the name
-    if not hasattr(self, name):
-      # If the name is recognized as a get method, creates a new one
-      if name[:4] == 'get_':
-        setattr(MyCompany, name, self.__build_get(name[4:]))
+  def __getattr__(self, name):
+    # If the name is recognized as a get method, creates a new one
+    if name[:4] == 'get_':
+      setattr(MyCompany, name, self.__build_get(name[4:]))
 
     # Retrieve the name normally
-    return super(MyCompany, self).__getattribute__(name)</code></pre>
+    return getattr(self, name)</code></pre>
         </section>
 
         <section>
