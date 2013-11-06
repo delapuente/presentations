@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Beautiful APIs - UX for developers</title>
+
+    <meta name="description" content="A visual description of the Python's data model">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/tooltip.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Beautiful APIs</h1>
+          <h3>UX for developers</h3>
+        </section>
+
+        <section>
+          <section>
+            <p>Design is about <strong>communication</strong>.</p>
+            <p class="fragment">There are tons of ways of telling the same thing.</p>
+            <p class="fragment">But some ways say better than others.</p>
+          </section>
+
+          <section>
+            <p>What do you prefer?</p>
+          </section>
+
+          <section>
+            <img height="300" src="imgs/dethphone.jpg"/>
+            <img height="300" src="imgs/htc-one.png"/>
+          </section>
+
+          <section>
+<pre><code class="c">glBegin (GL_TRIANGLES);
+  glVertex (0,0,0);
+  glVertex (1,1,0);
+  glVertex (2,0,0);
+glEnd ();</code></pre>
+<pre><code class="c">v = &buffer.vertexes[0];
+v->x = 0; v->y = 0; v->z = 0;
+v++;
+v->x = 1; v->y = 1; v->z = 0;
+v++;
+v->x = 2; v->y = 0; v->z = 0;
+c = &buffer.commands;
+c->operation = DRAW_TRIANGLE;
+c->vertexes[0] = 0;
+c->vertexes[1] = 1;
+c->vertexes[2] = 2;
+IssueExecuteBuffer (buffer);
+</code></pre>
+          </section>
+
+        </section>
+
+        <section>
+          <blockquote>
+It’s not uncommon for designers to confuse a beautiful looking product with one that works beautifully.
+          </blockquote>
+          <p>Braden Kowitz</p>
+        </section>
+
+        <section>
+          <section>
+            <h2>Samples of beauty</h2>
+          </section>
+
+          <section>
+            <h3>Jasmine</h3>
+            <p>A Behaviour-Driven Development framework</p>
+            <p>Includes test management, an expectation library and function spies.</p>
+            <p>Check it! <a href="http://pivotal.github.io/jasmine/">http://pivotal.github.io/jasmine/</a></p>
+          </section>
+
+          <section>
+            <p>Offers a <strong>micro internal</strong> DSL</p>
+            <pre><code class="javascript">describe("A suite", function() {
+  it("contains spec with an expectation", function() {
+    expect(true).toBe(true);
+  });
+});</code></pre>
+          </section>
+
+          <section>
+            <p>Note this <strong>metaphore</strong>:</p>
+            <pre><code class="javascript">xdescribe("A spec", function() {
+  var foo;
+
+  xit("is just a function, so it can contain any code", function() {
+    expect(foo).toEqual(1);
+  });
+})</code></pre>
+            <p class="fragment">The <code>x</code> prefix <i>crosses out</i> and disables the test</p>
+          </section>
+
+          <section>
+            <p>"not" tests are <strong>naturally derived</strong> from positive ones:</p>
+            <pre><code class="javascript">expect(this).not.toBe(true);
+expect(this).not.toMatch(/^https?/);
+expect(this).not.toContain('www');
+</code></pre>
+            <p class="fragment">There is no <code>toBeGreaterOrEqualThan()</code>.</p>
+            <p class="fragment">But there is a <code>toBeLessThan()</code>.</p>
+            <p class="fragment">So we can write <code>not.toBeLessThan()</code>.</p>
+          </section>
+
+          <section>
+            <h3>VerbalExpressions</h3>
+            <p>A library to build meaningful regular expressions.</p>
+            <p>Translate the obscure regexp syntax to a human-friendly format.</p>
+            <p>Check it! <a href="https://github.com/VerbalExpressions/JSVerbalExpressions">https://github.com/VerbalExpressions/JSVerbalExpressions</a></p>
+          </section>
+
+          <section>
+            <p>Consider this pattern <code>^http(s)?://(www.)?[^ ]+$</code></p>
+            <pre><code class="javascript">var tester = VerEx()
+            .startOfLine()
+            .then( "http" )
+            .maybe( "s" )
+            .then( "://" )
+            .maybe( "www." )
+            .anythingBut( " " )
+            .endOfLine();</code></pre>
+          </section>
+
+          <section>
+            <h3>Date.js</h3>
+            <p>Unfortunately, a discontinued library for handling dates.</p>
+            <p><strong>Extend JS native objects</strong> to improve readability.</p>
+            <p>Check what remains. <a href="https://code.google.com/p/datejs/">https://code.google.com/p/datejs/</a></p>
+          </section>
+
+          <section>
+            <p>A <strong>fluent</strong> API</p>
+            <pre><code class="javascript">Date.today().first().thursday() // Returns the first Thursday of the current month.
+Date.today().second().thursday()// Returns the second Thursday of the current month.
+
+Date.march().third().thursday() // Returns the third Thursday in March of the current year.
+Date.october().fourth().sunday()// Returns the fourth Sunday in October.
+
+Date.today().fifth().sunday()   // Returns the fifth Sunday in the current month, or throws a RangeError exception if there are not 5 Sundays in the current month.
+Date.october().final().sunday() // Returns the final Sunday in October.</code></pre>
+          </section>
+
+          <section>
+            <p><strong>Extensions</strong> in other types</p>
+            <pre><code class="javascript">(1).day().fromNow()  // One (1) day from now.
+(3).months().ago()   // Three (3) months ago.</code></pre>
+          </section>
+
+          <section>
+            <p><strong>Algebraical</strong> date expressions</p>
+            <pre><code class="javascript">Date.parse('t + 5d')          // Adds 5 days to today.
+Date.parse('today - 1 month') // Subtracts 1 month from today.
+Date.parse('+')               // Add 1 day to today = tomorrow.
+Date.parse('- 3months')       // Subtract 3 months.</code></pre>
+          </section>
+
+          <section>
+            <h3>Promises</h3>
+            <p>A pattern to control asynchronous flows.</p>
+            <p><strong>The promise</strong> is the unit of asynchronous flow.</p>
+            <p>Check the polyfill! <a href="https://github.com/slightlyoff/Promises">https://github.com/slightlyoff/Promises</a></p>
+          </section>
+
+          <section>
+            <p>A promise retains a <strong>future</strong> value.</p>
+            <pre><code class="javascript">function getAnswerToEverything() {
+  return new Promise(function (resolver) {
+    doHeavyCalculations();
+
+    function doHeavyCalculations() {
+      setTimeout(function () {
+        // fulfill once we get the answer
+        resolver.fulfill(42);
+      }, 2000);
+    }
+  });
+}</code></pre>
+          </section>
+
+          <section>
+            <p><code>.then()</code> allows to <strong>chain execution</strong>.</p>
+            <pre><code class="javascript">getAnswerToEverything().then(guessTheQuestion);</code></pre>
+          </section>
+
+          <section>
+            <p><code>.then()</code> returns a promise. So more chaining is possible.</p>
+            <pre><code class="javascript">getAnswerToEverything()
+  .then(guessTheQuestion).
+  .then(reachOmnisciency);</code></pre>
+          </section>
+
+          <section>
+            <h3>Zepto</h3>
+            <p>A light-weight implementation of jQuery.</p>
+            <p>Let's focus on the <strong>query engine</strong> and <strong>chainability</strong> only.</p>
+            <p>Check it! <a href="http://zeptojs.com/">http://zeptojs.com/</a></p>
+          </section>
+
+          <section>
+            <p>Reusing <strong>CSS knowledge</strong>...</p>
+            <pre><code class="javascript">$('article aside.comments');
+$('span[data-tooltip]');
+$('#navigation ul > li');</code></pre>
+            <p class="fragment">...the developer becomes more productive.</p>
+          </section>
+
+          <section>
+            <p>Improved <strong>chainability</strong>...</p>
+            <pre><code class="javascript">$('#navigation ul')
+  .find('li:nth-of-type(1)')
+    .css('background-color', 'red')
+  .end()
+  .find('li:nth-of-type(2)')
+    .toogle('background-color', 'green')
+  .end();
+</code></pre>
+            <p class="fragment">...allowing independant chains of operations</p>
+            <p class="fragment">by maintaining a <strong>stack of states</strong>.</p>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>The principles of design</h2>
+          </section>
+
+          <section>
+            <p>I think not all <a href="http://en.wikipedia.org/wiki/Design_elements_and_principles#Principles_of_design">design principles</a> can be applied<br/>directly to the API design.</p>
+            <p class="fragment">But with some adaptation...</p>
+            <p class="fragment">(roughly based on <a href="https://speakerdeck.com/brandonsatrom/secrets-of-awesome-javascript-api-design">Secrets of Awesome JavaScript API design</a>)</p>
+          </section>
+
+          <section>
+            <h3>Unity / Goal</h3>
+            <img src="imgs/unity.jpg" />
+            <p>In design, the <strong>concept</strong> behind the work.</p>
+          </section>
+
+          <section>
+            <p>In software design, the <strong>goal</strong> of the library.</p>
+            <ul class="fragment">
+              <li><strong>Jasmine</strong> is a BDD framework.</li>
+              <li><strong>VerbalExpressions</strong> is regexp library.</li>
+              <li><strong>Date.js</strong> is a time library.</li>
+              <li><strong>Promises</strong> are primitives for handling asynchronous flows.</li>
+              <li><strong>Zepto</strong> a library for DOM manipulation.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Harmony / Predictability</h3>
+            <img src="imgs/harmony.jpg" />
+            <p>The coexistence of <strong>non-conflictive elements</strong> in a work.</p>
+          </section>
+
+          <section>
+            <p>In software design, <strong>regularity and predictability</strong> of the API.</p>
+            <ul class="fragment">
+              <li>In Jasmine, the use of functions to provide the body of the distinct units (suites, tests, set-up, tear-down...).</li>
+              <li>VerbalExpressions allows same expressivity as regular expressions.</li>
+              <li>Zepto reuse of the CSS selectors in the query engine.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Balance / Completeness</h3>
+            <img src="imgs/balance.jpg" />
+            <p>In design, the <strong>distribution</strong> of the work elements<br/>according to their visual weight.</p>
+          </section>
+
+          <section>
+            <p>In software design, the <strong>completeness of the API methods</strong>.</p>
+            <ul class="fragment">
+              <li>Jasmine provides all the functionality you need to make BDD: the runner, the expectation library and the spies library.</li>
+              <li>Date.js provide <code>addYears()</code>, <code>addMonths()</code>, <code>addDays()</code>... allowing total control of the date parameters.</li>
+              <li>Promises gives static constructors <code>any()</code>, <code>all()</code> and <code>some()</code> covering most of the common asynchronous situations.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Hierarchy / Modularity</h3>
+            <img src="imgs/hierarchy.png" />
+            <p>In design, the <strong>order of significance</strong>.</p>
+          </section>
+
+          <section>
+            <p>In software design, <strong>modularity</strong> and <strong>organisation</strong>.</p>
+            <ul class="fragment">
+              <li>Jasmine integrates and polutes the global namespace but offers a <strong>clear differentation</strong> when using the runner, expectations and spies.</li>
+              <li>VerbalExpressions is self-contained and all the access is through the <code>VerEx</code> object.</li>
+              <li>Zepto exposes (somewhat) separation between general purpose utilities (all inside the <code>Zepto</code> namespace) and DOM manipulation (called from Zepto collections).</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Proportion / Scope</h3>
+            <img src="imgs/proportion.gif" />
+            <p>In design, the <strong>relative size of elements</strong> againts each other.</p>
+          </section>
+
+          <section>
+            <p>In software design, the <strong>scope</strong> of each component.</p>
+            <ul class="fragment">
+              <li>Jasmine (again) is a <strong>BDD framework</strong> with a runner, expectations and spies but none of its components is oversized nor dominates over other company.</li>
+              <li>Zepto provides DOM manipulation and utility functions but DOM manipulation API is notably richer.</li>
+              <li>Date.js is a little bit oversized but keeping the focus on time management.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Emphasis / Features</h3>
+            <img src="imgs/emphasis.jpg" />
+            <p>In design, the <strong>focal point of the work</strong> outstanding by the use of contrast.</p>
+          </section>
+
+          <section>
+            <p>In software design, the <strong>major structures</strong> around which the library structures itself.</p>
+            <ul class="fragment">
+              <li><code>.then()</code> and <code>Promise</code> chainability.</li>
+              <li>The <strong>collections</strong> and <code>fn</code> in Zepto.</li>
+              <li><strong>Expressiveness</strong> in VerbalExpressions.</li>
+            </ul>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <header>
+              <h2>Fluent Interfaces</h3>
+              <h3>A method for creating beautiful APIs</h3>
+            </header>
+          </section>
+
+          <section>
+            <p>APIs simulating natural language.</p>
+            <p class="fragment">They have <strong>contextual meaning</strong>.</p>
+            <p class="fragment">By <strong>method chaining</strong>.</p>
+            <p class="fragment">By <strong>micro embedded DSLs</strong>.</p>
+          </section>
+
+          <section>
+            <p>The good ,)</p>
+            <ul>
+              <li class="fragment">More <strong>readability</strong>.</li>
+              <li class="fragment"><strong>Greater</strong> level of abstraction.</li>
+              <li class="fragment"><strong>Versatile</strong> if careful designed.</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>The bad :(</p>
+            <ul>
+              <li class="fragment">Functions are <strong>meaningless</strong> without context.</li>
+              <li class="fragment">Magic behind make them <strong>hard to debug</strong>.</li>
+              <li class="fragment">Lots of <strong>side effects</strong>.</li>
+            </ul>
+          </section>
+
+          <section>
+            <header>
+              <h3>color·k</h3>
+              <h4>An example of fluent API</h4>
+            </header>
+            <p class="fragment">A <strong>colour manipulating</strong> library.</p>
+          </section>
+
+          <section>
+            <h3>Storytelling</h3>
+            <p class="fragment">Start by creating user stories.</p>
+            <p class="fragment">You will realize you are speaking a <strong>specific language</strong>.</p>
+            <p class="fragment">Adapt this <strong>language to an API</strong>.</p>
+          </section>
+
+          <section>
+            <p>In color·k</p>
+            <pre><code class="javascript">// I want to create colors using CSS constructors.
+k.color('red');
+k.color('#F00');
+k.color('#FA0000');
+k.color('rgba(255, 0, 0, 0.5)');
+
+// I want to make a color lighter or darker
+// by a fixed amount.
+k.color('red').lighter();
+k.color('green').darker();
+
+// I want to use the color entities in CSS contexts.
+k.color('red').toString() // returns 'hsla(0, 50%, 50%, 1.0)'</code></pre>
+          </section>
+
+          <section>
+            <h3>Design patterns</h3>
+            <p class="fragment">The <strong>façade</strong> pattern: simplify complex APIs.</p>
+            <p class="fragment">The <strong>proxy</strong> pattern: dynamic access to properties.</p>
+            <p class="fragment">The <strong>interpreter</strong> pattern: execution of DSLs.</p>
+          </section>
+
+          <section>
+            <p>In color·k</p>
+            <pre><code class="javascript">// A prefix-based DSL to build colors
+k.color('light-red');
+k.color('web-violet');
+k.color('dull-transparent-orange');
+k.color('dark-#0F0');</code></pre>
+          </section>
+
+          <section>
+            <h3>(Simple) Method chaining</h3>
+            <p class="fragment">Allows methods to form <strong>natural language sentences</strong>.</p>
+            <p class="fragment">You must <strong>violate the Command / Query principle</strong>.</p>
+            <p class="fragment">Main limitation: one <strong>unique</strong> context to modify.</p>
+          </section>
+
+          <section>
+            <p>In color·k</p>
+            <pre><code class="javascript">k.color('red')
+  .lighter()
+  .more.red()
+  .less.blue()
+  .brighter();</code></pre>
+          </section>
+
+          <section>
+            <h3>(Structured) Method chaining</h3>
+            <p class="fragment">Used in jQuery / Zepto: <code>.find()</code> and <code>.end()</code>.</p>
+            <p class="fragment">Implemented by maintaining a <strong>stack of contexts</strong>.</p>
+            <p class="fragment">Some methods save the current context, <code>.end()</code> restores the last context.</p>
+          </section>
+
+          <section>
+            <p>In color·k (experimental feature)</p>
+            <pre><code class="javascript">var variations = k.color('red')
+  .change().lighter()._
+  .change().darker()._
+  .change().alpha(0).$</code></pre>
+          </section>
+
+          <section>
+            <p>By using special methods and descriptors:</p>
+            <ul>
+              <li class="fragment">Some methods <strong>save the context</strong> into a stack: <code>change()</code></li>
+              <li class="fragment">The special property <code>_</code> is a descriptor that saves the current state into the result stack and <strong>restore the context state</strong>.</li>
+              <li class="fragment">The special property <code>$</code> do the same but <strong>returning the result stack</strong>.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Documentation</h3>
+            <ul>
+              <li class="fragment">Try to <strong>avoid autodoc</strong> tools: functions without context are meaningless.</li>
+              <li class="fragment">Take example of Jasmine: include your <strong>behaviour test-suite</strong> as part of your documentation and use <strong>literate documentation<sup>+</sup></strong> tools like <a href="http://jashkenas.github.io/docco/">docco</a>.</li>
+              <li class="fragment">If providing a formal documentation: document <strong>contexts</strong>, then <strong>methods in each context</strong>.</li>
+            </ul>
+            <aside style="font-size: 1rem;"><sup>+</sup>: Thanks to <a href="http://twitter.com/elnopintan">@elnopintan</a> for the name of the documentation style.</aside>
+          </section>
+
+          <section>
+            <p>In color·k</p>
+            <p>Check the ongoing <strong><a href="http://lodr.github.com/colork">specs</a></strong>!</p>
+          </section>
+
+          <section>
+            <h3>Versioning</h3>
+            <p class="fragment">Check <strong><a href="http://semver.org/">Semanting Versioning</a></strong>. In semver you use three numbers <code>M.m.p</code> standing for Major version, minor version and patch version.</p>
+            <ul>
+              <li class="fragment">Each time you improve you current implementation without altering the API, increase the <code>p</code> number.</li>
+              <li class="fragment">Each time you change your API preserving compatibility, increase the <code>m</code> number.</li>
+              <li class="fragment">Each time you change your API breaking compatibility intentionally, increase the <code>M</code> number.</li>
+            </ul>
+              <aside style="font-size: 1rem;"><sup>+</sup>: Thanks to <a href="http://twitter.com/mepartoconmigo">@mepartoconmigo</a> for inspiring me this last slide.</aside>
+          </section>
+
+        </section>
+
+        <section class="sources">
+          <h2>Sources &amp; further reading</h2>
+          <ul>
+            <li><a href="http://webstandardssherpa.com/reviews/secrets-of-awesome-javascript-api-design">Secrets of Awesome JavaScript API design</a> by Brandom Satron.</li>
+            <li><a href="http://martinfowler.com/bliki/FluentInterface.html">FluentInterface</a> by Martin Fowler.</li>
+            <li><a href="http://martinfowler.com/bliki/DomainSpecificLanguage.html">DomainSpecificLanguage</a> by Martin Fowler.</li>
+            <li><a href="http://stackoverflow.com/questions/1557845/what-the-ugliest-api-for-a-relatively-well-known-library-that-you-have-seen-and">What is the ugliest API...?</a> discussion at stackoverflow.com</li>
+            <li><a href="http://coding.smashingmagazine.com/2012/10/09/designing-javascript-apis-usability/">Designing Better JavaScript APIs</a> by Rodney Rhem.</li>
+            <li><a href="https://speakerdeck.com/serabe/el-diablo-esta-en-los-detalles">El diablo está en los detalles</a> by Sergio Arbeo.</li>
+            <li><a href="http://en.wikipedia.org/wiki/Principle_of_least_astonishment">The Principle of Least Atonishment</a> at Wikipedia.</li>
+            <li><a href="http://gigaom.com/2013/04/14/why-good-storytelling-helps-you-design-great-products/">Why Good Storytelling helps you design great products</a> by Braden Kowitz.</li>
+        </section>
+
+        <section>
+          <h2>About me</h2>
+          <img src="imgs/chibi.png" class="deco" style="float:left; width: 250px; height:auto;"/>
+          <dl>
+            <dt>me</dt>
+            <dd>Salvador de la Puente González</dd>
+            <dt>twitter</dt>
+            <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+            <dt>My sites</dt>
+            <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/lodr">http://github.com/lodr</a></dd>
+          </dl>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>

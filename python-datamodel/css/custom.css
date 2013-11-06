@@ -1,0 +1,105 @@
+
+a {
+  color: #13daec;
+  text-decoration: underline !important;
+}
+
+img.deco {
+  border: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+.reveal {
+  letter-spacing: 0em;
+}
+
+.reveal video {
+  width: 95%;
+  border: 1px #AAA dotted;
+}
+
+code.python:before {
+  content: '';
+  display: block;
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  background-image: url(../imgs/python-logo.png);
+  background-size: 40px 40px;
+}
+
+code,
+.reveal pre {
+  font-size: 1em;
+  font-weight: bold;
+  text-shadow: 2px 2px 1px black;
+}
+
+pre code {
+  margin-top: 40px !important;
+}
+
+.slides section p,
+.slides section li {
+  font-family: "Open Sans", sans;
+  color: #85ff0C;
+  text-shadow: 1px 1px 1px #45540A;
+  line-height: 3.5ex;
+}
+
+.slides section .c {
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+  padding: 0.1em 0.5ex;
+  border-radius: 0.2em;
+  background-color: green;
+}
+
+.slides section .o {
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #45540A;
+  border: 3px solid #E600FF;
+  border-radius: 0.2em;
+  padding: 0.1em 0.5ex;
+}
+
+p code,
+li code {
+  border: 1px solid #334 !important;
+  background-color: #445;
+  color: #DDD;
+  padding: 0.1em 0.5ex !important;
+  border-radius: 0.2em;
+}
+
+strong {
+  color: #E7AD52;
+}
+
+video[data-reverse="180"],
+video[data-reverse="bottom-up"] {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+section.sources li {
+  line-height: 1.1em;
+}
+
+.rel-subclass {
+  color: green;
+  text-shadow: 2px 2px 2px #000;
+}
+
+.rel-is-a {
+ color: #0C85ff;
+}
+
+.rel-type {
+  color: red;
+}

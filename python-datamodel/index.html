@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>The Python data model - A visual story</title>
+
+    <meta name="description" content="A visual description of the Python's data model">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/tooltip.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>The Python's data model</h1>
+          <h3>A visual story</h3>
+        </section>
+
+        <section>
+          <section>
+            <h2>Objects and Classes</h2>
+            <img height="500" src="imgs/mould.jpg" />
+          </section>
+
+          <section>
+            <p>
+              From a classical point of view, <span class="c">classes</span>:
+            </p>
+            <ul>
+              <li class="fragment">belong to development time</li>
+              <li class="fragment">don't take data memory</li>
+              <li class="fragment">act as blueprints <strong>describing objects</strong></li>
+              <li class="fragment">are not values</li>
+              <li class="fragment">are immutable</li>
+            </ul>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+          <section>
+            <p>
+              While <span class="o">objects</span>:
+            </p>
+            <ul>
+              <li class="fragment">belong to execution time</li>
+              <li class="fragment">have <strong>identity</strong></li>
+              <li class="fragment">allocate data memory</li>
+              <li class="fragment">act according to the constrains imposed by classes</li>
+              <li class="fragment">are mutable</li>
+            </ul>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>a = [1, 2, 3]
+b = [1, 2, 3]
+assert a == b
+assert a is not b
+assert id(a) != id(b)
+print('id(a) = {}'.format(id(a)))
+print('id(b) = {}'.format(id(b)))</code></pre>
+          </section>
+
+        </section>
+        <section>
+
+          <section>
+            <h2>The <strong class="rel-subclass">subclass</strong> relationship</h2>
+            <img height="500" src="imgs/tree.jpg" />
+          </section>
+
+          <section>
+            <p>
+              <strong class="rel-subclass">Subclassing</strong> is about subclassifying.
+            </p>
+            <p class="fragment">
+             <span class="c">classes</span>
+              subclass other classes by imposing new characteristics on their
+              instances.
+            </p>
+          </section>
+
+          <section>
+            <p>We can check this by using: <code>issubclass(CLASS1,&nbsp;CLASS2)</code></p>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>class Animal(object): pass
+class Snake(Animal): pass
+class Python(Snake): pass
+assert issubclass(Animal, object)
+assert issubclass(Snake, Animal)
+assert issubclass(Python, Snake)</code></pre>
+          </section>
+
+          <section>
+            <p>
+              <strong class="rel-subclass">Subclassing</strong> is a transitive relationship:
+            </p>
+            <ul>
+              <li class="fragment">If <code>Python</code> subclasses <code>Snake</code>...</li>
+              <li class="fragment">and <code>Snake</code> subclasses <code>Animal</code>...
+              <li class="fragment">then <code>Python</code> subclasses <code>Animal</code>.</li>
+            </ul>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>assert issubclass(Python, Animal)</code></pre>
+          </section>
+
+          <section>
+            <p><strong class="rel-subclass">Subclassing</strong> relationship belongs to <span class="c">classes</span> only.</p>
+            <p class="fragment">Objects <strong>can not</strong> subclass other objects.</p>
+            <p class="fragment">It makes no sense to say an <span class="o">object</span> subclasses a <span class="c">class</span>.</p>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>o = Animal()
+try:
+  issubclass(o, Animal)
+except Exception as e:
+  print(e)
+  assert True
+else:
+  assert False</code></pre>
+          </section>
+
+          <section>
+            <p>
+              The function <code>issubclass()</code> is implemented by checking
+              the <code>__bases__</code> attribute of the class.
+            </p>
+          </section>
+
+          <section>
+            <p>
+              <code>issubclass(B,&nbsp;A)</code> returns <code>True</code> if A is a
+              base of B or if A is a base of one of the bases of B and so on...
+            </p>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>assert Animal in Snake.__bases__
+assert object not in Snake.__bases__
+assert object in Snake.__bases__[0].__bases__</code></pre>
+          </section>
+
+          <section>
+            <p>
+              The root of the subclassing hierarchy is always
+              <code>object</code>. The <code>object</code> <span class="c">class</span>
+              does not subclass anything (the empty tuple, not
+              <code>None</code>).
+            </p>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>assert object.__bases__ == ()
+assert object.__bases__ is not None</code></pre>
+          </section>
+
+          <section>
+            <blockquote>
+            In the object-based programming world, the idea of this [classes and objects] arrangement is to ensure that more than one individual object can be relied upon to act the same way.
+            </blockquote>
+            <p>Matt Neuburg in <a href="http://shop.oreilly.com/product/0636920010258.do">Programming iOS 4</a></p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>The <strong class="rel-type">type</strong> relationship</h2>
+            <img height="500" src="imgs/skeleton.jpg" />
+          </section>
+
+          <section>
+            <p>
+              A <span class="c">class</span> can be used to build an <span class="o">object</span>.
+            </p>
+            <p class="fragment">
+              Then we say <span class="o">object</span> is of <strong class="rel-type">type</strong> <span class="c">class</span>.
+            </p>
+          </section>
+
+          <section>
+            <p>
+              It can be checked by <code>type(OBJECT)&nbsp;is&nbsp;CLASS</code> or by
+              exploring the object's <code>__class__</code> attribute.
+            </p>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>o = object()
+a = Animal()
+s = Snake()
+assert type(o) is object
+assert type(a) is Animal
+assert type(s) is Snake
+assert o.__class__ is object
+assert a.__class__ is Animal
+assert s.__class__ is Snake</code></pre>
+          </section>
+
+          <section>
+            <p>
+              As the relation cross the line between <span class="c">classes</span>
+              and <span class="o">objects</span>, it is <strong>not transitive</strong>.
+            </p>
+          </section>
+          <section>
+            <p>
+              One <span class="o">object</span> can only be of one
+              <span class="c">class</span> / type but one
+              <span class="c">class</span> can build multiple <span class="o">objects</span>.
+            </p>
+          </section>
+
+          <section>
+            <blockquote>
+            There is a universe V of all values (...). This is a complete partial order, (...) but in first approximation we can think of it as just a large set of all possible computable values.<br/>A type is a set of elements of V.
+            </blockquote>
+            <p>
+              Luca Cardelli and Peter Wegner <br/><a href="http://lucacardelli.name/Papers/OnUnderstanding.A4.pdf">On Understanding Types, Data Abstraction, and Polymorphism</a>.
+            </p>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>The <strong class="rel-is-a">is a</strong> relationship</h2>
+            <img height="500" src="imgs/instance.jpg" />
+          </section>
+
+          <section>
+            <p>The <strong class="rel-is-a">is a</strong> relationship arises naturally a soon as
+            an<br/><span class="o">object</span> is created by a <span class="c">class</span>.
+            </p>
+            <p class="fragment">
+            It refers to the object can behave as an instance of either its <strong class="rel-type">type</strong>
+            or one of the <strong class="rel-subclass">superclasses of its type</strong>.
+            </p>
+          </section>
+
+          <section>
+            <p>
+              This relationship joins <strong class="rel-type">type</strong> and <strong class="rel-subclass">subclassing</strong> and it only
+              works between <span class="o">objects</span> and <span class="c">classes</span>.
+            </p>
+            <p class="fragment">
+              Can be checked by <code>isinstance(OBJECT, CLASS)</code>.
+            </p>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>mike = Python()
+assert isinstance(mike, Python)</code></pre>
+          </section>
+
+          <section>
+            <p>
+              Note how instantiation is implemented taking into account the
+              other two relationships:
+            </p>
+            <ol>
+              <li>First, <strong class="rel-type">type</strong> --> is <span class="o">object</span> of type
+              <span class="c">class</span>?</li>
+            </ol>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>jane = Python()
+assert isinstance(jane, Python)
+assert type(jane) is Python</code></pre>
+          </section>
+
+          <section>
+            <ol start="2">
+              <li>Second, <strong class="rel-subclass">subclassing</strong> --> is <span class="o">object</span> of
+              a type subclassing <span class="c">class</span>?</li>
+            </ol>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>assert isinstance(jane, Animal)
+assert issubclass(type(jane), Animal)</code></pre>
+          </section>
+
+          <section>
+            <blockquote>
+              An object is something that can be perceived by the senses.
+            </blockquote>
+            <p>My girlfriend, in a casual conversation.</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-background="linear-gradient(0, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(imgs/ouroboros.png) 50% 50% no-repeat">
+            <p>
+              What happen with Python is that <strong>everything</strong> is
+              an object. Classes included!
+            </p>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>assert isinstance(Animal, object)
+assert isinstance(Snake, object)
+assert isinstance(Python, object)</code></pre>
+          </section>
+
+          <section>
+            <p>
+              How to give the <span class="c">classes</span>, the <span class="o">object</span>'s nature?
+              It makes sense to ask about the type of a <span class="c o">class</span>.
+            </p>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>assert type(Animal)
+assert type(Animal) is type</code></pre>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+          <section>
+            <p>
+              <code>type()</code> function is overloaded. It is not only a built-in function to return
+              the type of an <span class="o">object</span>.<br/>It is a <span class="c o">class</span> too.
+            </p>
+          </section>
+
+          <section><p>So, what is the <strong class="rel-type">type</strong> of <code>type</code>?</p></section>
+
+          <section>
+            <pre><code class="python" contenteditable>assert type(type)
+assert type(type) is type</code></pre>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+          <section>
+            <p>
+              And finally, if any <span class="c o">class</span>
+              <strong class="rel-is-a">is an</strong> <code>object</code>, it is
+              because either:
+            </p>
+            <ul>
+              <li class="fragment">The <strong class="rel-type">type</strong> of the class is
+              <code>object</code></li>
+              <li class="fragment">Or the class is of a type <strong class="rel-subclass">subclassing</strong>
+              <code>object</code>...</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>In other words:</p>
+            <p class="fragment"><code>object</code> is one of the bases of the type of a <span class="c o">class</span> so </p>
+            <p class="fragment"><code>type</code> <strong class="rel-subclass">subclasses</strong> <code>object</code>.</p>
+          </section>
+
+          <section>
+            <pre><code class="python" contenteditable>assert issubclass(type, object)
+assert object in type(type).__bases__
+assert object in type.__bases__</code></pre>
+          </section>
+
+          <section data-camera>
+            <video data-reverse="bottom-up"></video>
+          </section>
+
+        </section>
+
+        </section>
+
+        <section>
+          <h2>Special thanks to:</h2>
+          <p class="fragment"><strong>Tomek Wszelaki</strong> for attending my Python mentoring and inspiring me this talk.</p>
+          <p class="fragment"><strong>Beatriz Alonso Carvajales</strong> for all the support being my test-subject and coacher in drawing matters. I love you.</p>
+        </section>
+
+        <section class="sources">
+          <h2>Sources &amp; further reading</h2>
+          <ul>
+            <li><a href="http://www.cafepy.com/article/python_types_and_objects/python_types_and_objects.html">Python Types and Objects</a> Shalabh Chaturvedi</li>
+            <li><a href="http://answers.oreilly.com/topic/2848-how-classes-and-instances-differ-in-object-based-programming/">How classes and instances differ in object based programming</a> from the book Programming iOS 4 by Matt Neuburg at oreilly.com</li>
+            <li><a href="http://lucacardelli.name/Papers/OnUnderstanding.A4.pdf">On Understanding Types, Data Abstraction, and Polymorphism</a> by Luca Cardelli and Peter Wegner</li>
+            <li><a href="http://stackoverflow.com/questions/11990270/are-java-classes-objects">Are Java classes objects?</a> discussion at stackoverflow.com</li>
+            <li><a href="http://programmers.stackexchange.com/questions/62994/differences-between-java-oop-and-pythonic-oop">Differences between Java OOP and Pythonic OOP</a> discussion at prograamers.stackexchange.com</li>
+            <li><a href="http://docs.python.org/3.3/reference/datamodel.html">The Python data model</a> by python.org</li>
+            <li><a href="http://en.wikipedia.org/wiki/Data_model">Data model</a> at Wikipedia</li>
+        </section>
+
+        <section>
+          <h2>About me ;)</h2>
+          <img src="imgs/chibi.png" class="deco" style="float:left; width: 250px; height:auto;"/>
+          <dl>
+            <dt>me</dt>
+            <dd>Salvador de la Puente González</dd>
+            <dt>twitter</dt>
+            <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+            <dt>My sites</dt>
+            <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/lodr">http://github.com/lodr</a></dd>
+          </dl>
+        </section>
+
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+    <script>
+      navigator.getUserMedia = (navigator.getUserMedia ||
+                                navigator.webkitGetUserMedia ||
+                                navigator.mozGetUserMedia ||
+                                navigator.msGetUserMedia);
+
+      var alreadyAsking = false;
+      window.addEventListener('slidechanged', function () {
+        var current = Reveal.getCurrentSlide();
+        var video = current.querySelector('video');
+        if ('camera' in current.dataset && video && !alreadyAsking) {
+          alreadyAsking = true;
+          navigator.getUserMedia({ video: true}, onSuccess, onError);
+        }
+
+        function onSuccess(stream) {
+          video.src = window.URL.createObjectURL(stream);
+          video.play();
+          video.addEventListener('loadedmetadata', function () {
+            document.body.focus();
+            Reveal.layout();
+          });
+          alreadyAsking = false;
+        }
+
+        function onError() {
+          console.log('Error while retrieving user video stream.');
+        }
+      });
+    </script>
+  </body>
+</html>
