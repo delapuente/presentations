@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Cinco algoritmos sencillos de entender que quizá no conozcas</title>
+
+    <meta name="description" content="Ordenación en tiempo lineal, map-reduce, agrupamiento por centroide, PGP, prueba de trabajo.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/tooltip.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script anchor.jsrc="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>5 algoritmos fáciles de entender</h1>
+          <h2>(que quizá no conozcas)</h2>
+        </section>
+
+        <section>
+          <section>
+            <img src="imgs/good-code.jpg" />
+            <p>Listado finito de pasos a seguir para resolver un problema.</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <blockquote>An algorithm must be seen to be believed.</blockquote>
+            <p>&mdash; Donald Knuth</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Funciones hash criptográficamente seguras</h2>
+          </section>
+
+          <section>
+            <p>Son funciones que relacionan entradas de datos de <strong>tamaño arbitrario</strong> con un número entero de <strong>longitud fija</strong>.</p>
+          </section>
+          
+          <section>
+            <p>Una función hash criptográfica cumple tres propidades:</p>
+            <ol>
+              <li class="fragment">Resistencia <em>pre-image</em>. Dado un hash, no es factible encontrar <strong>un mensaje con ese hash</strong>.</li>
+              <li class="fragment">Resistencia a la segunda <em>pre-image</em>. Dado un mensaje, no es factible encontrar <strong>otro con el mismo <em>hash</em></strong>.</li>
+              <li class="fragment">Resistencia a las colisiones. No es factible encontrar <strong>dos mensajes con el mismo <em>hash</em></strong>.</li>
+            </ol>
+          </section>
+          
+          <section>
+            <p>Un ligero cambio en el mensaje causa un <strong>cambio total</strong> en el hash.</p>
+            <pre><code>Mensaje: one ring to rule them all
+SHA-2:   f0de86727cf32a37a8f6fdab54a62d1d910db235</code></pre>
+            <pre><code>Mensaje: one ring to rule them al1
+SHA-2:   d302c585c7e212822ed087e949216f9123657ebc</code></pre>
+          </section>
+
+          <section>
+            <blockquote>With 160 bits, you have 2<sup>160</sup>, or about 10<sup>48</sup> (1 with 48 zeros after it), possible SHA1 hashes. That number is just incomprehensibly huge. Even if you hired a trillion people to produce a trillion new unique blobs per second for a trillion years, you would still only have about 10<sup>43</sup> blobs.<br/>
+If you hashed 2 80 random blobs, you might find a collision.</blockquote>
+<p>&mdash; Del libro <em>Version Control with Git</em></p>
+          </section>
+          
+          <section>
+            <p>Las funciones hash criptográficas tienen montones de aplicaciones:</p>
+            <ul>
+              <li class="fragment">Verificar la <strong>integridad</strong> de mensajes.</li>
+              <li class="fragment">Verificación de contraseñas <strong>sin tener que revelarlas</strong>.</li>
+              <li class="fragment">Identificación <strong>inequívoca</strong> de ficheros o datos arbitrarios.</li>
+              <li class="fragment">Generación de números <strong>pseudoaleatorios</strong>.</li>
+              <li class="fragment"><strong>Derivación</strong> de claves.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>De interés:</h3>
+            <p>En Wikipedia puede encontrarse una <a href="http://en.wikipedia.org/wiki/List_of_hash_functions#Cryptographic_hash_functions">lista de funciones hash criptográficas</a>.</p>
+            <p>Git usa la función <a src="http://en.wikipedia.org/wiki/SHA-1">SHA1</a> para comprobar si un fichero o directorio ha cambiado.</p>
+            <p>Existen formas de atacar functiones hash como aquel que permite crear <a href="http://eprint.iacr.org/2005/067.pdf">distintos certificados X.509 cuya firma colisione</a>.</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Prueba de trabajo</h2>
+          </section>
+
+          <section>
+            <p><em>No</em> es un algoritmo.</p>
+            <p class="fragment">Es un sistema para <strong>averiguar si el actor de un protocolo ha perdido algo de tiempo realizando una acción</strong>.</p>
+          </section>
+
+          <section>
+            <p>Desafío / Respuesta:</p>
+            <img style="height: 281px; background-color: white;" src="imgs/pow-protocol.png" />
+            <p class="fragment">Como en Telegram.</p>
+          </section>
+          
+          <section>
+            <p>Basado en verificación de la solución:</p>
+            <img style="height: 281px; background-color: white;"src="imgs/pow-verification.png" />
+            <p class="fragment">Como en Bitcoin.</p>
+          </section>
+          
+          <section>
+            <p>Algunas aplicaciones:</p>
+            <ul>
+              <li class="fragment">Defendernos de <strong>ataques DoS</strong>.</li>
+              <li class="fragment">Reducir el <strong>spam</strong>.</li>
+              <li class="fragment">Mantener la <strong>descentralización de sistemas distribuidos</strong>.</li>
+            </ul>
+          </section>
+          
+          <section>
+            <p>La prueba de trabajo es la respuesta a una prueba que debe ser...</p>
+            <ul>
+              <li class="fragment">...<strong>difícil de solucionar</strong>.</li>
+              <li class="fragment">...pero <strong>fácil de verificar</strong>.</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>Por ejemplo, una de las llamadas <a href="http://en.wikipedia.org/wiki/Proof-of-work_system#List_of_proof-of-work_functions">funciones de prueba de trabajo</a> como...</p>
+          </section>
+
+          <section>
+            <h3>Hashcash</h3>
+          </section>
+
+          <section>
+            <p>Diseñado para reducir el spam.</p>
+            <p class="fragment">Se apoya en el uso de <strong>SHA1</strong>.</p>
+          </section>
+
+          <section>
+            <p>Al enviar un e-mail, desde el remitente:</p>
+            <ol>
+              <li class="fragment">Crea una cadena con el e-mail del destinatario, la fecha y un <strong>número aleatorio</strong>.</li>
+              <li class="fragment">Pasa la función <strong>SHA1</strong> a esta cadena.</li>
+              <li class="fragment">Comprueba que el resultado de la función <strong>comienza por 20 ceros</strong>.</li>
+              <li class="fragment">En caso contrario, <strong>incrementa el número aleatorio</strong> y vuelve al paso 2.</li>
+              <li class="fragment">Incluye como <strong>cabecera</strong> del e-mail.</li>
+            </ol>
+          </section>
+
+          <section>
+            <p>Al recibir un e-mail, el destinatario:</p>
+            <ol>
+              <li class="fragment"><strong>Extrae la cadena</strong> de la cabecera.</li>
+              <li class="fragment">Pasa la función <strong>SHA1</strong> a la cadena.</li>
+              <li class="fragment">Si la cadena <strong>no comienza por 20 ceros</strong>, rechaza el e-mail.</li>
+              <li class="fragment">Si la fecha se separa del presente <strong>más de dos días</strong>, rechaza el e-mail.</li>
+              <li class="fragment">Si la <strong>dirección e-mail no está en cierta lista blanca</strong>, rechaza el e-mail.</li>
+              <li class="fragment">Añade el hash a la base de datos. Si <strong>ya existe</strong>, rechaza el e-mail.</li>
+            </ol>
+          </section>
+
+          <section>
+            <h3>De interés</h3>
+            <p>Hashcash fue presentado por <a href="http://en.wikipedia.org/wiki/Adam_Back">Adam Back</a> en 1997</p>
+            <p>Comforme el poder computacional se incrementa, el número de ceros exigidos aumenta.</p>
+            <p>Bitcoin utiliza Hashcash para realizar la llamada <a href="https://en.bitcoin.it/wiki/Proof_of_work">minería de bitcoins</a>.</p>
+          </section>
+        </section>
+        
+        <section>
+          <section>
+            <h2>Agrupamiento por centroides</h2>
+          </section>
+          
+          <section>
+            <p>Se trata de una técnica para <strong>clasificar datos</strong> en grupos.</p>
+            <p class="fragment">Cada grupo consta de un representante, <strong>el centroide</strong>...</p>
+            <p class="fragment">...y los <strong>puntos a los que representa</strong>.</p>
+            <p class="fragment">Es ampliamente utilizada en <strong>aprendizaje automático</strong>.</p>
+          </section>
+          
+          <section>
+            <p>¿Cuántos grupos hay aquí?</p>
+            <img src="imgs/kmeans-points.png" />
+            <p class="fragment">El número de grupos <code>k</code> lo proporciona el usuario.</p>
+          </section>
+
+          <section> 
+            <h3>k-Means</h3>
+          </section>
+
+          <section>
+            <p>Formalmente, computa el <a href="http://en.wikipedia.org/wiki/Voronoi_diagram">diagrama de Voronoi</a> para <code>k</code> puntos.</p>
+            <img style="width: 500px;" src="imgs/voronoi.png" />
+            <p>El diagrama es una partición en <code>k</code> grupos donde las regiones coloreadas son las <strong>áreas más cercanas al punto que albergan</strong>.</p>
+          </section>
+          
+          <section>
+            <p>Elegimos <code>k</code> puntos <strong>al azar</strong> (i.e. 4).</p>
+            <img src="imgs/kmeans-centroids.png" />
+          </section>
+
+          <section>
+            <p>Asignamos a cada centroide los <strong>puntos más cercanos</strong>.</p>
+            <img src="imgs/kmeans-groups.png" />
+          </section>
+          
+          <section>
+            <p>Y <strong>recalculamos los centroides</strong> como la media del grupo.</p>
+            <img src="imgs/kmeans-new-centroids.png" />
+          </section>
+
+          <section>
+            <p>Iteramos un número determinado de pasos o hasta que el algoritmo <strong>converja</strong>.</p>
+          </section>
+
+          <section>
+            <p>El resultado...</p>
+            <img src="imgs/kmeans.gif" />
+          </section>
+
+          <section>
+            <h3>De interés:</h3>
+            <p>El algoritmo fue propueto por <a href="http://www.cs.nyu.edu/~roweis/csc2515-2006/readings/lloyd57.pdf">Stuart Lloyd de los Laboratorios Bell en 1957</a> pero no se hizo público hasta 1982.</p>
+            <p>E. W. Forgy publicó prácticamente el mismo método en 1965.</p>
+            <p>La animación de la diapositiva anterior pertenece a <a href="http://kickammender.com/about">Kickammender</a>, un servicio para clasificar proyectos de Kickstarter.</p>
+            <p><a href="http://pngquant.org/#algorithm">pngquant</a> es un programa para reducir el tamaño de imágenes PNG mediante cuantización de color.</p>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>MapReduce</h2>
+          </section>
+
+          <section>
+            <p>MapReduce <em>no</em> es un algoritmo.</p>
+            <p class="fragment">Es un <strong>modelo de programación</strong>.</p>
+            <p class="fragment">Pero hay algoritmos <strong> altamente paralelizables</strong> que pueden adaptarse a MapReduce llegando a ser muy rápidos.</p>
+          </section>
+
+          <section>
+            <p>MapReduce consiste en <strong>clasificar valores y agregarlos</strong>.</p>
+            <p>Es más o menos equivalente al siguiente código SQL:</p>
+            <pre class="fragment"><code class="sql">  SELECT clave, AGGREGATION(valor)
+    FROM tabla
+GROUP BY clave
+ORDER BY clave</code></pre>
+          </section>
+
+          <section>
+            <p>Sólo que los comportamientos de <code>AGGREGATION</code> y <code>GROUP BY</code> los proporcionamos nosotros.</p>
+          </section>
+          
+          <section>
+            <dl>
+              <dt>map</dt>
+              <dd>Es la función que agrupa.<br/><code>map :: data -&gt; (key, value)</code></dd>
+              <dt>reduce</dt>
+              <dd>Es la función que agrega.<br/><code>reduce :: (key, [values]) -&gt; (key, aggregated-value)</code></dd>
+            </dl>
+          </section>
+
+          <section>
+            <p>Ejemplo: <em>cuenta el número de figuras de cada color.</em></p>
+            <img src="imgs/count-step0.png" alt="" />
+          </section>
+
+          <section>
+            <p><strong>Preparar</strong> los procesadores Map:</p>
+            <img src="imgs/count-step1.png" alt="" />
+            <p class="fragment">Basta con un procesador por clave pero puede haber varios por redundancia.</p>
+          </section>
+
+          <section>
+            <p><strong>Ejecutar</strong> la función <code>map()</code> para los datos de entrada.</p>
+            <img src="imgs/count-step2.png" alt="" />
+            <pre><code class="python">def map(shape, star):
+  return (star.color, 1)
+</code></pre>
+          </section>
+
+          <section>
+            <p><strong>Preparar</strong> los procesadores Reduce:</p>
+            <img src="imgs/count-step3.png" alt="" />
+            <p class="fragment">Basta con un procesador por clave pero puede haber varios por redundancia.</p>
+          </section>
+
+          <section>
+            <p><strong>Ejecutar</strong> la función <code>reduce()</code> para los datos agrupados por clave.</p>
+            <img src="imgs/count-step4.png" alt="" />
+            <pre><code class="python">def reduce(color, values):
+  return (color, sum(values))
+</code></pre>
+          </section>
+
+          <section>
+            <p><strong>Ordenar</strong> los resultados por la clave:</p>
+            <img src="imgs/count-step5.png" alt="" />
+            <p class="fragment">Asumiendo el órden alfabético Azul, Rojo y Verde.</p>
+          </section>
+
+          <section>
+            <p>Esta forma de contar <strong>sí es un algoritmo</strong>.</p>
+            <p class="fragment">Un algortimo <strong>para</strong> MapReduce.</p>
+          </section>
+
+          <section>
+            <h3>k-Mean para MapReduce</h3>
+          </section>
+
+          <section>
+            <p>La función <code>map()</code> <strong>clasifica los puntos en los grupos</strong>.</p>
+            <pre><code class="python">def map(id, punto):
+  global centroides
+  distancias = \
+    [(id, punto.distancia(c)) for id, c in enumerate(centroides)]
+  centroide_mas_cercano, _ = \
+    min(distancias, key=lambda i: i[0])
+  return (centroide_mas_cercano, punto)
+</code></pre>
+          </section>
+
+          <section>
+            <p>La función <code>reduce()</code> <strong>calcula los nuevos centroides</strong>.</p>
+            <pre><code class="python">def reduce(centroide_id, puntos):
+  global centroides
+  avg = lambda l: sum(l) / len(l)
+  nuevo_centroide = \
+    Punto(
+      avg(p.x for p in puntos),
+      avg(p.y for p in puntos)
+    )
+  centroides[centroide_id] = nuevo_centroide
+  return (centroide_id, nuevo_centroide)
+</code></pre>
+          </section>
+
+          <section>
+            <p>Ahora repetiríamos el proceso un número finito de veces...</p>
+            <p class="fragment">O hasta que los centroides no se muevan más.</p>
+          </section>
+          
+          <section>
+            <p>La comparación con los centroides es 100% paralelizable.</p>
+            <p class="fragment">Luego el algoritmo podría dividir los datos de <strong>entrada entre N máquinas</strong>...</p>
+            <p class="fragment">Consiguiendo <strong>speed-ups de hasta N</strong> en la fase de agrupamiento.</p>
+          </section>
+          
+          <section>
+            <h3>De interés:</h3>
+            <p>MapReduce <a href="http://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf">fue inventado (y patentado) por Google</a> en 2004.</p>
+            <p>La implementación libre es <a href="http://hadoop.apache.org/">Hadoop</a> de <a href="http://en.wikipedia.org/wiki/Apache_Software_Foundation">Apache</a>.</p>
+            <p>Puedes encontrar los <a href="http://www.cs.ucsb.edu/~veronika/MAE/parallelkmeansmapreduce_zhao.pdf">resultados de varias implementaciones de k-Means para MapReduce</a> en Internet</p>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Ordenación en tiempo lineal</h2>
+          </section>
+
+          <section>
+            <p>¿Cuál es el mejor rendimiento que podemos esperar de un algoritmo de ordenación?</p>
+          </section>
+
+          <section>
+            <p class="fragment">Probablemente estés pensando en <a href="http://en.wikipedia.org/wiki/Quicksort">Quicksort</a></p>
+            <img src="imgs/quicksort.gif" style="width: 600px;" />
+            <p class="fragment">En el caso medio: <em>O(n log n)</em></p>
+          </section>
+
+          <section>
+            <p>Pero se puede hacer mejor...</p>
+          </section>
+          
+          <section>
+            <h3>Ordenación por conteo</h3>
+          </section>
+
+          <section>
+            <p>Considera el siguiente listado:</p>
+            <pre><code class="javascript">var list = [2, 5, 3, 0, 2, 3, 0, 3];</code></pre>
+          </section>
+
+          <section>
+            <p>Vamos a contar el número de valores distintos:</p>
+            <pre><code class="javascript">var count = [0, 0, 0, 0, 0, 0];
+list.forEach(function (value) { count[value]++; });
+// count: [2, 0, 2, 3, 0, 1]</code></pre>
+          </section>
+
+          <section>
+            <p>Pero ajustemos la lista para llevar el total de valores menores o iguales que cada uno de ellos:</p>
+            <pre><code class="javascript">for (var i = 1; i < count.length; i++) {
+  count[i] += count[i-1];
+}
+// count: [2, 2, 4, 7, 7, 8]</code></pre>
+          </section>
+          
+          <section>
+            <p>Este conteo coincide, para cada valor, con el índice a partir del cual (incluído) no encontramos otra vez ese valor:</p>
+            <pre><code class="javascript">// Recordemos que list = [2, 5, 3, 0, 2, 3, 0, 3] y
+// count: [2, 2, 4, 7, 7, 8]
+// Así que el 2 se encontrará en la posición 3 (4 - 1) como mucho;
+// el 5, en la 7 (8 - 1);
+// el 3, en la 6 (7 - 1);
+// ...</code></pre>
+          </section>
+
+          <section>
+            <p>Así que recorramos el vector original viendo dónde va cada elemento y ajustemos el conteo tras colocarlo:</p>
+            <pre><code class="javascript">var sorted = [];
+// ordenamos hacia detrás para hacer el algoritmo estable
+for (var i = list.length - 1; i >= 0; i++) {
+  var value = list[i];
+  var rightPosition = count[value] - 1;
+  sorted[rightPosition] = value;
+  count[value]--;
+}
+// sorted: [0, 0, 2, 2, 3, 3, 3, 5]</code></pre>
+          </section>
+          
+          <section>
+            <p>Este algoritmo itera una vez sobre el vector original y dos veces sobre el vector de conteo. Si la longitud del vector es <code>n</code> y la del vector de conteo es <code>k</code>, entonces...</p>
+          </section>
+
+          <section>
+            <p>...el algoritmo opera en:</p>
+            <p class="fragment"><em>Θ (n + k)</em></p>
+          </section>
+
+          <section>
+            <p>¿Y qué pasa si la lista es tal que así?</p>
+            <pre class="fragment"><code class="javascript">var list = [1, 0, 5, 3, 9, 8, 2, 0, 3, 5, 1, 19890];</code></pre>
+          </section>
+          
+          <section>
+            <p>Ahora <code>k</code> domina sobre <code>n</code>.</p>
+            <p class="fragment">¿Podemos hacer algo?</p>
+          </section>
+          
+          <section>
+            <h3>Ordenación Radix</h3>
+          </section>
+
+          <section>
+            <p>Considera la siguiente lista:</p>
+            <pre><code class="javascript">var list = [329, 457, 657, 839, 436, 720, 355];</code></pre>
+          </section>
+
+          <section>
+            <p>Podemos ordenar los números atendiendo a cada uno de sus <code>d</code> dígitos.</p>
+          </section>
+
+          <section>
+            <p>Empezaremos por las unidades...</p>
+            <pre><code class="javascript">var list = [720, 355, 436, 457, 657, 329, 839];</code></pre>
+          </section>
+          
+          <section>
+            <p>Seguimos con las decenas:</p>
+            <pre><code class="javascript">var list = [720, 329, 436, 839, 355, 457, 657];</code></pre>
+          </section>
+          
+          <section>
+            <p>Finalmente, las centenas:</p>
+            <pre><code class="javascript">var list = [329, 355, 436, 457, 657, 720, 839];</code></pre>
+          </section>
+
+          <section>
+            <p>Es fácil ver que la complejidad del algoritmo se encuentra en:</p>
+            <p class="fragment"><em>Θ (d · complejidad-ordenación)</em></p>
+          </section>
+
+          <section>
+            <p>Si <code>d</code> es constante, la complejidad está dominada por la del algoritmo de ordenación de cada dígito.</p>
+          </section>
+
+          <section>
+            <p>¿Y cómo ordenamos cada dígito?</p>
+            <p class="fragment">¡Con la <strong>ordenación por conteo</strong>!</p>
+          </section>
+
+          <section>
+            <p>Luego <code>complejidad-ordenación = <em>Θ (n + k)</em></code> con <code>k = 10</code> constante y entonces la complejidad de la ordenación radix será:</p>
+            <p class="fragment"><em>Θ (d · (n + k))</em></p>
+          </section>
+
+          <section>
+            <p>Y viendo que <code>d</code> es constante también y que <code>k</code> puede ser muy pequeño para <code>n</code> lo suficientemente grande, tenemos que la ordenación radix tiene una complejidad de:</p>
+          </section>
+          <section>
+            <p><strong><em>Θ (n)</em></strong></p>
+          </section>
+
+          <section>
+            <h3>De interés:</h3>
+            <p>Ambos algoritmos fueron inventados por <a href="http://en.wikipedia.org/wiki/Harold_H._Seward">Harold H. Seward</a> en 1954.</p>
+            <p>Una explicación más detallada puede encontrarse en el libro <a href="http://mitpress.mit.edu/books/introduction-algorithms">Introduction to Algorithms</a>.</p>
+            <p>Puedes ver una comparación de rendimientos donde la <a href="http://erik.gorset.no/2011/04/radix-sort-is-faster-than-quicksort.html">ordenación radix es 5 veces más rápida que qsort para enteros</a>.</p>
+          </section>
+
+        </section>
+
+        <section>
+          <h2>Sobre mí</h2>
+          <img src="imgs/perezalva.png" class="deco" style="float:left; width: 250px; height:auto;"/>
+          <dl style="padding-top: 100px;">
+            <dt>yo</dt>
+            <dd>Salvador de la Puente González</dd>
+            <dt>twitter</dt>
+            <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+            <dt>Mis sitios web</dt>
+            <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/lodr">http://github.com/lodr</a></dd>
+          </dl>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
