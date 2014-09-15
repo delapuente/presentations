@@ -16,7 +16,7 @@ The presentation talks about 5 algorithms / techniques not very complicated but 
  
 ## Beautiful APIs
 
-[Go to the presentation](http://lodr.github.com/presentations/beautiful-apis/index.html)
+[Go to the presentation](http://lodr.github.io/presentations/beautiful-apis/index.html)
 
 Here you have my presentation for the Dev Con 2013, **Beautiful APIs**.
 
@@ -39,7 +39,7 @@ The presentation presents the Python datamodel in a friendly way. Actually the m
 
 ## Metaprogramming in Python & JavaScript
 
-[Go to the presentation](https://lodr.github.com/presentations/js-python-metaprogramming/index.html)
+[Go to the presentation](http://lodr.github.io/presentations/js-python-metaprogramming/index.html)
 
 Here you have my presentation for the [DEVCON1](https://twitter.com/search?q=%23devcon1&src=typd), **Metaprogramming in Python & JavaScript**.
 
@@ -53,7 +53,7 @@ The presentation is a comparison between both programming languages, specially i
 
 ## Continuation Passing Style with JavaScript
 
-[Go to the presentation](https://lodr.github.com/presentations/cps-javascript/index.html)
+[Go to the presentation](http://lodr.github.io/presentations/cps-javascript/index.html)
 
 Here you have my presentation for the [DEVCON1](https://twitter.com/search?q=%23devcon1&src=typd), **Continuation Passing Style with JavaScript**.
 
