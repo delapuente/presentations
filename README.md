@@ -1,5 +1,42 @@
 # Index of my presentations
 
+## Five algorithms easy to understand (that you probably don't know)
+
+[Go to the presentation](http://lodr.github.io/presentations/5-algoritmos/index.html)
+
+This is a presentation for the [Telefonica master in Advanced Programming at U-TAD](http://www.u-tad.com/estudios/master-telefonica-en-desarrollo-de-software-avanzado/), **Five algorithms easy to understand (that you probably don't know)**.
+
+The presentation talks about 5 algorithms / techniques not very complicated but quite useful:
+
+ * Cryptograhpic hash functions
+ * Proof of work
+ * Centroid clustering
+ * MapReduce
+ * Linear time sorting
+ 
+## Beautiful APIs
+
+[Go to the presentation](http://lodr.github.com/presentations/beautiful-apis/index.html)
+
+Here you have my presentation for the Dev Con 2013, **Beautiful APIs**.
+
+The presentation covers some design principles from the point of view of API desing. Identified principles are:
+
+ * Unity / Goal
+ * Harmony / Predictability
+ * Balance / Completeness
+ * Hierarchy / Modularity
+ * Proportion / Scope
+ * Emphasis / Features
+ 
+## Python data model
+
+[Go to the presentation](http://lodr.github.io/presentations/python-datamodel/index.html)
+
+Here you have my presentation for the Dev Con 2013, **Python data model**.
+
+The presentation presents the Python datamodel in a friendly way. Actually the main attraction was I drew the pictures on live during the conference. =)
+
 ## Metaprogramming in Python & JavaScript
 
 [Go to the presentation](https://lodr.github.com/presentations/js-python-metaprogramming/index.html)
