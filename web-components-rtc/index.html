@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Web Components &amp; WebRTC</title>
+
+    <meta name="description" content="The web of the future will be based on these new technologies for better modularization and communications.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/tooltip.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script anchor.jsrc="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>WebRTC &amp; Web Components</h1>
+          <h2>The future Web</h2>
+        </section>
+
+        <section>
+          <section>
+            <h2>What is WebRTC?</h2>
+          </section>
+          
+          <section data-markdown>
+            Web **R**eal **T**ime **C**omunnications
+          </section>
+
+          <section data-markdown>
+            WebRTC enables the Web to be a peer in peer-2-peer communications.
+            I.e. it allows data transfer **from browser to browser**.
+          </section>
+
+          <section data-markdown>
+            No servers...
+          </section>
+
+          <section data-markdown>
+            (Almost)
+          </section>
+          
+          <section>
+            <h3>How it Works?</h3>
+          </section>
+
+          <section data-markdown>
+            In order to stablish a communication you need your browser to
+            know the destination point of data but you must pass through
+            NATS and other forms of **port-based network multiplexing** in order
+            to reach a real user's browser.
+          </section>
+
+          <section data-markdown>
+            So you need the help of special servers known as
+            [TURN, and STUN](https://developer.mozilla.org/en-US/docs/Web/Guide/API/WebRTC/WebRTC_architecture)
+            nodes to fight against these impediments.
+          </section>
+
+          <section>
+            <img style="background: white;" alt="Who am I?" src="./imgs/webrtc-stun.png" />
+            <p>In a nutshell, TURN, STUN and ICE allow to discover real addresses
+            in internal networks. In other words, where to send data.</p>
+          </section>
+
+          <section data-markdown>
+            Now you know who are the peer-2-peer players but not **their capabilities**
+            (not all browsers support the same things) so you need to negotiate
+            this.
+          </section>
+
+          <section data-markdown>
+            You need a **signal channel** (node) to allow session handshaking.
+            [SDP](http://en.wikipedia.org/wiki/Session_Description_Protocol) is
+            used to describe the multimedia session.
+          </section>
+
+          <section>
+            <h3>Channels</h3>
+          </section>
+
+          <section data-markdown>
+            With WebRTC you can communicate audio, video or simply data.
+            Let's see a couple of examples!
+          </section>
+
+          <section data-markdown>
+            #### Audio / Video Channels
+            
+            [Loop Experiment in Firefox Nightly](https://wiki.mozilla.org/Loop/Try_Loop#Clients)
+          </section>
+
+          <section data-markdown>
+            #### Data Channels
+            [Share files on Sharefest.me](https://www.sharefest.me/)
+          </section>
+
+          <section data-markdown>
+            ### Resources
+              * [Getting Started with WebRTC](http://www.html5rocks.com/en/tutorials/webrtc/basics/) tutorial.
+              * [WebRTC experiments](https://www.webrtc-experiment.com/) website.
+              * The WebRTC library [PeerJS](http://peerjs.com/).
+              * The hub site on the Internet: [webrtc.org](http://www.webcrtc.org/)
+              * The MDN PeerJS [chat demo](https://developer.mozilla.org/en-US/demos/detail/peerjs)
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>And what about Web Components?</h2>
+          </section>
+
+          <section>
+            <p>Web Components are extensions to HTML elements.</p>
+            <p>They are <strong>semantically-rich</strong> fragments of markup
+            with specific behaviour.</p>
+          </section>
+          
+          <section>
+            <p>Let's take a look to the code of Google Hangouts</p>
+            <img src="./imgs/gmail.png" alt="A Google Hangouts chat" />
+            <p class="fragment">A little bit messy, isn't it?</p>
+          </section>
+
+          <section>
+            <p>What if we could turn that bunch of <code>div</code> into
+            something more <strong>expressive</strong>?</p>
+          </section>
+
+          <section>
+            <pre class="html"><code>&lt;hangout-module&gt;
+  &lt;hangout-chat from="Paul, Addy"&gt;
+    &lt;hangout-discussion&gt;
+      &lt;hangout-message from="Paul" profile="profile.png"
+          profile="118075919496626375791" datetime="2013-07-17T12:02"&gt;
+        &lt;p&gt;Feelin' this Web Components thing.&lt;/p&gt;
+        &lt;p&gt;Heard of it?&lt;/p&gt;
+      &lt;/hangout-message&gt;
+    &lt;/hangout-discussion&gt;
+  &lt;/hangout-chat&gt;
+  &lt;hangout-chat&gt;...&lt;/hangout-chat&gt;
+&lt;/hangout-module&gt;</code></pre>
+          </section>
+
+          <section>
+            <p>Much better</p>
+          </section>
+          
+          <section>
+            <p>What is needed to build Web Components?</p>
+          </section>
+
+          <section>
+            <p>In a nutshell, tou build web components you need:</p>
+            <ul>
+              <li class="fragment"><strong>A name</strong> to use inside
+              the markup.</li>
+              <li class="fragment"><strong>Composition</strong> to build your
+              new component from native HTML elements.</li>
+              <li class="fragment"><strong>Encapsulation</strong> to keep your
+              custom markup separated from the user markup.</li>
+              <li class="fragment"><strong>Custom behavior</strong> for carrying
+              with the new element duties.</li>
+            </ul>
+          </section>
+          
+          <section>
+            <h3>Register Element</h3>
+          </section>
+
+          <section>
+            <p>The document's method <code>document.registerElement()</code>
+            waits for a dashed name for a custom element and create a new
+            HTML element.</p>
+          </section>
+
+          <section>
+            <p>If you do...</p>
+            <pre class="javascript"><code>document.registerElement('x-tasklist');
+document.registerElement('x-task');
+</code></pre>
+            <script>
+              var XTaskList = document.registerElement('x-tasklist');
+              var XTask = document.registerElement('x-task');
+            </script>
+          </section>
+
+          <section>
+            <p>...now you can do:</p>
+            <pre class="html"><code>&lt;x-tasklist&gt;
+  &lt;x-task&gt;Learn about Web Components&lt;/x-task&gt;
+  &lt;x-task&gt;Learn about WebRTC&lt;/x-task&gt;
+&lt;/x-tasklist&gt;</code></pre>
+          </section>
+
+          <section>
+           <p>Live demo:</p> 
+            <x-tasklist>
+              <x-task>Learn about Web Components</x-task>
+              <x-task>Learn about WebRTC</x-task>
+            </x-tasklist>
+          </section>
+
+          <section>
+            <h3>The Shadow DOM</h3>
+          </section>
+          
+          <section>
+            <p>The shadow DOM is how web components allow composition.</p>
+          </section>
+          
+          <section>
+            <p>The shadow DOM is a special DOM root <strong>living inside
+            another HTML5 element</strong>.</p>
+          </section>
+          
+          <section>
+            <p>The inner DOM is totally isolated from the outer DOM so, for
+            instance, an <code>id</code> used in the outer DOM can be used
+            again <strong>inside</strong> the inner DOM.</p>
+          </section>
+
+          <section>
+            <p>The video tag is actually a Web Component...</p>
+            <video controls src="http://www.w3schools.com/html/mov_bbb.mp4">
+            </video>
+          </section>
+
+          <section>
+            <p>Currently only Google Chrome is supporting Web Components
+            completely but you can see a screenshot here of how it looks
+            like...</p>
+            <img alt="Debugging the shadow DOM" src="./imgs/exploring-shadow-dom.png" />
+          </section>
+
+          <section>
+            <p>Just rememeber to enable the proper options!</p>
+            <img src="./imgs/debug-shadow-dom.png" alt="Enabling shadow DOM in Chrome" />
+          </section>
+
+          <section>
+            <p>You can create a shadow root inside any element:</p>
+            <pre class="javascript"><code>var tl = document.querySelector('#my-task-list');
+var shadowRoot = tl.createShadowRoot();
+shadowRoot.innerHTML = '&lt;strong&gt;Inside the shadow DOM&lt;/strong&gt;';</code></pre>
+          </section>
+
+          <section>
+           <p>Live demo:</p> 
+            <x-tasklist id="my-task-list">
+              <x-task>Learn about Web Components</x-task>
+              <x-task>Learn about WebRTC</x-task>
+            </x-tasklist>
+            <script>
+              var tl = document.querySelector('#my-task-list');
+              var shadowRoot = tl.createShadowRoot();
+              shadowRoot.innerHTML = '<strong>Inside the shadow DOM</strong>;';
+            </script>
+          </section>
+
+          <section>
+            <h3>The template tag</h3>
+          </section>
+
+          <section>
+            <p>The <code>template</code> element allows to
+            <strong>declare</strong> encapsulated  markup, style and
+            behavior.</p>
+          </section>
+          
+          <section>
+            <p>Here is how it looks:</p>
+            <pre class="html"><code>&lt;template id="tasklist-template"&gt;
+  &lt;style&gt;
+    ul {
+      list-style: none;
+      background-color: yellow;
+      border-radius: 0 25% 25% 25%;
+      box-shadow: 2px 2px 2px 0 black;
+    }
+
+    ul li {
+      display: block;
+    }
+
+    ul li.done {
+      text-decoration: line-through; 
+    }
+  &lt;/style&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/template&gt;</code></pre>
+          </section>
+          
+          <section>
+            <p>And here how it works.</p>
+            <template id="tasklist-template">
+              <style>
+                ul {
+                  list-style: none;
+                  background-color: yellow;
+                  border-radius: 10px 0 10px 10px;
+                  box-shadow: 2px 2px 2px 0 black;
+                  color: black;
+                  text-align: left;
+                  padding: 20px;
+                }
+
+                ul li {
+                  display: block;
+                }
+
+                ul li.done {
+                  text-decoration: line-through; 
+                }
+              </style>
+              <ul>
+                <li></li>
+              </ul>
+            </template>
+            <p class="fragment">You see nothing...?</p>
+            <p class="fragment">Try with the sourcecode.</p>
+          </section>
+
+          <section>
+            <h3>Element lifecycle</h3>
+          </section>
+
+          <section>
+            <p>Customize the behavior is got by defining a
+            <strong>lifecycle</strong>. For each stage of the lifecycle, there
+            is a callback to customize what happens.</p>
+          </section>
+        
+          <section>
+            <p>The callbacks are:</p>  
+            <ul>
+              <li><code>createdCallback()</code>, called when an element is created.</li>
+              <li><code>attachedCallback()</code>, called when an element is added to the document.</li>
+              <li><code>detachedCallback()</code>, called when an element is removed from the document.</li>
+              <li><code>attributeChangedCallback(attrName, oldValue, newValue)</code>, called when an property is set for the element.</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>Now, we can do:</p>
+            <pre class="javascript"><code>var taskListPrototype = Object.create(HTMLElement.prototype);
+taskListPrototype.createdCallback = function () {
+  
+  // Get the template and empty the list
+  var template = document.querySelector('#tasklist-template');
+  var clone = document.importNode(template.content, true);
+  var list = clone.querySelector('ul');
+  list.innerHTML = '';
+  
+  // Fill the list with the same items as task-items
+  var items = [].slice.call(this.querySelectorAll('task-item'), 0);
+  items.forEach(function (taskItem) {
+    var li = document.createElement('li');
+    li.textContent = taskItem.textContent;
+
+    // Check for initial state
+    if (taskItem.getAttribute('done') !== null) {
+      li.classList.add('done');
+    }
+      
+    // Link the list item with the task item
+    taskItem._li = li;
+    
+    // When clicking on the list item, toggle attribute done on
+    // the task item.
+    li.onclick = function () {
+      if (taskItem.getAttribute('done') !== null) {
+        taskItem.removeAttribute('done');
+      }
+      else {
+        taskItem.setAttribute('done', true);
+      }
+    };
+
+    // Add the list item to the list
+    list.appendChild(li);
+  });
+
+  // Create the shadow root with these contents
+  this.createShadowRoot().appendChild(clone);
+};
+
+var taskItemPrototype = Object.create(HTMLElement.prototype);
+// On attached, refresh the parent task list
+taskItemPrototype.attachedCallback = function () {
+  if (this.parentNode.tagName !== 'TASK-LIST') { return; }
+  this.parentNode.createdCallback();
+};
+
+// Check for done
+taskItemPrototype.attributeChangedCallback =
+function (attr, oldValue, newValue) {
+  if (attr !== 'done') return;
+  if (newValue !== null) {
+    this._li.classList.add('done');
+  }
+  else {
+    this._li.classList.remove('done');
+  }
+};
+
+var TaskList = document.registerElement('task-list', {
+  prototype: taskListPrototype
+});
+
+var TaskItem = document.registerElement('task-item', {
+  prototype: taskItemPrototype
+});</code></pre>
+          <script>
+              var taskListPrototype = Object.create(HTMLElement.prototype);
+              taskListPrototype.createdCallback = function () {
+                
+                // Get the template and empty the list
+                var template = document.querySelector('#tasklist-template');
+                var clone = document.importNode(template.content, true);
+                var list = clone.querySelector('ul');
+                list.innerHTML = '';
+                
+                // Fill the list with the same items as task-items
+                var items = [].slice.call(this.querySelectorAll('task-item'), 0);
+                items.forEach(function (taskItem) {
+                  var li = document.createElement('li');
+                  li.textContent = taskItem.textContent;
+
+                  // Check for initial state
+                  if (taskItem.getAttribute('done') !== null) {
+                    li.classList.add('done');
+                  }
+                    
+                  // Link the list item with the task item
+                  taskItem._li = li;
+                  
+                  // When clicking on the list item, toggle attribute done on
+                  // the task item.
+                  li.onclick = function () {
+                    if (taskItem.getAttribute('done') !== null) {
+                      taskItem.removeAttribute('done');
+                    }
+                    else {
+                      taskItem.setAttribute('done', true);
+                    }
+                  };
+
+                  // Add the list item to the list
+                  list.appendChild(li);
+                });
+
+                // Create the shadow root with these contents
+                this._shadow = this._shadow || this.createShadowRoot();
+                this._shadow.innerHTML = '';
+                this._shadow.appendChild(clone);
+              };
+
+              var taskItemPrototype = Object.create(HTMLElement.prototype);
+
+              // On attached, refresh the parent task list
+              taskItemPrototype.attachedCallback = function () {
+                if (this.parentNode.tagName !== 'TASK-LIST') { return; }
+                this.parentNode.createdCallback();
+              };
+              
+              // Check for done
+              taskItemPrototype.attributeChangedCallback =
+              function (attr, oldValue, newValue) {
+                if (attr !== 'done') return;
+                if (newValue !== null) {
+                  this._li.classList.add('done');
+                }
+                else {
+                  this._li.classList.remove('done');
+                }
+              };
+
+              var TaskList = document.registerElement('task-list', {
+                prototype: taskListPrototype
+              });
+
+              var TaskItem = document.registerElement('task-item', {
+                prototype: taskItemPrototype
+              });
+            </script>
+          </section>
+          
+          <section>
+            <p>Result:</p>
+            <task-list>
+              <task-item done>Learn about Web Components</task-item>
+              <task-item>Learn about WebRTC</task-item>
+            </task-list>
+            <p class="fragment">Take a look at the sources to see the simplicity
+            of the final markup. This demo is mainly based on
+            <a href="http://www.html5rocks.com/en/tutorials/webcomponents/customelements/?redirect_from_locale=es">Custom Elements</a>
+            from <a href="http://www.html5rocks.com/">HTML Rocks</a></p>
+          </section>
+          
+          <section data-markdown>
+            ## Resources
+              * [Web Components](http://www.html5rocks.com/en/tutorials/webcomponents/customelements/?redirect_from_locale=es) tutorial.
+              * [Shadow DOM 101](http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/) tutorial.
+              * [HTML's New Template Tag](http://www.html5rocks.com/en/tutorials/webcomponents/template/) tutorial.
+              * The Web Component library [Polymer](https://www.polymer-project.org/).
+              * The hub site on the Internet: [webcomponents.org](http://webcomponents.org/)
+              * The Polymer webcomponent `x-pokemon` [demo](http://passy.github.io/x-pokemon/demo.html)
+            </section>
+        </section>
+
+        <section>
+          <h2>About me</h2>
+          <img src="imgs/perezalva.png" class="deco" style="float:left; width: 250px; height:auto;"/>
+          <dl style="padding-top: 100px;">
+            <dt>me</dt>
+            <dd>Salvador de la Puente González</dd>
+            <dt>twitter</dt>
+            <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+            <dt>My web sites</dt>
+            <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/lodr">http://github.com/lodr</a></dd>
+          </dl>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>

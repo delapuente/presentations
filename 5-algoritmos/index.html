@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Cinco algoritmos sencillos de entender que quizá no conozcas</title>
+    <title>5 algorithms easy to understand that you probably don't know</title>
 
-    <meta name="description" content="Ordenación en tiempo lineal, map-reduce, agrupamiento por centroide, PGP, prueba de trabajo.">
+    <meta name="description" content="Linear time sorting, MapReduce, centroid klustering, cryptographic hashes, proof of work.">
     <meta name="author" content="Salvador de la Puente González">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -39,14 +39,14 @@
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
         <section>
-          <h1>5 algoritmos fáciles de entender</h1>
-          <h2>(que quizá no conozcas)</h2>
+          <h1>5 algorithms easy to understand</h1>
+          <h2>(that you probably don't know)</h2>
         </section>
 
         <section>
           <section>
             <img src="imgs/good-code.jpg" />
-            <p>Listado finito de pasos a seguir para resolver un problema.</p>
+            <p>Finite step list to solve a problem.</p>
           </section>
         </section>
 
@@ -59,52 +59,52 @@
 
         <section>
           <section>
-            <h2>Funciones hash criptográficamente seguras</h2>
+            <h2>Safe cryptographic hash functions</h2>
           </section>
 
           <section>
-            <p>Son funciones que relacionan entradas de datos de <strong>tamaño arbitrario</strong> con un número entero de <strong>longitud fija</strong>.</p>
+            <p>Functions to map <strong>arbitrary long</strong> data blobs to <strong>fixed-length</strong> integer numbers.</p>
           </section>
           
           <section>
-            <p>Una función hash criptográfica cumple tres propidades:</p>
+            <p>A cryptographic hash function has three propoerties:</p>
             <ol>
-              <li class="fragment">Resistencia <em>pre-image</em>. Dado un hash, no es factible encontrar <strong>un mensaje con ese hash</strong>.</li>
-              <li class="fragment">Resistencia a la segunda <em>pre-image</em>. Dado un mensaje, no es factible encontrar <strong>otro con el mismo <em>hash</em></strong>.</li>
-              <li class="fragment">Resistencia a las colisiones. No es factible encontrar <strong>dos mensajes con el mismo <em>hash</em></strong>.</li>
+              <li class="fragment"><em>Pre-image</em> resistance. Given a hash, it is note feasible to find <strong>a message with that hash</strong>.</li>
+              <li class="fragment">Second <em>pre-image</em> resistance. Given a message, it is not feasible to find <strong>another message with the same hash</strong>.</li>
+              <li class="fragment">Collision resistance. It is not feasible to find <strong>two messages with the same hash</strong>.</li>
             </ol>
           </section>
           
           <section>
-            <p>Un ligero cambio en el mensaje causa un <strong>cambio total</strong> en el hash.</p>
-            <pre><code>Mensaje: one ring to rule them all
-SHA-2:   f0de86727cf32a37a8f6fdab54a62d1d910db235</code></pre>
-            <pre><code>Mensaje: one ring to rule them al1
-SHA-2:   d302c585c7e212822ed087e949216f9123657ebc</code></pre>
+            <p>A little modification in the message causes a <strong>total change</strong> in the hash.</p>
+            <pre><code>Message: one ring to rule them all
+SHA1:   f0de86727cf32a37a8f6fdab54a62d1d910db235</code></pre>
+            <pre><code>Message: one ring to rule them al1
+SHA1:   d302c585c7e212822ed087e949216f9123657ebc</code></pre>
           </section>
 
           <section>
             <blockquote>With 160 bits, you have 2<sup>160</sup>, or about 10<sup>48</sup> (1 with 48 zeros after it), possible SHA1 hashes. That number is just incomprehensibly huge. Even if you hired a trillion people to produce a trillion new unique blobs per second for a trillion years, you would still only have about 10<sup>43</sup> blobs.<br/>
 If you hashed 2 80 random blobs, you might find a collision.</blockquote>
-<p>&mdash; Del libro <em>Version Control with Git</em></p>
+<p>&mdash; From the book <em>Version Control with Git</em></p>
           </section>
           
           <section>
-            <p>Las funciones hash criptográficas tienen montones de aplicaciones:</p>
+            <p>Cryptographic hash functions has lots of uses:</p>
             <ul>
-              <li class="fragment">Verificar la <strong>integridad</strong> de mensajes.</li>
-              <li class="fragment">Verificación de contraseñas <strong>sin tener que revelarlas</strong>.</li>
-              <li class="fragment">Identificación <strong>inequívoca</strong> de ficheros o datos arbitrarios.</li>
-              <li class="fragment">Generación de números <strong>pseudoaleatorios</strong>.</li>
-              <li class="fragment"><strong>Derivación</strong> de claves.</li>
+              <li class="fragment">Verify message <strong>integrity</strong>.</li>
+              <li class="fragment">Verify password <strong>without transmitting them</strong>.</li>
+              <li class="fragment"><strong>Unequivocal</strong> identifications of files.</li>
+              <li class="fragment"><strong>Pseudorandomly</strong> number generation.</li>
+              <li class="fragment">Key <strong>derivation</strong>.</li>
             </ul>
           </section>
 
           <section>
-            <h3>De interés:</h3>
-            <p>En Wikipedia puede encontrarse una <a href="http://en.wikipedia.org/wiki/List_of_hash_functions#Cryptographic_hash_functions">lista de funciones hash criptográficas</a>.</p>
-            <p>Git usa la función <a src="http://en.wikipedia.org/wiki/SHA-1">SHA1</a> para comprobar si un fichero o directorio ha cambiado.</p>
-            <p>Existen formas de atacar functiones hash como aquel que permite crear <a href="http://eprint.iacr.org/2005/067.pdf">distintos certificados X.509 cuya firma colisione</a>.</p>
+            <h3>Of interest:</h3>
+            <p><a href="http://en.wikipedia.org/wiki/List_of_hash_functions#Cryptographic_hash_functions">List of cryptographic hash functions</a> at Wikipedia.</p>
+            <p>Git uses <a src="http://en.wikipedia.org/wiki/SHA-1">SHA1</a> hash function to check if a folder or file has changed.</p>
+            <p>There are mechanisms to attack hash functions such as that allowing to forge<a href="http://eprint.iacr.org/2005/067.pdf">a couple of X.509 certificates with the same signature</a>.</p>
           </section>
         </section>
 

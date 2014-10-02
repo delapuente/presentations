@@ -1,0 +1,81 @@
+
+
+img.deco {
+  border: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+.reveal {
+  letter-spacing: 0em;
+}
+
+.reveal video {
+  width: 95%;
+  border: 1px #AAA dotted;
+}
+
+code.javascript:before {
+  content: '';
+  display: block;
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  background-image: url(../imgs/html5-logo.png);
+  background-size: 40px 40px;
+}
+
+code,
+.reveal pre {
+  font-size: 0.9em;
+  font-weight: bold;
+  text-shadow: 2px 2px 1px black;
+}
+
+pre code {
+  margin-top: 40px !important;
+}
+
+html.beautiful body {
+  background-image: url(../imgs/beautiful.jpg);
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position: 12% center;
+}
+
+dl dd {
+  color: #13DAEC;
+}
+
+a {
+  text-decoration: underline !important;
+}
+
+.slides section p,
+.slides section li {
+  color: #85ff0C;
+  font-family: "Open Sans", sans;
+  color: #85ff0C;
+  text-shadow: 1px 1px 1px #45540A;
+  line-height: 3.5ex;
+}
+
+p code,
+li code {
+  border: 1px solid #334 !important;
+  background-color: #445;
+  color: #DDD;
+  padding: 0.1em 0.5ex !important;
+  border-radius: 0.2em;
+}
+
+strong {
+  color: #E7AD52;
+}
+
+section.sources li {
+  line-height: 1.1em;
+}

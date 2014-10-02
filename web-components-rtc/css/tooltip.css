@@ -1,0 +1,37 @@
+/* The code for non-JS tooltips:
+http://codepen.io/lodr/pen/BwibA */
+
+[data-tooltip] {
+  position: relative;
+  border-bottom: 0.1rem #666 dashed !important;
+}
+
+[data-tooltip]:hover::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 0.5rem solid transparent;
+  border-top-color: rgba(64, 64, 64, 1.0);
+  position: absolute;
+  top: -0.5rem;
+  left: calc(50% - 1rem);
+}
+
+/* The bubble */
+[data-tooltip]:hover::before {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  white-space: nowrap;
+  text-align: center;
+  font-weight: bold;
+  content: attr(data-tooltip);
+  padding: 0.2rem 0.8rem;
+  background: rgba(64, 64, 64, 0.85);
+  color: #E0E0E0;
+  text-shadow: 0.2rem 0.2rem 0.1rem black;
+  border-radius: 1.5rem;
+  box-shadow: 0 0rem 0.8rem 0.5rem #A0A0A0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
