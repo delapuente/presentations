@@ -2,7 +2,7 @@
 
 ## Method dispatching in Python
 
-[Go to the presentation](http://lodr.github.io/presentations/message-dispatching/index.html)
+[Go to the presentation](http://lodr.github.io/presentations/method-dispatching/index.html)
 
 The presentation remember the importance of method dispatching in OOP in general and in Python in particular thorugh three examples (and two extra) of `__getattribute__()`: dynamic method decoration, typo tolerant APIs and access control to private class members.
 
