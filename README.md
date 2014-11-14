@@ -1,10 +1,16 @@
 # Index of my presentations
 
+## One Encoding To Rule Them All
+
+[Go to the presentation](http://lodr.github.io/presentations/one-encoding-to-rule-them-all/index.html)
+
+Plain text is a legend, a myth. Discover what happen each time you press a letter in _There and Back Again_, what an encoding scheme means and how to deal with codification in Python and JavaScript.
+
 ## Method dispatching in Python
 
 [Go to the presentation](http://lodr.github.io/presentations/method-dispatching/index.html)
 
-The presentation remember the importance of method dispatching in OOP in general and in Python in particular thorugh three examples (and two extra) of `__getattribute__()`: dynamic method decoration, typo tolerant APIs and access control to private class members.
+The presentation remember the importance of method dispatching in OOP in general and in Python in particular thorugh three examples (and two extra) of `__getattribute__()`:  typo tolerant APIs, restricted APIs and access control to private class members.
 
 ## WebRTC & Web Components
 

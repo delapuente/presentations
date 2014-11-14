@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>One Encoding To Rule Them All</title>
+
+    <meta name="description" content="A friendly reminder about codification schemes and text representations in Ptyhon and JavaScript">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/tooltip.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script anchor.jsrc="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <header>
+            <h1>On Encoding To Rule Them All</h1>
+          </header>
+        </section>
+
+        <section>
+          <section>
+            <blockquote>The key in making great and growable systems is much more to design how its modules communicate rather than what their internal properties and behaviors should be.</blockquote>
+            <p>&mdash; Alan Kay on <a href="http://c2.com/cgi/wiki?AlanKayOnMessaging">Messaging</a></p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>There And Back Again</h2>
+          </section>
+
+          <section>
+            <p>Let me tell you a story about the letter <strong>ñ</strong>...</p>
+            <p class="fragment">In its journy <strong>from your will</strong>...</p>
+            <p class="fragment"><strong>to your computer screen</strong>.</p>
+          </section>
+
+          <section>
+            <h3>Prologue</h3>
+            <p>The <strong>ñ</strong> is the 15th letter of
+            the Spanish alphabet. It is a <strong>n</strong> with a diacritical
+            tilde. It's history is tracked to monasteries where the glyph
+            <em>ñ</em> was <strong>a shortcut for <em>nn</em></strong>.</p>
+          </section>
+          
+          <section>
+            <h3>In your mind</h3>
+            <img src="./imgs/nn.jpg"/>
+            <p class="fragment">Everybody has a clear vision of what a
+              <strong>ñ</strong>. Don't you?</p>
+          </section>
+          
+          <section>
+            <h3>The physical keyboard</h3>
+            <p></p>
+            <img src="imgs/keyboard.jpg" >
+            <p class="fragment">The keyboard is agnostic about what letters it
+              has printed on its own surface. It simply sends the
+              <strong>scancode</strong> <code>0x27</code>.</p>
+          </section>
+
+          <section>
+            <p>You can use <code># showkeys --scancodes</code> to inspect the
+              raw scan codes.</p>
+          </section>
+
+          <section>
+            <h3>The abstract keyboard</h3>
+            <img src="./imgs/keycode-map.png" />
+            <p class="fragment"><em>Scancodes</em> are too close to hardware
+              events, so they are translated into more abstract
+              <strong>keycodes</strong>.</p>
+          </section>
+          
+          <section>
+            <p>You can use <code># getkeycodes</code> display the map between
+            scancodes and keycodes.</p>
+          </section>
+          
+          <section>
+            <h3>Language Layouts</h3>
+            <img src="./imgs/keyboard-es.jpg" />
+            <p class="fragment">What is printed on your keyboard must to be
+              known by the system to correctly translate abstract
+              <em>keycodes</em> into <strong>keysym</strong> symbols.</p>
+          </section>
+
+          <section>
+            <p>Here is the
+              <a download="es.map" href="./demo/es.map">mapping table</a> for a
+              QWERTY-Spanish layout.</p>
+          </section>
+          
+          <section>
+            <h3>Text Representation</h3>
+            <img src="./imgs/ntilde-info.png" />
+            <p class="fragment">Once we know the correct symbol, it should be
+              translated to some specific representation, a number in
+              <strong>LATIN-1</strong> or <strong>Unicode</strong> tables.</p>
+          </section>
+          
+          <section>
+            <p>Use <code>dumpkeys | loadkeys -u -m &gt; unicode.h</code> to
+              build the table translating <em>keysyms</em> to code points.</p>
+            <p>Here is the
+              <a download="unicode.h" href="./demo/unicode.h">resulting
+                table</a> for the previous mapping.</p>
+          </section>
+
+          <section>
+            <h3>Text Encoding</h3>
+            <img src="./imgs/encodings.png" />
+            <p class="fragment">Finally, we need an <strong>encoding</strong>:
+              <br/>a scheme to translate numbers to bits.</p>
+          </section>
+          
+          <section>
+            <h3>Echo</h3>
+            <img src="./imgs/lonely-mountain.jpg" style="height: 500px;"/>
+            <p>Thus, the intrepid <strong>ñ</strong> reaches its destination,
+              turned into simple bytes <code>0xc3 0xb1</code>. Now it is time
+              to present itself before the world.</p>
+          </section>
+          
+          <section>
+            <h3>Return to the Representation</h3>
+            <img src="./imgs/ntilde-info.png" />
+            <p class="fragment">Terminals are configured to work with encodings,
+              this case is <strong>UTF-8</strong>. The terminal know how to
+              turn bytes into a Unicode code point.</p>
+          </section>
+          
+          <section>
+            <h3>Fonts: Numbers to Vector Graphics</h3>
+            <img src="./imgs/font-info.png" style="height: 500px;"/>
+            <p class="fragment">The Unicode code point is then looked for
+              <strong>inside the font</strong>. It maps to a vector graphic
+              depicting the symbol.</p>
+          </section>
+          
+          <section>
+            <h3>The Video Buffer</h3>
+            <img src="./imgs/console.png" />
+            <p class="fragment">And finally, the graphic information is put into
+              the <strong>video memory</strong> to be displayed through
+              the screen.</p>
+          </section>
+          
+          <section>
+            <h3>Credits</h3>
+            <ul>
+              <li><a href="http://www.tldp.org/HOWTO/Keyboard-and-Console-HOWTO-2.html">Keyboard generalities</a></li>
+              <li><a href="http://www.tldp.org/HOWTO/Keyboard-and-Console-HOWTO-3.html">Console generalities</a></li>
+              <li><a href="https://wiki.archlinux.org/index.php/Map_scancodes_to_keycodes">Map scancodes to keycodes</a></li>
+            </ul>
+          </section>
+          
+        </section>
+
+        <section>
+          <section>
+            <h2>Unicode</h2>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Text in Programming Languages</h2>
+          </section>
+        </section>
+        
+        <section>
+          <section>
+            <h2>Handling Emoji in JavaScript</h2>
+          </section>
+        </section>
+        
+        <section>
+          <h2>Further reading</h2>
+          <ul>
+            <li><a href="http://c2.com/cgi/wiki?AlanKayOnMessaging">Alan Kays on Messaging</a></li>
+          </ul>
+        </section>
+        
+        <section>
+          <h2>About me</h2>
+          <img src="imgs/perezalva.png" class="deco" style="float:left; width: 250px; height:auto;"/>
+          <dl style="padding-top: 100px;">
+            <dt>me</dt>
+            <dd>Salvador de la Puente González</dd>
+            <dt>twitter</dt>
+            <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+            <dt>My web sites</dt>
+            <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/lodr">http://github.com/lodr</a></dd>
+          </dl>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
