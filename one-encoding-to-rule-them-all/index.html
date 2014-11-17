@@ -164,6 +164,11 @@
               <strong>inside the font</strong>. It maps to a vector graphic
               depicting the symbol.</p>
           </section>
+
+          <section>
+            <p>Use <code>$ gucharmap</code> to display the utility to explore
+            installed fonts.</p>
+          </section>
           
           <section>
             <h3>The Video Buffer</h3>
@@ -179,6 +184,7 @@
               <li><a href="http://www.tldp.org/HOWTO/Keyboard-and-Console-HOWTO-2.html">Keyboard generalities</a></li>
               <li><a href="http://www.tldp.org/HOWTO/Keyboard-and-Console-HOWTO-3.html">Console generalities</a></li>
               <li><a href="https://wiki.archlinux.org/index.php/Map_scancodes_to_keycodes">Map scancodes to keycodes</a></li>
+              <li><a href="http://en.wikipedia.org/wiki/Scancode">Scancodes on Wikipedia</a></li>
             </ul>
           </section>
           
@@ -188,11 +194,214 @@
           <section>
             <h2>Unicode</h2>
           </section>
+          
+          <section>
+            <p>It is an effort to create a table of characters for most of the 
+              writing systems on Earth (and beyond) and a set of rules for
+              normalization, decomposition, collation, rendering and
+              bidirectional display order.</p>
+          </section>
+          
+          <section>
+            <p>But the core component is no more than <strong>an humongous
+              table</strong>: 1.114.112 entries in total from
+              <code>U+0000</code> to <code>U+10FFFF</code>. Here is how
+              it is organized...</p>
+          </section>
+
+          <section>
+            <h3>Codepoints</h3>
+            <p>Each entry in the table is said to be a <strong>grapheme</strong>.
+              A grapheme is the smallest unit in a written language. Each
+              grapheme has an assigned <strong>code point</strong> in the 
+              Unicode's code space of 1.114.112 values. They are designated by 
+              the prefix <code>U+</code> followed by its hexadecimal
+              representation.</p>
+          </section>
+          
+          <section>
+            <h3>Planes</h3>
+            <p>Unicode is divided into 17 planes, each of 65.536 code points.</p>
+            <p>Graphemes inside each plane are grouped by similarity.</p>
+            <p>Unicode overlaps <a href="http://en.wikipedia.org/wiki/ASCII">ASCII</a> &amp;
+              <a href="http://en.wikipedia.org/wiki/Universal_Character_Set">Universal Character Set</a>.</p>
+          </section>
+
+          <section>
+            <img src="./imgs/bmp.png" style="height: 600px;"/>
+            <p>The <strong>plane 0</strong> is called
+              <strong>Basic Multilingual Plane</strong>
+              and comprises most of the modern languages in the world.</p>
+          </section>
+
+          <section>
+            <img src="./imgs/smp.png" styel="height: 600px;" />
+            <p>The <strong>plane 1</strong> is called
+              <strong>Supplementary Multilingual Plane</strong>
+              and comprises historycal scripts, mathematical alphanumerics,
+              Emoji and game symbols.</p>
+          </section>
+
+          <section>
+            <p>Plane 2 is called the <strong>Supplementary Ideographic
+              Plane</strong> and holds
+              <a href="http://en.wikipedia.org/wiki/CJK_Unified_Ideographs">CJK Unified Ideographs</a>.</p>
+          </section>
+
+          <section>
+            <p>Planes <strong>3 to 13</strong> are unused.</p>
+          </section>
+
+          <section>
+            <p>Plane 14 is the <strong>Supplementary Special-purpose
+              Plane</strong> intended to hold special language tags.</p>
+          </section>
+
+          <section>
+            <p>Planes 15-16 are reserved for third parties to add their
+            own glyphs. Commonly used by fonts to describe building blocks for
+            other characters.</p>
+          </section>
+
+          <section>
+            <h3>Curiosities</h3>
+            <ul>
+              <li>There are <a href="http://en.wikipedia.org/wiki/Duplicate_characters_in_Unicode">duplicates</a>
+              in Unicode.</li>
+              <li>Planes beyond 0 are called <em><strong>astral planes</strong></em>.</li>
+              <li>The <a href="http://www.kreativekorp.com/ucsur/">ConScript initiative</a>
+                aims to integrate fictional languages such as
+                <a href="http://en.wikipedia.org/wiki/Tengwar">Tengwar</a> or
+                <a href="http://en.wikipedia.org/wiki/Klingon_language">Klingon</a>
+                inside the Unicode table, in some areas of BMP and planes 15 and 16.</li>
+              <li>The standard can be modified outside (as in the case 
+                of the
+                <a href="https://github.com/jloughry/Unicode">power symbol</a>)
+                the committee.</li>
+            </ul>
+          </section>
+          
+          <section>
+            <h3>Encodings</h3>
+            <p>You need some way to transmit the codepoints. For instance,
+              you could use 4 bytes to encode any of the Unicode code points
+              now and future.</p>
+          </section>
+          
+          <section>
+            <p>Suppose you want to transmit:</p>
+            <pre>España</pre>
+            <p>You need to transmit the code points:</p>
+            <pre>U+0045 U+0073 U+0070 U+0061 U+00F1 U+0061</pre>
+            <p>And you could use a 32 bit encoding for that:</p>
+            <pre>00000045 00000073 00000070 00000061 000000F1 00000061</pre>
+          </section>
+          
+          <section>
+            <p>This is indeed the
+              <strong><a href="http://en.wikipedia.org/wiki/UTF-32">UTF-32</a></strong>
+              encoding format which is a direct representation of the Unicode
+              table.</p>
+            <p>Each chunk of bits used to encode a code point is named a
+              <strong>code unit</strong>.</p>
+          </section>
+          
+          <section>
+            <p>The problem is you're using 48 bytes to encode a 6-letter word.</p>
+            <p class="fragment">And you are using an encoding scheme which
+              takes into account room for <strong>10 unused planes!</strong></a>
+          </section>
+          
+          <section>
+            <p>So there are other more economic ways to encode the same text.</p>
+          </section>
+          
+          <section>
+            <h4>UCS-16 / UCS-2</h4>
+            <ul>
+              <li>Actually, UCS-16 does not exist. It refers to UCS-2.</li>
+              <li>The number 2 stands for <strong>2 bytes</strong>.</li>
+              <li>It's the default encoding for the Universar Character Set.</li>
+              <li>It covered all the <em>UCS</em> code space but <strong>only
+                the BMP in Unicode</strong>.</li>
+              <li>It is how <strong>JavaScript</strong> exposes strings.</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>For the <code>España</code> example, the encoded message reads as
+              follows:</p>
+            <pre>0045 0073 0070 0061 00F1 0061</pre>
+            <p class="fragment">You should considerate the <strong>endianness</strong> as well!</p>
+          </section>
+          
+          <section>
+            <h4>UTF-16</h4>
+            <ul>
+              <li>The number 16 stands for <strong>16 bits</strong>.</li>
+              <li>It's and extension over UCS-2.</li>
+              <li>By using pairs of <strong>surrogates</strong> it can encode
+                all the Unicode space.</li>
+              <li>Surrogates are pairs of code units that <strong>share the
+                representation of the code point</strong>.</li>
+              <li>The <a href="en.wikipedia.org/wiki/UTF-16#Code_points_U.2B010000_to_U.2B10FFFF">way they encode the code point</a> limits Unicode to the 
+                weird 1.114.112 different values it has.</li>
+              <li>Actually, surrogate code points are considered into Unicode
+                and they will be never assigned to a grapheme.</li>
+            </ul>
+          </section>
+          
+          <section>
+            <h4>UTF-8</h4>
+            <ul>
+              <li>The number 8 stands for <strong>8 bits</strong>.</li>
+              <li>It's quite popular among the World Wide Web.</li>
+              <li>It's not based on surrogated pairs but in a special encoding
+                that allows: ASCII characters to be represented by 1 byte; 
+                <strong>almost all Western Europe languages with 2
+                  bytes</strong>; Asian and Ideographic Languages with 3 bytes
+                and the rest of the table with 4 bytes.</li>
+              <li>It is how <strong>Python 3</strong> exposes strings by default</li>
+            </ul>
+          </section>
+          
+          <section>
+            <p>The UTF-8 encoding is designed to expose a bunch of 
+              <a href="http://en.wikipedia.org/wiki/UTF-8#Description">desired
+              properties</a> for an encoding scheme...</p>
+         </section>
+
+         <section>
+            <p>For multibyte representations, the first leading byte include as
+              many <code>1</code> bits as the number of bytes needed to encode
+              the code point plus a <code>0</code>. The rest of <code>n</code>
+              bits contains the first <code>n</code> bits of the code point.</p>
+        </section>
+
+        <section>
+            <p>Following bytes start by <code>10</code> and complete the byte
+              with the following 6 bits of the code point. Code points are
+              padded with <code>0</code> bits when needed.</p>
+          </section>
+          
+          <section>
+            <p>For the <code>España</code> example, this time the encoded
+              message reads as follows:</p>
+            <pre>45 73 70 61 C3B1 61</pre>
+            <p>The <strong>ñ</strong> is encoded this way:</p>
+            <pre>Code point: U+00F1
+Binary: 00000000 11110001
+UTF-8 : 11000011 10110001
+Hex   :    C   3    B   1</pre>
+          </section>
         </section>
 
         <section>
           <section>
-            <h2>Text in Programming Languages</h2>
+            <header>
+              <h2>Text in Programming Languages</h2>
+              <h3>(or there is no such thing as plain text)</h3>
+            </header>
           </section>
         </section>
         
@@ -205,7 +414,11 @@
         <section>
           <h2>Further reading</h2>
           <ul>
-            <li><a href="http://c2.com/cgi/wiki?AlanKayOnMessaging">Alan Kays on Messaging</a></li>
+            <li><a href="http://en.wikipedia.org/wiki/Unicode">Unicode at Wikipedia</a></li>
+            <li><a href="http://en.wikipedia.org/wiki/Plane_(Unicode)">Planes</a> of Unicode</li>
+            <li><a href="http://www.diveintopython3.net/strings.html">Strings</a> (from Dive into Python 3)</li>
+            <li><a href="https://docs.python.org/3.4/howto/unicode.html">Unicode HOWTO</a> (from Python documentation)</li>
+            <li><a href="https://mathiasbynens.be/notes/javascript-encoding">JavaScript’s internal character encoding: UCS-2 or UTF-16?</a></l>
           </ul>
         </section>
         
