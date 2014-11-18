@@ -46,8 +46,8 @@
 
         <section>
           <section>
-            <blockquote>The key in making great and growable systems is much more to design how its modules communicate rather than what their internal properties and behaviors should be.</blockquote>
-            <p>&mdash; Alan Kay on <a href="http://c2.com/cgi/wiki?AlanKayOnMessaging">Messaging</a></p>
+            <blockquote>Il n'y a pas de hors-texte</blockquote>
+            <p>&mdash; <a href="http://en.wikipedia.org/wiki/Jacques_Derrida">Derrida</a>, French philosopher</p>
           </section>
         </section>
 
@@ -399,27 +399,217 @@ Hex   :    C   3    B   1</pre>
         <section>
           <section>
             <header>
-              <h2>Text in Programming Languages</h2>
-              <h3>(or there is no such thing as plain text)</h3>
+              <h2>Handling Emoji in JavaScript</h2>
+              <h3>A case of study</h3>
             </header>
           </section>
+
+          <section>
+            <blockquote>
+              Given a message in UTF-8 with emoji, translate it to HTML
+              mixing text and images.
+            </blockquote>
+          </section>
+
+          <section>
+            <p>JavaScript Harmony (ES 6) is including a lot
+              of text related functions and upgrading its encoding scheme to
+              <strong>UTF-16</strong>!</p>
+          </section>
+          
+          <section>
+            <p>But in current JavaScript, the encoding is UCS-2 and that means
+            Emoji characters (plane 3) are out of the code space...</p>
+          </section>
+          
+          <section>
+            <p>So we will use <a href="https://github.com/iamcal/emoji-data">images from an Emoji database</a> instead!</p>
+          </section>
+          
+          <section>
+            <p>So, the idea is quite simple: first <strong>decode UTF-8 to
+                Unicode</strong> code points and pass through them creating text
+                nodes for text and <strong>styled elements for emoji</strong>.</p>
+          </section>
+          
+          <section>
+            <h3>What is an Emoji?</h3>
+            <p><a href="http://en.wikipedia.org/wiki/Emoji">Emoji</a> are
+              pictographs (from "picture" <em>e</em> and
+              "character" <em>moji</em>) first provided by
+              the NTT DoCoMo mobile operator in Japan to ease by-message
+            communications.</p>
+          </section>
+
+          <section>
+            <p>Not all the original Emoji are in Unicode but some of them
+              reside with other symbols in the 3rd plane of Unicode, between
+              <code>U+1F300</code> and <code>U+27B0</code>.</p>
+          </section>
+          
+          <section>
+            <h3>Where to find information about Emoji</h3>
+            <p>There are several initiatives about compiling and documenting
+              Emoji. One that provides tools to generate CSS files is
+              <a href="https://github.com/iamcal/js-emoji">js-emoji</a> on
+              GitHub (it's actually a library to display Emoji and takes
+              the data from
+              <a href="https://github.com/iamcal/emoji-data">emoji-data</a>)
+              but there are other.</p>
+          </section>
+
+          <section>
+            <h3>Step 1: reading UTF-8 as data</h3>
+            <p>The original UTF-8 message is:</p>
+            <pre>42 75 65 6e 6f 20 f0 9f  98 89 2c 20 68 65 20 61
+71 75 c3 ad 20 75 6e 20  f0 9f 93 9d 20 65 6e 20
+f0 9f 87 aa f0 9f 87 b8  20 63 6f 6e 20 61 6c 67
+75 6e 6f 73 20 f0 9f 98  80 2c 20 f0 9f 86 97 3f
+3f</pre>
+          </section>
+
+          <section>
+            <p>When encoding is not provided, most of browsers attempt to
+              decode the data. And they do really well! But we don't leave
+              the browser to work for us.</p>
+          </section>
+          
+          <section>
+            <p>So we are using a special <code>XMLHttpRequest</code>:</p>
+            <pre><code class="javascript">function get(url) {
+  return new Promise(function (resolve) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = function () {
+      resolve(new Uint8Array(xhr.response));
+    };
+    xhr.send();
+  });
+}</code></pre>
+          </section>
+
+          <section>
+            <h3>Step 2: Decode to a Unicode object</h3>
+            <p>Once we have a buffer with the raw bytes, lets translate
+              it into a Unicode object such as an array of code points.</p>
+            <pre><code class="javascript">function decodeToUnicode(utf8data) {
+  var codepoints = [];
+  var i = 0, codeunit;
+  var b0, b1, b2, b3;
+  while (i &lt; utf8data.length) {
+    codeunit = utf8data[i];
+    /* code unit handling */
+  }
+  return codepoints;
+}</code></pre>
+          </section>
+
+          <section>
+            <p>The only thing we need to know is if the code
+              unit is lower than 128, it is an ASCII byte.<p>
+            <pre><code class="javascript">if (codeunit &lt; 0x80) {
+  codepoints.push(codeunit);
+  i += 1;
+}</code></pre>
+          </section>
+          
+          <section>
+            <p>If not, the code point will be represented with at least 2 code
+              units at least. The first one will include as leading
+              <code>1</code> as code units used to encode the code point, a
+              <code>0</code> and the first bits of the code point in the
+              remaining free bits.</p>
+          </section>
+          
+          <section>
+            <p>Remaining code units start by <code>10</code> and include
+            chunks of the next 6 bits of the code point.</p>
+          </section>
+          
+          <section>
+            <p>So for a code point requiring 4 code units:</p>
+            <pre><code class="javascript">// 4 code units for a glyph
+if (codeunit &gt;= 0xf0) {
+  b3 = (codeunit &amp; 0x07) &lt;&lt; 18;
+  b2 = (utf8data[i+1] &amp; 0x3f) &lt;&lt; 12;
+  b1 = (utf8data[i+2] &amp; 0x3f) &lt;&lt; 6;
+  b0 = (utf8data[i+3] &amp; 0x3f);
+  codepoints.push(b3 | b2 | b1 | b0);
+  i += 4;
+}</code></pre>
+          </section>
+
+          <section>
+            <h3>Step 3: Translate to HTML</h3>
+            <p>Now we have an array of code points, the message could be
+            divised:</p>
+            <pre><code class="javascript">[66, 117, 101, 110, 111, 32,
+128521, 44, 32,
+104, 101, 32,
+97, 113, 117, 237, 32,
+117, 110, 32,
+128221, 32,
+101, 110, 32,
+127466, 127480, 32,
+99, 111, 110, 32,
+97, 108, 103, 117, 110, 111, 115, 32,
+128512, 44, 32,
+127383, 63, 63]</code></pre>
+          </section>
+
+          <section>
+            <p>Emoji are code points above the BMP (greater than 65535).</p>
+          </section>
+          
+          <section>
+            <p>But have you notice those two consecutive codes
+              <code>127466</code> and <code>127480</code>?</p>
+          </section>
+
+          <section>
+            <p>They are called <a href="http://en.wikipedia.org/wiki/Regional_Indicator_Symbol">Regional Indicator Symbols</a>
+              and provide a way to represent countries.</p>
+          </section>
+
+          <section>
+            <p>They are actually two symbols and is the system who is in
+              charge of replacing them with a flag or whatever.</p>
+          </section>
+
+          <section>
+            <p>You can <a download="emoji.js" href="./demo/emojis/emoji.js">download the complete source</a> for the example.</p>
+            <p>The <a href="./demo/emojis/">demo folder</a> can be <a href="https://github.com/lodr/presentations/tree/master/one-encoding-to-rule-them-all/demo/emojis">found at GitHub</a> as well.</p>
+          </section>
+          
         </section>
         
         <section>
           <section>
-            <h2>Handling Emoji in JavaScript</h2>
+            <h2>Important Lessons</h2>
+            <ul>
+              <li><strong>There is no</strong> such thing as <strong>plain text</strong>!</li>
+              <li>Converting text into bytes is <strong>to encode</strong>.</li>
+              <li>Converting bytes into text is <strong>to decode</strong>.</li>
+              <li>Files does not include the encoding unless <strong>explicitly
+              provided</strong>.</li>
+              <li>To process text we <strong>must to be provided</strong>
+                with the correct encoding.</li>
+            </ul>
           </section>
-        </section>
-        
-        <section>
-          <h2>Further reading</h2>
-          <ul>
-            <li><a href="http://en.wikipedia.org/wiki/Unicode">Unicode at Wikipedia</a></li>
-            <li><a href="http://en.wikipedia.org/wiki/Plane_(Unicode)">Planes</a> of Unicode</li>
-            <li><a href="http://www.diveintopython3.net/strings.html">Strings</a> (from Dive into Python 3)</li>
-            <li><a href="https://docs.python.org/3.4/howto/unicode.html">Unicode HOWTO</a> (from Python documentation)</li>
-            <li><a href="https://mathiasbynens.be/notes/javascript-encoding">JavaScript’s internal character encoding: UCS-2 or UTF-16?</a></l>
-          </ul>
+          
+          <section>
+            <h3>Further reading</h3>
+            <ul>
+              <li><a href="http://en.wikipedia.org/wiki/Unicode">Unicode at Wikipedia</a></li>
+              <li><a href="http://en.wikipedia.org/wiki/Plane_(Unicode)">Planes</a> of Unicode</li>
+              <li><a href="http://www.diveintopython3.net/strings.html">Strings</a> (from Dive into Python 3)</li>
+              <li><a href="https://docs.python.org/3.4/howto/unicode.html">Unicode HOWTO</a> (from Python documentation)</li>
+              <li><a href="https://mathiasbynens.be/notes/javascript-encoding">JavaScript’s internal character encoding: UCS-2 or UTF-16?</a></l>
+              <li><a href="https://leanpub.com/understandinges6/read/#leanpub-auto-better-unicode-support">Better Unicode Support</a> in Understanding ECMAScript 6</li>
+              <li><a href="https://www.youtube.com/watch?v=sTzp76JXsoY">Why Do Flag Emoji Count As Two Characters?</a> on YouTube</li>
+            </ul>
+          </section>
         </section>
         
         <section>
