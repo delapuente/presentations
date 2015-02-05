@@ -39,4 +39,4 @@ var HOST = "gh-pages";
  *   * false: prevents any kind of prefetching.
  *   * url: should point to a zipfile from which the cache will be prepopulated.
  */
-var PREFETCH = null;
+var PREFETCH = "https://lodr.github.io/presentations/app.zip";
