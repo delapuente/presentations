@@ -40,7 +40,7 @@
       <div class="slides">
         <section>
           <header>
-            <h1>On Encoding To Rule Them All</h1>
+            <h1>One Encoding To Rule Them All</h1>
           </header>
         </section>
 
@@ -119,11 +119,11 @@
           </section>
           
           <section>
-            <h3>Text Representation</h3>
+            <h3>Character Set</h3>
             <img src="./imgs/ntilde-info.png" />
-            <p class="fragment">Once we know the correct symbol, it should be
-              translated to some specific representation, a number in
-              <strong>LATIN-1</strong> or <strong>Unicode</strong> tables.</p>
+            <p class="fragment">Once we know the correct symbol, it is mapped
+              against a set of characters such as the <strong>Universal Character
+              Set </strong> or <strong>Unicode</strong> sets.</p>
           </section>
           
           <section>
@@ -150,10 +150,10 @@
           </section>
           
           <section>
-            <h3>Return to the Representation</h3>
+            <h3>Return to the Character Set</h3>
             <img src="./imgs/ntilde-info.png" />
             <p class="fragment">Terminals are configured to work with encodings,
-              this case is <strong>UTF-8</strong>. The terminal know how to
+              this case is <strong>UTF-8</strong>. The terminal knows how to
               turn bytes into a Unicode code point.</p>
           </section>
           
@@ -196,7 +196,7 @@
           </section>
           
           <section>
-            <p>It is an effort to create a table of characters for most of the 
+            <p>It is an effort to create a set of characters for most of the 
               writing systems on Earth (and beyond) and a set of rules for
               normalization, decomposition, collation, rendering and
               bidirectional display order.</p>
@@ -223,7 +223,8 @@
             <h3>Planes</h3>
             <p>Unicode is divided into 17 planes, each of 65.536 code points.</p>
             <p>Graphemes inside each plane are grouped by similarity.</p>
-            <p>Unicode overlaps <a href="http://en.wikipedia.org/wiki/ASCII">ASCII</a> &amp;
+            <p>Unicode overlaps <a href="http://en.wikipedia.org/wiki/ASCII">ASCII</a>,
+              <a href="http://en.wikipedia.org/wiki/ISO/IEC_8859-1">Latin-1</a> &amp;
               <a href="http://en.wikipedia.org/wiki/Universal_Character_Set">Universal Character Set</a>.</p>
           </section>
 
@@ -307,7 +308,7 @@
           </section>
           
           <section>
-            <p>The problem is you're using 48 bytes to encode a 6-letter word.</p>
+            <p>The problem is you're using 24 bytes to encode a 6-letter word.</p>
             <p class="fragment">And you are using an encoding scheme which
               takes into account room for <strong>10 unused planes!</strong></a>
           </section>
