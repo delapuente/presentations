@@ -94,7 +94,7 @@ function populateFromRemoteZip(zipURL) {
     //});
   //});
   //return readZip;
-  return fetch(zipURL).then(console.log.bind(console));
+  return fetch(zipURL).then(console.log.bind(console), console.error.bind(console));
 }
 
 // Intercept requests to network.
