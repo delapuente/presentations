@@ -21,7 +21,7 @@ catch (e) {
 
   // Process auto prefetch configuration
   if (HOST === 'gh-pages') {
-    PREFETCH = getZipURLFromGHPages(window.location);
+    PREFETCH = getZipURLFromGHPages(location);
   }
 
   function getZipURLFromGHPages(url) {
