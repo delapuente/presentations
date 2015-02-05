@@ -82,17 +82,18 @@ function digestPreFetch() {
 }
 
 function populateFromRemoteZip(zipURL) {
-  var readZip = new Promise(function (accept, reject) {
-    zip.createReader(new zip.HttpReader(zipURL), function(reader) {
-      reader.getEntries(function(entries) {
-        console.log(entries);
-        accept(entries);
-      });
-    }, function(error) {
-      reject(error);
-    });
-  });
-  return readZip;
+  //var readZip = new Promise(function (accept, reject) {
+    //zip.createReader(new zip.HttpReader(zipURL), function(reader) {
+      //reader.getEntries(function(entries) {
+        //console.log(entries);
+        //accept(entries);
+      //});
+    //}, function(error) {
+      //reject(error);
+    //});
+  //});
+  //return readZip;
+  return fetch(zipURL).then(console.log.bind(console));
 }
 
 // Intercept requests to network.
