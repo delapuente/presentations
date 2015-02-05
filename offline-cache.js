@@ -1,6 +1,11 @@
 
 // Import the configuration file.
-importScripts('cache.js');
+try {
+  importScripts('cache.js');
+}
+catch (e) {
+  var NETWORK_ONLY = {};
+}
 
 (function digestConfigFile() {
   var origin = self.location.origin;
