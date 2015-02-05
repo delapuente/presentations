@@ -1,3 +1,14 @@
+// Import plugins
+importScripts('offliner-plugins/zip.js/zip.js'); // exports zip
+zip.workerScriptsPath = getDir() + 'offliner-plugins/zip.js/';
+
+function getDir() {
+  var currentPath = self.location.pathname;
+  var tokens = currentPath.split('/');
+  tokens.pop();
+  var currentDir = tokens.join('/');
+  return currentDir + '/';
+}
 
 // Import the configuration file.
 try {
@@ -21,7 +32,7 @@ catch (e) {
 
   // Process auto prefetch configuration
   if (HOST === 'gh-pages') {
-    PREFETCH = getZipURLFromGHPages(location);
+    PREFETCH = getZipURLFromGHPages(self.location);
   }
 
   function getZipURLFromGHPages(url) {
@@ -64,6 +75,23 @@ function cacheNetworkOnly() {
 }
 
 function digestPreFetch() {
+  if (/\.zip/.test(PREFETCH)) {
+    return populateFromRemoteZip(PREFETCH);
+  }
+}
+
+function populateFromRemoteZip(zipURL) {
+  var readZip = new Promise(function (accept, reject) {
+    zip.createReader(new zip.HttpReader(zipURL), function(reader) {
+      reader.getEntries(function(entries) {
+        console.log(entries);
+        accept(entries);
+      });
+    }, function(error) {
+      reject(error);
+    });
+  });
+  return readZip;
 }
 
 // Intercept requests to network.
