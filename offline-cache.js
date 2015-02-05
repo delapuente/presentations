@@ -76,7 +76,8 @@ function cacheNetworkOnly() {
 }
 
 function digestPreFetch() {
-  if (/\.zip$/.test(PREFETCH)) {
+  // is a protocol?
+  if (/.+:\/\/.+/.test(PREFETCH)) {
     return populateFromRemoteZip(PREFETCH);
   }
 }
