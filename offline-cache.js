@@ -18,6 +18,24 @@ catch (e) {
       NETWORK_ONLY[url] = new self.URL(fallback, origin).href;
     }
   });
+
+  // Process auto prefetch configuration
+  if (HOST === 'gh-pages') {
+    PREFETCH = getZipURLFromGHPages(window.location);
+  }
+
+  function getZipURLFromGHPages(url) {
+    var username = url.host.split('.')[0];
+    var repo = url.pathname.split('/')[1];
+    return getZipFromGHData(username, repo, 'gh-pages');
+  }
+
+  function getZipFromGHData(username, repo, branch) {
+    var path = [username, repo, 'archive', branch + '.zip'].join('/');
+    return 'https://github.com/' + path;
+  }
+
+  console.log('PREFETCH:', PREFETCH);
 }());
 
 self.addEventListener('install', function (event) {
