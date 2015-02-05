@@ -1,5 +1,6 @@
 // Import plugins
 importScripts('offliner-plugins/zip.js/zip.js'); // exports zip
+importScripts('offliner-plugins/zip.js/zip-ext.js');
 zip.workerScriptsPath = getDir() + 'offliner-plugins/zip.js/';
 
 function getDir() {
