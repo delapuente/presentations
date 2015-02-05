@@ -31,7 +31,7 @@ catch (e) {
   });
 
   // Process auto prefetch configuration
-  if (HOST === 'gh-pages') {
+  if (typeof PREFETCH === 'undefined' && HOST === 'gh-pages') {
     PREFETCH = getZipURLFromGHPages(self.location);
   }
 
@@ -75,7 +75,7 @@ function cacheNetworkOnly() {
 }
 
 function digestPreFetch() {
-  if (/\.zip/.test(PREFETCH)) {
+  if (/\.zip$/.test(PREFETCH)) {
     return populateFromRemoteZip(PREFETCH);
   }
 }
