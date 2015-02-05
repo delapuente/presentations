@@ -1,7 +1,15 @@
+// Convenient shortcuts
+['log', 'warn', 'error'].forEach(function (method) {
+  self[method] = console[method].bind(console);
+});
+
 // Import plugins
+//importScripts('offliner-plugins/XMLHttpRequest.js');
 importScripts('offliner-plugins/zip.js/zip.js'); // exports zip
 importScripts('offliner-plugins/zip.js/zip-ext.js');
-zip.workerScriptsPath = getDir() + 'offliner-plugins/zip.js/';
+importScripts('offliner-plugins/zip.js/deflate.js');
+importScripts('offliner-plugins/zip.js/inflate.js');
+zip.useWebWorkers = false;
 
 function getDir() {
   var currentPath = self.location.pathname;
@@ -94,7 +102,11 @@ function populateFromRemoteZip(zipURL) {
     //});
   //});
   //return readZip;
-  return fetch(zipURL).then(console.log.bind(console), console.error.bind(console));
+  return fetch(zipURL, {mode:'no-cors'}).then(function (response) {
+    return response.arrayBuffer().then(function (buffer) {
+      log(buffer.byteLength);
+    });
+  }, error);
 }
 
 // Intercept requests to network.
