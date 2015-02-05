@@ -55,7 +55,7 @@ self.addEventListener('install', function (event) {
 
 self.addEventListener('activate', function (event) {
   console.log('Offline cache activated at ' + new Date() + '!');
-  event.waitUntil(prefetch);
+  event.waitUntil(prefetch());
 });
 
 function prefetch() {
