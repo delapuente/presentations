@@ -31,7 +31,7 @@ catch (e) {
   });
 
   // Process auto prefetch configuration
-  if (typeof PREFETCH === 'undefined' && HOST === 'gh-pages') {
+  if (PREFETCH === null && HOST === 'gh-pages') {
     PREFETCH = getZipURLFromGHPages(self.location);
   }
 
