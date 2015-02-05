@@ -43,8 +43,8 @@ catch (e) {
   }
 
   function getZipFromGHData(username, repo, branch) {
-    var path = [username, repo, 'archive', branch + '.zip'].join('/');
-    return 'https://github.com/' + path;
+    var path = [username, repo, 'zip', branch].join('/');
+    return 'https://codeload.github.com/' + path;
   }
 
   console.log('PREFETCH:', PREFETCH);
