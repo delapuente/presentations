@@ -29,7 +29,7 @@ XMLHttpRequest.prototype = {
       response = response.clone();
       Object.defineProperty(that, '_response', { value: response });
       if (that.responseType === '') {
-        responseType.text().then(copyBody);
+        response.text().then(copyBody);
       }
       else if (that.responseType === 'arraybuffer') {
         response.arrayBuffer().then(copyBody);
