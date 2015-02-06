@@ -50,12 +50,12 @@ catch (e) {
     PREFETCH = [];
   }
   PREFETCH = PREFETCH.map(function (option) {
-    if (typeof option === 'string') { return option; }
     if (typeof option === 'object' && option.type === 'gh-pages') {
       option.type = 'zip';
       option.url = getZipURLFromGHPages(self.location);
       return option;
     }
+    return option;
   });
 
   function getZipURLFromGHPages(url) {
