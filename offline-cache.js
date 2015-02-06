@@ -144,7 +144,11 @@ function cacheNetworkOnly() {
 function digestPreFetch() {
   var digestion = Promise.resolve();
   PREFETCH.forEach(function (option) {
-    if (option.type === 'zip') {
+    if (typeof option === 'string') {
+      var url = absoluteURL(option);
+      populateFromURL(url);
+    }
+    else if (option.type === 'zip') {
       var zipURL = absoluteURL(option.url);
       digestion = digestion.then(function () {
         return populateFromRemoteZip(zipURL);
@@ -152,6 +156,13 @@ function digestPreFetch() {
     }
   });
   return digestion;
+}
+
+function populateFromURL(url) {
+  return caches.open('my-cache').then(function (offlineCache) {
+    var request = new Request(fetchingURL(url), { mode: 'no-cors'  });
+    return fetch(request).then(offlineCache.put.bind(offlineCache, request));
+  });
 }
 
 // Fetch a remote ZIP, deflates it and add the routes to the cache
@@ -177,18 +188,24 @@ function deflateInCache(entries) {
     var logProgress = getProgressLogger(entries);
     return Promise.all(entries.map(function deflateFile(entry) {
       var promise;
-      promise = new Promise(function (accept) {
-        entry.getData(new zip.BlobWriter(), function(content) {
-          var filename = entry.filename;
-          var headers = new Headers();
-          headers.append('Content-Type', getMIMEType(filename));
-          var response = new Response(content, { headers: headers });
-          var url = absoluteURL(join(root, filename));
-          offlineCache.put(url, response)
-            .then(logProgress)
-            .then(accept);
+      if (entry.directory) {
+        logProgress();
+        promise = Promise.resolve();
+      }
+      else {
+        promise = new Promise(function (accept) {
+          entry.getData(new zip.BlobWriter(), function(content) {
+            var filename = entry.filename;
+            var headers = new Headers();
+            headers.append('Content-Type', getMIMEType(filename));
+            var response = new Response(content, { headers: headers });
+            var url = absoluteURL(join(root, filename));
+            offlineCache.put(url, response)
+              .then(logProgress)
+              .then(accept);
+          });
         });
-      });
+      }
       return promise;
     }));
   });
@@ -227,7 +244,7 @@ function isNetworkOnly(request) {
 // Try to fetch from network, if no response go to the cache if there is a
 // fallback resource or fails.
 function responseThroughNetworkOnly(request) {
-  return fetch(fetchingURL(request.url)).catch(function () {
+  return fetch(fetchingRequest(request)).catch(function () {
     var fallback = NETWORK_ONLY[request.url];
     if (typeof fallback === 'string') {
       return responseThroughCache(new Request(fallback));
@@ -252,19 +269,23 @@ function doBestEffort(request) {
       console.log(error);
     });
 
-    var fetchingRequest = request.clone();
-    var url = fetchingURL(request.url);
-    fetchingRequest.url = url;
-    var remoteRequest = fetch(fetchingRequest).then(function (remoteResponse) {
-      offlineCache.put(request, remoteResponse.clone());
-      return remoteResponse;
-    });
+    var remoteRequest = fetch(fetchingRequest(request))
+      .then(function (remoteResponse) {
+        offlineCache.put(request, remoteResponse.clone());
+        return remoteResponse;
+      });
 
     var bestEffort = remoteRequest.catch(function () {
       return localRequest;
     });
     return bestEffort;
   });
+}
+
+function fetchingRequest(request) {
+  var newRequest = request.clone();
+  newRequest.url = fetchingURL(request.url);
+  return newRequest;
 }
 
 // Normalizes the url to be fetched.

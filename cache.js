@@ -33,4 +33,8 @@ var NETWORK_ONLY = {};
  *   it to prepopulate the cache. Remember the ZIP file should be located under
  *   the same origin or without CORS.
  */
-var PREFETCH = { type: "zip", url: "presentations/app.zip" };
+var PREFETCH = [
+  { type: "zip", url: "presentations/app.zip" },
+  "https://fonts.googleapis.com/css?family=Montserrat:700",
+  "https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic"
+];
