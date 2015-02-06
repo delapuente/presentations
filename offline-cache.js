@@ -143,7 +143,9 @@ function digestPreFetch() {
   PREFETCH.forEach(function (option) {
     if (option.type === 'zip') {
       var zipURL = absoluteURL(option.url);
-      digestion = digestion.then(populateFromRemoteZip(zipURL));
+      digestion = digestion.then(function () {
+        return populateFromRemoteZip(zipURL);
+      });
     }
   });
   return digestion;
