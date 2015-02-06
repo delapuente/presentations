@@ -236,6 +236,7 @@ function doBestEffort(request) {
 function fetchingURL(url) {
   // XXX: No idea why we must not bust the root URL, but it works
   var tokens = new self.URL(url);
+  if (tokens.host !== self.location.host) { return url; }
   return tokens.pathname !== '/' ? busted(tokens) : tokens.href;
 }
 
