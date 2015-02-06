@@ -4,7 +4,7 @@
 });
 
 // Import plugins
-//importScripts('offliner-plugins/XMLHttpRequest.js');
+importScripts('offliner-plugins/XMLHttpRequest.js');
 importScripts('offliner-plugins/zip.js/zip.js'); // exports zip
 importScripts('offliner-plugins/zip.js/zip-ext.js');
 importScripts('offliner-plugins/zip.js/deflate.js');
@@ -91,22 +91,17 @@ function digestPreFetch() {
 }
 
 function populateFromRemoteZip(zipURL) {
-  //var readZip = new Promise(function (accept, reject) {
-    //zip.createReader(new zip.HttpReader(zipURL), function(reader) {
-      //reader.getEntries(function(entries) {
-        //console.log(entries);
-        //accept(entries);
-      //});
-    //}, function(error) {
-      //reject(error);
-    //});
-  //});
-  //return readZip;
-  return fetch(zipURL, {mode:'no-cors'}).then(function (response) {
-    return response.arrayBuffer().then(function (buffer) {
-      log(buffer.byteLength);
+  var readZip = new Promise(function (accept, reject) {
+    zip.createReader(new zip.HttpReader(zipURL), function(reader) {
+      reader.getEntries(function(entries) {
+        console.log(entries);
+        accept(entries);
+      });
+    }, function(error) {
+      reject(error);
     });
-  }, error);
+  });
+  return readZip;
 }
 
 // Intercept requests to network.
