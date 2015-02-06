@@ -146,9 +146,9 @@ function deflateInCache(entries) {
         promise = new Promise(function (accept) {
           entry.getData(new zip.BlobWriter(), function(content) {
             var filename = entry.filename;
-            var response = new Response(content, { headers: {
+            var response = new Response(content, { headers: new Headers({
               'Content-Type': getMIMEType(filename)
-            }});
+            }}));
             var url = absoluteURL(root + filename);
             offlineCache.put(url, response)
               .then(logProgress)
