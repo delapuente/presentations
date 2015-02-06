@@ -76,7 +76,7 @@ function getMIMEType(filename) {
   for (var i = 0, list; (list = extensions[i]); i++) {
     mimetype = MIMEMap[list];
     items = list.split(',');
-    for (var j = 0, extension; (extension = exts[j]); j++) {
+    for (var j = 0, extension; (extension = items[j]); j++) {
       if (RegExp('\\.' + extension + '$').test(filename)) {
         return mimetype;
       }
