@@ -1,3 +1,5 @@
+var OFFLINE_CACHE = 'offliner-cache';
+
 // Convenient shortcuts
 ['log', 'warn', 'error'].forEach(function (method) {
   self[method] = console[method].bind(console);
@@ -78,6 +80,8 @@ function join() {
   var joint = '';
   for (var i = 0, path; (path = arguments[i]); i++) {
     var hasLeadingSlash = path[0] === '/';
+    var hasTrailingSlash = path[path.length - 1] === '/';
+    if (hasTrailingSlash) { path = path.substr(0, path.length - 1); }
     joint += hasLeadingSlash ? path : ('/' + path);
   }
   return joint;
@@ -106,9 +110,14 @@ function getMIMEType(filename) {
 
 // On install, we perform the prefetch process
 self.addEventListener('install', function (event) {
-  event.waitUntil(prefetch().then(function () {
-    log('Offline cache installed at ' + new Date() + '!');
-  }).catch(error));
+  event.waitUntil(
+    caches.delete(OFFLINER_CACHE)
+      .then(prefetch)
+      .then(function () {
+        log('Offline cache installed at ' + new Date() + '!');
+      })
+      .catch(error)
+  );
 });
 
 self.addEventListener('activate', function (event) {
@@ -122,7 +131,7 @@ function prefetch() {
 
 // Caches the NETWORK_ONLY fallbacks
 function cacheNetworkOnly() {
-  return caches.open('my-cache').then(function (offlineCache) {
+  return caches.open(OFFLINER_CACHE).then(function (offlineCache) {
     return Promise.all(Object.keys(NETWORK_ONLY).map(function (url) {
       var promise;
       var fallback = NETWORK_ONLY[url];
@@ -130,7 +139,7 @@ function cacheNetworkOnly() {
         promise = Promise.resolve();
       }
       else {
-        var request = new Request(fallback);
+        var request = new Request(fallback, { mode: 'no-cors' });
         promise = fetch(request)
           .then(offlineCache.put.bind(offlineCache, request));
       }
@@ -159,8 +168,8 @@ function digestPreFetch() {
 }
 
 function populateFromURL(url) {
-  return caches.open('my-cache').then(function (offlineCache) {
-    var request = new Request(fetchingURL(url), { mode: 'no-cors'  });
+  return caches.open(OFFLINER_CACHE).then(function (offlineCache) {
+    var request = new Request(fetchingURL(url), { mode: 'no-cors' });
     return fetch(request).then(offlineCache.put.bind(offlineCache, request));
   });
 }
@@ -184,7 +193,7 @@ function populateFromRemoteZip(zipURL) {
 
 // Decompress each zipped file and add it to the cache
 function deflateInCache(entries) {
-  return caches.open('my-cache').then(function (offlineCache) {
+  return caches.open(OFFLINER_CACHE).then(function (offlineCache) {
     var logProgress = getProgressLogger(entries);
     return Promise.all(entries.map(function deflateFile(entry) {
       var promise;
@@ -247,14 +256,14 @@ function responseThroughNetworkOnly(request) {
   return fetch(fetchingRequest(request)).catch(function () {
     var fallback = NETWORK_ONLY[request.url];
     if (typeof fallback === 'string') {
-      return responseThroughCache(new Request(fallback));
+      return responseThroughCache(new Request(fallback, { mode: 'no-cors' }));
     }
   });
 }
 
 // Try to fetch from cache or fails.
 function responseThroughCache(request) {
-  return caches.open('my-cache').then(function (offlineCache) {
+  return caches.open(OFFLINER_CACHE).then(function (offlineCache) {
     return offlineCache.match(request).catch(function (error) {
       console.log(error);
     });
@@ -264,7 +273,7 @@ function responseThroughCache(request) {
 // The best effort consists into try to fetch from remote. If possible, save
 // into the cache. If not, retrieve from cache. If not even possible, it fails.
 function doBestEffort(request) {
-  return caches.open('my-cache').then(function (offlineCache) {
+  return caches.open(OFFLINER_CACHE).then(function (offlineCache) {
     var localRequest = offlineCache.match(request).catch(function (error) {
       console.log(error);
     });
