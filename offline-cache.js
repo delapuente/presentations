@@ -130,7 +130,7 @@ function populateFromRemoteZip(zipURL) {
       reject(error);
     });
   });
-  return readZip.then(deflateInCache);
+  return readZip;
 }
 
 function deflateInCache(entries) {
