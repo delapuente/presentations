@@ -219,9 +219,10 @@ function doBestEffort(request) {
       console.log(error);
     });
 
+    var fetchingRequest = request.clone();
     var url = fetchingURL(request.url);
-    request.url = url;
-    var remoteRequest = fetch(request).then(function (remoteResponse) {
+    fetchingRequest.url = url;
+    var remoteRequest = fetch(fetchingRequest).then(function (remoteResponse) {
       offlineCache.put(request, remoteResponse.clone());
       return remoteResponse;
     });
