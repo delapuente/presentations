@@ -64,6 +64,26 @@ function absoluteURL(url) {
   return new self.URL(url, self.location.origin).href;
 }
 
+function getMIMEType(filename) {
+  var MIMEMap = {
+    'css': 'text/css',
+    'js': 'application/javascript',
+    'html,html': 'text/html'
+  };
+  var mimetype = 'undefined';
+  var extensions = Object.keys(MIMEMap);
+  for (var i = 0, exts; (exts = extensions[i]); i++) {
+    exts = exts.split(',');
+    mimetype = MIMEMap[extensions];
+    for (var j = 0, extension; (extension = exts[j]); j++) {
+      if (RegExp('\\.' + extension + '$').test(filename)) {
+        return mimetype;
+      }
+    }
+  }
+  return mimetype;
+}
+
 
 self.addEventListener('install', function (event) {
   log('Offline cache installed at ' + new Date() + '!');
@@ -125,8 +145,11 @@ function deflateInCache(entries) {
       else {
         promise = new Promise(function (accept) {
           entry.getData(new zip.BlobWriter(), function(content) {
-            var response = new Response(content);
-            var url = absoluteURL(root + entry.filename);
+            var filename = entry.filename;
+            var response = new Response(content, { headers: {
+              'Content-Type': getMIMEType(filename)
+            }});
+            var url = absoluteURL(root + filename);
             offlineCache.put(url, response)
               .then(logProgress)
               .then(accept);
