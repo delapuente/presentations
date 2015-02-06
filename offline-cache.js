@@ -130,9 +130,10 @@ function cacheNetworkOnly() {
       }
       else {
         var request = new Request(fallback);
-        return fetch(request)
+        promise = fetch(request)
           .then(offlineCache.put.bind(offlineCache, request));
       }
+      return promise;
     }));
   });
 }
