@@ -28,17 +28,22 @@ XMLHttpRequest.prototype = {
     function processResponse(response) {
       response = response.clone();
       Object.defineProperty(that, '_response', { value: response });
-      if (that.responseType === 'arraybuffer') {
-        response.arrayBuffer().then(function (body) {
-          Object.defineProperty(that, 'response', { value: body });
-          executeLoadCallbacks(undefined); // passing nothing
-        });
+      if (that.responseType === '') {
+        responseType.text().then(copyBody);
+      }
+      else if (that.responseType === 'arraybuffer') {
+        response.arrayBuffer().then(copyBody);
       }
       else {
         throw new Error(
           'responseType ' + that.responseType + ' not implemented!'
         );
       }
+    }
+
+    function copyBody(body) {
+      Object.defineProperty(that, 'response', { value: body });
+      executeLoadCallbacks(undefined); // passing nothing
     }
 
     function executeLoadCallbacks(response) {
