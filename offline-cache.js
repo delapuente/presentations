@@ -146,9 +146,9 @@ function deflateInCache(entries) {
         promise = new Promise(function (accept) {
           entry.getData(new zip.BlobWriter(), function(content) {
             var filename = entry.filename;
-            var response = new Response(content, { headers: new Headers({
-              'Content-Type': getMIMEType(filename)
-            })});
+            var headers = new Headers();
+            headers.append('Content-Type', getMIMEType(filename));
+            var response = new Response(content, { headers: headers });
             var url = absoluteURL(root + filename);
             offlineCache.put(url, response)
               .then(logProgress)
@@ -220,7 +220,8 @@ function doBestEffort(request) {
     });
 
     var url = fetchingURL(request.url);
-    var remoteRequest = fetch(url).then(function (remoteResponse) {
+    request.url = url;
+    var remoteRequest = fetch(request).then(function (remoteResponse) {
       offlineCache.put(request, remoteResponse.clone());
       return remoteResponse;
     });
