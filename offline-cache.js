@@ -3,6 +3,15 @@
   self[method] = console[method].bind(console);
 });
 
+// The root pathname
+var root = (function () {
+  var currentPath = self.location.pathname;
+  var tokens = currentPath.split('/');
+  tokens.pop();
+  var currentDir = tokens.join('/');
+  return currentDir + '/';
+}());
+
 // Import plugins
 importScripts('offliner-plugins/XMLHttpRequest.js');
 importScripts('offliner-plugins/zip.js/zip.js'); // exports zip
@@ -11,13 +20,6 @@ importScripts('offliner-plugins/zip.js/deflate.js');
 importScripts('offliner-plugins/zip.js/inflate.js');
 zip.useWebWorkers = false;
 
-function getDir() {
-  var currentPath = self.location.pathname;
-  var tokens = currentPath.split('/');
-  tokens.pop();
-  var currentDir = tokens.join('/');
-  return currentDir + '/';
-}
 
 // Import the configuration file.
 try {
@@ -25,6 +27,8 @@ try {
 }
 catch (e) {
   var NETWORK_ONLY = {};
+  var PREFETCH = null;
+  var HOST = null;
 }
 
 (function digestConfigFile() {
@@ -33,9 +37,9 @@ catch (e) {
   // Convert relative to global URLs.
   Object.keys(NETWORK_ONLY).forEach(function (url) {
     var fallback = NETWORK_ONLY[url];
-    url = new self.URL(url, origin).href;
+    url = absoluteURL(url);
     if (typeof fallback === 'string') {
-      NETWORK_ONLY[url] = new self.URL(fallback, origin).href;
+      NETWORK_ONLY[url] = absoluteURL(fallback);
     }
   });
 
@@ -57,6 +61,11 @@ catch (e) {
 
   console.log('PREFETCH:', PREFETCH);
 }());
+
+function absoluteURL(url) {
+  return new self.URL(url, self.location.origin).href;
+}
+
 
 self.addEventListener('install', function (event) {
   console.log('Offline cache installed at ' + new Date() + '!');
@@ -118,7 +127,8 @@ function deflateInCache(entries) {
         promise = new Promise(function (accept) {
           entry.getData(new zip.BlobWriter(), function(content) {
             var response = new Response(content);
-            offlineCache.put(entry.url, response)
+            var url = absoluteURL(root + entry.filename);
+            offlineCache.put(url, response)
               .then(logProgress)
               .then(accept);
           });
