@@ -58,8 +58,6 @@ catch (e) {
     var path = [username, repo, 'zip', branch].join('/');
     return 'https://codeload.github.com/' + path;
   }
-
-  console.log('PREFETCH:', PREFETCH);
 }());
 
 function absoluteURL(url) {
@@ -68,12 +66,13 @@ function absoluteURL(url) {
 
 
 self.addEventListener('install', function (event) {
-  console.log('Offline cache installed at ' + new Date() + '!');
+  log('Offline cache installed at ' + new Date() + '!');
 });
 
 self.addEventListener('activate', function (event) {
-  console.log('Offline cache activated at ' + new Date() + '!');
-  event.waitUntil(prefetch());
+  event.waitUntil(prefetch().then(function () {
+    log('Offline cache activated at ' + new Date() + '!');
+  }));
 });
 
 function prefetch() {
