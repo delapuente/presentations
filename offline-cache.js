@@ -70,11 +70,12 @@ function getMIMEType(filename) {
     'js': 'application/javascript',
     'html,html': 'text/html'
   };
+  var items;
   var mimetype = 'undefined';
   var extensions = Object.keys(MIMEMap);
-  for (var i = 0, exts; (exts = extensions[i]); i++) {
-    exts = exts.split(',');
-    mimetype = MIMEMap[extensions];
+  for (var i = 0, list; (list = extensions[i]); i++) {
+    mimetype = MIMEMap[list];
+    items = list.split(',');
     for (var j = 0, extension; (extension = exts[j]); j++) {
       if (RegExp('\\.' + extension + '$').test(filename)) {
         return mimetype;
@@ -86,13 +87,13 @@ function getMIMEType(filename) {
 
 
 self.addEventListener('install', function (event) {
-  log('Offline cache installed at ' + new Date() + '!');
+  event.waitUntil(prefetch().then(function () {
+    log('Offline cache installed at ' + new Date() + '!');
+  }).catch(error));
 });
 
 self.addEventListener('activate', function (event) {
-  event.waitUntil(prefetch().then(function () {
-    log('Offline cache activated at ' + new Date() + '!');
-  }).catch(error));
+  log('Offline cache activated at ' + new Date() + '!');
 });
 
 function prefetch() {
