@@ -22,21 +22,15 @@
 var NETWORK_ONLY = {};
 
 /**
- * Indicate the type of hosting holding the web. This inccurs in some
- * automatisms for prefetching. Current accapted values are:
+ * List with resources to be prefetched. Each item can be an URL or an object.
+ * If it is an URL, it can absolute or relative and the resource in that URL
+ * will be stored in the offline cache during the worker installation.
  *
- *   * "gh-pages": triggers prefetching by content, deriving the zip file
- *   from the current location.
+ * You can specify objects instead to pre-fetch following other strategies.
+ * The following are supported:
  *
- * You can avoid any kind of automatic prefetch by setting it to false.
+ *   * { type: 'zip', url }: get and decompress the ZIP pointed in url and use
+ *   it to prepopulate the cache. Remember the ZIP file should be located under
+ *   the same origin or without CORS.
  */
-var HOST = "gh-pages";
-
-/**
- * Stablishes what should be prefetched and added to offline caches. Current
- * supported values are:
- *
- *   * false: prevents any kind of prefetching.
- *   * url: should point to a zipfile from which the cache will be prepopulated.
- */
-var PREFETCH = "https://lodr.github.io/presentations/app.zip";
+var PREFETCH = { type: "zip", url: "presentations/app.zip" };

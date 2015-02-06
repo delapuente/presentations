@@ -27,8 +27,7 @@ try {
 }
 catch (e) {
   var NETWORK_ONLY = {};
-  var PREFETCH = null;
-  var HOST = null;
+  var PREFETCH = [];
 }
 
 (function digestConfigFile() {
@@ -43,10 +42,21 @@ catch (e) {
     }
   });
 
-  // Process auto prefetch configuration
-  if (PREFETCH === null && HOST === 'gh-pages') {
-    PREFETCH = getZipURLFromGHPages(self.location);
+  // Normalize prefetch
+  if (PREFETCH && !Array.isArray(PREFETCH)) {
+    PREFETCH = [PREFETCH];
   }
+  else if (!PREFETCH) {
+    PREFETCH = [];
+  }
+  PREFETCH = PREFETCH.map(function (option) {
+    if (typeof option === 'string') { return option; }
+    if (typeof option === 'object' && option.type === 'gh-pages') {
+      option.type = 'zip';
+      option.url = getZipURLFromGHPages(self.location);
+      return option;
+    }
+  });
 
   function getZipURLFromGHPages(url) {
     var username = url.host.split('.')[0];
@@ -62,6 +72,15 @@ catch (e) {
 
 function absoluteURL(url) {
   return new self.URL(url, self.location.origin).href;
+}
+
+function join() {
+  var joint = '';
+  for (var i = 0, path; (path = arguments[i]); i++) {
+    var hasLeadingSlash = path[0] === '/';
+    joint += hasLeadingSlash ? path : ('/' + path);
+  }
+  return joint;
 }
 
 function getMIMEType(filename) {
@@ -96,30 +115,41 @@ self.addEventListener('activate', function (event) {
   log('Offline cache activated at ' + new Date() + '!');
 });
 
+// Adds
 function prefetch() {
   return cacheNetworkOnly().then(digestPreFetch);
 }
 
 function cacheNetworkOnly() {
   return caches.open('my-cache').then(function (offlineCache) {
-    Object.keys(NETWORK_ONLY).forEach(function (url) {
+    return Promise.all(Object.keys(NETWORK_ONLY).map(function (url) {
+      var promise;
       var fallback = NETWORK_ONLY[url];
-      if (typeof fallback === 'string') {
-        var request = new Request(fallback);
-        fetch(request).then(offlineCache.put.bind(offlineCache, request));
+      if (typeof fallback !== 'string') {
+        promise = Promise.resolve();
       }
-    });
+      else {
+        var request = new Request(fallback);
+        return fetch(request)
+          .then(offlineCache.put.bind(offlineCache, request));
+      }
+    }));
   });
 }
 
 function digestPreFetch() {
-  // is a protocol?
-  if (/.+:\/\/.+/.test(PREFETCH)) {
-    return populateFromRemoteZip(PREFETCH);
-  }
+  var digestion = Promise.resolve();
+  PREFETCH.forEach(function (option) {
+    if (option.type === 'zip') {
+      var zipURL = absoluteURL(option.url);
+      digestion = digestion.then(populateFromRemoteZip(zipURL));
+    }
+  });
+  return digestion;
 }
 
 function populateFromRemoteZip(zipURL) {
+  log('Populating from ' + zipURL);
   var readZip = new Promise(function (accept, reject) {
     zip.createReader(new zip.HttpReader(zipURL), function(reader) {
       reader.getEntries(function(entries) {
@@ -150,7 +180,7 @@ function deflateInCache(entries) {
             var headers = new Headers();
             headers.append('Content-Type', getMIMEType(filename));
             var response = new Response(content, { headers: headers });
-            var url = absoluteURL(root + filename);
+            var url = absoluteURL(join(root, filename));
             offlineCache.put(url, response)
               .then(logProgress)
               .then(accept);
