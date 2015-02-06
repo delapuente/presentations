@@ -104,7 +104,7 @@ function getMIMEType(filename) {
   return mimetype;
 }
 
-
+// On install, we perform the prefetch process
 self.addEventListener('install', function (event) {
   event.waitUntil(prefetch().then(function () {
     log('Offline cache installed at ' + new Date() + '!');
@@ -115,11 +115,12 @@ self.addEventListener('activate', function (event) {
   log('Offline cache activated at ' + new Date() + '!');
 });
 
-// Adds
+// Prefetch is the process to prepopulate the offline cache
 function prefetch() {
   return cacheNetworkOnly().then(digestPreFetch);
 }
 
+// Caches the NETWORK_ONLY fallbacks
 function cacheNetworkOnly() {
   return caches.open('my-cache').then(function (offlineCache) {
     return Promise.all(Object.keys(NETWORK_ONLY).map(function (url) {
@@ -138,6 +139,8 @@ function cacheNetworkOnly() {
   });
 }
 
+// Creates a chain of promises to populate the cache
+// TODO: Add support for single files.
 function digestPreFetch() {
   var digestion = Promise.resolve();
   PREFETCH.forEach(function (option) {
@@ -151,6 +154,7 @@ function digestPreFetch() {
   return digestion;
 }
 
+// Fetch a remote ZIP, deflates it and add the routes to the cache
 function populateFromRemoteZip(zipURL) {
   log('Populating from ' + zipURL);
   var readZip = new Promise(function (accept, reject) {
@@ -167,29 +171,24 @@ function populateFromRemoteZip(zipURL) {
   return readZip;
 }
 
+// Decompress each zipped file and add it to the cache
 function deflateInCache(entries) {
   return caches.open('my-cache').then(function (offlineCache) {
     var logProgress = getProgressLogger(entries);
     return Promise.all(entries.map(function deflateFile(entry) {
       var promise;
-      if (entry.directory) {
-        logProgress();
-        promise = Promise.resolve();
-      }
-      else {
-        promise = new Promise(function (accept) {
-          entry.getData(new zip.BlobWriter(), function(content) {
-            var filename = entry.filename;
-            var headers = new Headers();
-            headers.append('Content-Type', getMIMEType(filename));
-            var response = new Response(content, { headers: headers });
-            var url = absoluteURL(join(root, filename));
-            offlineCache.put(url, response)
-              .then(logProgress)
-              .then(accept);
-          });
+      promise = new Promise(function (accept) {
+        entry.getData(new zip.BlobWriter(), function(content) {
+          var filename = entry.filename;
+          var headers = new Headers();
+          headers.append('Content-Type', getMIMEType(filename));
+          var response = new Response(content, { headers: headers });
+          var url = absoluteURL(join(root, filename));
+          offlineCache.put(url, response)
+            .then(logProgress)
+            .then(accept);
         });
-      }
+      });
       return promise;
     }));
   });
