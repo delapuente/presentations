@@ -94,14 +94,48 @@ function populateFromRemoteZip(zipURL) {
   var readZip = new Promise(function (accept, reject) {
     zip.createReader(new zip.HttpReader(zipURL), function(reader) {
       reader.getEntries(function(entries) {
-        console.log(entries);
-        accept(entries);
+        deflateInCache(reader, entries)
+          .then(reader.close.bind(reader))
+          .then(accept);
       });
     }, function(error) {
       reject(error);
     });
   });
-  return readZip;
+  return readZip.then(deflateInCache);
+}
+
+function deflateInCache(entries) {
+  return caches.open('my-cache').then(function (offlineCache) {
+    var logProgress = getProgressLogger(entries);
+    return Promise.all(entries.map(function deflateFile(entry) {
+      var promise;
+      if (entry.directory) {
+        logProgress();
+        promise = Promise.resolve();
+      }
+      else {
+        promise = new Promise(function (accept) {
+          entry.getData(new zip.BlobWriter(), function(content) {
+            var response = new Response(content);
+            offlineCache.put(entry.url, response)
+              .then(logProgress)
+              .then(accept);
+          });
+        });
+      }
+      return promise;
+    }));
+  });
+
+  function getProgressLogger(entries) {
+    var total = entries.length;
+    var completed = 0;
+    return function progressLogger() {
+      completed++;
+      log('Caching at ' + (100 * completed/total).toFixed(0) + '%');
+    };
+  }
 }
 
 // Intercept requests to network.
