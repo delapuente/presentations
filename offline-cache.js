@@ -94,7 +94,7 @@ function populateFromRemoteZip(zipURL) {
   var readZip = new Promise(function (accept, reject) {
     zip.createReader(new zip.HttpReader(zipURL), function(reader) {
       reader.getEntries(function(entries) {
-        deflateInCache(reader, entries)
+        deflateInCache(entries)
           .then(reader.close.bind(reader))
           .then(accept);
       });
