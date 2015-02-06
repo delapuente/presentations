@@ -143,7 +143,7 @@ function deflateInCache(entries) {
     var completed = 0;
     return function progressLogger() {
       completed++;
-      log('Caching at ' + (100 * completed/total).toFixed(0) + '%');
+      log('Caching at ' + Math.floor(100 * completed/total) + '%');
     };
   }
 }
