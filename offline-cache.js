@@ -1,4 +1,4 @@
-var OFFLINE_CACHE = 'offliner-cache';
+var CACHE_NAME = 'offliner-cache';
 
 // Convenient shortcuts
 ['log', 'warn', 'error'].forEach(function (method) {
@@ -111,7 +111,7 @@ function getMIMEType(filename) {
 // On install, we perform the prefetch process
 self.addEventListener('install', function (event) {
   event.waitUntil(
-    caches.delete(OFFLINER_CACHE)
+    caches.delete(CACHE_NAME)
       .then(prefetch)
       .then(function () {
         log('Offline cache installed at ' + new Date() + '!');
@@ -131,7 +131,7 @@ function prefetch() {
 
 // Caches the NETWORK_ONLY fallbacks
 function cacheNetworkOnly() {
-  return caches.open(OFFLINER_CACHE).then(function (offlineCache) {
+  return caches.open(CACHE_NAME).then(function (offlineCache) {
     return Promise.all(Object.keys(NETWORK_ONLY).map(function (url) {
       var promise;
       var fallback = NETWORK_ONLY[url];
@@ -168,7 +168,7 @@ function digestPreFetch() {
 }
 
 function populateFromURL(url) {
-  return caches.open(OFFLINER_CACHE).then(function (offlineCache) {
+  return caches.open(CACHE_NAME).then(function (offlineCache) {
     var request = new Request(fetchingURL(url), { mode: 'no-cors' });
     return fetch(request).then(offlineCache.put.bind(offlineCache, request));
   });
@@ -193,7 +193,7 @@ function populateFromRemoteZip(zipURL) {
 
 // Decompress each zipped file and add it to the cache
 function deflateInCache(entries) {
-  return caches.open(OFFLINER_CACHE).then(function (offlineCache) {
+  return caches.open(CACHE_NAME).then(function (offlineCache) {
     var logProgress = getProgressLogger(entries);
     return Promise.all(entries.map(function deflateFile(entry) {
       var promise;
@@ -263,7 +263,7 @@ function responseThroughNetworkOnly(request) {
 
 // Try to fetch from cache or fails.
 function responseThroughCache(request) {
-  return caches.open(OFFLINER_CACHE).then(function (offlineCache) {
+  return caches.open(CACHE_NAME).then(function (offlineCache) {
     return offlineCache.match(request).catch(function (error) {
       console.log(error);
     });
@@ -273,7 +273,7 @@ function responseThroughCache(request) {
 // The best effort consists into try to fetch from remote. If possible, save
 // into the cache. If not, retrieve from cache. If not even possible, it fails.
 function doBestEffort(request) {
-  return caches.open(OFFLINER_CACHE).then(function (offlineCache) {
+  return caches.open(CACHE_NAME).then(function (offlineCache) {
     var localRequest = offlineCache.match(request).catch(function (error) {
       console.log(error);
     });
