@@ -149,13 +149,14 @@ function cacheNetworkOnly() {
 }
 
 // Creates a chain of promises to populate the cache
-// TODO: Add support for single files.
 function digestPreFetch() {
   var digestion = Promise.resolve();
   PREFETCH.forEach(function (option) {
     if (typeof option === 'string') {
       var url = absoluteURL(option);
-      populateFromURL(url);
+      digestion = digestion.then(function () {
+        return populateFromURL(url);
+      });
     }
     else if (option.type === 'zip') {
       var zipURL = absoluteURL(option.url);
