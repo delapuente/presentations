@@ -55,7 +55,7 @@ catch (e) {
     if (typeof option === 'object' && option.type === 'gh-pages') {
       var zipData = getZipDataFromGHPages(self.location);
       option.type = 'zip';
-      options.url = zipData.url;
+      option.url = zipData.url;
       option.prefix = zipData.prefix;
       return option;
     }
