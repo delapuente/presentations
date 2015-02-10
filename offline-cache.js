@@ -67,7 +67,7 @@ catch (e) {
     var repo = url.pathname.split('/')[1];
     return {
       url: getZipFromGHData(username, repo, 'gh-pages'),
-      prefix: '/' + repo
+      prefix: repo + '-gh-pages/'
     };
   }
 
@@ -219,9 +219,7 @@ function deflateInCache(entries, prefixToStrip) {
       else {
         promise = new Promise(function (accept) {
           entry.getData(new zip.BlobWriter(), function(content) {
-            var filename = entry.filename;
-            log(prefixToStrip);
-            log(filename);
+            var filename = entry.filename.substr(prefixToStrip.length);
             var headers = new Headers();
             headers.append('Content-Type', getMIMEType(filename));
             var response = new Response(content, { headers: headers });
