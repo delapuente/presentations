@@ -180,6 +180,7 @@ function populateFromRemoteZip(zipURL) {
   log('Populating from ' + zipURL);
   var readZip = new Promise(function (accept, reject) {
     fetch(zipURL).then(function (response) {
+      console.log(response.headers);
       log('ETag: ', response.headers.get('ETag'));
       log('Content-Length: ', response.headers.get('Content-Length'));
       return response.blob();
