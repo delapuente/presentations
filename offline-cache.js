@@ -68,7 +68,7 @@ catch (e) {
 
   function getZipFromGHData(username, repo, branch) {
     var path = ['archive', username, repo, branch].join('/');
-    return 'https://cacheator.com:4000/' + path;
+    return 'http://cacheator.com:4000/' + path;
   }
 }());
 
