@@ -53,17 +53,22 @@ catch (e) {
   }
   PREFETCH = PREFETCH.map(function (option) {
     if (typeof option === 'object' && option.type === 'gh-pages') {
+      var zipData = getZipDataFromGHPages(self.location);
       option.type = 'zip';
-      option.url = getZipURLFromGHPages(self.location);
+      options.url = zipData.url;
+      option.prefix = zipData.prefix;
       return option;
     }
     return option;
   });
 
-  function getZipURLFromGHPages(url) {
+  function getZipDataFromGHPages(url) {
     var username = url.host.split('.')[0];
     var repo = url.pathname.split('/')[1];
-    return getZipFromGHData(username, repo, 'gh-pages');
+    return {
+      url: getZipFromGHData(username, repo, 'gh-pages'),
+      prefix: '/' + repo
+    };
   }
 
   function getZipFromGHData(username, repo, branch) {
@@ -161,7 +166,7 @@ function digestPreFetch() {
     else if (option.type === 'zip') {
       var zipURL = absoluteURL(option.url);
       digestion = digestion.then(function () {
-        return populateFromRemoteZip(zipURL);
+        return populateFromRemoteZip(zipURL, option.prefix);
       });
     }
   });
@@ -176,8 +181,9 @@ function populateFromURL(url) {
 }
 
 // Fetch a remote ZIP, deflates it and add the routes to the cache
-function populateFromRemoteZip(zipURL) {
+function populateFromRemoteZip(zipURL, prefixToStrip) {
   log('Populating from ' + zipURL);
+  prefixToStrip = prefixToStrip || '';
   var readZip = new Promise(function (accept, reject) {
     fetch(zipURL).then(function (response) {
       console.log(response.headers);
@@ -187,7 +193,7 @@ function populateFromRemoteZip(zipURL) {
     }).then(function (blob) {
       zip.createReader(new zip.BlobReader(blob), function(reader) {
         reader.getEntries(function(entries) {
-          deflateInCache(entries)
+          deflateInCache(entries, prefixToStrip)
             .then(reader.close.bind(reader, null)) // avoid callback for close
             .then(accept);
         });
@@ -200,7 +206,8 @@ function populateFromRemoteZip(zipURL) {
 }
 
 // Decompress each zipped file and add it to the cache
-function deflateInCache(entries) {
+function deflateInCache(entries, prefixToStrip) {
+  prefixToStrip = prefixToStrip || '';
   return caches.open(CACHE_NAME).then(function (offlineCache) {
     var logProgress = getProgressLogger(entries);
     return Promise.all(entries.map(function deflateFile(entry) {
@@ -213,6 +220,8 @@ function deflateInCache(entries) {
         promise = new Promise(function (accept) {
           entry.getData(new zip.BlobWriter(), function(content) {
             var filename = entry.filename;
+            log(prefixToStrip);
+            log(filename);
             var headers = new Headers();
             headers.append('Content-Type', getMIMEType(filename));
             var response = new Response(content, { headers: headers });
