@@ -17,7 +17,6 @@ var root = (function () {
 // Import plugins
 importScripts('offliner-plugins/XMLHttpRequest.js');
 importScripts('offliner-plugins/zip.js/zip.js'); // exports zip
-importScripts('offliner-plugins/zip.js/zip-ext.js');
 importScripts('offliner-plugins/zip.js/deflate.js');
 importScripts('offliner-plugins/zip.js/inflate.js');
 zip.useWebWorkers = false;
