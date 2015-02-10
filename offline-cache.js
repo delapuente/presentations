@@ -67,8 +67,8 @@ catch (e) {
   }
 
   function getZipFromGHData(username, repo, branch) {
-    var path = [username, repo, 'zip', branch].join('/');
-    return 'https://codeload.github.com/' + path;
+    var path = ['archive', username, repo, branch].join('/');
+    return 'https://cacheator.com:4000/' + path;
   }
 }());
 
@@ -179,14 +179,20 @@ function populateFromURL(url) {
 function populateFromRemoteZip(zipURL) {
   log('Populating from ' + zipURL);
   var readZip = new Promise(function (accept, reject) {
-    zip.createReader(new zip.HttpReader(zipURL), function(reader) {
-      reader.getEntries(function(entries) {
-        deflateInCache(entries)
-          .then(reader.close.bind(reader, null)) // avoid callback for close
-          .then(accept);
+    fetch(zipURL).then(function (response) {
+      log('ETag: ', response.headers.get('ETag'));
+      log('Content-Length: ', response.headers.get('Content-Length'));
+      return response.blob();
+    }).then(function (blob) {
+      zip.createReader(new zip.BlobReader(blob), function(reader) {
+        reader.getEntries(function(entries) {
+          deflateInCache(entries)
+            .then(reader.close.bind(reader, null)) // avoid callback for close
+            .then(accept);
+        });
+      }, function(error) {
+        reject(error);
       });
-    }, function(error) {
-      reject(error);
     });
   });
   return readZip;
