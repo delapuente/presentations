@@ -226,11 +226,13 @@ function openActiveCache(version) {
 }
 
 function updateMetaData(newCache) {
-  return Promise.all([
-    asyncStorage.set('active-cache', newCache),
-    asyncStorage.get('next-version')
-      .then(asyncStorage.set.bind(asyncStorage, 'current-version'))
-  ]);
+  return asyncStorage.get('next-version').then(function (version) {
+    return Promise.all([
+      asyncStorage.set('current-version', version),
+      getCacheNameForVersion(version)
+        .then(asyncStorage.set.bind(asyncStorage, 'active-cache'))
+    ]);
+  });
 }
 
 function populateFromURL(urls, offlineCache) {
@@ -247,7 +249,6 @@ function populateFromRemoteZip(zipURL, prefixToStrip, targetCache) {
   prefixToStrip = prefixToStrip || '';
   var readZip = new Promise(function (accept, reject) {
     fetch(zipURL).then(function (response) {
-      console.log(response.headers);
       return response.blob();
     }).then(function (blob) {
       zip.createReader(new zip.BlobReader(blob), function(reader) {
