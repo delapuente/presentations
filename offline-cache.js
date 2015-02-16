@@ -1,4 +1,4 @@
-var CACHE_NAME = 'offliner-cache';
+var CACHE_NAME = 'cache-zero';
 
 // Convenient shortcuts
 ['log', 'warn', 'error'].forEach(function (method) {
@@ -154,16 +154,28 @@ function update() {
 }
 
 function getLatestVersionNumber() {
-  var updateChannel = getZipInfoFromGHPages(self.location).url;
-  return fetch(updateChannel, { method: "HEAD" }).then(function (response) {
-    return response.headers.get('ETag').replace(/"/g, '');
-  });
+  var latestVersion;
+  if (!UPDATE) {
+    latestVersion = Promise.resolve(CACHE_NAME);
+  }
+  else if (UPDATE.type === 'gh-pages') {
+    var updateChannel = getZipInfoFromGHPages(self.location).url;
+    latestVersion = fetch(updateChannel, { method: "HEAD" })
+      .then(function (response) {
+        return response.headers.get('ETag').replace(/"/g, '');
+      });
+  }
+  else {
+    latestVersion = Promise.reject(new Error("Update method not supported!"));
+  }
+  return latestVersion;
 }
 
 function checkIfNewVersion(remoteVersion) {
   return asyncStorage.get('current-version').then(function (localVersion) {
     if (remoteVersion && remoteVersion !== localVersion) {
       log('New version ' + remoteVersion + ' found!');
+      log('Updating from version ' + localVersion);
       return asyncStorage.set('next-version', remoteVersion)
         .then(function () { return remoteVersion; });
     }
