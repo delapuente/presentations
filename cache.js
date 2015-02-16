@@ -38,3 +38,5 @@ var PREFETCH = [
   "https://fonts.googleapis.com/css?family=Montserrat:700",
   "https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic"
 ];
+
+var UPDATE = { type: "gh-pages" };
