@@ -180,6 +180,9 @@ function checkIfNewVersion(remoteVersion) {
       return asyncStorage.set('next-version', remoteVersion)
         .then(function () { return remoteVersion; });
     }
+    else {
+      log('No update needed');
+    }
     return null;
   });
 }
@@ -318,6 +321,7 @@ function deflateInCache(entries, prefixToStrip, offlineCache) {
 // Intercept requests to network.
 self.addEventListener('fetch', function (event) {
   var request = event.request;
+  update();
   event.respondWith(offlineResolver(request));
 });
 
