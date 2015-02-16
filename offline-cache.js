@@ -173,9 +173,10 @@ function getLatestVersionNumber() {
 
 function checkIfNewVersion(remoteVersion) {
   return asyncStorage.get('current-version').then(function (localVersion) {
-    if (remoteVersion && remoteVersion !== localVersion) {
+    if (!localVersion || remoteVersion && remoteVersion !== localVersion) {
       log('New version ' + remoteVersion + ' found!');
-      log('Updating from version ' + localVersion);
+      if (localVersion) { log('Updating from version ' + localVersion); }
+      else { log('First update'); }
       return asyncStorage.set('next-version', remoteVersion)
         .then(function () { return remoteVersion; });
     }
