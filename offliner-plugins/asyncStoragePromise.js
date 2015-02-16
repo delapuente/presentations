@@ -8,4 +8,6 @@
       });
     };
   }
+  asyncStorage.get = asyncStorage.getItem;
+  asyncStorage.set = asyncStorage.setItem;
 }(this.asyncStorage));
