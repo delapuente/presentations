@@ -156,7 +156,7 @@ function update() {
 function getLatestVersionNumber() {
   var updateChannel = getZipInfoFromGHPages(self.location).url;
   return fetch(updateChannel, { method: "HEAD" }).then(function (response) {
-    return response.headers.get('ETag');
+    return response.headers.get('ETag').replace(/"/g, '');
   });
 }
 
