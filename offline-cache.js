@@ -145,12 +145,18 @@ self.addEventListener('activate', function (event) {
 
 // Starts the update process
 function update() {
-  return getLatestVersionNumber()
-    .then(checkIfNewVersion)
-    .then(getCacheNameForVersion)
-    .then(caches.open.bind(caches))
-    .then(prefetch)
-    .then(updateMetaData);
+  if (!self.updateProcess) {
+    self.updateProcess = getLatestVersionNumber()
+      .then(checkIfNewVersion)
+      .then(getCacheNameForVersion)
+      .then(caches.open.bind(caches))
+      .then(prefetch)
+      .then(updateMetaData)
+      .then(function () {
+        self.updateProcess = null;
+      });
+  }
+  return self.updateProcess;
 }
 
 function getLatestVersionNumber() {
