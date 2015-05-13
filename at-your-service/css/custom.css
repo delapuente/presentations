@@ -1,0 +1,29 @@
+
+mg.deco {
+  border: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+code.javascript:before {
+  content: '';
+  display: block;
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  background-image: url(../imgs/html5-logo.png);
+  background-size: 40px 40px;
+}
+
+code,
+.reveal pre {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+pre code {
+  margin-top: 40px !important;
+}
