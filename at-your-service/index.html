@@ -37,20 +37,20 @@
         </section>
 
         <section>
+          <img src="imgs/chibi.png" style="border:none; width: 250px; height:auto;"/>
           <h2>About this presentation</h2>
-          <img src="imgs/chibi.png" style="border:none; float:left; width: 250px; height:auto;"/>
+          <p><a href="https://lodr.github.io/presentations/at-your-service">https://lodr.github.io/presentations/at-your-service</a></p>
           <p>Salvador de la Puente González</p>
-          <p><a href="https://github.com/lodr/presentations/at-your-service">https://github.com/lodr/presentations/</a></p>
           <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
           <p><a href="http://github.com/lodr">http://github.com/lodr</a></p>
         </section>
         
         <section>
+          <h2>Overview</h2>
           <ul>
             <li class="fragment">What is a service worker?</li>
-            <li class="fragment">State of the art</li>
-            <li class="fragment">A world of possibilities</li>
-            <li class="fragment">Demos &amp; sample code</li>
+            <li class="fragment">What is the state of the art?</li>
+            <li class="fragment">What are our possibilities?</li>
             <li class="fragment">Real world applications</li>
           </ul>
         </section>
@@ -69,11 +69,22 @@
               <li class="fragment"><a href="http://www.html5rocks.com/en/tutorials/service-worker/introduction/">Introduction to service workers</a></li>
             </ul>
           </section>
+          
+          <section>
+            <h3>Intercepting requests</h3>
+            <img alt="interception" src="./imgs/sw-interception.png" />
+          </section>
+
+          <section>
+            <h3>Life cycle</h3>
+            <img alt="life cycle" src="./imgs/sw-lifecycle.png" style="width: 600px; background: white;"/>
+          </section>
+          
         </section>
 
         <section>
           <section>
-            <h2>State of the art</h2>
+            <h2>What is the state of the art?</h2>
           </section>
 
           <section>
@@ -89,12 +100,12 @@
         
         <section>
           <section>
-            <h2>A world of possibilities</h2>
+            <h2>What are our possibilities?</h2>
           </section>
           
           <section>
+            <img alt="interception" src="./imgs/sw-interception.png" style="float: left; width: 420px;"/>
             <ul>
-              <li><strong>Lots</strong> of applications!</li>
               <li class="fragment"><a href="http://alistapart.com/article/application-cache-is-a-douchebag">Application cache replacement</a></li>
               <li class="fragment"><em>Client side</em> servers</li>
               <li class="fragment">Gather <strong>analytics</strong></li>
@@ -103,55 +114,51 @@
               <li class="fragment"><a href="http://webcache.googleusercontent.com/search?q=cache:yyEh_ZhowakJ:https://groups.google.com/d/msg/mozilla.dev.gaia/0CkXpQ25Wdc/4VXnXZpnbMgJ+&cd=1&hl=es&ct=clnk&gl=es">Cross</a> <a href="http://webcache.googleusercontent.com/search?q=cache:-J8xMtqqk_EJ:https://groups.google.com/d/msg/mozilla.dev.gaia/0CkXpQ25Wdc/uCYcL0QXOCUJ+&cd=2&hl=es&ct=clnk&gl=es">Origin</a> Workers?</li>
             </ul>
           </section>
-
-<!--
-          <section>
-            <pre class="javascript"><code>var batteryLevel = battery.level * 100 + "%";</code></pre>
-            <pre class="javascript"><code>{
-  "activities": {
-    "pick": {
-        "href": "./pick.html",
-        "disposition": "inline",
-        "filters": {
-            "type": ["image/*","image/jpeg","image/png"]
-        },
-        "returnValue": true
-    }
-  }
-}</code></pre>
-          </section>
-        </section>
--->
-
         </section>
 
         <section>
           <section>
-            <h2>Demos &amp; sample code</h2>
+            <h2>Real world applications</h2>
           </section>
 
           <section>
+            <h3>Offliner</h3>
             <ul>
-              <li>There a tons of <strong><a href="https://github.com/w3c-webmob/ServiceWorkersDemos">demos</a></strong> out there!</li>
-              <li class="fragment">And versatile <strong><a href="https://github.com/arcturus/serviceworkerware">frameworks</a></strong></li>
-              <li class="fragment">And cool <strong><a href="https://github.com/lodr/offliner">libraries</a></strong></li>
-              <li class="fragment">We can even <strong><a href="https://github.com/lodr/karma-sw-mocha-adapter">test with Karma</a></strong>!</li>
+              <li><a href="https://github.com/lodr/offliner/">offliner</a> provides a life-cycle for webapps.</li>
+              <li class="fragment">It only provides the <strong>abstract strategy</strong>.</li>
+              <li class="fragment">You provide the <strong>implementation as plugins</strong>.</li>
+              <li class="fragment">See the <a href="http://lodr.github.io/offliner">demo in action</a>!</li>
             </ul>
           </section>
+          
+          <section>
+            <h3>ServiceWorkerWare</h3>
+            <ul>
+              <li><a href="https://github.com/arcturus/serviceworkerware/">serviceworkerware</a> ease the task of programming sw.</li>
+              <li class="fragment">Provides a <strong>pseudo-declarative syntax</strong> a-la express.js.</li>
+              <li class="fragment">Can be extended via <strong>middlewares</strong>.</li>
+              <li class="fragment">Browse <a href="https://github.com/lodr/v3-app/blob/nightly/sw.js#L14">an implementation of a <em>client API</em></a></li>
+            </ul>
+          </section>
+          
+          <section>
+            <h3>Karma SW adapter</h3>
+            <ul>
+              <li><a href="https://github.com/lodr/karma-sw-mocha/">Karma SW adapter</a> allows testing in a sw environment.</li>
+              <li class="fragment">The idea is <strong>to extend the activation event</strong>.</li>
+              <li class="fragment">Now it's hardly coupled to <strong>mocha, chai and sinon</strong>.</li>
+              <li class="fragment">See <a href="https://github.com/arcturus/serviceworkerware/pull/13/files">a working setup for serviceworkerware</a></li>
+            </ul>
+          </section>
+          
+          <section>
+            <p>More <a href="https://github.com/w3c-webmob/ServiceWorkersDemos">demos &amp; sample code</a></p>
+          </section>
+          
         </section>
 
-        <section>
-          <section>
-            <h2><strong>Real</strong> world applications</h2>
-          </section>
-
-          <section>
-            <p>Let's explore <strong><a href="https://github.com/lodr/v3-app">V3 App</a></strong></p>
-          </section>
-
-          <section>
-            <p>And the <strong><a href="https://lodr.github.io/offliner/">offliner demo</a></strong></p>
-          </section>
+        <section data-background="imgs/butler.jpg">
+          <h2>Questions?</h2>
         </section>
 
       </div>
