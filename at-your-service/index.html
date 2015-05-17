@@ -32,12 +32,12 @@
         <section>
           <header>
             <h1>At your service!</h1>
-            <h2>A bunch of resources about service workers</h2>
+            <h2>code &amp; resources about service workers</h2>
           </header>
         </section>
 
         <section>
-          <img src="imgs/chibi.png" style="border:none; width: 250px; height:auto;"/>
+          <img src="imgs/chibi.png" alt="me" style="border:none; width: 250px; height:auto;"/>
           <h2>About this presentation</h2>
           <p><a href="https://lodr.github.io/presentations/at-your-service">https://lodr.github.io/presentations/at-your-service</a></p>
           <p>Salvador de la Puente González</p>
@@ -49,9 +49,9 @@
           <h2>Overview</h2>
           <ul>
             <li class="fragment">What is a service worker?</li>
-            <li class="fragment">What is the state of the art?</li>
-            <li class="fragment">What are our possibilities?</li>
             <li class="fragment">Real world applications</li>
+            <li class="fragment">More possibilities</li>
+            <li class="fragment">What is the state of the art?</li>
           </ul>
         </section>
 
@@ -61,18 +61,27 @@
           </section>
 
           <section>
-            <h3>Intercepting requests</h3>
-            <img alt="interception" src="./imgs/sw-interception.png" />
+            <p>A <strong>request catcher</strong>...</p>
+            <img alt="interception" src="./imgs/sw-interception.png"/>
+            <p>...and <strong>response generator</strong>.</p>
           </section>
-
+          
           <section>
-            <ul>
-              <li>Is a proxy <strong>intercepting</strong> http requests</li>
-              <li class="fragment">Runs on its <strong>own thread</strong> (in parallel)</li>
-              <li class="fragment">Survives <strong>browser's closing</strong></li>
-              <li class="fragment">But it is not <strong>always alive</strong></li>
-              <li class="fragment"><a href="http://www.html5rocks.com/en/tutorials/service-worker/introduction/">Introduction to service workers</a></li>
-            </ul>
+            <h3>The world without service workers</h3>
+            <p class="fragment">Imagine you are in the tube browsing Twitter...</p>
+            <p class="fragment">You've found some interesting post and you are reading it...</p>
+            <p class="fragment">Then go back to Twitter and it just crashes!</p>
+            <p class="fragment">You got out of network and you can not read any more...</p>
+            <p class="fragment">But with service workers...</p>
+          </section>
+          
+          <section>
+            <h3>A future with service workers</h3>
+            <p class="fragment">On entering Twitter, it starts downloading some tweets...</p>
+            <p class="fragment">The service worker store them for offline usage</p>
+            <p class="fragment">Then go back to Twitter but this time, Twitter does not crash!</p>
+            <p class="fragment">Instead, you are warned about connectivity problems...</p>
+            <p class="fragment">...but your tweets are there, ready to be read!</p>
           </section>
           
           <section>
@@ -80,43 +89,30 @@
             <img alt="life cycle" src="./imgs/sw-lifecycle.png" style="width: 600px; background: white;"/>
           </section>
           
-        </section>
-
-        <section>
           <section>
-            <h2>What is the state of the art?</h2>
-          </section>
-
-          <section>
+            <h3>Introducing Offline Cache API</h3>
             <ul>
-              <li>In <a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API/Using_Service_Workers#Setting_up_to_play_with_Service_Workers">Chrome</a>? <span class="fragment"><strong>yes</strong>!</span></li>
-              <li class="fragment">In <a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API/Using_Service_Workers#Setting_up_to_play_with_Service_Workers">Nightly?</a> <span class="fragment"><strong>yes \o/</strong>!</span></li>
-              <li class="fragment">In <a href="https://blog.wanderview.com/sw-builds/">Firefox</a>? <span class="fragment"><strong>kind of</strong></span></li>
-              <li class="fragment">And test in <a href="https://blog.wanderview.com/blog/2015/03/24/service-workers-in-firefox-nightly/">Firefox OS</a></li>
-              <li class="fragment"><a href="https://jakearchibald.github.io/isserviceworkerready/">Is service worker ready?</a></li>
+              <li>It's a storage to keep <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response/Response">response objects</a>.</li>
+              <li class="fragment">It's quite similar to a key/value storage...</li>
+              <li class="fragment">but using <strong><a href="https://developer.mozilla.org/en-US/docs/Web/API/Request/Request">request</a>/response</strong> pairs instead.</li>
+              <li class="fragment">Requests are mainly a method and an URL.</li>
+              <li class="fragment">Responses are mainly an URL and a body.</code></li>
+              <li class="fragment">Both can be programatically crafted <strong>in the browser</strong>.</li>
             </ul>
-          </section>
-        </section>
-        
-        <section>
-          <section>
-            <h2>What are our possibilities?</h2>
-          </section>
-
-          <section>
-            <a href="./imgs/sw-interception.png" target="_blank"><img alt="interception" src="./imgs/sw-interception.png"/></a>
           </section>
           
           <section>
+            <h3>Other important details</h3>
             <ul>
-              <li><a href="http://alistapart.com/article/application-cache-is-a-douchebag">Application cache replacement</a></li>
-              <li class="fragment"><em>Client side</em> servers</li>
-              <li class="fragment">Gather <strong>analytics</strong></li>
-              <li class="fragment"><a href="https://github.com/slightlyoff/BackgroundSync/blob/master/explainer.md">Sync</a></li>
-              <li class="fragment">New <a href="https://w3c.github.io/push-api/">Push</a> API</li>
-              <li class="fragment"><a href="http://webcache.googleusercontent.com/search?q=cache:yyEh_ZhowakJ:https://groups.google.com/d/msg/mozilla.dev.gaia/0CkXpQ25Wdc/4VXnXZpnbMgJ+&cd=1&hl=es&ct=clnk&gl=es">Cross</a> <a href="http://webcache.googleusercontent.com/search?q=cache:-J8xMtqqk_EJ:https://groups.google.com/d/msg/mozilla.dev.gaia/0CkXpQ25Wdc/uCYcL0QXOCUJ+&cd=2&hl=es&ct=clnk&gl=es">Origin</a> Workers?</li>
+              <li>Runs on its <strong>own thread</strong> (in parallel)</li>
+              <li class="fragment">Only works on<strong> https / localhost</strong></li>
+              <li class="fragment">Survives <strong>browser's closing</strong></li>
+              <li class="fragment">But it is not <strong>always alive</strong></li>
+              <li class="fragment">It is <strong>updated on change / on demand</strong></li>
+              <li class="fragment"><a href="http://www.html5rocks.com/en/tutorials/service-worker/introduction/">Introduction to service workers</a></li>
             </ul>
           </section>
+          
         </section>
 
         <section>
@@ -124,7 +120,7 @@
             <h2>Real world applications</h2>
           </section>
 
-          <section>
+          <section id="offliner">
             <h3>Offliner</h3>
             <ul>
               <li><a href="https://github.com/lodr/offliner/">offliner</a> provides a life-cycle for webapps.</li>
@@ -134,7 +130,7 @@
             </ul>
           </section>
           
-          <section>
+          <section id="v3-app">
             <h3>ServiceWorkerWare</h3>
             <ul>
               <li><a href="https://github.com/arcturus/serviceworkerware/">serviceworkerware</a> ease the task of programming sw.</li>
@@ -160,6 +156,50 @@
           
         </section>
 
+        <section>
+          <section>
+            <h2>More possibilities</h2>
+          </section>
+
+          <section>
+            <ul>
+              <li><a href="#/offliner" style="text-decoration: line-through;">Web Application life-cycle</a></li>
+              <li class="fragment" style="text-decoration: line-through;"><a href="#/v3-app">Client side</a> APIs</li>
+              <li class="fragment">True web applications in your mobile homescreen: as <strong>installed bookmarks</strong>!!</li>
+              <li class="fragment">Gather <strong>analytics</strong></li>
+              <li class="fragment"><a href="https://github.com/slightlyoff/BackgroundSync/blob/master/explainer.md">Sync</a></li>
+              <li class="fragment">New <a href="https://w3c.github.io/push-api/">Push</a> API</li>
+              <li class="fragment"><a href="http://webcache.googleusercontent.com/search?q=cache:yyEh_ZhowakJ:https://groups.google.com/d/msg/mozilla.dev.gaia/0CkXpQ25Wdc/4VXnXZpnbMgJ+&cd=1&hl=es&ct=clnk&gl=es">Cross</a> <a href="http://webcache.googleusercontent.com/search?q=cache:-J8xMtqqk_EJ:https://groups.google.com/d/msg/mozilla.dev.gaia/0CkXpQ25Wdc/uCYcL0QXOCUJ+&cd=2&hl=es&ct=clnk&gl=es">Origin</a> Workers?</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>What is the state of the art?</h2>
+          </section>
+
+          <section>
+            <h3>Browser support</h3>
+            <ul>
+              <li>In <a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API/Using_Service_Workers#Setting_up_to_play_with_Service_Workers">Chrome</a>? <span class="fragment"><strong>yes</strong>!</span></li>
+              <li class="fragment">In <a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API/Using_Service_Workers#Setting_up_to_play_with_Service_Workers">Nightly?</a> <span class="fragment"><strong>yes \o/</strong>!</span></li>
+              <li class="fragment">In <a href="https://blog.wanderview.com/sw-builds/">Firefox</a>? <span class="fragment"><strong>kind of</strong></span></li>
+              <li class="fragment">And test in <a href="https://blog.wanderview.com/blog/2015/03/24/service-workers-in-firefox-nightly/">Firefox OS</a></li>
+              <li class="fragment"><a href="https://jakearchibald.github.io/isserviceworkerready/">Is service worker ready?</a></li>
+            </ul>
+          </section>
+          
+          <section>
+            <h3>Big problems and workarounds</h3>
+            <ul>
+              <li>No <strong>storage</strong> on Firefox! Use an <a href="https://github.com/lodr/v3-app/blob/master/js/simpleStore.js">offline cache</a>.</li>
+              <li class="fragment">No <a href="https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim"><code>.claim()</code></a> implementation on Firefox! Use <a href="https://github.com/lodr/v3-app/blob/master/js/index.js#L5-L8">reload</a> pattern.</li>
+              <li class="fragment">No <strong>dev tools</strong> on Firefox! Use <strong>Chrome</strong> <code>:_(</code></li>
+            </ul>
+          </section>
+        </section>
+        
         <section data-background="imgs/butler.jpg">
           <h2>Questions?</h2>
         </section>
