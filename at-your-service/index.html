@@ -37,21 +37,12 @@
         </section>
 
         <section>
-          <img src="imgs/chibi.png" alt="me" style="border:none; width: 250px; height:auto;"/>
-          <h2>About this presentation</h2>
-          <p><a href="https://lodr.github.io/presentations/at-your-service">https://lodr.github.io/presentations/at-your-service</a></p>
-          <p>Salvador de la Puente González</p>
-          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
-          <p><a href="http://github.com/lodr">http://github.com/lodr</a></p>
-        </section>
-        
-        <section>
           <h2>Overview</h2>
           <ul>
-            <li class="fragment">What is a service worker?</li>
-            <li class="fragment">Real world applications</li>
-            <li class="fragment">More possibilities</li>
-            <li class="fragment">What is the state of the art?</li>
+            <li>What is a service worker?</li>
+            <li>Real world applications</li>
+            <li>More possibilities</li>
+            <li>What is the state of the art?</li>
           </ul>
         </section>
 
@@ -71,12 +62,14 @@
             <p class="fragment">Imagine you are in the tube browsing Twitter...</p>
             <p class="fragment">You've found some interesting post and you are reading it...</p>
             <p class="fragment">Then go back to Twitter and it just crashes!</p>
+            <img alt="no connection" src="imgs/unable-to-connect.png" />
             <p class="fragment">You got out of network and you can not read any more...</p>
             <p class="fragment">But with service workers...</p>
           </section>
           
           <section>
             <h3>A future with service workers</h3>
+            <img alt="offline mode" src="imgs/offline-mode.jpg" style="float: left; margin: 20px;"/>
             <p class="fragment">On entering Twitter, it starts downloading some tweets...</p>
             <p class="fragment">The service worker store them for offline usage</p>
             <p class="fragment">Then go back to Twitter but this time, Twitter does not crash!</p>
@@ -85,31 +78,40 @@
           </section>
           
           <section>
-            <h3>Life cycle</h3>
-            <img alt="life cycle" src="./imgs/sw-lifecycle.png" style="width: 600px; background: white;"/>
-          </section>
-          
-          <section>
             <h3>Introducing Offline Cache API</h3>
             <ul>
-              <li>It's a storage to keep <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response/Response">response objects</a>.</li>
               <li class="fragment">It's quite similar to a key/value storage...</li>
-              <li class="fragment">but using <strong><a href="https://developer.mozilla.org/en-US/docs/Web/API/Request/Request">request</a>/response</strong> pairs instead.</li>
+              <li class="fragment">but using <strong><a href="https://developer.mozilla.org/en-US/docs/Web/API/Request/Request">request</a>/<a href="https://developer.mozilla.org/en-US/docs/Web/API/Response/Response">response</a></strong> pairs instead.</li>
               <li class="fragment">Requests are mainly a method and an URL.</li>
-              <li class="fragment">Responses are mainly an URL and a body.</code></li>
+              <li class="fragment">Responses are mainly an URL and a body.</li>
               <li class="fragment">Both can be programatically crafted <strong>in the browser</strong>.</li>
+              <li class="fragment">Accessible via the <code><a href="https://developer.mozilla.org/en-US/docs/Web/API/Cache">cache</a></code> object in the SW global scope.</li>
             </ul>
           </section>
+
+          <section>
+            <h3>Service Worker life cycle</h3>
+            <img alt="life cycle" src="./imgs/life-cycle.png"/>
+          </section>
+
+          <section>
+            <ol>
+              <li>Register the service worker for a scope.</li>
+              <li>Once all non-controlled pages are closed, activate.<br/>Next open pages under scope <strong>will be controlled</strong>.</li>
+              <li>After attending a fetch or a message, it becomes idle.</li>
+              <li>And eventually it will be terminated by the browser.</li>
+            </ol>
+          </section>
+          
           
           <section>
             <h3>Other important details</h3>
             <ul>
-              <li>Runs on its <strong>own thread</strong> (in parallel)</li>
-              <li class="fragment">Only works on<strong> https / localhost</strong></li>
-              <li class="fragment">Survives <strong>browser's closing</strong></li>
-              <li class="fragment">But it is not <strong>always alive</strong></li>
-              <li class="fragment">It is <strong>updated on change / on demand</strong></li>
-              <li class="fragment"><a href="http://www.html5rocks.com/en/tutorials/service-worker/introduction/">Introduction to service workers</a></li>
+              <li>Runs on its <strong>own thread</strong> (in parallel).</li>
+              <li class="fragment">Only works on<strong> https / localhost</strong>.</li>
+              <li class="fragment">It should be placed <strong>at the root of the scope</strong>.</li>
+              <li class="fragment">It is <strong>updated on change / on demand</strong>.</li>
+              <li class="fragment"><a href="http://www.html5rocks.com/en/tutorials/service-worker/introduction/">Introduction to service workers</a>.</li>
             </ul>
           </section>
           
@@ -191,13 +193,26 @@
           </section>
           
           <section>
-            <h3>Big problems and workarounds</h3>
+            <h3>Major problems and workarounds</h3>
             <ul>
               <li>No <strong>storage</strong> on Firefox! Use an <a href="https://github.com/lodr/v3-app/blob/master/js/simpleStore.js">offline cache</a>.</li>
               <li class="fragment">No <a href="https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim"><code>.claim()</code></a> implementation on Firefox! Use <a href="https://github.com/lodr/v3-app/blob/master/js/index.js#L5-L8">reload</a> pattern.</li>
               <li class="fragment">No <strong>dev tools</strong> on Firefox! Use <strong>Chrome</strong> <code>:_(</code></li>
             </ul>
           </section>
+        </section>
+        
+        <section>
+          <img src="imgs/chibi.png" alt="me" style="border:none; width: 250px; height:auto;"/>
+          <h2>About this presentation</h2>
+          <p><a href="https://lodr.github.io/presentations/at-your-service">https://lodr.github.io/presentations/at-your-service</a></p>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/lodr">http://github.com/lodr</a></p>
+        </section>
+
+        <section>
+          <p>Thanks to:<br/>Francisco Jordano for SWW &amp; Mozilla Web Techonologies and Ecosystem for supporting offliner</p>
         </section>
         
         <section data-background="imgs/butler.jpg">
