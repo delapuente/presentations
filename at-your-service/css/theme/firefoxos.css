@@ -119,6 +119,8 @@ strong {
  * LINKS
  *********************************************/
 .reveal a:not(.image) {
+  padding: 4px 8px;
+  border-radius: 10px;
   color: #ffa41b;
   text-decoration: none;
   -webkit-transition: color .15s ease;
@@ -127,8 +129,14 @@ strong {
   -o-transition: color .15s ease;
   transition: color .15s ease; }
 
+.reveal a:after {
+  content: "🔗"; 
+  margin-left: 10px;
+  color: white;
+  font-size: 1.2em;
+}
+
 .reveal a:not(.image):hover {
-  color: #ff9900;
   font-weight: bold;
   border: none; }
 
