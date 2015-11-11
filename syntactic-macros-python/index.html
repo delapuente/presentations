@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Syntactic macros in Python</title>
+
+    <meta name="description" content="Syntactic macros grant the developer the right to abuse the language syntax for not intended goals.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/tooltip.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script anchor.jsrc="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <section data-markdown>
+            # Syntactic macros in Python
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <blockquote>Colorless green ideas sleep furiously</blockquote>
+            <p>— <a href="https://en.wikipedia.org/wiki/Colorless_green_ideas_sleep_furiously">Noam Chomsky</a>, American linguistic</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## What are macros?
+          </section>
+          
+          <section data-markdown>
+            Traditionally, macros are **substitutions** of fragments of the
+            source code by some transformation of themselves.
+          </section>
+          
+          <section data-markdown>
+            This substitution is called **_macro-expansion_** and its performed
+            by the compiler in a previous pass before compiling the actual code.
+          </section>
+
+          <section data-markdown>
+            There are several forms of macros, probably most famous are 
+            _text substitution macros_ in which a preprocessor
+            **search and replace** specific text sequences.
+          </section>
+
+          <section data-markdown>
+            **Basic C macro**
+            ```cpp
+            #define TRUE 1
+            int isamacro = TRUE; // becomes isamacro = 1
+            ```
+          </section>
+          
+          <section data-markdown>
+            **Parametrized C macro**
+            ```cpp
+            #define max(x, y) ((x) &gt; (y) ? (x) : (y))
+            int maximum = max(5+1, v);
+            // becomes ((5+1) &gt; (v) ? (5+1) : (v))
+            ```
+          </section>
+
+          <section data-markdown>
+            **For-in iteration protocol**
+            ```cpp
+            #define for_in(T, v, c) \
+            for (T (*v) = c.iter(); v; v = v-&gt;next())
+
+            for_in(int, n, intarray) {
+              printf("Double of %d is %d", *n, *n * 2);
+            }
+            /* becomes
+            for (int (*n) = intarray.iter(); n; n = n-&gt;next()) {
+              printf("Double of %d is %d", *n, *n * 2);
+            }
+            */
+            ```
+          </section>
+
+          <section data-markdown>
+            Text preprocessors knows nothing about the structure of the source
+            code is replacing.
+          </section>
+
+          <section data-markdown>
+            But syntactic macros does...
+          </section>
+
+          <section data-markdown>
+            ## What are syntactic macros?
+          </section>
+
+          <section data-markdown>
+            They are transformations of the **syntactic tree**. The macro is
+            actually a function taking an **AST as input** and returning
+            another **AST as expansion**.
+          </section>
+
+          <section data-markdown>
+            **Macro expansion proposal for `log` macro**
+            ```python
+            log[people[7].name]
+            # Expands to print('people[7].name:', people[7].name)
+            ```
+          </section>
+          
+          <section data-markdown>
+            With sintactic macros we can **abuse** the language syntax and
+            provide new pragmatics. I.e. **create new meaning**.
+          </section>
+
+          <section data-markdown>
+            **Macro expansion proposal for `customliterals` macro**
+            ```python
+            # Runtime error: `AttributeError: __exit__`
+            with customliterals:
+              tuple is point
+              print((0,0).distance((1,1)))
+              
+            '''Expands to:
+            print( point( (0,0) ).distance( point( (1,1) ) ) )
+            '''  
+            ```
+          </section>
+
+          <section data-markdown>
+            But syntactic macros _per se_ does not allow to extend the language.
+            The source code must be recognized as a valid AST before expansion.
+          </section>
+
+          <section data-markdown>
+            **The `d` (_dice roll_) operator**
+            ```python
+            roll = 5 d 6
+            # would expand in (randint(1, 6+1) for n in range(5))
+            # Pre-runtime error: `SyntaxError: invalid syntax`
+            ```
+          </section>
+          
+          <section data-markdown>
+            Would not be cool to **use Python to expand Python**?
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## macropy
+            [lihaoyi/macropy](https://github.com/lihaoyi/macropy)
+          </section>
+          
+          <section data-markdown>
+            * A macro expander in **_import-time_**.
+            * A complete library with lots of useful macros.
+            * An authoring framework for creating new macros.
+            * Works with **CPtyhon 2.7.2**, **PyPy 2.0**
+            * Partial support in Python 3.x
+          </section>
+
+          <section data-markdown>
+            **Install &amp; basic setup**
+            ```
+            # pip2 install macropy
+            ```
+            ```python
+            # run.py
+            import macropy.activate # important!
+            import myprogram.py
+
+            # myprogram.py
+            from mymacros import macros, ...
+            '''Do something with macros...'''
+
+            # mymacros.py
+            from macropy.core.macros import *
+            macros = Macros() # important!
+            '''Define macros here'''
+            ```
+            ```python
+            # Or in the Python console, instead of `activate`
+            import macropy.console
+            ```
+          </section>
+          
+          <section data-markdown>
+            **The Case macro**
+            ```python
+            from macropy.case_classes import macros, case
+
+            @case
+            class Point(x, y): pass
+
+            p = Point(1, 2)
+            print str(p) # Point(1, 2)
+            print p.x    # 1
+            print p.y    # 2
+            print Point(1, 2) == Point(1, 2) # True
+            x, y = p
+            print x, y   # 1 2
+            ```
+            Advanced topics about
+            [case classes](https://github.com/lihaoyi/macropy#case-classes)
+            in the docs.
+          </section>
+          
+          <section data-markdown>
+            **The Quick Lambda macro**
+            ```python
+            from macropy.quick_lambda import macros, f, _
+
+            print map(f[_ + 1], [1, 2, 3])    # [2, 3, 4]
+            print reduce(f[_ * _], [1, 2, 3]) # 6
+            ```
+            More about 
+            [quick lambdas](https://github.com/lihaoyi/macropy#quick-lambdas)
+            in the documentation.
+          </section>
+          
+          <section data-markdown>
+            **The show_expanded macro**
+            ```python
+            from macropy.case_classes import macros, case
+            from macropy.tracing import macros, show_expanded
+
+            with show_expanded:
+              @case
+              class Point(x, y): pass
+            ```
+            More introspection utilities as
+            [show_expanded](https://github.com/lihaoyi/macropy#show_expanded)
+            in the docs.
+          </section>
+
+          <section data-markdown>
+            And tons of more features:
+
+              * [Lazy](https://github.com/lihaoyi/macropy#lazy),
+              [String Interpolation](https://github.com/lihaoyi/macropy#string-interpolation)
+              &amp; [Tracing](https://github.com/lihaoyi/macropy#tracing) macros.
+              * MacroPEG
+              [Parser Combinator](https://github.com/lihaoyi/macropy#macropeg-parser-combinators).
+              * Experimental
+              [pattern matching](https://github.com/lihaoyi/macropy#pattern-matching) &amp;
+              [tail-call optimization](https://github.com/lihaoyi/macropy#tail-call-optimization).
+              * PINQ, [SQL integration](https://github.com/lihaoyi/macropy#pinq-to-sqlalchemy)
+              in Python.
+              * [Pyxl](https://github.com/lihaoyi/macropy#pyxl-snippets) &amp;
+              [JS](https://github.com/lihaoyi/macropy#js-snippets) snippets.
+              * And
+              [even more](https://github.com/lihaoyi/macropy#macropy-103)...
+          </section>
+
+          <section data-markdown>
+            ### Writing macros
+          </section>
+
+          <section data-markdown>
+            **The [log](https://github.com/lihaoyi/macropy#tracing) macro**
+
+            It's quite similar to write [LISP macros]().
+            ```python
+            character = { 'name': 'Iñigo Montoya' }
+            # We want this:
+            log[character['name']]
+            # ...to expand into:
+            print('character[\'name\'] ->', character['name'])
+            ```
+          </section>
+
+          <section data-markdown>
+            Mark the module as a macro container
+            ```python
+            from macropy.core.macros import *
+            macros = Macros()
+            ```
+          </section>
+
+          <section data-markdown>
+            Use a decorator to specify what kind of use you want for your macro
+            ```python
+            from macropy.core.macros import *
+            macros = Macros()
+
+            @macros.expr
+            def log(tree, **kw):
+              return tree
+            ```
+          </section>
+
+          <section data-markdown>
+            Use [hygienic quasiquotes](https://github.com/lihaoyi/macropy#quasiquotes)
+            to build new ASTs avoiding the ugly
+            [AST API](https://docs.python.org/3.5/library/ast.html)
+            ```python
+            from macropy.core.macros import *
+            from macropy.core.hquotes import macros, hq, ast, u
+            macros = Macros()
+
+            @macros.expr
+            def log(tree, **kw):
+              label = unparse(tree) + ' -&gt;'
+              return hq[eprint(u[label], ast[tree])]
+
+            def eprint(label, target): print label, target
+            ```
+          </section>
+
+          <section data-markdown>
+            * `unparse(tree)` is a **function** returning the Python code for
+            _tree_.
+            * `hq[tree]` is a **macro** that returns the AST for the Python code
+            needed to build _tree_ but preserving the macro context.
+            * `ast[tree]` is a **macro** used only inside _hq_ to insert the AST
+            in _tree_ as part of the expression in which the _ast_ macro is
+            found.
+            * `u[tree]` is a **macro** used only inside _hq_ to insert the AST
+            of the result of evaluating _tree_ in the macro context in the
+            expression where the _u_ macro is found. Only
+            [built-in types](https://docs.python.org/3.5/library/stdtypes.html)
+            are supported.
+          </section>
+
+          <section data-markdown>
+            More in the
+            [tutorials section](https://github.com/lihaoyi/macropy#tutorials).
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## How does it work?
+          </section>
+
+          <section data-markdown>
+            ![macropy working schema](./imgs/macropy-schema.png)
+
+            macropy **intercepts the module when importing it**, expand the AST,
+            and executes the new AST.
+          </section>
+
+          <section data-markdown>
+            #### importing
+            * **New Import Hooks**
+            ([PEP 0302](https://www.python.org/dev/peps/pep-0302/)) allows
+            to customize _import system_.
+            * [Import system](https://docs.python.org/3/reference/import.html)
+            relies on finders and loaders.
+            * A [finder](https://docs.python.org/3/glossary.html#term-finder)
+            searches a module and return a loader for it.
+            * A [loader](https://docs.python.org/3/glossary.html#term-loader)
+            reads and
+            [executes](https://docs.python.org/3/library/functions.html#exec)
+            the module.
+            ```python
+            import macropy.activate
+            ```
+            * That line adds a [custom finder](https://github.com/lihaoyi/macropy/blob/13993ccb08df21a0d63b091dbaae50b9dbb3fe3e/macropy/core/import_hooks.py#L22)
+            in charge of expanding the AST before executing it.
+
+          </section>
+
+          <section data-markdown class="deco">
+            #### expansion I
+            [ast._parse()_](https://docs.python.org/3.5/library/ast.html#ast.parse) function returns the AST for source code.
+
+            ![ast expansion](./imgs/ast-expansion-1.png)
+
+            macropy [looks for nodes representing macros](https://github.com/lihaoyi/macropy/blob/13993ccb08df21a0d63b091dbaae50b9dbb3fe3e/macropy/core/import_hooks.py#L42-L60).
+          </section>
+
+          <section data-markdown class="deco">
+            #### expansion II
+            Found nodes are split into macro name and wrapped tree.
+            
+            ![new ast computation](./imgs/ast-expansion-2.png)
+
+            The macro function is executed passing the wrapped tree as parameter.
+          </section>
+
+          <section data-markdown>
+            #### execution
+            Now the AST has been expanded, the custom loader executes the new
+            AST in the module context.
+          </section>
+        </section>
+        
+        <section>
+          <section data-markdown>
+            ## mcpy
+            [delapuente/mcpy](https://github.com/delapuente/mcpy)
+          </section>
+          
+          <section data-markdown>
+            * Focus on **expanding** macros.
+            * Developed as an study case for **learning**.
+            * Very **small library** compared with macropy.
+            * No utilities for authoring.
+            * But you can use
+            **[mcquotes](https://github.com/delapuente/mcquotes)** for it.
+          </section>
+
+          <section data-markdown>
+            Show me [da code](https://github.com/delapuente/mcpy/blob/master/demo/run.py)!
+          </section>
+        </section>
+
+        <section data-markdown>
+          ## See also
+          * [Wikipedia article about macros](https://en.wikipedia.org/wiki/Macro_%28computer_science%29)
+          * [Macros: Defining Your Own](http://www.gigamonkeys.com/book/macros-defining-your-own.html)
+          * The [expansion code for macropy](https://github.com/lihaoyi/macropy/blob/13993ccb08df21a0d63b091dbaae50b9dbb3fe3e/macropy/core/macros.py#L100).
+        </section>
+        
+        <section>
+          <h2>About me</h2>
+          <img src="imgs/perezalva.png" class="deco" style="float:left; width: 250px; height:auto;"/>
+          <dl style="padding-top: 100px;">
+            <dt>me</dt>
+            <dd>Salvador de la Puente González</dd>
+            <dt>twitter</dt>
+            <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+            <dt>My web sites</dt>
+            <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/delapuente">http://github.com/delapuente</a></dd>
+          </dl>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
