@@ -1,5 +1,11 @@
 # Index of my presentations
 
+## Syntactic macros in Python
+
+[Go to the presentation](http://delapuente.github.io/presentations/syntactic-macros-python/index.html)
+
+Syntactic macros grant the developer the right to abuse the language syntax for not intended goals.
+
 ## One Encoding To Rule Them All
 
 [Go to the presentation](http://delapuente.github.io/presentations/one-encoding-to-rule-them-all/index.html)
