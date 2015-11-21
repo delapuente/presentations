@@ -24,9 +24,14 @@
 
     <!-- If the query includes 'print-pdf', use the PDF print sheet -->
     <script>
-      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
     </script>
-
     <!--[if lt IE 9]>
     <script anchor.jsrc="lib/js/html5shiv.js"></script>
     <![endif]-->
@@ -93,13 +98,13 @@
             **For-in iteration protocol**
             ```cpp
             #define for_in(T, v, c) \
-            for (T (*v) = c.iter(); v; v = v-&gt;next())
+            for (iter&lt;T&gt; (*v) = c-&gt;iter(); v; v = v-&gt;next())
 
             for_in(int, n, intarray) {
               printf("Double of %d is %d", *n, *n * 2);
             }
             /* becomes
-            for (int (*n) = intarray.iter(); n; n = n-&gt;next()) {
+            for (iter&lt;int&gt; (*n) = intarray-&gt;iter(); n; n = n-&gt;next()) {
               printf("Double of %d is %d", *n, *n * 2);
             }
             */
@@ -126,7 +131,21 @@
           </section>
 
           <section data-markdown>
-            **Macro expansion proposal for `log` macro**
+            **Basic LISP macro**
+            ```lisp
+            (defmacro when (test exp . rest)
+              `(if ,test
+                (progn ,exp . ,rest)))
+
+            (when nil (display "Launching missiles!\n"))
+            ;; Expand to
+            ;; (if nil
+            ;;  (progn (display "Launching missiles!\n")))
+            ```
+          </section>
+
+          <section data-markdown>
+            **Proposal for _Python_ `log` macro**
             ```python
             log[people[7].name]
             # Expands to print('people[7].name:', people[7].name)
@@ -139,7 +158,7 @@
           </section>
 
           <section data-markdown>
-            **Macro expansion proposal for `customliterals` macro**
+            **Proposal for _Python_ `customliterals` macro**
             ```python
             # Runtime error: `AttributeError: __exit__`
             with customliterals:
@@ -291,7 +310,7 @@
             # We want this:
             log[character['name']]
             # ...to expand into:
-            print('character[\'name\'] ->', character['name'])
+            print 'character[\'name\'] ->', character['name']
             ```
           </section>
 
@@ -423,8 +442,6 @@
             * Developed as an study case for **learning**.
             * Very **small library** compared with macropy.
             * No utilities for authoring.
-            * But you can use
-            **[mcquotes](https://github.com/delapuente/mcquotes)** for it.
           </section>
 
           <section data-markdown>
