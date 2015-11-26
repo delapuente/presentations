@@ -34,193 +34,266 @@
     <div class="reveal">
 
       <div class="slides">
-        <section>
-          <header>
-            <h1>At your service!</h1>
-            <h2>code &amp; resources about service workers</h2>
-          </header>
-        </section>
-
-        <section>
-          <h2>Overview</h2>
-          <ul>
-            <li>What is a service worker?</li>
-            <li>Real world applications</li>
-            <li>More possibilities</li>
-            <li>What is the state of the art?</li>
-          </ul>
+        <section data-markdown>
+          # At Your Service!
+          ## More than appcache uses for Service Workers
         </section>
 
         <section>
           <section>
-            <h2>What is a service worker?</h2>
+            <blockquote>You are what you do, not what you say you'll do</blockquote>
+            <p>— <a href="https://en.wikipedia.org/wiki/Carl_Jung">C.G. Jung</a>, Swiss Psychiatrist</p>
           </section>
+        </section>
 
-          <section>
-            <p>A <strong>request catcher</strong>...</p>
-            <img alt="interception" src="./imgs/sw-interception.png"/>
-            <p>...and <strong>response generator</strong>.</p>
-          </section>
-          
-          <section>
-            <h3>The world without service workers</h3>
-            <p class="fragment">Imagine you are in the tube browsing Twitter...</p>
-            <p class="fragment">You've found some interesting post and you are reading it...</p>
-            <p class="fragment">Then go back to Twitter and it just crashes!</p>
-            <img alt="no connection" src="imgs/unable-to-connect.png" style="height: 400px;"/>
-            <p class="fragment">You got out of network and you can not read any more...</p>
-          </section>
-          
-          <section>
-            <h3>A future with service workers</h3>
-            <img alt="offline mode" src="imgs/offline-mode.jpg" style="float: left; margin: 20px;"/>
-            <p class="fragment">On entering Twitter, it starts downloading some tweets...</p>
-            <p class="fragment">The service worker store them for offline usage</p>
-            <p class="fragment">Then go back to Twitter but this time, Twitter does not crash!</p>
-            <p class="fragment">Instead, you are warned about connectivity problems...</p>
-            <p class="fragment">...but your tweets are there, ready to be read!</p>
-          </section>
-          
-          <section>
-            <h3>Introducing Offline Cache API</h3>
-            <ul>
-              <li class="fragment">It's quite similar to a key/value storage...</li>
-              <li class="fragment">but using <strong><a href="https://developer.mozilla.org/en-US/docs/Web/API/Request/Request">request</a>/<a href="https://developer.mozilla.org/en-US/docs/Web/API/Response/Response">response</a></strong> pairs instead.</li>
-              <li class="fragment">Requests are mainly a method and an URL.</li>
-              <li class="fragment">Responses are mainly an URL and a body.</li>
-              <li class="fragment">Both can be programatically crafted <strong>in the browser</strong>.</li>
-              <li class="fragment">Accessible via the <code><a href="https://developer.mozilla.org/en-US/docs/Web/API/Cache">cache</a></code> object in the SW global scope.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h3>Service Worker life cycle</h3>
-            <img alt="life cycle" src="./imgs/life-cycle.png"/>
-          </section>
-
-          <section>
-            <ol>
-              <li>Register the service worker for a scope.</li>
-              <li>Once all non-controlled pages are closed, activate.<br/>Next open pages under scope <strong>will be controlled</strong>.</li>
-              <li>After attending a fetch or a message, it becomes idle.</li>
-              <li>And eventually it will be terminated by the browser.</li>
-            </ol>
-          </section>
-          
-          
-          <section>
-            <h3>Other important details</h3>
-            <ul>
-              <li>Runs on its <strong>own thread</strong> (in parallel).</li>
-              <li class="fragment">Only works on<strong> https / localhost</strong>.</li>
-              <li class="fragment">It should be placed <strong>at the root of the scope</strong>.</li>
-              <li class="fragment">It is <strong>updated on change / on demand</strong>.</li>
-              <li class="fragment"><a href="http://www.html5rocks.com/en/tutorials/service-worker/introduction/">Introduction to service workers</a>.</li>
-            </ul>
-          </section>
-          
+        <section data-markdown>
+          ## Index
+          1. Progressive apps
+          2. What is a Service Worker?
+          3. The State of the Art
+          4. A man in the middle
         </section>
 
         <section>
-          <section>
-            <h2>Real world applications</h2>
+          <section data-markdown>
+            ## Progressive apps
           </section>
 
-          <section id="offliner">
-            <h3>Offliner</h3>
-            <ul>
-              <li><a href="https://github.com/delapuente/offliner/">offliner</a> provides a life-cycle for webapps.</li>
-              <li class="fragment">It only provides the <strong>abstract strategy</strong>.</li>
-              <li class="fragment">You provide the <strong>implementation as plugins</strong>.</li>
-              <li class="fragment">See the <a href="http://delapuente.github.io/offliner">demo in action</a>!</li>
-            </ul>
-          </section>
-          
-          <section id="v3-app">
-            <h3>ServiceWorkerWare</h3>
-            <ul>
-              <li><a href="https://github.com/arcturus/serviceworkerware/">serviceworkerware</a> ease the task of programming sw.</li>
-              <li class="fragment">Provides a <strong>pseudo-declarative syntax</strong> a-la express.js.</li>
-              <li class="fragment">Can be extended via <strong>middlewares</strong>.</li>
-              <li class="fragment">Browse <a href="https://github.com/delapuente/v3-app/blob/nightly/sw.js#L14">an implementation of a <em>client API</em></a></li>
-            </ul>
-          </section>
-          
-          <section>
-            <h3>Karma SW adapter</h3>
-            <ul>
-              <li><a href="https://github.com/delapuente/karma-sw-mocha/">Karma SW adapter</a> allows testing in a sw environment.</li>
-              <li class="fragment">The idea is <strong>to extend the activation event</strong>.</li>
-              <li class="fragment">Now it's hardly coupled to <strong>mocha, chai and sinon</strong>.</li>
-              <li class="fragment">See <a href="https://github.com/arcturus/serviceworkerware/pull/13/files">a working setup for serviceworkerware</a></li>
-            </ul>
-          </section>
-          
-          <section>
-            <p>More <a href="https://github.com/w3c-webmob/ServiceWorkersDemos">demos &amp; sample code</a></p>
-          </section>
-          
-        </section>
+          <section data-markdown>
+            &gt; These apps aren’t packaged and deployed through stores, they’re **just
+            &gt; websites** that took all the right vitamins. They keep the web’s
+            &gt; ask-when-you-need-it permission model and add in new capabilities
+            &gt; like being **top-level** in your task switcher, on your home screen, and
+            &gt; in your notification tray.
 
-        <section>
+            Alex Russell in [Progressive Web Apps](https://infrequently.org/2015/06/progressive-apps-escaping-tabs-without-losing-our-soul/)
+          </section>
+
+          <section data-markdown>
+            * Responsive
+            * **Connectivity independent**
+            * App-like-interactions
+            * **Installable**
+            * Fresh (always up to date)
+            * Discoverable
+            * **Re-engageable**
+            * Linkable
+          </section>
+          
           <section>
-            <h2>More possibilities</h2>
+            <img src="./imgs/add-to-home-screen.gif" />
           </section>
 
           <section>
-            <ul>
-              <li><a href="#/offliner" style="text-decoration: line-through;">Web Application life-cycle</a></li>
-              <li class="fragment" style="text-decoration: line-through;"><a href="#/v3-app">Client side</a> APIs</li>
-              <li class="fragment">True web applications in your mobile homescreen: as <strong>installed bookmarks</strong>!!</li>
-              <li class="fragment">Gather <strong>analytics</strong></li>
-              <li class="fragment"><a href="https://github.com/slightlyoff/BackgroundSync/blob/master/explainer.md">Sync</a></li>
-              <li class="fragment">New <a href="https://w3c.github.io/push-api/">Push</a> API</li>
-              <li class="fragment"><a href="http://webcache.googleusercontent.com/search?q=cache:yyEh_ZhowakJ:https://groups.google.com/d/msg/mozilla.dev.gaia/0CkXpQ25Wdc/4VXnXZpnbMgJ+&cd=1&hl=es&ct=clnk&gl=es">Cross</a> <a href="http://webcache.googleusercontent.com/search?q=cache:-J8xMtqqk_EJ:https://groups.google.com/d/msg/mozilla.dev.gaia/0CkXpQ25Wdc/uCYcL0QXOCUJ+&cd=2&hl=es&ct=clnk&gl=es">Origin</a> Workers?</li>
-            </ul>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/MxTaDhwJDLg" frameborder="0" allowfullscreen></iframe>
+            <p><a href="http://tech-blog.flipkart.net/2015/11/progressive-web-app/" target="_blank">Flipkart</a></p>
+          </section>
+          
+          <section>
+            <video controls style="width: 300px;" src="http://nolanlawson.s3.amazonaws.com/vid/pokedex-install-banner.webm"></video>
+            <p><a href="http://www.pocketjavascript.com/blog/2015/11/23/introducing-pokedex-org">Introducing pokedex.org</a></p>
+          </section>
+
+          <section data-markdown>
+            ### Enters WADI
+            &gt; In 2015, Mozilla is launching a new initiative to energize mobile web app development.
+            &gt; (...)
+            &gt; By making web apps that work offline and can reengage users, we believe developers will deliver experiences that will redefine the role of the web on mobile devices.
+
+            **W**eb **A**pp **D**eveloper **I**nitiative
+
+            [Go!](https://wiki.mozilla.org/Apps)
           </section>
         </section>
 
         <section>
-          <section>
-            <h2>What is the state of the art?</h2>
+          <section data-markdown>
+            ## What is a service worker?
+          </section>
+
+          <section data-markdown>
+            It is an **event driven** worker that does not need any client to be alive,
+            it's **tied to its registration** only.
+
+            ![SW lifecycle](./imgs/events.png)
+          </section>
+          
+          <section data-markdown>
+            In particular, `fetch` API is a request hijacker
+
+            ![Fetch API](./imgs/fetch-api.png)
+
+            I.e. a **man in the middle.**
+          </section>
+
+          <section data-markdown>
+            How to **register** a service worker?
+            ```js
+            // index.js
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.register('path/to/sw.js', {
+                scope: 'path/to/scope/'
+              }).then(...);
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            How to handle **life cycle**?
+            ```js
+            // service-worker.js
+            self.oninstall = function (event) {
+              event.waitUntil(setupCurrentWorker());
+            };
+            self.onactivate = function (event) {
+              event.waitUntil(teardownPreviousWorker());
+            };
+            self.onfetch = function (event) {
+              event.respondWith(fetch(event.request)); // pass through
+            }
+            ```
+            [Complete life cycle](https://github.com/delapuente/service-workers-101/blob/master/sw101-letter-sA.svg)
+          </section>
+          
+          <section data-markdown>
+            How to know your **worker is ready**?
+            ```js
+            // client.js
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.register('path/to/sw.js');
+              navigator.serviceWorker.ready.then(/* You know is ready! */);
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            ### Service Worker 101
+            An [infographic on GitHub](https://github.com/delapuente/service-workers-101)
+
+            Your [copy for free](sw-101.pdf)
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## The man in the middle
+
+            off-label uses of Service Workers
+          </section>
+
+          <section data-background="imgs/masterchef.png" data-markdown>
+            ### The Service Worker Cookbook
+            &gt; This cookbook contains dozens of practical, detailed, and working examples of service worker usage. These examples are for developers from beginner to expert and illustrate a number of APIs.
+
+            Take a [look](https://serviceworke.rs)!
+          </section>
+
+          <section data-markdown>
+            ### API analytics
+            A direct application of a man in the middle. We use a service worker
+            to hijack the request, log some info and allow the request to complete.
+
+            [Demo](https://serviceworke.rs/api-analytics.html)
+          </section>
+
+          <section data-markdown>
+            ### Cache from zip
+            More traditional use of service worker, it demonstrate an offline usage
+            but instead of caching every resource from its URL, it's caching all
+            the resources at the same time in a ZIP package.
+
+            [Demo](https://serviceworke.rs/cache-from-zip.html)
+          </section>
+
+          <section data-markdown>
+            ### Virtual Server
+            How about writing a REST API in the client side? It is possible with
+            Service Workers and a little help from
+            [ServiceWorkerWare](https://gihub.com/gaia-components/serviceworkerware)!
+
+            [Demo](https://serviceworke.rs/virtual-server.html)
+          </section>
+
+          <section data-markdown>
+            ### Render store
+            A lot of frameworks rely on template interpolation to render the model.
+            The NGA from Firefox OS introduces a kind of storage to store the interpolated
+            pages to [avoid interpolation delay](http://unoyunodiez.com/2015/09/07/modern-mobile-web-development-breaking-the-rules-beating-delays-improving-responsiveness-and-performance-ii/) upon a second request.
+
+            [Demo](http://localhost:8008)
+          </section>
+
+          <section data-markdown>
+            ### Dependency injection
+            Dependency injection is a technique that frees modules to create its dependencies.
+            Instead, modules declare the abstract APIs they will use and a service called _injector_
+            is used to provide the concrete implementations.
+
+            [Demo](https://serviceworke.rs/dependency-injector.html)
+          </section>
+
+          <section data-markdown>
+            ### Request deferrer
+            This technique withhold requests in a queue while offline to later recreate
+            the sequence of requests to the server once connectivity returns. It can be used
+            for agnostic back-end synchronization systems embedded in modern frameworks.
+
+            [Demo](http://localhost:3003/session-deferrer.html)
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## The state of the art
           </section>
 
           <section>
             <h3>Browser support</h3>
             <ul>
-              <li>In <a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API/Using_Service_Workers#Setting_up_to_play_with_Service_Workers">Chrome</a>? <span class="fragment"><strong>yes</strong>!</span></li>
-              <li class="fragment">In <a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API/Using_Service_Workers#Setting_up_to_play_with_Service_Workers">Nightly?</a> <span class="fragment"><strong>yes \o/</strong>!</span></li>
-              <li class="fragment">In <a href="https://blog.wanderview.com/sw-builds/">Firefox</a>? <span class="fragment"><strong>kind of</strong></span></li>
-              <li class="fragment">And test in <a href="https://blog.wanderview.com/blog/2015/03/24/service-workers-in-firefox-nightly/">Firefox OS</a></li>
-              <li class="fragment"><a href="https://jakearchibald.github.io/isserviceworkerready/">Is service worker ready?</a></li>
+              <li>In Chrome? <span class="fragment">yes!</span></li>
+              <li class="fragment">And in Android Browser and Chrome for Android!</li>
+              <li class="fragment">In Nightly? <span class="fragment"><a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API/Using_Service_Workers#Setting_up_to_play_with_Service_Workers">yes</a>!</span></li>
+              <li class="fragment">In Firefox? <span class="fragment">not <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1059784" target="_blank">yet</a> <code>:(</code></span></li>
+              <li class="fragment">And in Firefox OS? <span class="fragment">Just under <a href="https://blog.wanderview.com/blog/2015/03/24/service-workers-in-firefox-nightly/">test</a></span></li>
             </ul>
           </section>
-          
-          <section>
-            <h3>Major problems and workarounds</h3>
-            <ul>
-              <li>No <strong>storage</strong> on Firefox! Use an <a href="https://github.com/delapuente/v3-app/blob/master/js/simpleStore.js">offline cache</a>.</li>
-              <li class="fragment">No <a href="https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim"><code>.claim()</code></a> implementation on Firefox! Use <a href="https://github.com/delapuente/v3-app/blob/master/js/index.js#L5-L8">reload</a> pattern.</li>
-              <li class="fragment">No <strong>dev tools</strong> on Firefox! Use <strong>Chrome</strong> <code>:_(</code></li>
-            </ul>
+
+          <section data-markdown>
+            ### Where to check?
+            * [is ServiceWorker ready?](https://jakearchibald.github.io/isserviceworkerready/)
+            * [Can I use ... ?](http://caniuse.com/)
+            * [Platform Status](https://mozilla.github.io/platatus/)
           </section>
-        </section>
-        
-        <section>
-          <img src="imgs/chibi.png" alt="me" style="border:none; width: 250px; height:auto;"/>
-          <h2>About this presentation</h2>
-          <p><a href="https://delapuente.github.io/presentations/at-your-service">https://delapuente.github.io/presentations/at-your-service</a></p>
-          <p>Salvador de la Puente González</p>
-          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
-          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+
+          <section data-markdown>
+            ### Major problems and workarounds
+              * ~~No storage on Firefox! Use an offline cache.~~
+              * ~~No `self.clients.claim()` implementation on Firefox! Use reload pattern.~~
+              * No **dev tools** on Firefox! Use Chrome `:_(`
+          </section>
+
+          <section data-markdown>
+            ### Tools &amp; resources
+            * [serviceworke.rs](https://serviceworke.rs)<br/>for use cases &amp; best practices
+            * [oghliner](https://github.com/mozilla/oghliner)<br/>to bootstrap a Service Worker enabled app.
+            * [ServiceWorkerWare](https://github.com/gaia-components/serviceworkerware)<br/>to ease Service Worker authoring.
+            * [offliner](https://github.com/delapuente/offliner)<br/>for adding a life cycle to your app.
+            * [sw-toolbox](https://github.com/GoogleChrome/sw-toolbox)<br/>another similar tool to ServiceWorkerWare.
+            * [upup](https://www.talater.com/upup/)<br/>a tool for _offlining_ your app.
+          </section>
+
         </section>
 
         <section>
-          <p>Thanks to:<br/>Francisco Jordano for SWW &amp; Mozilla Web Techonologies and Ecosystem for supporting offliner</p>
+          <img src="imgs/chibi.png" alt="me" style="border:none; width: 250px; height:auto;"/>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
         </section>
-        
-        <section data-background="imgs/butler.jpg">
-          <h2>Questions?</h2>
+
+        <section data-markdown data-background="imgs/butler.jpg">
+          ## Questions?
         </section>
 
       </div>
