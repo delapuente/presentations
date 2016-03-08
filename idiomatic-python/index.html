@@ -348,28 +348,6 @@ while i &gt;= 0:
   item.doSomething()</code></pre>
           </section>
           
-          <section>
-            <h3>Empty iterations</h3>
-          </section>
-          
-          <section>
-            <p>Don't write:</p>
-            <pre><code class="python">v = []
-if not v:
-  print('Empty list')
-else:
-  for item in v:
-    item.doSomething()</code></pre>
-          </section>
-          
-          <section>
-            <p>Write:</p>
-            <pre><code class="python">v = []
-for item in v:
-  item.doSomething()
-else:
-  print('Empty list')</code></pre>
-          </section>
         </section>
         
         <section>
