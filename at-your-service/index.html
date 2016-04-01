@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>At your service!</title>
-    <meta name="description" content="A short review about service workers: what are they, what is the current status, what is coming and what you can do right now!">
+    <meta name="description" content="Service Workers are more than an application cache replacement, they are programmable proxies in the client side. Let's review some off-label uses for Service Workers!">
     <meta name="author" content="Salvador de la Puente González">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -63,14 +63,19 @@
           </section>
 
           <section data-markdown>
-            * Responsive
-            * **Connectivity independent**
-            * App-like-interactions
-            * **Installable**
-            * Fresh (always up to date)
-            * Discoverable
-            * **Re-engageable**
-            * Linkable
+            &gt; Progressive web applications are like goof old web sites but better. In a modern browser
+            &gt; they exhibit super-powers and become...
+
+            [MDN about Progressive Web Apps](https://developer.mozilla.org/en-US/Apps/Progressive).
+          </section>
+
+          <section data-markdown>
+            * [Responsive](https://developer.mozilla.org/en-US/docs/Web/Apps/Modern/Responsive)
+            * [Network independent](https://developer.mozilla.org/en-US/docs/Web/Apps/Modern/Network_independent)
+            * [Installable](https://developer.mozilla.org/en-US/docs/Web/Apps/Modern/Installable)
+            * [Discoverable](https://developer.mozilla.org/en-US/docs/Web/Apps/Modern/Discoverable)
+            * [Re-engageable](https://developer.mozilla.org/en-US/docs/Web/Apps/Modern/Re-engageable)
+            * [Linkable](https://developer.mozilla.org/en-US/docs/Web/Apps/Modern/Linkable)
           </section>
           
           <section>
@@ -165,6 +170,13 @@
 
             Your [copy for free](sw-101.pdf)
           </section>
+
+          <section data-markdown>
+            ### More on Service Workers
+            Don't miss [latest changes on the specification](https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html)
+            Follow [live discussions](https://github.com/slightlyoff/ServiceWorker/issues)
+            And [ask on stackoverflow](http://stackoverflow.com/search?q=service-workers)!
+          </section>
         </section>
 
         <section>
@@ -179,6 +191,14 @@
             &gt; This cookbook contains dozens of practical, detailed, and working examples of service worker usage. These examples are for developers from beginner to expert and illustrate a number of APIs.
 
             Take a [look](https://serviceworke.rs)!
+          </section>
+
+          <section data-markdown>
+            ### Interesting readings
+            * [Service Workers](https://hacks.mozilla.org/category/serviceworkers/) at Mozilla Hacks
+            * [Beyond offline](https://hacks.mozilla.org/2015/12/beyond-offline/)
+            * [Offline Recipes for Service Workers](https://hacks.mozilla.org/2015/11/offline-service-workers/)
+            * [Offline First](http://offlinefirst.org/)
           </section>
 
           <section data-markdown>
@@ -226,6 +246,14 @@
           </section>
 
           <section data-markdown>
+            ### Load balancer
+            In the mood of transparently replacing content, here is a load balancer implemented in
+            the client side.
+
+            [Demo](https://serviceworke.rs/load-balancer.html)
+          </section>
+
+          <section data-markdown>
             ### Request deferrer
             This technique withhold requests in a queue while offline to later recreate
             the sequence of requests to the server once connectivity returns. It can be used
@@ -246,23 +274,23 @@
               <li>In Chrome? <span class="fragment">yes!</span></li>
               <li class="fragment">And in Android Browser and Chrome for Android!</li>
               <li class="fragment">In Nightly? <span class="fragment"><a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API/Using_Service_Workers#Setting_up_to_play_with_Service_Workers">yes</a>!</span></li>
-              <li class="fragment">In Firefox? <span class="fragment">not <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1059784" target="_blank">yet</a> <code>:(</code></span></li>
-              <li class="fragment">And in Firefox OS? <span class="fragment">Just under <a href="https://blog.wanderview.com/blog/2015/03/24/service-workers-in-firefox-nightly/">test</a></span></li>
+              <li class="fragment">In Firefox? <span class="fragment">yes (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1059784#c16" target="_blank">since Firefox 44</a>)! <code>\0/</code></span></li>
             </ul>
           </section>
 
           <section data-markdown>
             ### Where to check?
             * [is ServiceWorker ready?](https://jakearchibald.github.io/isserviceworkerready/)
+            * [Platform Status](https://platform-status.mozilla.org/#service-worker)
             * [Can I use ... ?](http://caniuse.com/)
-            * [Platform Status](https://mozilla.github.io/platatus/)
           </section>
 
           <section data-markdown>
             ### Major problems and workarounds
               * ~~No storage on Firefox! Use an offline cache.~~
               * ~~No `self.clients.claim()` implementation on Firefox! Use reload pattern.~~
-              * No **dev tools** on Firefox! Use Chrome `:_(`
+              * ~~No **dev tools** on Firefox! Use Chrome `:_(`~~
+              * Basic support of [Service Workers in dev tools](https://hacks.mozilla.org/2016/03/debugging-service-workers-and-push-with-firefox-devtools/). Use Chrome `:(`
           </section>
 
           <section data-markdown>
