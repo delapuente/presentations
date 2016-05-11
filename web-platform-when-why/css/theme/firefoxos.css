@@ -1,0 +1,232 @@
+@font-face {
+  font-family: 'FiraSans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('FiraSans LightRegular'), local('FiraSans-LightRegular'), url(./fonts/FiraSans-LightRegular.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  font-style: italic;
+  font-weight: 300;
+  src: local('FiraSans LightRegularItalic'), local('FiraSans-LightRegularItalic'), url(./fonts/FiraSans-LightReguslarItalic.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('FiraSans Regular'), local('FiraSans-Regular'), url(./fonts/FiraSans-Regular.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('FiraSans RegularItalic'), local('FiraSans-RegularItalic'), url(./fonts/FiraSans-RegularItalic.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  font-style: normal;
+  font-weight: 500;
+  src: local('FiraSans Medium'), local('FiraSans Medium'), url(./fonts/FiraSans-Medium.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  font-style: italic;
+  font-weight: 500;
+  src: local('FiraSans MediumItalic'), local('FiraSans MediumItalic'), url(./fonts/FiraSans-MediumItalic.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('FiraSans Bold'), local('FiraSans Bold'), url(./fonts/FiraSans-Bold.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('FiraSans BoldItalic'), local('FiraSans BoldItalic'), url(./fonts/FiraSans-BoldItalic.woff) format('woff');
+}
+
+/**
+ * Sky theme for reveal.js.
+ *
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+.reveal a:not(.image) {
+  line-height: 1.3em; }
+
+/*********************************************
+ * GLOBAL STYLES
+ *********************************************/
+body {
+  background: -moz-radial-gradient(center, circle cover, rgba(255,255,255,0.1) 20%, rgba(0,0,0, 0.4) 100%),
+              url(./imgs/grain.png) #2177a5;
+  background: -webkit-radial-gradient(center, circle cover, rgba(255,255,255,0.1) 20%, rgba(0,0,0, 0.4) 100%),
+              url(./imgs/grain.png) #2177a5;
+
+}
+
+.reveal {
+  font-family: "FiraSans", "Open Sans", sans-serif;
+  font-size: 36px;
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  color: #EEE;
+  text-shadow: 1px 1px #333; }
+
+::selection {
+  color: white;
+  background: #134674;
+  text-shadow: none; }
+
+/*********************************************
+ * HEADERS
+ *********************************************/
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  color: #ffa41b;
+  margin: 0 0 20px 0;
+  font-family: "FiraSans", sans-serif;
+  line-height: 0.9em;
+  letter-spacing: -0.03em;
+  text-shadow: 2px 2px 0 #333; }
+
+.reveal h1 {
+  color: #EEE;
+  text-shadow: 0.01em 0 0 #444,
+               0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+/*********************************************
+ * TEXT STYLES
+ *********************************************/
+strong {
+  color: #ff9900;
+}
+
+.reveal li {
+  padding-bottom: 0.5rem;
+}
+
+/*********************************************
+ * LINKS
+ *********************************************/
+.reveal a:not(.image) {
+  padding: 4px 8px;
+  border-radius: 10px;
+  color: #ffa41b;
+  text-decoration: none;
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  transition: color .15s ease; }
+
+.reveal a:after {
+  content: "🔗";
+  margin-left: 10px;
+  color: white;
+  font-size: 1.2em;
+}
+
+.reveal a:not(.image):hover {
+  font-weight: bold;
+  border: none; }
+
+.reveal .roll span:after {
+  color: #fff;
+  background: #264c66; }
+
+/*********************************************
+ * IMAGES
+ *********************************************/
+.reveal section img {
+  margin: 15px 0px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 4px solid #333333;
+  box-shadow: 0 0 70px rgba(0, 0, 0, 0.55);
+  -webkit-transition: all .2s linear;
+  -moz-transition: all .2s linear;
+  -ms-transition: all .2s linear;
+  -o-transition: all .2s linear;
+  transition: all .2s linear; }
+
+.reveal section img.small {
+  max-width: 200px;
+}
+
+.reveal section img.medium {
+  max-width: 400px;
+}
+
+.reveal a:hover img {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #3b759e;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
+
+/*********************************************
+ * NAVIGATION CONTROLS
+ *********************************************/
+.reveal .controls div.navigate-left,
+.reveal .controls div.navigate-left.enabled {
+  border-right-color: #ff9900; }
+
+.reveal .controls div.navigate-right,
+.reveal .controls div.navigate-right.enabled {
+  border-left-color: #ff9900; }
+
+.reveal .controls div.navigate-up,
+.reveal .controls div.navigate-up.enabled {
+  border-bottom-color: #ff9900; }
+
+.reveal .controls div.navigate-down,
+.reveal .controls div.navigate-down.enabled {
+  border-top-color: #ff9900; }
+
+.reveal .controls div.navigate-left.enabled:hover {
+  border-right-color: #ff9900; }
+
+.reveal .controls div.navigate-right.enabled:hover {
+  border-left-color: #ff9900; }
+
+.reveal .controls div.navigate-up.enabled:hover {
+  border-bottom-color: #ff9900; }
+
+.reveal .controls div.navigate-down.enabled:hover {
+  border-top-color: #ff9900; }
+
+/*********************************************
+ * PROGRESS BAR
+ *********************************************/
+.reveal .progress {
+  background: rgba(0, 0, 0, 0.2); }
+
+.reveal .progress span {
+  background: #ff9900;
+  -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  -ms-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  -o-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+
+
+.reveal code,
+.reveal pre {
+  font-size: 0.8em;
+}
+
+.reveal blockquote {
+  margin-top: 0.75em;
+  margin-bottom: 0.25em;
+}
