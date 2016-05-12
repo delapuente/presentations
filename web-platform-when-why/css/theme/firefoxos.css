@@ -111,8 +111,9 @@ body {
 /*********************************************
  * TEXT STYLES
  *********************************************/
-strong {
+.reveal strong, .reveal b {
   color: #ff9900;
+  font-weight: 500;
 }
 
 .reveal li {
@@ -133,15 +134,7 @@ strong {
   -o-transition: color .15s ease;
   transition: color .15s ease; }
 
-.reveal a:after {
-  content: "🔗";
-  margin-left: 10px;
-  color: white;
-  font-size: 1.2em;
-}
-
 .reveal a:not(.image):hover {
-  font-weight: bold;
   border: none; }
 
 .reveal .roll span:after {
