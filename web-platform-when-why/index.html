@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>The Right Choice: When is the Web is the right answer &amp;mdash;and why?</title>
+    <title>The Right Choice: When is the Web the right answer &amp;mdash;and why?</title>
     <meta name="description" content="Going native or building for Web is a perennial hot topic in the mobile development space, but treating these alternatives as irreconcilable is naive. Nowadays, each option offers distinct opportunities and advantages. With the advent of new web technologies such as Service Workers, Push API and Web Manifest, let’s reconsider the Web as a competitive platform.">
     <meta name="author" content="Salvador de la Puente González">
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -16,15 +16,15 @@
     <link rel="stylesheet" href="lib/css/zenburn.css">
 
     <!-- If the query includes 'print-pdf', use the PDF print sheet -->
-<script>
-  if( window.location.search.match( /print-pdf/gi ) ) {
-    var link = document.createElement( 'link' );
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = 'css/print/pdf.css';
-    document.getElementsByTagName( 'head' )[0].appendChild( link );
-  }
-</script>
+    <script>
+     if( window.location.search.match( /print-pdf/gi ) ) {
+       var link = document.createElement( 'link' );
+       link.rel = 'stylesheet';
+       link.type = 'text/css';
+       link.href = 'css/print/pdf.css';
+       document.getElementsByTagName( 'head' )[0].appendChild( link );
+     }
+    </script>
     <!--[if lt IE 9]>
     <script src="lib/js/html5shiv.js"></script>
     <![endif]-->
@@ -34,175 +34,262 @@
     <div class="reveal">
 
       <div class="slides">
-        <section data-markdown>
-          # The Right Choice
-          ## When is the Web is the right answer &amp;mdash;and why?
-        </section>
-
-        <section data-markdown>
-          ## Index
-          1. Native &amp; Web
-          2. What we know about Web development
-          3. What the Web is missing
-          4. Web APIs at the rescue!
-          5. The right choice
-          6. Additional information
+        <section>
+          <h1>The Right Choice</h1>
+          <h2>When is the Web is the right answer &mdash;and why?</h2>
         </section>
 
         <section>
-          <section data-markdown>
-            ## Native &amp; Web
+          <h2>Index</h2>
+          <ol>
+            <li>The Web as a platform</li>
+            <li>So, what's stopping the Web?</li>
+            <li>Progressive Web Applications</li>
+            <li>Successful examples</li>
+            <li>Resources and credits</li>
+          </ol>
+        </section>
+
+        <section>
+          <img alt="XKCD's Installing" src="./imgs/installing.png"/>
+        </section>
+
+        <section>
+          <section>
+            <h2>Web vs Native</h2>
           </section>
 
           <section>
             <img src="imgs/batman-vs-superman.jpg" alt="Batman vs. Superman" />
-          </section>
-
-        </section>
-
-        <section>
-          <section data-markdown>
-            ## What we know about Web development
-          </section>
-
-          <section data-markdown>
-            Web apps&hellip;
-
-            * Run across any OS with a browser
-            * Are safer and are more isolated
-            * Spread faster thanks to URLs
-            * Show always up to date content
-            * Are cheaper and reduce costs
-          </section>
-
-          <section data-markdown>
-            The Web&hellip;
-
-            * Is free (as in free-speech)
-            * Has no friction
-            * It is ubiquitous
-          </section>
-
-          <section data-markdown>
-            Some supporting data
-          </section>
-
-          <section data-markdown>
-            Market share of mobile browsers
-
-            ![Chrome &amp; Safari dominate the browser landscape](imgs/mobile-browsers-marketshare.png)
-
-            Chrome, Safari and Android Browser dominate the mobile browser landscape.
-            Taking Opera into account, one codebase is covering **more than 90%** of the market.
-
-            Source: [NETMARKETSHARE](https://www.netmarketshare.com/browser-market-share.aspx?qprid=1&qpcustomb=1&qpct=2&qpsp=195&qpnp=13&qptimeframe=M)
-          </section>
-
-          <section data-markdown>
-            Cost of developing native vs hybrid applications
-            ![Hybrid apps are cheaper](imgs/native-vs-hybrid-app-costs.png)
-
-            Cost is reduced by 24% - 35%
-
-            Source: [Comentum](http://www.comentum.com/mobile-app-development-cost.html)
-          </section>
-
-          <section data-markdown>
-            Salaries for Web, Android and iOS developers in the US
-
-            ![Average salary for Web developers: $67,000](imgs/avg-salary-front-end.png)
-            ![Average salary for Web developers: $77,500](imgs/avg-salary-android.png)
-            ![Average salary for Web developers: $79.000](imgs/avg-salary-ios.png)
-
-            Source: [PayScale](www.payscale.com) on [FrontEnd](http://www.payscale.com/research/US/Job=Front_End_Developer/Salary),
-            [Android](http://www.payscale.com/research/US/Job=Android_Software_Developer/Salary)
-            and [iOS](http://www.payscale.com/research/US/Job=iOS_Developer/Salary)
-          </section>
-
-          <section data-markdown>
-            More friction, less users.
-
-            ![Each steps cost you 20% of users on average](imgs/step-cost-20.png)
-
-            In the Web you save installation and launching since **browsing _is_ opening and launching**.
-
-            Source: [Tales of Creation](http://blog.gaborcselle.com/2012/10/every-step-costs-you-20-of-users.html)
-          </section>
-
-          <section data-markdown>
-            Internet users increses since mobile coverage spread and companies cut the prices
-
-            ![Mobile coverage](imgs/connectivity-evolution.png)
-
-            Source: [International Telecommunication Union](https://www.itu.int/en/ITU-D/Statistics/Documents/facts/ICTFactsFigures2015.pdf)
-          </section>
-
-        </section>
-
-        <section>
-          <section data-markdown>
-            ## What the Web is missing
-          </section>
-
-          <section data-markdown>
-            Web apps&hellip;
-
-            * Are only accesible through the browser
-            * Depends on the browser to be running
-            * Can not access basic engagement features
-            * Display non native UI that feels unnatural
-            * Break if there is no connectivity
-          </section>
-        </section>
-
-        <section>
-          <section data-markdown>
-            ## Web APIs at the rescue!
+            <p class="fragment">
+              C'mon! Both are superheroes!
+            </p>
           </section>
 
           <section>
-            * Service Workers API
-            * Web Notifications
-            * Push API
-            * Web Manifest
-            * Add-to-home-screen prompt
+            <p>
+              Nope, this is not the way&hellip;
+            </p>
           </section>
-
         </section>
 
         <section>
-          <section data-markdown>
-            ## The right choice
-          </section>
-
-          <section data-markdown>
-            * Does your product need mobile APIs?
-            * How much budget do you have?
-            * How heterogeneus is your audience?
-            * Do you need desktop presence?
-            * What kind of content do you offer?
-            * How fast is your release cycle?
-          </section>
-
-          <section data-markdown>
-            ### Does your product need mobile APIs?
+          <section>
+            <h2>The Web as a platform</h2>
+            <aside class="notes">
+              The Web is awesome for two reasons:
+            </aside>
           </section>
 
           <section>
-            ### How much budget do you have?
+            <p>
+              The Web <strong>is not</strong>&hellip;
+            </p>
+            <ul>
+              <li class="fragment">An operating system</li>
+              <li class="fragment">A hardware specification</li>
+            </ul>
           </section>
 
-        </section>
+          <section>
+            <p>
+              The Web <strong>is</strong>&hellip;
+            </p>
+            <ul>
+              <li class="fragment">A virtual machine for HTML5</li>
+              <li class="fragment">A <strong title="As in free speech">free</strong> model of content distribution</li>
+              <li class="fragment">An unprecedent effort of <strong>consensus</strong></li>
+            </ul>
+          </section>
 
-        <section data-markdown>
-          ## Additional information
+          <section>
+            <h3>Interoperability</h3>
+            <img alt="Unique visitors milestones" src="./imgs/unique-visitors-milestones.png"/>
+          </section>
 
-          * [HTML5 vs Native Debate Is Over](https://www.mobilesmith.com/html5-vs-native-debate-is-over/)
-          * Average Salaries for [Android](http://www.payscale.com/research/US/Job=Android_Software_Developer/Salary), [iOS](http://www.payscale.com/research/US/Job=iOS_Developer/Salary) and [Web]() developmers]
+          <section>
+            <blockquote>
+              <p>Confluence of factors is driving the huge uptick in app usage time, and apps are overtaking other media in importance. However, it’s also important to recognize the others haven’t gone away and the opportunity lies in multi-platform engagement.</p>
+              <p style="text-align: right;">&mdash;2015 U.S. Mobile Report Opportunities Key Points</p>
+            </blockquote>
+          </section>
+
+          <section>
+            <h3>Lack of friction</h3>
+            <img alt="Every step costs you 20% of users" src="./imgs/step-cost-20.png" style="width: 70%;"/>
+          </section>
         </section>
 
         <section>
-          <img src="imgs/chibi.png" alt="me" style="border:none; width: 250px; height:auto;"/>
+          <section>
+            <h2>So, what's stopping the Web?</h2>
+          </section>
+
+          <section>
+            <h3>Dependendence on connectivity</h3>
+            <img alt="Dinosaur game in Chrome" src="./imgs/dinosaur-game-chrome.jpg" style="width: 70%;"/>
+          </section>
+
+          <section>
+            <h3>Dependendence on network speed</h3>
+            <img alt="Time a user can wait before leaving the page" src="./imgs/time-waiting-before-give-up.png" style="width: 50%"/>
+          </section>
+
+          <section>
+            <h3>Inability to re-engage the user</h3>
+            <img alt="Audience vs Loyalty" src="./imgs/audience-vs-loyalty.png"/>
+          </section>
+
+          <section>
+            <h3>Performance</h3>
+            <img alt="Causes making milennia to give up an application" src="./imgs/give-up-causes-milennia.png"/>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Progressive Web Apps</h2>
+          </section>
+
+          <section>
+            <p>
+              HTML5 is popular:
+            </p>
+            <img alt="Percentage of applications using HTML5" src="./imgs/html5-software.png" style="width: 70%"/>
+            <p class="fragment">
+              But only inside an application wrapper...
+            </p>
+            <p class="fragment">
+              so you are forced to use the marketplace again!
+            </p>
+          </section>
+
+          <section>
+            <p>
+              Let's bring the benefits of apps to the Web!
+            </p>
+          </section>
+
+          <section>
+            <h3>Service Workers</h3>
+          </section>
+
+          <section>
+            <p>
+              Service Workers are&hellip;
+            </p>
+            <ul>
+              <li class="fragment">JavaScript programs</li>
+              <li class="fragment">Run in a separated thread</li>
+              <li class="fragment">Independent on browser to be open</li>
+              <li class="fragment">Driven by events</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Functional Events</h3>
+            <img alt="Functional Events" src="./imgs/functional-events.png"/>
+            <p>
+              Those able to wake up the Service Worker
+            </p>
+          </section>
+
+          <section>
+            <h3>Fetch</h3>
+            <img alt="Fetch event" src="./imgs/fetch-event.png" style="width: 70%"/>
+          </section>
+
+          <section>
+            <h3>Sync</h3>
+            <img alt="Sync event" src="./imgs/sync-event.png" style="width: 70%"/>
+          </section>
+
+          <section>
+            <h3>Push</h3>
+            <img alt="Push event" src="./imgs/push-event.png" style="width: 70%"/>
+          </section>
+
+          <section>
+            <h3>Performance</h3>
+          </section>
+
+          <section>
+            <ul>
+              <li>
+                <a href="https://developers.google.com/web/tools/chrome-devtools/profile/evaluate-performance/rail?hl=en" target="_blank">RAIL</a> performance model
+              </li>
+              <li class="fragment">
+                <a href="https://aerotwist.com/blog/flip-your-animations/" target="_blank">FLIP</a> your animation in <a href="https://aerotwist.com" target="_blank">aerotwist.com</a>
+              </li>
+              <li class="fragment">
+                <a href="https://hacks.mozilla.org/2015/06/new-performance-tools-in-firefox-developer-edition-40/">Performance tools</a> in <a href="https://www.mozilla.org/firefox/developer/" target="_blank">Firefox Dev. edition</a>
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>The Right Choice</h2>
+          </section>
+
+          <section>
+            <p>
+              My recommendation:
+            </p>
+          </section>
+
+          <section>
+            <ol>
+              <li>Start with the <strong>Web</strong></li>
+              <li class="fragment">If you have business arguments, go away</li>
+              <li class="fragment">If you need access to non available APIs, go away</li>
+            </ol>
+          </section>
+          <section>
+            <p>
+              Now the <strong>Web is ready</strong>, more than ever!
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Successful examples</h2>
+          </section>
+
+          <section>
+            <h3>e-Commerce</h3>
+            <ul>
+              <li>AliExpress increases conversion rate for new users by 104%</li>
+              <li>United eXtra Electronics grows eCommerce sales by 100% with Web Push Notifications</li>
+              <li>Push Notifications help Jumia reverse cart abandonment</li>
+              <li>Konga cuts data usage 92%</li>
+              <li>5smiles increases conversions 60%</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Heroes of Paragon</h3>
+            <img alt="Daily Average Revenue per User" src="./imgs/heores-of-parangon-darpu.png" style="width: 70%;"/>
+            <p>
+              The Web holds 2nd position in DARPU.
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <h2>Resources and credits</h2>
+          <ul>
+            <li>Alex Russell on <a href="https://www.youtube.com/watch?v=x7cfLDFVyHo&feature=youtu.be&t=143" taget="_blank">Progressive Web Apps</a></li>
+            <li><a href="https://flipkart.com" target="_blank">Flipkart Lite</a> progressive web app</li>
+            <li>Google <a href="https://developers.google.com/web/showcase/" taget="_blank">showcase</a></li>
+            <li>Paul Lewis <a href="https://aerotwist.com" target="_blank">aerotwist.com</a> blog on performance</li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="imgs/chibi.jpg" alt="me" style="border:none; width: 250px; height:auto;"/>
           <p>Salvador de la Puente González</p>
           <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
           <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
