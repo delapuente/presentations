@@ -56,10 +56,10 @@
           <aside class="notes">
             This is the agenda for the talk. Let me convince you about why you should love
             the Web, then I'll explain what are the main factors preventing the Web from
-            being a competitive platform to native solutions. To follow, let's see how
-            modern technologies will bring the native application experience to the Web
-            applications and finally, let's review some successful examples, resources and
-            the proper credits.
+            being a competitive alternative to native solutions. To follow, let's see how
+            modern technologies will bring the a native platform UX to Web applications
+            and finally, let's review some successful examples, resources and
+            give the proper credit.
           </aside>
         </section>
 
@@ -67,8 +67,8 @@
           <img alt="XKCD's Installing" src="./imgs/installing.png"/>
           <aside class="notes">
             I tend to start my talks with a quotation but this time, I'm quoting XKCD in
-            its comic strip "Installing". It's a very sharp observation to realize the
-            Web is always there, with no installation process, just one link away.
+            its comic strip "Installing". It is a very sharp observation about realizing
+            that the Web is always there, with no installation process, just one link away.
           </aside>
         </section>
 
@@ -137,7 +137,7 @@
               Second, the web is an unprecedent effort of consensus which leads to third,
               the goals of this agreement are two: interoperability &mdash;as webpages are running
               in an standarized virtual machine with several implementations (Web engines);
-              and a free &mdash;as in free speech&mdash; model of content distributions.
+              and a free &mdash;as in free speech&mdash; model of content distribution.
             </aside>
           </section>
 
@@ -175,8 +175,8 @@
           <section>
             <h2>So, what's stopping the Web?</h2>
             <aside class="notes">
-              Well, there are obvious reasons to not choose the web. For instance, if the platform does
-              not cover your API needs but, event when this is not a problem and having these both
+              Well, there are obvious reasons to not choose the Web. For instance, if the platform does
+              not cover your API needs. But, even when this is not a problem and having these both
               interoperability and lack of friction features, so exclussive and so fetching the Web does
               not seem to fit our needs. Why?
             </aside>
@@ -186,8 +186,8 @@
             <p><strong>User experience</strong></p>
             <aside class="notes">
               The answer is user experience. In the beginning, the Web was never designed for mobile usage.
-              We surfed the web by paying special attention to the browser, in desktop, powerful multicore
-              setups with big screens an a reliable network wired connection.
+              We surfed the Web by paying special attention to the browser, in a desktop, powerful multicore
+              setup with a big screen an a reliable &amp; fast network connection.
             </aside>
           </section>
 
@@ -216,19 +216,24 @@
             <h3>Inability to re-engage the user</h3>
             <img alt="Audience vs Loyalty" src="./imgs/audience-vs-loyalty.png"/>
             <aside class="notes">
+              When browsing from the desktop, we are in a Web mindset paying attention to the browser
+              and actively consuming information. In the mobile experience, we are not longer paying
+              special attention to any not immediate task. We are used to receive notifications upon
+              important things. Until now, this was something impossible to do for the Web loosing
+              the opportunity to re-engage the user.
             </aside>
           </section>
 
           <section>
             <h3>Performance</h3>
             <img alt="Causes making milennia to give up an application" src="./imgs/give-up-causes-milennia.png"/>
-            <p>
+            <aside class="notes">
               And last but not least, there is more about perceived performance. Interoperability
               comes with a cost on translation overhead and this reduces the effective speed of the
               technology. In the Web, we need to be extra careful to keep things flowing. Given the
               single thread nature of JavaScript, if a computation takes so long, frames per second
               will drop under 60 fps giving the sensation of slow and junked animations.
-            </p>
+            </aside>
           </section>
         </section>
 
@@ -248,16 +253,30 @@
             <p class="fragment">
               so you are forced to use the marketplace again!
             </p>
+            <aside class="notes">
+              Anyway, HTML5 core technologies have been proved easy and popular and several native
+              applications are developed in these technologies and then trasnlated or wrapped inside
+              a native container. The problem now is that these applications are forced to use the
+              marketplace for distribution again.
+            </aside>
           </section>
 
           <section>
             <p>
               Let's bring the benefits of apps to the Web!
             </p>
+            <aside class="notes">
+              So, the idea is not to use core Web technologies inside native applications but to translate
+              part of the mobile UX to the Web. How? Getting rid of connectivity and browser dependencies.
+            </aside>
           </section>
 
           <section>
             <h3>Service Workers</h3>
+            <aside class="notes">
+              To do that, I want to introduce a technology you probably have already heard: Service
+              Workers.
+            </aside>
           </section>
 
           <section>
@@ -270,6 +289,11 @@
               <li class="fragment">Independent on browser to be open</li>
               <li class="fragment">Driven by events</li>
             </ul>
+            <aside class="notes">
+              As you probably know, a worker is a JS program that runs in a separated thread. The news
+              about service workers is that they does not require the browser to be open at all. Once
+              registered, the Service Worker will wake up to attend to specific events.
+            </aside>
           </section>
 
           <section>
@@ -278,25 +302,110 @@
             <p>
               Those able to wake up the Service Worker
             </p>
+            <aside class="notes">
+              These events are now three: fetch, sync &amp; push.
+            </aside>
           </section>
 
           <section>
             <h3>Fetch</h3>
             <img alt="Fetch event" src="./imgs/fetch-event.png" style="width: 70%"/>
+            <aside class="notes">
+              The first one, fetch, is triggered each time a client page is performing an HTTP request
+              for a resource or navigation. That is, it's a programmable proxy hijacking request to
+              response is a customized way.
+            </aside>
           </section>
 
           <section>
-            <h3>Sync</h3>
-            <img alt="Sync event" src="./imgs/sync-event.png" style="width: 70%"/>
+            <img alt="flipkart-offline" src="./imgs/flipkart-offline.jpg" style="width: 70%;"/>
+            <aside class="notes">
+              In addition to the fetch event, new cache API allow for storing pairs of HTTP request and
+              responses. So we can go to network, retrieve the content, cache it and re-use from cache
+              in the following requests.
+            </aside>
           </section>
 
           <section>
             <h3>Push</h3>
             <img alt="Push event" src="./imgs/push-event.png" style="width: 70%"/>
+            <aside class="notes">
+              Contrary to fetch or sync events, push events originate from the network and are sent
+              to the applications. After a client subscribe to the Push service, the client sends the
+              subscription information to its remote server. Now when the server receive information for
+              the client, it can communicate this info to the client through the Push server. Like SSE
+              events but not requiring the app to be open.
+            </aside>
+          </section>
+
+          <section>
+            <img alt="Flipkart notifications" src="./imgs/flipkart-notification.png" style="width: 30%;"/>
+            <aside class="notes">
+              Combined with the notification API, the Web app can visibly notify the user about some
+              event.
+            </aside>
+          </section>
+
+          <section>
+            <h3>Sync</h3>
+            <img alt="Sync event" src="./imgs/sync-event.png" style="width: 70%"/>
+            <aside class="notes">
+              Finally, sync events are triggered in two ways but currently only one is implemented in the
+              browsers. The sync event happens each time the device regains connectivity. A sync event
+              can serve to perform background operations such as receiving incoming events or
+              synchronizing with servers.
+            </aside>
+          </section>
+
+          <section>
+            <h3>Web Manifest</h3>
+            <pre><code>{
+    "name": "Flipkart Lite",
+    "short_name": "Flipkart Lite",
+    "icons": [
+        {
+            "src": "https://img1a.flixcart.com/www/linchpin/batman-returns/logo_lite-cbb3574d.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/?start_url=homescreenicon",
+    "orientation": "portrait",
+    "display": "standalone",
+    "theme_color": "#006cb4",
+    "background_color": "#006cb4"
+}</code></pre>
+            <p>
+              Partial manifest from <a href="https://flipkart.com/" target="_blank">Flipkart Lite</a>.
+            </p>
+            <aside class="notes">
+              To completely integrate the Web application UX into the native experience, we could
+              communicate some metada to the undelaying system such as the name of the app, its icon,
+              theme colors, orientation, screen mode or splash screen&hellip; We just need to write a
+              json file and link it to our HTML.
+            </aside>
+          </section>
+
+          <section>
+            <img alt="Flipkart specifying the theme color" src="./imgs/flipkart-theme.png" style="width: 40%;"/>
+            <aside class="notes">
+              Notice how the chrome is tinted by Flipkart colors.
+            </aside>
+          </section>
+
+          <section>
+            <img alt="Flipkart splashscreen" src="./imgs/flipkart-splashscreen.png" style="width: 30%;"/>
+            <aside class="notes">
+              The splashscreen is derived from the specified background color and icon.
+            </aside>
           </section>
 
           <section>
             <h3>Performance</h3>
+            <aside class="notes">
+              Not stopping so much here, Web engines, more than ever, are prepared for handling
+              smooth 60 fps animations but although we need to care about our implementation.
+            </aside>
           </section>
 
           <section>
@@ -312,17 +421,43 @@
               </li>
             </ul>
           </section>
+
+          <section>
+            <p>
+              Still worried about performance?
+            </p>
+            <aside class="notes">
+              If you continue worried about performance, this is only a taste of what is coming.
+            </aside>
+          </section>
+
+          <section>
+            <p>
+              More is coming&hellip;
+              <ul>
+                <li class="fragment"><a href="https://medium.com/@vvergon/webgl-matures-into-a-commercial-ready-technology-ba71e254cae6" target="_blank">WebGL is ready</a> for production</li>
+                <li class="fragment">WebAssembly first <a href="https://webassembly.github.io/demo/" target="_blank">demo</a></li>
+                <li class="fragment"><a href="https://github.com/servo/webrender/wiki" target="_blank">WebRender</a>: <a href="https://www.youtube.com/watch?v=u0hYIRQRiws" target="_blank">superfast render engine</a> by Mozilla</li>
+              </ul>
+            </p>
+          </section>
         </section>
 
         <section>
           <section>
             <h2>The Right Choice</h2>
+            <aside class="notes">
+              I know each product has its needs and so, it would make no sense to try to generalize.
+            </aside>
           </section>
 
           <section>
             <p>
               My recommendation:
             </p>
+            <aside class="notes">
+              Anyway, if you want my recommendation&hellip;
+            </aside>
           </section>
 
           <section>
@@ -331,7 +466,11 @@
               <li class="fragment">If you have business arguments, go away</li>
               <li class="fragment">If you need access to non available APIs, go away</li>
             </ol>
+            <aside class="notes">
+              [Read the slide]
+            </aside>
           </section>
+
           <section>
             <p>
               Now the <strong>Web is ready</strong>, more than ever!
@@ -347,12 +486,16 @@
           <section>
             <h3>e-Commerce</h3>
             <ul>
+              <li>Flipkart triples time-on-site with Progressive Web App</li>
               <li>AliExpress increases conversion rate for new users by 104%</li>
               <li>United eXtra Electronics grows eCommerce sales by 100% with Web Push Notifications</li>
               <li>Push Notifications help Jumia reverse cart abandonment</li>
               <li>Konga cuts data usage 92%</li>
               <li>5smiles increases conversions 60%</li>
             </ul>
+            <p>
+              Source: <a href="https://developers.google.com/web/showcase/">Google showcase</a>
+            </p>
           </section>
 
           <section>
