@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>The Right Choice: When is the Web the right answer &amp;mdash;and why?</title>
-    <meta name="description" content="Going native or building for Web is a perennial hot topic in the mobile development space, but treating these alternatives as irreconcilable is naive. Nowadays, each option offers distinct opportunities and advantages. With the advent of new web technologies such as Service Workers, Push API and Web Manifest, let’s reconsider the Web as a competitive platform.">
+    <meta name="description" content="Going native or building for Web is a perennial hot topic in the mobile development space, but treating these alternatives as irreconcilable is naive. Nowadays, each option offers distinct opportunities and advantages. With the advent of new web technologies such as Service Workers, Push API and Web Manifest, it's time to reconsider the Web as a competitive platform.">
     <meta name="author" content="Salvador de la Puente González">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -39,7 +39,7 @@
           <h2>When is the Web the right answer &mdash;and why?</h2>
           <aside class="notes">
             Thank you for coming to The Right Choice. In this session I'm going to tell
-            you about the Web a platform, what are the benefits from Web technologies and
+            you about the Web as a platform, what are the benefits of Web technologies and
             when to choose it.
           </aside>
         </section>
@@ -56,7 +56,7 @@
           <aside class="notes">
             This is the agenda for the talk. Let me convince you about why you should love
             the Web, then I'll explain what are the main factors preventing the Web from
-            being a competitive alternative to native solutions. To follow, let's see how
+            being a competitive alternative to native solutions. To follow up, let's see how
             modern technologies will bring the a native platform UX to Web applications
             and finally, let's review some successful examples, resources and
             give the proper credit.
@@ -64,7 +64,9 @@
         </section>
 
         <section>
-          <img alt="XKCD's Installing" src="./imgs/installing.png"/>
+          <a href="https://xkcd.com/1367/" target="_blank">
+            <img alt="XKCD's Installing" src="./imgs/installing.png"/>
+          </a>
           <aside class="notes">
             I tend to start my talks with a quotation but this time, I'm quoting XKCD in
             its comic strip "Installing". It is a very sharp observation about realizing
@@ -76,7 +78,8 @@
           <section>
             <h2>Web vs Native</h2>
             <aside class="notes">
-              Out of the agenda, let me start with a few words about Web vs Native wars.
+              I know it's early to deviate from my own agenda, but let me start with a few
+              words about Web vs Native wars.
             </aside>
           </section>
 
@@ -86,7 +89,7 @@
               C'mon! Both are superheroes!
             </p>
             <aside class="notes">
-              As we will see now, the Web is unique in nature and should be seen as an
+              As we will see shortly, the Web is unique in nature and should be seen as an
               option, not an enemy of native alternatives.
             </aside>
           </section>
@@ -134,9 +137,9 @@
               <li class="fragment">A <strong title="As in free speech">free</strong> model of content distribution</li>
             </ul>
             <aside class="notes">
-              Second, the web is an unprecedent effort of consensus which leads to third,
+              Second, the web is an unprecedent effort of consensus which leads us to third,
               the goals of this agreement are two: interoperability &mdash;as webpages are running
-              in an standarized virtual machine with several implementations (Web engines);
+              in an standardized virtual machine with several implementations (Web engines);
               and a free &mdash;as in free speech&mdash; model of content distribution.
             </aside>
           </section>
@@ -144,6 +147,9 @@
           <section>
             <h3>Interoperability</h3>
             <img alt="Unique visitors milestones" src="./imgs/unique-visitors-milestones.png"/>
+            <p>
+              Source: <a href="http://www.comscore.com/layout/set/popup/Request/Presentations/2015/The-2015-US-Mobile-App-Report" target="_blank">2015 U.S. Mobile App Report</a>
+            </p>
             <aside class="notes">
               About interoperability, note that, according to the U.S. report about Mobile Opportunities
               of 2015, mobile Web usage is increasing without affecting desktop usage. The opportunity is
@@ -155,17 +161,20 @@
           <section>
             <blockquote>
               <p>Confluence of factors is driving the huge uptick in app usage time, and apps are overtaking other media in importance. However, it’s also important to recognize the others haven’t gone away and the opportunity lies in multi-platform engagement.</p>
-              <p style="text-align: right;">&mdash;2015 U.S. Mobile Report Opportunities Key Points</p>
+              <p style="text-align: right;"><a href="http://www.comscore.com/layout/set/popup/Request/Presentations/2015/The-2015-US-Mobile-App-Report" target="_blank">&mdash;2015 U.S. Mobile Report Opportunities Key Points</a></p>
             </blockquote>
           </section>
 
           <section>
             <h3>Lack of friction</h3>
             <img alt="Every step costs you 20% of users" src="./imgs/step-cost-20.png" style="width: 70%;"/>
+            <p>
+              Source: <a href="http://blog.gaborcselle.com/2012/10/every-step-costs-you-20-of-users.html" target="_blank">Every Step Costs you 20% of Users</a>
+            </p>
             <aside class="notes">
               The other benefit is actually the great differentiator. The Web spreads through the Internet
               which is not a propietary marketplace but a completely free information network. The URL is
-              viral, anyplace in the Internet can point you to any Web application without never facing an
+              viral, any place in the Internet can point you to any Web application without ever facing an
               installation. You click the link, you get working content.
             </aside>
           </section>
@@ -175,46 +184,51 @@
           <section>
             <h2>So, what's stopping the Web?</h2>
             <aside class="notes">
-              Well, there are obvious reasons to not choose the Web. For instance, if the platform does
-              not cover your API needs. But, even when this is not a problem and having these both
-              interoperability and lack of friction features, so exclussive and so fetching the Web does
-              not seem to fit our needs. Why?
+              Well, there are obvious reasons for not to choose the Web. For instance, if the platform does
+              not cover your API needs. But, even when this is not a problem and having such exclusive and
+              attractive features as the aforementioned interoperability and lack of friction features,
+              the Web does not seem to fit our needs. Why?
             </aside>
           </section>
 
           <section>
             <p><strong>User experience</strong></p>
             <aside class="notes">
-              The answer is user experience. In the beginning, the Web was never designed for mobile usage.
-              We surfed the Web by paying special attention to the browser, in a desktop, powerful multicore
-              setup with a big screen an a reliable &amp; fast network connection.
+              The answer is user experience. In the beginning, the Web was not designed for mobile usage.
+              We surfed the Web from our desktops, with powerful multicore computers and a big screen and
+              reliable &amp; fast network connections.
             </aside>
           </section>
 
           <section>
-            <h3>Dependence on connectivity</h3>
+            <h3>Dependency on connectivity</h3>
             <img alt="Dinosaur game in Chrome" src="./imgs/dinosaur-game-chrome.jpg" style="width: 70%;"/>
             <aside class="notes">
-              In the mobile realm you can not rely on be always connected. If the connectivity is lost,
+              In the mobile realm you can not rely on always being connected. If the connectivity is lost,
               the experience is broken. The complete application vanishes. Of course a user can understand
-              an online application to not show content if offline but breaking with no information? I
-              don't think so.
+              for an online application not tofor  show content if offlibut to breaking with no
+              information? I don't think so.
             </aside>
           </section>
 
           <section>
-            <h3>Dependendence on network speed</h3>
+            <h3>Dependency on network speed</h3>
             <img alt="Time a user can wait before leaving the page" src="./imgs/time-waiting-before-give-up.png" style="width: 50%"/>
+            <p>
+              Source: <a href="https://blog.kissmetrics.com/loading-time/?wide=1">How Loading Time Affects Your Bottom Line</a>
+            </p>
             <aside class="notes">
-              Not only the lack of connectivity is a problem but unreliable connection speeds are an issue
-              as well. Key point with native application is all about performance, and this is perceived
-              performance in the form of waiting time.
+              Not only is the lack of connectivity a problem but unreliable connection speeds are an issue
+              as well.
             </aside>
           </section>
 
           <section>
             <h3>Inability to re-engage the user</h3>
             <img alt="Audience vs Loyalty" src="./imgs/audience-vs-loyalty.png"/>
+            <p>
+              Source: <a href="http://blog.gaborcselle.com/2012/10/every-step-costs-you-20-of-users.html" target="_blank">Every Step Costs you 20% of Users</a>
+            </p>
             <aside class="notes">
               When browsing from the desktop, we are in a Web mindset paying attention to the browser
               and actively consuming information. In the mobile experience, we are not longer paying
@@ -227,12 +241,15 @@
           <section>
             <h3>Performance</h3>
             <img alt="Causes making milennia to give up an application" src="./imgs/give-up-causes-milennia.png"/>
+            <p>
+              Source: <a href="https://go.oracle.com/LP=11235?elqCampaignID=20552" target="_blank">Milennials and mobility, Oracle</a>
+            </p>
             <aside class="notes">
               And last but not least, there is more about perceived performance. Interoperability
               comes with a cost on translation overhead and this reduces the effective speed of the
               technology. In the Web, we need to be extra careful to keep things flowing. Given the
               single thread nature of JavaScript, if a computation takes so long, frames per second
-              will drop under 60 fps giving the sensation of slow and junked animations.
+              will drop under 60 fps giving the sensation of slow and jagged animations.
             </aside>
           </section>
         </section>
@@ -247,6 +264,9 @@
               HTML5 is popular:
             </p>
             <img alt="Percentage of applications using HTML5" src="./imgs/html5-software.png" style="width: 70%"/>
+            <p>
+              Source: <a href="http://www.visionmobile.com/product/developer-economics-q3-2013-state-of-the-developer-nation/">Developers Economics 2013 Q3, Vision Mobile</a>
+            </p>
             <p class="fragment">
               But only inside an application wrapper...
             </p>
@@ -286,7 +306,7 @@
             <ul>
               <li class="fragment">JavaScript programs</li>
               <li class="fragment">Run in a separated thread</li>
-              <li class="fragment">Independent on browser to be open</li>
+              <li class="fragment">Independent from the browser to be open</li>
               <li class="fragment">Driven by events</li>
             </ul>
             <aside class="notes">
@@ -502,6 +522,9 @@
             <h3>Heroes of Paragon</h3>
             <img alt="Daily Average Revenue per User" src="./imgs/heores-of-parangon-darpu.png" style="width: 70%;"/>
             <p>
+              <a href="https://medium.com/@vvergon/webgl-matures-into-a-commercial-ready-technology-ba71e254cae6#.4xop0bf6k">WebGL matures into a commercial-ready technology</a>
+            </p>
+            <p>
               The Web holds 2nd position in DARPU.
             </p>
           </section>
@@ -514,6 +537,7 @@
             <li><a href="https://flipkart.com" target="_blank">Flipkart Lite</a> progressive web app</li>
             <li>Google <a href="https://developers.google.com/web/showcase/" taget="_blank">showcase</a></li>
             <li>Paul Lewis <a href="https://aerotwist.com" target="_blank">aerotwist.com</a> blog on performance</li>
+            <li><a href="https://github.com/delapuente/service-workers-101/">Sevice Worker 101</a></li>
           </ul>
         </section>
 
@@ -527,6 +551,13 @@
 
         <section data-markdown>
           ## Questions?
+        </section>
+
+        <section>
+          <img alt="The Return of the Dark Knight cover" src="./imgs/batman.jpg"/>
+          <p>
+            The Return of the <del>Dark Knight</del> <strong>Web</strong>!
+          </p>
         </section>
 
       </div>
