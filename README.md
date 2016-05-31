@@ -1,5 +1,21 @@
 # Index of my presentations
 
+## When is the Web the Right Answer &mdash;and Why?
+
+[Go to the presentation](http://delapuente.github.io/presentations/web-platform-when-why/index.html)
+
+Going native or building for Web is a perennial hot topic in the mobile development space, but treating these
+alternatives as irreconcilable is naive. Nowadays, each option offers distinct opportunities and advantages.
+With the advent of new web technologies such as Service Workers, Push API and Web Manifest, it's time to reconsider
+the Web as a competitive platform.
+
+## At your service: advanced uses of service workers
+
+[Go to the presentation](http://delapuente.github.io/presentations/at-your-service/index.html)
+
+Service Workers are more than an application cache replacement, they are programmable proxies in the client side.
+Let's review some off-label uses for Service Workers!
+
 ## Syntactic macros in Python
 
 [Go to the presentation](http://delapuente.github.io/presentations/syntactic-macros-python/index.html)
