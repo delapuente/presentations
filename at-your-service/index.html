@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>At your service!</title>
+    <meta name="description" content="Service Workers are more than an application cache replacement, they are programmable proxies in the client side. Let's review some off-label uses for Service Workers!">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/tabzilla/css/tabzilla.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-light.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <section id="tabzilla">
+      <a href="https://www.mozilla.org/">Mozilla</a>
+    </section>
+
+    <div class="reveal">
+
+      <div class="slides">
+        <section>
+          <header>
+            <h1>At your service!</h1>
+            <h2>More than appcache uses for Service Workers</h2>
+          </header>
+        </section>
+
+        <section data-markdown>
+          1. What is a Service Worker?
+          2. The man in the middle
+          3. The State of the Art
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## What is a service worker?
+          </section>
+
+          <section data-markdown>
+            It is an **event driven** worker that does not need any client to be alive,
+            it's **tied to its registration** only.
+
+            ![SW lifecycle](../imgs/sw-101/functional-events.png)
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              In particular, `fetch` API is a request hijacker
+
+              ![Fetch API](../imgs/sw-101/fetch-event.png) <!-- .element: style="width: 60%" -->
+
+              I.e. a **man in the middle.**
+            </script>
+          </section>
+
+          <section data-markdown>
+            How to **register** a service worker?
+            ```js
+            // index.js
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.register('path/to/sw.js', {
+                scope: 'path/to/scope/'
+              }).then(...);
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            How to handle **life cycle**?
+            ```js
+            // service-worker.js
+            self.oninstall = function (event) {
+              event.waitUntil(setupCurrentWorker());
+            };
+            self.onactivate = function (event) {
+              event.waitUntil(teardownPreviousWorker());
+            };
+            self.onfetch = function (event) {
+              event.respondWith(fetch(event.request)); // pass through
+            }
+            ```
+            [Complete life cycle](https://github.com/delapuente/service-workers-101/blob/master/sw101-letter-sA.svg)
+          </section>
+
+          <section data-markdown>
+            How to know your **worker is ready**?
+            ```js
+            // client.js
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.register('path/to/sw.js');
+              navigator.serviceWorker.ready.then(/* You know is ready! */);
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            ### Service Worker 101
+            An [infographic on GitHub](https://github.com/delapuente/service-workers-101)
+
+            Your [copy for free](https://github.com/delapuente/service-workers-101/blob/master/sw101.png)
+          </section>
+
+          <section data-markdown>
+            ### More on Service Workers
+            Don't miss [latest changes on the specification](https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html)
+
+            Follow [live discussions](https://github.com/slightlyoff/ServiceWorker/issues)
+
+            And [ask on stackoverflow](http://stackoverflow.com/search?q=service-workers)!
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## The man in the middle
+
+            off-label uses of Service Workers
+          </section>
+
+          <section data-markdown>
+            ### The Service Worker Cookbook
+            &gt; This cookbook contains dozens of practical, detailed, and working examples of service worker usage. These examples are for developers from beginner to expert and illustrate a number of APIs.
+
+            Take a [look](https://serviceworke.rs)!
+          </section>
+
+          <section data-markdown>
+            ### Interesting readings
+            * [Service Workers](https://hacks.mozilla.org/category/serviceworkers/) at Mozilla Hacks
+            * [Beyond offline](https://hacks.mozilla.org/2015/12/beyond-offline/)
+            * [Offline Recipes for Service Workers](https://hacks.mozilla.org/2015/11/offline-service-workers/)
+            * [Offline First](http://offlinefirst.org/)
+          </section>
+
+          <section data-markdown>
+            ### Cache from zip
+            More traditional use of service worker, it demonstrate an offline usage
+            but instead of caching every resource from its URL, it's caching all
+            the resources at the same time in a ZIP package.
+
+            [Demo](https://serviceworke.rs/cache-from-zip.html)
+          </section>
+
+          <section data-markdown>
+            ### API analytics
+            A direct application of a man in the middle. We use a service worker
+            to hijack the request, log some info and allow the request to complete.
+
+            [Demo](https://serviceworke.rs/api-analytics.html)
+          </section>
+
+          <section data-markdown>
+            ### Virtual Server
+            How about writing a REST API in the client side? It is possible with
+            Service Workers and a little help from
+            [ServiceWorkerWare](https://gihub.com/gaia-components/serviceworkerware)!
+
+            [Demo](https://serviceworke.rs/virtual-server.html)
+          </section>
+
+          <section data-markdown>
+            ### Render store
+            A lot of frameworks rely on template interpolation to render the model.
+            The NGA from Firefox OS introduces a kind of storage to store the interpolated
+            pages to [avoid interpolation delay](http://unoyunodiez.com/2015/09/07/modern-mobile-web-development-breaking-the-rules-beating-delays-improving-responsiveness-and-performance-ii/) upon a second request.
+
+            [Demo](http://localhost:8008)
+          </section>
+
+          <section data-markdown>
+            ### Dependency injection
+            Dependency injection is a technique that frees modules to create its dependencies.
+            Instead, modules declare the abstract APIs they will use and a service called _injector_
+            is used to provide the concrete implementations.
+
+            [Demo](https://serviceworke.rs/dependency-injector.html)
+          </section>
+
+          <section data-markdown>
+            ### Load balancer
+            In the mood of transparently replacing content, here is a load balancer implemented in
+            the client side.
+
+            [Demo](https://serviceworke.rs/load-balancer.html)
+          </section>
+
+          <section data-markdown>
+            ### Request deferrer
+            This technique withhold requests in a queue while offline to later recreate
+            the sequence of requests to the server once connectivity returns. It can be used
+            for agnostic back-end synchronization systems embedded in modern frameworks.
+
+            [Demo](http://localhost:3003/session-deferrer.html)
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## The state of the art
+          </section>
+
+          <section>
+            <h3>Browser support</h3>
+            <ul>
+              <li>In Chrome? <span class="fragment">yes!</span></li>
+              <li class="fragment">And in Android Browser and Chrome for Android!</li>
+              <li class="fragment">In Nightly? <span class="fragment"><a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API/Using_Service_Workers#Setting_up_to_play_with_Service_Workers">yes</a>!</span></li>
+              <li class="fragment">In Firefox? <span class="fragment">yes (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1059784#c16" target="_blank">since Firefox 44</a>)! <code>\0/</code></span></li>
+            </ul>
+          </section>
+
+          <section data-markdown>
+            ### Where to check?
+            * [is ServiceWorker ready?](https://jakearchibald.github.io/isserviceworkerready/)
+            * [Platform Status](https://platform-status.mozilla.org/#service-worker)
+            * [Can I use ... ?](http://caniuse.com/)
+          </section>
+
+          <section data-markdown>
+            ### Major problems and workarounds
+              * ~~No storage on Firefox! Use an offline cache.~~
+              * ~~No `self.clients.claim()` implementation on Firefox! Use reload pattern.~~
+              * ~~No **dev tools** on Firefox! Use Chrome `:_(`~~
+              * Basic support of [Service Workers in dev tools](https://hacks.mozilla.org/2016/03/debugging-service-workers-and-push-with-firefox-devtools/). Use Chrome `:(`
+          </section>
+
+          <section data-markdown>
+            ### Tools &amp; resources
+            * [serviceworke.rs](https://serviceworke.rs) for use cases &amp; best practices
+            * [oghliner](https://github.com/mozilla/oghliner) to bootstrap a Service Worker enabled app.
+            * [ServiceWorkerWare](https://github.com/gaia-components/serviceworkerware) to ease Service Worker authoring.
+            * [offliner](https://github.com/delapuente/offliner) for adding a life cycle to your app.
+            * [sw-toolbox](https://github.com/GoogleChrome/sw-toolbox) another similar tool to ServiceWorkerWare.
+            * [upup](https://www.talater.com/upup/) a tool for _offlining_ your app.
+          </section>
+
+        </section>
+
+        <section>
+          <img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ## Questions?
+        </section>
+      </div>
+    </div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+.slides section .c {
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+  padding: 0.1em 0.5ex;
+  border-radius: 0.2em;
+  background-color: #519443;
+}
+
+.slides section .o {
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #45540A;
+  border: 3px solid #F382FF;
+  border-radius: 0.2em;
+  padding: 0.1em 0.5ex;
+}
+
+.reveal .rel-subclass {
+  color: #519443;
+  text-shadow: 2px 2px 2px #000;
+}
+
+.reveal .rel-is-a {
+ color: #70B8FE;
+}
+
+.reveal .rel-type {
+  color: #FF9C9C;
+}

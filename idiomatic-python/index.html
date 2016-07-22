@@ -1,0 +1,782 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Idiomatic programming? The Python idioms</title>
+    <meta name="description" content="What is idiomatic programming? Let's introduce some Python specific idioms.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/tabzilla/css/tabzilla.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-dark.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <header>
+            <h1>Idiomatic programming?</h1>
+            <h2>The Python Idioms</h2>
+          </header>
+        </section>
+
+        <section>
+          <section>
+            <h2>idiom</h2>
+          </section>
+
+          <section>
+            <blockquote>A group of words whose meaning cannot be predicted from the meanings of the constituent words, as for example (It was raining) cats and dogs.</blockquote>
+            <blockquote>Linguistic usage that is grammatical and natural to native speakers of a language.</blockquote>
+            <blockquote>The characteristic artistic style of an individual, school, period, etc</blockquote>
+            <p>Etymology: 16th Century: from Latin idiōma, peculiarity of language.</p></blockquote>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Python?</h2>
+          </section>
+
+          <section>
+            <p>A <a href="http://en.wikipedia.org/wiki/Type_system#DYNAMIC">dynamically</a> and <a href="http://en.wikipedia.org/wiki/Strong_and_weak_typing">strong typed</a>, <a href="http://en.wikipedia.org/wiki/Garbage_collection_%28computer_science%29">memory-managed</a> and <a href="http://en.wikipedia.org/wiki/Programming_paradigm#Multi-paradigm">multiparadigm</a> language created by <a href="http://en.wikipedia.org/wiki/Guido_van_Rossum">Guido van Rossum</a> in 1991.</p>
+            <p>Current version is <a href="https://www.python.org/download/releases/3.4.1/">3.4.1</a></p>
+          </section>
+
+          <section>
+            <h3>The Zen of Python</h3>
+            <pre class="fragment"><code class="python">&gt;&gt;&gt; import this</code></pre>
+            <blockquote>Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity...</blockquote>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Hello, world!</h2>
+          </section>
+
+          <section>
+            <p>C++</p>
+            <pre><code class="cpp">#include &lt;iostream&gt;
+
+int main()
+{
+    std::cout &lt;&lt; "Hello, world!\n";
+}</code></pre>
+          </section>
+
+          <section>
+            <p>Java</p>
+            <pre><code class="java">public class HelloWorld {
+   public static void main(String[] args) {
+       System.out.println("Hello, world!");
+   }
+}</code></pre>
+          </section>
+
+          <section>
+            <p>Python</p>
+            <pre><code class="python">print('Hello, world!')</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Special syntax</h2>
+          </section>
+
+          <section>
+            <h3>List repetition</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">vector = []
+for _ in range(10):
+  vector.append(0)</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">vector = [0] * 10</code></pre>
+          </section>
+
+          <section>
+            <h3>Destructured assignment</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">point = (1, 2, 3)
+x = point[0]
+y = point[1]
+z = point[2]</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">point = (1, 2, 3)
+x, y, z = point</code></pre>
+          </section>
+
+          <section>
+            <h3>Multiple assignment</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">aux = b
+b = a
+a = aux</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">a, b = b, a</code></pre>
+          </section>
+
+          <section>
+            <h3>Interval test</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">if 0 &lt; 1 and 1 &lt; 2:
+  print('something...')</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">if 0 &lt; 1 &lt; 2:
+  print('something...')</code></pre>
+          </section>
+
+          <section>
+            <h3>Lambdas</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">def pow_4(v):
+  return v ** 4
+map(pow_4, (1, 2, 3))</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">map(lambda i: i ** 4, (1, 2, 3))</code></pre>
+          </section>
+          <section>
+            <h3>Truthy &amp; Falsy</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">if len(l) != 0:
+  print('Non-empty list')
+if len(d) != 0:
+  print('Non-empty dictionary')
+if a != 0:
+  print('Non-zero number')
+if o != None:
+  print('Non-null object')
+if s != '':
+  print('Non-empty string')</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">if l: print('Non-empty list')
+if d: print('Non-empty dictionary')
+if a: print('Non-zero number')
+if o: print('Non-null object')
+if s: print('Non-empty string')</code></pre>
+          </section>
+
+          <section>
+            <h3>not in</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">if not ('key' in d):
+  print('key is not in the dictionary')</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">if 'key' not in d:
+  print('key is not in the dictionary')</code></pre>
+          </section>
+
+          <section>
+            <h3>Negative indexing</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">last_item = collection[len(collection)-1]</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">last_item = collection[-1]</code></pre>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Loops</h2>
+          </section>
+
+          <section>
+            <h3>Ranging</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">i = 0
+while i &lt; 10:
+  print(i)
+  i += 1</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">for i in range(10):
+  print(i)</code></pre>
+          </section>
+
+          <section>
+            <h3>Iterating</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">for i in range(len(collection)):
+  item = collection[i]
+  item.doSomething()</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">for item in collection:
+  item.doSomething()</code></pre>
+          </section>
+
+          <section>
+            <h3>Enumerating</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">for i in range(len(collection)):
+  item = collection[i]
+  item.doSomething(i)</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">for i, item in enumerate(collection):
+  item.doSomething(i)</code></pre>
+          </section>
+
+          <section>
+            <h3>Multidimensional ranging</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">for x in range(10):
+  for y in range(5):
+    for z in range(2):
+      print(x, y, z)</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">from itertools import product
+for x, y, z in product(range(10), range(5), range(2)):
+  print(x, y, z)</code></pre>
+          </section>
+
+          <section>
+            <h3>Reversed iterations</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">i = len(collection) - 1
+while i &gt;= 0:
+  item = collection[i]
+  item.doSomething()
+  i -= 1</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">for item in reversed(collection):
+  item.doSomething()</code></pre>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Dictionaries</h2>
+          </section>
+
+          <section>
+            <h3>Dictionary comprehensions</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">keys = ('a', 'b', 'c')
+values = (1, 2, 3)
+d = {}
+for i, k in enumerate(keys):
+  d[k] = values[i]</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">keys = ('a', 'b', 'c')
+values = (1, 2, 3)
+d = { k:v for k, v in zip(keys, values) }</code></pre>
+          </section>
+
+          <section>
+            <h3>Sets</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">first_ten = { k:k for k in range(10) }</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">first_ten = { k for k in range(10) }</code></pre>
+          </section>
+
+          <section>
+            <h3>Default dictionaries</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">words = "as much as possible".split()
+d = {}
+for w in words:
+  if w not in d:
+    d[w] = 0
+  d[w] += 1</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">from collections import defaultdict
+words = "as much as possible".split()
+d = defaultdict(lambda: 0)
+for w in words:
+  d[w] += 1
+</code></pre>
+          </section>
+          <section>
+            <h3>Iterating through dictionaries</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">for k in d:
+  v = d[k]
+  print('Content of d for key ' + k + ' is ' + v)
+</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">for k, v in d.items():
+  print('Content of d for key ' + k + ' is ' + v)
+</code></pre>
+          </section>
+
+          <section>
+            <h3>Default get()</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">if 'key' not in d:
+  result = 'default value'
+else:
+  result = d['key']</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">result = d.get('key', 'default value')</code></pre>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Lists &amp; tuples</h2>
+          </section>
+
+          <section>
+            <h3>Lists comprehensions</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">odds = []
+for v in range(100):
+  if v % 2:
+    odds.append(v)</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">odds = [v for v in range(100) if v % 2]</code></pre>
+          </section>
+
+          <section>
+            <h3>Tuple comprehensions</h3>
+            <h4>(generators)</h4>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">odds = []
+for v in range(100):
+  if v % 2:
+    odds.append(v)
+t = tuple(odds)</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">odds = (v for v in range(100) if v % 2)</code></pre>
+          </section>
+
+          <section>
+            <h3>Named tuples</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">class Point(object):
+  def __init__(self, x, y):
+    self._tuple = (x, y)
+    self.x = x
+    self.y = y
+
+  def __getitem__(self, i):
+    return self._tuple[i]
+
+p = Point(1, 2)
+p[0] == p.x</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">from collections import namedtuple
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(1, 2)
+p[0] = p.x</code></pre>
+          </section>
+
+          <section>
+            <h3>Avoid parenthesis</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">sum( (d for d in range(1000)) )</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">sum(d for d in range(1000))</code></pre>
+          </section>
+
+          <section>
+            <h3>Slices</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">l = [1, 2, 2, 3]
+sublist = []
+for i in range(1, 3):
+ sublist.append(l[i])</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">l = [1, 2, 2, 3]
+sublist = l[1:3]</code></pre>
+          </section>
+
+          <section>
+            <h3>in a list</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">if v == 'a' or v == 'b' or v == 'c':
+  print('do something')</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">if v in ('a', 'b', 'c'):
+  print('do something')</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Strings</h2>
+          </section>
+
+          <section>
+            <h3>Concatenation</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">colors = ['red', 'blue', 'yellow', 'black']
+result = ''
+for i, color in enumerate(colors):
+  result += color
+  if i &lt; len(color) - 2:
+    result += ', '</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">result = ', '.join(['red', 'blue', 'yellow', 'black'])</code></pre>
+          </section>
+
+          <section>
+            <h3>Formatting</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">x = 1
+y = 2
+print('P(' + str(x) + ', ' + str(y) + ')')</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">x = 1
+y = 2
+print('P({x}, {y})'.format(x=x,y=y))</code></pre>
+          </section>
+
+          <section>
+            <h3>in operator</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">s = 'once upon a time'
+contained = false
+for c in s:
+  if c == 'p':
+    contained = True
+    break</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">s = 'once upon a time'
+contained = 'p' in s</code></pre>
+          </section>
+
+          <section>
+            <h3>Docstrings</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">class Quaternion(object):
+  pass</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">class Quaternion(object):
+  """Implements quaternion-related operations."""</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Contexts</h2>
+          </section>
+
+          <section>
+            <h3>Setup & Teardown</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python"># setup code
+try:
+  # usefull code
+finally:
+  # teardown code
+</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">class MyContext(object):
+  def __enter__(self):
+    """Here is the startup code"""
+  def __exit__(selft, *args):
+    """Here is the teardown code"""
+with MyContext():
+  # usefull code</code></pre>
+          </section>
+
+          <section>
+            <h3>Files</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">try:
+  f = open(path)
+  # do something
+finally:
+  f.close()</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">with open(path) as f:
+  # do something</code></pre>
+          </section>
+
+          <section>
+            <h3>Only files?</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">try:
+  page = urlopen(url)
+  # do something
+finally:
+  page.close()</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">from contextlib import closing
+with closing(urlopen(url)) as page:
+  # do something</code></pre>
+          </section>
+
+          <section>
+            <h3>Ignoring exceptions</h3>
+          </section>
+
+          <section>
+            <p>Don't write:</p>
+            <pre><code class="python">import os
+try:
+  os.remove(some_path)
+except FileNotFoundError:
+  pass</code></pre>
+          </section>
+
+          <section>
+            <p>Write:</p>
+            <pre><code class="python">from contextlib import suppress
+with suppress(FileNotFoundError) :
+  os.remove(some_path)</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <h2>Where to find idioms?</h2>
+          <ul>
+            <li class="fragment"><a href="https://github.com/python">Out there!</a></li>
+            <li class="fragment">Inside <a href="http://legacy.python.org/dev/peps/">PEPs</a></li>
+            <li class="fragment"><a href="http://legacy.python.org/dev/peps/pep-0008/">Code styles</a> are idioms too!</li>
+            <li class="fragment"><a href="https://www.jeffknupp.com/writing-idiomatic-python-ebook/">Writing idiomatic Python</a> (book)</li>
+          </ul>
+        </section>
+
+        <section>
+          <p>But remember the <a href="http://legacy.python.org/dev/peps/pep-0020/">Zen of Python</a></p>
+          <blockquote class="fragment">practicality beats purity</blockquote>
+        </section>
+
+        <section>
+          <h2>About me</h2>
+          <img src="../imgs/contact/perezalva.png" class="plain" style="float:left; width: 250px; height:auto;"/>
+          <dl style="padding-top: 100px;">
+            <dt>me</dt>
+            <dd>Salvador de la Puente González</dd>
+            <dt>twitter</dt>
+            <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+            <dt>My web sites</dt>
+            <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/delapuente">http://github.com/delapuente</a></dd>
+          </dl>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>

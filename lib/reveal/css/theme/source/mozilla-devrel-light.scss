@@ -1,0 +1,27 @@
+/**
+ * Mozilla DevRel Theme for reveal.js - Light variation.
+ *
+ * By Salvador de la Puente, http://unoyunodiez.com
+ */
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+// Override theme settings (see ../template/settings.scss)
+$mainColor: #484848;
+$strongColor: #762313;
+$headingColor: #484848;
+
+$linkColor: #004939;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: lighten( $linkColor, 25% );
+
+@mixin bodyBackground() {
+  background-image: linear-gradient(to bottom, #D7D3C8, #F6F4EC 60%);
+}
+
+// Mozilla DevRel template -----------------
+@import "./mozilla-devrel/common.scss";
+// -----------------------------------------

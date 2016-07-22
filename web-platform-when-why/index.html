@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>The Right Choice: When is the Web the right answer &mdash;and why?</title>
+    <meta name="description" content="Going native or building for Web is a perennial hot topic in the mobile development space, but treating these alternatives as irreconcilable is naive. Nowadays, each option offers distinct opportunities and advantages. With the advent of new web technologies such as Service Workers, Push API and Web Manifest, it's time to reconsider the Web as a competitive platform.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/tabzilla/css/tabzilla.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-light.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+
+  <body>
+    <section id="tabzilla">
+      <a href="https://www.mozilla.org/">Mozilla</a>
+    </section>
+
+    <div class="reveal">
+
+      <div class="slides">
+        <section>
+          <header>
+            <h1>The Right Choice</h1>
+            <h2>When is the Web the right answer &mdash;and why?</h2>
+          </header>
+        </section>
+
+        <section>
+          <ol>
+            <li>The Bright Side of the Web</li>
+            <li>User Expectations for the Mobile World</li>
+            <li>Modern Web to the Rescue</li>
+            <li>The Right choice</li>
+            <li>Successful Examples</li>
+            <li>Resources and Credits</li>
+          </ol>
+        </section>
+
+        <section>
+          <section>
+            <h2>The Bright Side of the Web</h2>
+            <aside class="notes">
+              Let me review some properties of the Web&hellip;
+            </aside>
+          </section>
+
+          <section>
+            <p>The Web is&hellip;</p>
+            <ul>
+              <li class="fragment">Interoperable</li>
+              <li class="fragment">Frictionless</li>
+              <li class="fragment">Free (as in free speech)</li>
+              <li class="fragment">Discoverable</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Interoperable</h3>
+            <img alt="Grow in digital media time" src="./imgs/grow-in-digital-media-time.png"/>
+            <p>
+              Source: <a href="http://www.comscore.com/layout/set/popup/Request/Presentations/2015/The-2015-US-Mobile-App-Report" target="_blank">2015 U.S. Mobile App Report</a>
+            </p>
+          </section>
+
+          <section>
+            <blockquote>
+              <p>Confluence of factors is driving the huge uptick in app usage time, and apps are overtaking other media in importance. However, it’s also important to recognize the others haven’t gone away and the opportunity lies in multi-platform engagement.</p>
+              <p style="text-align: right;"><a href="http://www.comscore.com/layout/set/popup/Request/Presentations/2015/The-2015-US-Mobile-App-Report" target="_blank">&mdash;2015 U.S. Mobile Report Opportunities Key Points</a></p>
+            </blockquote>
+          </section>
+
+          <section>
+            <h3>Frictionless</h3>
+            <img alt="Every step costs you 20% of users" src="./imgs/step-cost-20.png" style="width: 70%;"/>
+            <p>
+              Source: <a href="http://blog.gaborcselle.com/2012/10/every-step-costs-you-20-of-users.html" target="_blank">Every Step Costs you 20% of Users</a>
+            </p>
+          </section>
+
+          <section>
+            <h3>Free (as in <em>free speech</em>)</h3>
+            <p>The Web is not owned which means&hellip;</p>
+            <p class="fragment">No review process</p>
+            <p class="fragment">No content censorship</p>
+          </section>
+
+          <section>
+            <h3>Discoverable</h3>
+            <img alt="Unique visitors milestones" src="./imgs/unique-visitors-milestones.png"/>
+            <p>
+              Source: <a href="http://www.comscore.com/layout/set/popup/Request/Presentations/2015/The-2015-US-Mobile-App-Report" target="_blank">2015 U.S. Mobile App Report</a>
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>User Expectations<br/>for Applications<br/>in the Mobile World</h2>
+          </section>
+
+          <section>
+            <blockquote>
+              <p>It's not an App on Android because it's made with Java. It's not an app on Android because it's made with C++. It's not an App on Android because you distribute it one way or the other. It's an app because the overall user experience is set by the OS about what is a first class citizen and what isn't.</p>
+              <p>And so being an app is simply meeting the user's expectations of all of the other things that the OS has given privilege to and all the other affordances that you're integrated into.</p>
+              <p style="text-align: right;"><a href="https://youtu.be/EyyEfxrk_NU?list=PLNYkxOF6rcIAWWNR_Q6eLPhsyx6VvYjVb&t=2075" target="_blank">Alex Russell at PWA Dev Summit 2016</a></p>
+            </blockquote>
+          </section>
+
+          <section>
+            <p>Apps run independent on connectivity</p>
+            <img alt="Application with no connectivity" src="./imgs/youtube-offline.png" style="width: 40%;"/>
+            <img alt="Dinosaur game in Chrome" src="./imgs/dinosaur-game-chrome.png" style="width: 40%;"/>
+            <p>App vs. tab</p>
+          </section>
+
+          <section>
+            <p>Apps are first class citizens of the OS</p>
+            <img style="width: 40%;" alt="App task switcher" src="./imgs/app-task-switcher.png" />
+            <img style="width: 40%;" alt="Browser tab switcher" src="./imgs/browser-tab-switcher.png"/>
+            <p>App vs. tab</p>
+          </section>
+
+          <section>
+            <p>Apps can re-engage the user even if they are closed</p>
+            <img style="width: 40%;" alt="New e-mail notification" src="./imgs/push-notification.png" />
+            <img style="width: 40%;" alt="Highlghting new content in app" src="./imgs/in-app-highlight.png"/>
+            <p>App vs. tab</p>
+          </section>
+
+          <section>
+            <p>
+              Can you tell what is the native app?
+            </p>
+            <img style="height: 600px;" alt="Twitter Home Screen icons" src="./imgs/home-screen.png"/>
+          </section>
+
+          <section>
+            <p>
+              And now?
+            </p>
+            <img style="width: 40%;" alt="Twitter Native Application" src="./imgs/twitter-native.png"/>
+            <img style="width: 40%;" alt="Twitter Web Application Without Browser UI" src="./imgs/twitter-web-no-ui.png"/>
+          </section>
+
+          <section>
+            <p>
+              But you certainly do now.
+            </p>
+            <img style="width: 40%;" alt="Twitter Native Application" src="./imgs/twitter-native.png"/>
+            <img style="width: 40%;" alt="Twitter Web Application" src="./imgs/twitter-web.png"/>
+          </section>
+
+          <section>
+            <p>
+              Or now.
+            </p>
+            <img style="height: 600px;" alt="Twitter Native Application" src="./imgs/task-switcher.png"/>
+          </section>
+
+          <section>
+            <p>In the mobile world, users expect to interact with <strong>applications</strong>.</p>
+          </section>
+
+          <section>
+            <p>In the web world, users expect to interact with <strong>browser tabs</strong>.</p>
+          </section>
+
+          <section>
+            <p>Different benefits for different platforms</p>
+            <img alt="Audience vs loyalty" src="./imgs/audience-vs-loyalty.png"/>
+            <p>
+              Source: <a href="http://www.comscore.com/layout/set/popup/Request/Presentations/2015/The-2015-US-Mobile-App-Report" target="_blank">2015 U.S. Mobile App Report</a>
+            </p>
+          </section>
+
+          <section>
+            <blockquote>
+              <p>What you hope is that the experience with your entire company is so good, and the service or value you provide is so impressive, and the benefits to your app are so clear … that casual browsers turn into mobile app users.</p>
+              <p><a href="http://venturebeat.com/2015/09/25/wait-what-mobile-browser-traffic-is-2x-bigger-than-app-traffic-and-growing-faster/" target="_blank">&mdash;Wait, what? Mobile browser traffic is 2X bigger&hellip; at venturebeat.com</a></p>
+            </blockquote>
+          </section>
+
+          <section>
+            <p>
+              Can we do better?
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Modern Web to the Rescue</h2>
+          </section>
+
+          <section>
+            <p>Fulfilling user expectation for apps requires web sites&hellip;</p>
+            <p class="fragment">To integrate with the OS.</p>
+            <p class="fragment">To provide reliable performance<br/>(even on flaky connections).</p>
+            <p class="fragment">To be independent on the browser.</p>
+          </section>
+
+          <section>
+            <h3>Web Manifest</h3>
+            <pre><code>{
+    "name": "Flipkart Lite",
+    "short_name": "Flipkart Lite",
+    "icons": [ {
+      "src": "https://img1a.flixcart.com/www/linchpin/logo_lite-cbb3574d.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    } ],
+    "start_url": "/?start_url=homescreenicon",
+    "orientation": "portrait",
+    "display": "standalone",
+    "theme_color": "#006cb4",
+    "background_color": "#006cb4"
+}</code></pre>
+            <p>
+              Partial manifest from <a href="https://flipkart.com/" target="_blank">Flipkart Lite</a>.
+            </p>
+          </section>
+
+          <section>
+            <img alt="Flipkart specifying the theme color" src="./imgs/flipkart-task-switcher.png" style="width: 30%;"/>
+            <img alt="Flipkart theme" src="./imgs/flipkart-theme.png" style="width: 30%;"/>
+            <img alt="Flipkart splashscreen" src="./imgs/flipkart-splashscreen.png" style="width: 30%;"/>
+          </section>
+
+          <section>
+            <h3>Service Workers</h3>
+          </section>
+
+          <section>
+            <p>
+              Service Workers are&hellip;
+            </p>
+            <ul>
+              <li class="fragment">JavaScript programs</li>
+              <li class="fragment">Run in a separate thread</li>
+              <li class="fragment">Independent from the browser being open</li>
+              <li class="fragment">Driven by events</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Functional Events</h3>
+            <img alt="Functional Events" src="../imgs/sw-101/functional-events.png"/>
+          </section>
+
+          <section>
+            <h3>Fetch</h3>
+            <img alt="Fetch event" src="../imgs/sw-101/fetch-event.png" style="width: 70%"/>
+          </section>
+
+          <section>
+            <img alt="Flipkart in Offline mode" src="./imgs/flipkart-offline.png" style="width: 40%;"/>
+            <img alt="Flipkart showing custom no content warning" src="./imgs/flipkart-no-content.png" style="width: 40%;"/>
+          </section>
+
+          <section>
+            <img alt="Time a user can wait before leaving the page" src="./imgs/time-waiting-before-give-up.png" style="width: 50%"/>
+            <p>
+              Source: <a href="https://blog.kissmetrics.com/loading-time/?wide=1">How Loading Time Affects Your Bottom Line</a>
+            </p>
+          </section>
+
+          <section>
+            <h3>Push</h3>
+            <img alt="Push event" src="../imgs/sw-101/push-event.png" style="width: 70%"/>
+          </section>
+
+          <section>
+            <img alt="Retention related to Push" src="./imgs/retention-related-to-push.png"/>
+            <p>
+              Source: <a href="http://info.localytics.com/blog/2015-the-year-that-push-notifications-grew-up" target="_blank">2015: The Year that Push Notifications Grew Up</a>
+            </p>
+          </section>
+
+          <section>
+            <h3>Sync</h3>
+            <img alt="Sync event" src="../imgs/sw-101/sync-event.png" style="width: 70%"/>
+          </section>
+
+          <section>
+            <h3>Performance</h3>
+          </section>
+
+          <section>
+            <img alt="Causes making milennia to give up an application" src="./imgs/give-up-causes-milennia.png"/>
+            <p>
+              Source: <a href="https://go.oracle.com/LP=11235?elqCampaignID=20552" target="_blank">Milennials and mobility, Oracle</a>
+            </p>
+          </section>
+
+          <section>
+            <ul>
+              <li>
+                <a href="https://developers.google.com/web/tools/chrome-devtools/profile/evaluate-performance/rail?hl=en" target="_blank">RAIL</a> performance model
+              </li>
+              <li class="fragment">
+                <a href="https://aerotwist.com/blog/flip-your-animations/" target="_blank">FLIP</a> your animation in <a href="https://aerotwist.com" target="_blank">aerotwist.com</a>
+              </li>
+              <li class="fragment">
+                <a href="https://hacks.mozilla.org/2015/06/new-performance-tools-in-firefox-developer-edition-40/">Performance tools</a> in <a href="https://www.mozilla.org/firefox/developer/" target="_blank">Firefox Dev. edition</a>
+              </li>
+              <li class="fragment">
+                <a href="https://github.com/Matt-Esch/virtual-dom" target="_blank">Virtual DOM techniques</a>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <p>
+              Still worried about performance?
+            </p>
+          </section>
+
+          <section>
+            <p>
+              There's more coming&hellip;
+              <ul>
+                <li class="fragment"><a href="https://medium.com/@vvergon/webgl-matures-into-a-commercial-ready-technology-ba71e254cae6" target="_blank">WebGL is ready</a> for production</li>
+                <li class="fragment">WebAssembly first <a href="https://webassembly.github.io/demo/" target="_blank">demo</a></li>
+                <li class="fragment"><a href="https://blog.servo.org/2016/06/30/servo-nightlies/" target="_blank">Mozilla Servo Nightly builds</a></li>
+                <li class="fragment"><a href="https://github.com/servo/webrender/wiki" target="_blank">WebRender</a>: <a href="https://www.youtube.com/watch?v=u0hYIRQRiws" target="_blank">superfast render engine</a> by Mozilla</li>
+              </ul>
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>The Right Choice</h2>
+          </section>
+
+          <section>
+            <p>
+              My recommendation:
+            </p>
+          </section>
+
+          <section>
+            <ol>
+              <li>The <strong>Web by default</strong></li>
+              <li class="fragment">If you have business arguments, stay away</li>
+              <li class="fragment">If you need access to non-available APIs, stay away</li>
+            </ol>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Successful examples</h2>
+          </section>
+
+          <section>
+            <h3>e-Commerce</h3>
+            <ul>
+              <li>Flipkart triples time-on-site with Progressive Web App</li>
+              <li>AliExpress increases conversion rate for new users by 104%</li>
+              <li>United eXtra Electronics grows eCommerce sales by 100% with Web Push Notifications</li>
+              <li>Push Notifications help Jumia reverse cart abandonment</li>
+              <li>Konga cuts data usage 92%</li>
+              <li>5miles increases conversions 60%</li>
+            </ul>
+            <p>
+              Source: <a href="https://developers.google.com/web/showcase/">Google showcase</a>
+            </p>
+          </section>
+
+          <section>
+            <h3>Heroes of Paragon</h3>
+            <img alt="Daily Average Revenue per User" src="./imgs/heores-of-parangon-darpu.png" style="width: 70%;"/>
+            <p>
+              <a href="https://medium.com/@vvergon/webgl-matures-into-a-commercial-ready-technology-ba71e254cae6#.4xop0bf6k">WebGL matures into a commercial-ready technology</a>
+            </p>
+            <p>
+              The Web holds 2nd position in DARPU.
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <h2>Resources</h2>
+          <ul>
+            <li>Alex Russell on <a href="https://www.youtube.com/watch?v=x7cfLDFVyHo&feature=youtu.be&t=143" taget="_blank">Progressive Web Apps</a></li>
+            <li><a href="https://flipkart.com" target="_blank">Flipkart Lite</a> progressive web app</li>
+            <li>Google <a href="https://developers.google.com/web/showcase/" taget="_blank">showcase</a></li>
+            <li>Paul Lewis <a href="https://aerotwist.com" target="_blank">aerotwist.com</a> blog on performance</li>
+            <li><a href="https://github.com/delapuente/service-workers-101/">Sevice Worker 101</a></li>
+            <li><a href="https://www.youtube.com/playlist?list=PLNYkxOF6rcIAWWNR_Q6eLPhsyx6VvYjVb">PWA Dev Summit talks</a></li>
+            <li><a href="http://www.quirksmode.org/blog/archives/2015/05/web_vs_native_l.html">Web vs. native: let’s concede defeat</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="../imgs/contact/chibi.jpg" alt="me" style="border:none; width: 250px; height:auto;">
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ## Questions?
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>One Encoding To Rule Them All</title>
+    <meta name="description" content="A friendly reminder about codification schemes and text representations in Ptyhon and JavaScript">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/tabzilla/css/tabzilla.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-dark.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>One Encoding To Rule Them All</h1>
+        </section>
+
+        <section>
+          <section>
+            <blockquote>Il n'y a pas de hors-texte</blockquote>
+            <p>&mdash; <a href="http://en.wikipedia.org/wiki/Jacques_Derrida">Derrida</a>, French philosopher</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>There And Back Again</h2>
+          </section>
+
+          <section>
+            <p>Let me tell you a story about the letter <strong>ñ</strong>...</p>
+            <p class="fragment">In its journy <strong>from your will</strong>...</p>
+            <p class="fragment"><strong>to your computer screen</strong>.</p>
+          </section>
+
+          <section>
+            <h3>Prologue</h3>
+            <p>The <strong>ñ</strong> is the 15th letter of
+            the Spanish alphabet. It is a <strong>n</strong> with a diacritical
+            tilde. It's history is tracked to monasteries where the glyph
+            <em>ñ</em> was <strong>a shortcut for <em>nn</em></strong>.</p>
+          </section>
+
+          <section>
+            <h3>In your mind</h3>
+            <img src="./imgs/nn.jpg"/>
+            <p class="fragment">Everybody has a clear vision of what a
+              <strong>ñ</strong>. Don't you?</p>
+          </section>
+
+          <section>
+            <h3>The physical keyboard</h3>
+            <p></p>
+            <img src="imgs/keyboard.jpg" >
+            <p class="fragment">The keyboard is agnostic about what letters it
+              has printed on its own surface. It simply sends the
+              <strong>scancode</strong> <code>0x27</code>.</p>
+          </section>
+
+          <section>
+            <p>You can use <code># showkeys --scancodes</code> to inspect the
+              raw scan codes.</p>
+          </section>
+
+          <section>
+            <h3>The abstract keyboard</h3>
+            <img src="./imgs/keycode-map.png" />
+            <p class="fragment"><em>Scancodes</em> are too close to hardware
+              events, so they are translated into more abstract
+              <strong>keycodes</strong>.</p>
+          </section>
+
+          <section>
+            <p>You can use <code># getkeycodes</code> display the map between
+            scancodes and keycodes.</p>
+          </section>
+
+          <section>
+            <h3>Language Layouts</h3>
+            <img src="./imgs/keyboard-es.jpg" />
+            <p class="fragment">What is printed on your keyboard must to be
+              known by the system to correctly translate abstract
+              <em>keycodes</em> into <strong>keysym</strong> symbols.</p>
+          </section>
+
+          <section>
+            <p>Here is the
+              <a download="es.map" href="./demo/es.map">mapping table</a> for a
+              QWERTY-Spanish layout.</p>
+          </section>
+
+          <section>
+            <h3>Character Set</h3>
+            <img src="./imgs/ntilde-info.png" />
+            <p class="fragment">Once we know the correct symbol, it is mapped
+              against a set of characters such as the <strong>Universal Character
+              Set </strong> or <strong>Unicode</strong> sets.</p>
+          </section>
+
+          <section>
+            <p>Use <code>dumpkeys | loadkeys -u -m &gt; unicode.h</code> to
+              build the table translating <em>keysyms</em> to code points.</p>
+            <p>Here is the
+              <a download="unicode.h" href="./demo/unicode.h">resulting
+                table</a> for the previous mapping.</p>
+          </section>
+
+          <section>
+            <h3>Text Encoding</h3>
+            <img src="./imgs/encodings.png" />
+            <p class="fragment">Finally, we need an <strong>encoding</strong>:
+              <br/>a scheme to translate numbers to bits.</p>
+          </section>
+
+          <section>
+            <h3>Echo</h3>
+            <img src="./imgs/lonely-mountain.jpg" style="height: 500px;"/>
+            <p>Thus, the intrepid <strong>ñ</strong> reaches its destination,
+              turned into simple bytes <code>0xc3 0xb1</code>. Now it is time
+              to present itself before the world.</p>
+          </section>
+
+          <section>
+            <h3>Return to the Character Set</h3>
+            <img src="./imgs/ntilde-info.png" />
+            <p class="fragment">Terminals are configured to work with encodings,
+              this case is <strong>UTF-8</strong>. The terminal knows how to
+              turn bytes into a Unicode code point.</p>
+          </section>
+
+          <section>
+            <h3>Fonts: Numbers to Vector Graphics</h3>
+            <img src="./imgs/font-info.png" style="height: 500px;"/>
+            <p class="fragment">The Unicode code point is then looked for
+              <strong>inside the font</strong>. It maps to a vector graphic
+              depicting the symbol.</p>
+          </section>
+
+          <section>
+            <p>Use <code>$ gucharmap</code> to display the utility to explore
+            installed fonts.</p>
+          </section>
+
+          <section>
+            <h3>The Video Buffer</h3>
+            <img src="./imgs/console.png" />
+            <p class="fragment">And finally, the graphic information is put into
+              the <strong>video memory</strong> to be displayed through
+              the screen.</p>
+          </section>
+
+          <section>
+            <h3>Credits</h3>
+            <ul>
+              <li><a href="http://www.tldp.org/HOWTO/Keyboard-and-Console-HOWTO-2.html">Keyboard generalities</a></li>
+              <li><a href="http://www.tldp.org/HOWTO/Keyboard-and-Console-HOWTO-3.html">Console generalities</a></li>
+              <li><a href="https://wiki.archlinux.org/index.php/Map_scancodes_to_keycodes">Map scancodes to keycodes</a></li>
+              <li><a href="http://en.wikipedia.org/wiki/Scancode">Scancodes on Wikipedia</a></li>
+            </ul>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Unicode</h2>
+          </section>
+
+          <section>
+            <p>It is an effort to create a set of characters for most of the
+              writing systems on Earth (and beyond) and a set of rules for
+              normalization, decomposition, collation, rendering and
+              bidirectional display order.</p>
+          </section>
+
+          <section>
+            <p>But the core component is no more than <strong>an humongous
+              table</strong>: 1.114.112 entries in total from
+              <code>U+0000</code> to <code>U+10FFFF</code>. Here is how
+              it is organized...</p>
+          </section>
+
+          <section>
+            <h3>Codepoints</h3>
+            <p>Each entry in the table is said to be a <strong>grapheme</strong>.
+              A grapheme is the smallest unit in a written language. Each
+              grapheme has an assigned <strong>code point</strong> in the
+              Unicode's code space of 1.114.112 values. They are designated by
+              the prefix <code>U+</code> followed by its hexadecimal
+              representation.</p>
+          </section>
+
+          <section>
+            <h3>Planes</h3>
+            <p>Unicode is divided into 17 planes, each of 65.536 code points.</p>
+            <p>Graphemes inside each plane are grouped by similarity.</p>
+            <p>Unicode overlaps <a href="http://en.wikipedia.org/wiki/ASCII">ASCII</a>,
+              <a href="http://en.wikipedia.org/wiki/ISO/IEC_8859-1">Latin-1</a> &amp;
+              <a href="http://en.wikipedia.org/wiki/Universal_Character_Set">Universal Character Set</a>.</p>
+          </section>
+
+          <section>
+            <img src="./imgs/bmp.png" style="height: 600px;"/>
+            <p>The <strong>plane 0</strong> is called
+              <strong>Basic Multilingual Plane</strong>
+              and comprises most of the modern languages in the world.</p>
+          </section>
+
+          <section>
+            <img src="./imgs/smp.png" styel="height: 600px;" />
+            <p>The <strong>plane 1</strong> is called
+              <strong>Supplementary Multilingual Plane</strong>
+              and comprises historycal scripts, mathematical alphanumerics,
+              Emoji and game symbols.</p>
+          </section>
+
+          <section>
+            <p>Plane 2 is called the <strong>Supplementary Ideographic
+              Plane</strong> and holds
+              <a href="http://en.wikipedia.org/wiki/CJK_Unified_Ideographs">CJK Unified Ideographs</a>.</p>
+          </section>
+
+          <section>
+            <p>Planes <strong>3 to 13</strong> are unused.</p>
+          </section>
+
+          <section>
+            <p>Plane 14 is the <strong>Supplementary Special-purpose
+              Plane</strong> intended to hold special language tags.</p>
+          </section>
+
+          <section>
+            <p>Planes 15-16 are reserved for third parties to add their
+            own glyphs. Commonly used by fonts to describe building blocks for
+            other characters.</p>
+          </section>
+
+          <section>
+            <h3>Curiosities</h3>
+            <ul>
+              <li>There are <a href="http://en.wikipedia.org/wiki/Duplicate_characters_in_Unicode">duplicates</a>
+              in Unicode.</li>
+              <li>Planes beyond 0 are called <em><strong>astral planes</strong></em>.</li>
+              <li>The <a href="http://www.kreativekorp.com/ucsur/">ConScript initiative</a>
+                aims to integrate fictional languages such as
+                <a href="http://en.wikipedia.org/wiki/Tengwar">Tengwar</a> or
+                <a href="http://en.wikipedia.org/wiki/Klingon_language">Klingon</a>
+                inside the Unicode table, in some areas of BMP and planes 15 and 16.</li>
+              <li>The standard can be modified outside the committee (as in the case
+                of the
+                <a href="https://github.com/jloughry/Unicode">power symbol</a>).</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Encodings</h3>
+            <p>You need some way to transmit the codepoints. For instance,
+              you could use 4 bytes to encode any of the Unicode code points
+              now and future.</p>
+          </section>
+
+          <section>
+            <p>Suppose you want to transmit:</p>
+            <pre><code>España</code></pre>
+            <p>You need to transmit the code points:</p>
+            <pre><code>U+0045 U+0073 U+0070 U+0061 U+00F1 U+0061</code></pre>
+            <p>And you could use a 32 bit encoding for that:</p>
+            <pre><code>00000045 00000073 00000070 00000061 000000F1 00000061</code></pre>
+          </section>
+
+          <section>
+            <p>This is indeed the
+              <strong><a href="http://en.wikipedia.org/wiki/UTF-32">UTF-32</a></strong>
+              encoding format which is a direct representation of the Unicode
+              table.</p>
+            <p>Each chunk of bits used to encode a code point is named a
+              <strong>code unit</strong>.</p>
+          </section>
+
+          <section>
+            <p>The problem is you're using 24 bytes to encode a 6-letter word.</p>
+            <p class="fragment">And you are using an encoding scheme which
+              takes into account room for <strong>10 unused planes!</strong></a>
+          </section>
+
+          <section>
+            <p>So there are other more economic ways to encode the same text.</p>
+          </section>
+
+          <section>
+            <h4>UCS-16 / UCS-2</h4>
+            <ul>
+              <li>Actually, UCS-16 does not exist. It refers to UCS-2.</li>
+              <li>The number 2 stands for <strong>2 bytes</strong>.</li>
+              <li>It's the default encoding for the Universar Character Set.</li>
+              <li>It covered all the <em>UCS</em> code space but <strong>only
+                the BMP in Unicode</strong>.</li>
+              <li>It is how <strong>JavaScript</strong> exposes strings.</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>For the <code>España</code> example, the encoded message reads as
+              follows:</p>
+            <pre><code>0045 0073 0070 0061 00F1 0061</code></pre>
+            <p class="fragment">You should considerate the <strong>endianness</strong> as well!</p>
+          </section>
+
+          <section>
+            <h4>UTF-16</h4>
+            <ul>
+              <li>The number 16 stands for <strong>16 bits</strong>.</li>
+              <li>It's and extension over UCS-2.</li>
+              <li>By using pairs of <strong>surrogates</strong> it can encode
+                all the Unicode space.</li>
+              <li>Surrogates are pairs of code units that <strong>share the
+                representation of the code point</strong>.</li>
+              <li>The <a href="en.wikipedia.org/wiki/UTF-16#Code_points_U.2B010000_to_U.2B10FFFF">way they encode the code point</a> limits Unicode to the
+                weird 1.114.112 different values it has.</li>
+              <li>Surrogate code points are considered into Unicode
+                and they will be never assigned to a grapheme.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>UTF-8</h4>
+            <ul>
+              <li>The number 8 stands for <strong>8 bits</strong>.</li>
+              <li>It's quite popular among the World Wide Web.</li>
+              <li>It's not based on surrogated pairs but in a special encoding
+                that allows: ASCII characters to be represented by 1 byte;
+                <strong>almost all Western Europe languages with 2
+                  bytes</strong>; Asian and Ideographic Languages with 3 bytes
+                and the rest of the table with 4 bytes.</li>
+              <li>It is how <strong>Python 3</strong> exposes strings by default</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>The UTF-8 encoding is designed to expose a bunch of
+              <a href="http://en.wikipedia.org/wiki/UTF-8#Description">desired
+              properties</a> for an encoding scheme...</p>
+         </section>
+
+         <section>
+            <p>For multibyte representations, the first leading byte include as
+              many <code>1</code> bits as the number of bytes needed to encode
+              the code point plus a <code>0</code>. The rest of <code>n</code>
+              bits contains the first <code>n</code> bits of the code point.</p>
+        </section>
+
+        <section>
+            <p>Following bytes start by <code>10</code> and complete the byte
+              with the following 6 bits of the code point. Code points are
+              padded with <code>0</code> bits when needed.</p>
+          </section>
+
+          <section>
+            <p>For the <code>España</code> example, this time the encoded
+              message reads as follows:</p>
+            <pre><code>45 73 70 61 C3B1 61</code></pre>
+            <p>The <strong>ñ</strong> is encoded this way:</p>
+            <pre><code>Code point: U+00F1
+Binary: 00000000 11110001
+UTF-8 : 11000011 10110001
+Hex   :    C   3    B   1</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Handling Emoji in JavaScript</h2>
+          </section>
+
+          <section>
+            <blockquote>
+              Given a message in UTF-8 with emoji, translate it into HTML
+              mixing text and images.
+            </blockquote>
+          </section>
+
+          <section>
+            <p>JavaScript Harmony (ES 6) includes a lot
+              of text related functions and upgrades its encoding scheme to
+              <strong>UTF-16</strong>!</p>
+          </section>
+
+          <section>
+            <p>But in current JavaScript, the encoding is UCS-2 and that means
+            Emoji characters (plane 3) are out of the code space...</p>
+          </section>
+
+          <section>
+            <p>So we will use <a href="https://github.com/iamcal/emoji-data">images from an Emoji database</a> instead!</p>
+          </section>
+
+          <section>
+            <p>The idea is quite simple: first <strong>decode UTF-8 to
+                Unicode</strong> code points and pass through them creating text
+                nodes for text and <strong>styled elements for emoji</strong>.</p>
+          </section>
+
+          <section>
+            <h3>What is an Emoji?</h3>
+            <p><a href="http://en.wikipedia.org/wiki/Emoji">Emoji</a> are
+              pictographs (from "picture" <em>e</em> and
+              "character" <em>moji</em>) first provided by
+              the NTT DoCoMo mobile operator in Japan to ease by-message
+            communications.</p>
+          </section>
+
+          <section>
+            <p>Not all the original Emoji are in Unicode but some of them
+              reside with other symbols in the 3rd plane of Unicode, between
+              <code>U+1F300</code> and <code>U+27B0</code>.</p>
+          </section>
+
+          <section>
+            <h3>Where to find information about Emoji</h3>
+            <p>There are several initiatives about compiling and documenting
+              Emoji. One that provides tools to generate CSS files is
+              <a href="https://github.com/iamcal/js-emoji">js-emoji</a> on
+              GitHub (it's actually a library to display Emoji and takes
+              the data from
+              <a href="https://github.com/iamcal/emoji-data">emoji-data</a>)
+              but there are other.</p>
+          </section>
+
+          <section>
+            <h3>Step 1: reading UTF-8 as data</h3>
+            <p>The original UTF-8 message is:</p>
+            <pre><code>42 75 65 6e 6f 20 f0 9f  98 89 2c 20 68 65 20 61
+71 75 c3 ad 20 75 6e 20  f0 9f 93 9d 20 65 6e 20
+f0 9f 87 aa f0 9f 87 b8  20 63 6f 6e 20 61 6c 67
+75 6e 6f 73 20 f0 9f 98  80 2c 20 f0 9f 86 97 3f
+3f</code></pre>
+          </section>
+
+          <section>
+            <p>When encoding is not provided, most of browsers attempt to
+              decode the data. And they do really well! But this time we wont leave
+              the browser to work for us.</p>
+          </section>
+
+          <section>
+            <p>We will use a special <code>XMLHttpRequest</code>:</p>
+            <pre><code class="js" data-noescape data-dim>function get(url) {
+  return new Promise(function (resolve) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.responseType = 'arraybuffer';
+<mark>    xhr.onload = function () {
+      resolve(new Uint8Array(xhr.response));
+    };</mark>
+    xhr.send();
+  });
+}</code></pre>
+          </section>
+
+          <section>
+            <h3>Step 2: Decode to a Unicode object</h3>
+            <p>Once we have a buffer with the raw bytes, lets translate
+              it into a Unicode object such as an array of code points.</p>
+            <pre><code class="js">function decodeToUnicode(utf8data) {
+  var codepoints = [];
+  var i = 0, codeunit;
+  var b0, b1, b2, b3;
+  while (i &lt; utf8data.length) {
+    codeunit = utf8data[i];
+    /* code unit handling */
+  }
+  return codepoints;
+}</code></pre>
+          </section>
+
+          <section>
+            <p>The only thing we need to know is if the code
+              unit is lower than 128, it is an ASCII byte.<p>
+            <pre><code class="javascript">if (codeunit &lt; 0x80) {
+  codepoints.push(codeunit);
+  i += 1;
+}</code></pre>
+          </section>
+
+          <section>
+            <p>If not, the code point will be represented with 2 code
+              units at least. The first one will include as many leading
+              <code>1</code> as code units used to encode the code point, a
+              <code>0</code> and the first bits of the code point in the
+              remaining free bits.</p>
+          </section>
+
+          <section>
+            <p>Remaining code units start by <code>10</code> and include
+            chunks of the next 6 bits of the code point.</p>
+          </section>
+
+          <section>
+            <p>So for a code point requiring 4 code units:</p>
+            <pre><code class="javascript">// 4 code units for a glyph
+if (codeunit &gt;= 0xf0) {
+  b3 = (codeunit &amp; 0x07) &lt;&lt; 18;
+  b2 = (utf8data[i+1] &amp; 0x3f) &lt;&lt; 12;
+  b1 = (utf8data[i+2] &amp; 0x3f) &lt;&lt; 6;
+  b0 = (utf8data[i+3] &amp; 0x3f);
+  codepoints.push(b3 | b2 | b1 | b0);
+  i += 4;
+}</code></pre>
+          </section>
+
+          <section>
+            <h3>Step 3: Translate to HTML</h3>
+            <p>Now we have an array of code points, the message could be
+            divised:</p>
+            <pre><code class="javascript">[66, 117, 101, 110, 111, 32,
+128521, 44, 32,
+104, 101, 32,
+97, 113, 117, 237, 32,
+117, 110, 32,
+128221, 32,
+101, 110, 32,
+127466, 127480, 32,
+99, 111, 110, 32,
+97, 108, 103, 117, 110, 111, 115, 32,
+128512, 44, 32,
+127383, 63, 63]</code></pre>
+          </section>
+
+          <section>
+            <p>Emoji are code points above the BMP (greater than 65535).</p>
+          </section>
+
+          <section>
+            <p>But have you notice those two consecutive codes
+              <code>127466</code> and <code>127480</code>?</p>
+          </section>
+
+          <section>
+            <p>They are called <a href="http://en.wikipedia.org/wiki/Regional_Indicator_Symbol">Regional Indicator Symbols</a>
+              and provide a way to represent countries.</p>
+          </section>
+
+          <section>
+            <p>They are actually two symbols and is the system who is in
+              charge of replacing them with a flag or whatever.</p>
+          </section>
+
+          <section>
+            <p>You can <a download="emoji.js" href="./demo/emojis/emoji.js">download the complete source</a> for the example.</p>
+            <p>The <a href="./demo/emojis/">demo folder</a> can be <a href="https://github.com/delapuente/presentations/tree/master/one-encoding-to-rule-them-all/demo/emojis">found at GitHub</a> as well.</p>
+          </section>
+
+        </section>
+
+        <section>
+          <h2>Important Lessons</h2>
+          <ul>
+            <li><strong>There is no</strong> such thing as <strong>plain text</strong>!</li>
+            <li>Converting text into bytes is <strong>to encode</strong>.</li>
+            <li>Converting bytes into text is <strong>to decode</strong>.</li>
+            <li>Files does not include the encoding unless <strong>explicitly
+              provided</strong>.</li>
+            <li>To process text we <strong>must to be provided</strong>
+              with the correct encoding.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Further reading</h3>
+          <ul>
+            <li><a href="http://en.wikipedia.org/wiki/Unicode">Unicode at Wikipedia</a></li>
+            <li><a href="http://en.wikipedia.org/wiki/Plane_(Unicode)">Planes</a> of Unicode</li>
+            <li><a href="http://www.diveintopython3.net/strings.html">Strings</a> (from Dive into Python 3)</li>
+            <li><a href="https://docs.python.org/3.4/howto/unicode.html">Unicode HOWTO</a> (from Python documentation)</li>
+            <li><a href="https://mathiasbynens.be/notes/javascript-encoding">JavaScript’s internal character encoding: UCS-2 or UTF-16?</a></l>
+              <li><a href="https://leanpub.com/understandinges6/read/#leanpub-auto-better-unicode-support">Better Unicode Support</a> in Understanding ECMAScript 6</li>
+              <li><a href="https://www.youtube.com/watch?v=sTzp76JXsoY">Why Do Flag Emoji Count As Two Characters?</a> on YouTube</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>About me</h2>
+          <img src="../imgs/contact/perezalva.png" class="plain" style="float:left; width: 250px; height:auto;"/>
+          <dl style="padding-top: 100px;">
+            <dt>me</dt>
+            <dd>Salvador de la Puente González</dd>
+            <dt>twitter</dt>
+            <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+            <dt>My web sites</dt>
+            <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/delapuente">http://github.com/delapuente</a></dd>
+          </dl>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>

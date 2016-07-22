@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Method dispatching in Python</title>
+    <meta name="description" content="A review of about method dispatching and its importance in OOP and some fancy implementation in Python">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/tabzilla/css/tabzilla.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-dark.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <header>
+            <h1>Method dispatching techniques</h1>
+            <h2>in Python</h2>
+          </header>
+        </section>
+
+        <section>
+          <section>
+            <blockquote>The key in making great and growable systems is much more to design how its modules communicate rather than what their internal properties and behaviors should be.</blockquote>
+            <p>&mdash; Alan Kay on <a href="http://c2.com/cgi/wiki?AlanKayOnMessaging">Messaging</a></p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Message passing</h2>
+          </section>
+
+          <section>
+            <p>It's a way to <strong>request behavior</strong> from an entity
+            in a distributed system.</p>
+          </section>
+
+          <section>
+            <p>To communicate via message is a <strong>4-step</strong> process</p>
+          </section>
+
+          <section>
+            <h3>Creating the message:</h3>
+            <img class="fragment" style="display: inline-block; height:300px"
+            src="./imgs/letter-writing.jpg" alt="Writing letter"/>
+            <img class="fragment" style="display: inline-block; height:300px"
+            src="./imgs/letter-recipient.jpg" alt="Recipient" />
+          </section>
+
+          <section>
+            <h3>Sending &amp; Delivering the message:</h3>
+            <img class="fragment" style="display: inline-block; height:300px"
+            src="./imgs/letter-sending.jpg" alt="Sending a letter"/>
+            <img class="fragment" style="display: inline-block; height:300px"
+            src="./imgs/letter-postoffice.jpg" alt="Sending a letter"/>
+          </section>
+
+          <section>
+            <h3>Receiving the message:</h3>
+            <img class="fragment" style="display: inline-block; height:300px"
+            src="./imgs/letter-delivery.jpg" alt="Sending a letter"/>
+          </section>
+
+          <section>
+            <h3>Processing the message:</h3>
+            <img class="fragment" style="display: inline-block; height:300px"
+            src="./imgs/letter-reading.jpg" alt="Sending a letter"/>
+            <img class="fragment" style="display: inline-block; height:300px"
+            src="./imgs/do-action.jpg" alt="Sending a letter"/>
+            <p class="fragment">This last step is <strong>method
+            dispatching</strong>!!</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Method Dispatching in Python</h2>
+          </section>
+
+          <section>
+            <p>It's the process to select <strong>which action</strong>
+            depending on the the message.</p>
+          </section>
+
+          <section>
+            <pre><code class="python">def __postoffice__(message):
+  recipient = message.recipient
+  name = message.contents.name
+  args = message.contents.args
+  kwargs = message.contents.kwargs
+
+  if not hasattr(recipient, name):
+    raise AttributeError
+
+  member = getattr(recipient, name)
+  return member(*args, **kwargs)</code></pre>
+          </section>
+
+          <section>
+            <h3>in (real) Python</h3>
+          </section>
+
+          <section>
+            <p>Some differences:</p>
+            <ol>
+              <li class="fragment">The <em>post offices</em> are
+              responsibilities of <strong>each class</strong>.</li>
+              <li class="fragment">There are <strong>two separated methods</strong> to
+              redefine method dispatching: one for <em>getting</em>
+              and another for <em>setting</em></li>
+              <li class="fragment">The message is only the
+              <strong>member's name</strong></li>
+            </ol>
+          </section>
+
+          <section>
+            <h4>__getattribute__</h4>
+            <p>It's the equivalent to <code>__postoffice__</code></p>
+            <pre><code class="python">def __getattribute__(self, membername):
+  """Get the value with the key &lt;membername&gt; inside
+  self.__dict__; if not, look for the same key
+  inside type(self).__dict__; if not, look for
+  it through the class hierarchy. If not, call
+  self.__getattr__(membername) if exists."""</code></pre>
+            <p class="fragment">Intercepts <strong>all</strong> the attemps
+            to access a member before trying to retrieve it from the instance.
+            </p>
+          </section>
+
+          <section>
+            <h4>__getattr__</h4>
+            <p>It's a <strong>fallback</strong> for when the member does not exist.</p>
+            <pre><code class="python">def __getattr__(self, membername):
+  """If exists inside the instance, it's called when
+  the membername was not found at all. It can return
+  an object or raise AttributeError."""</code></pre>
+            <p class="fragment">Intercepts the attemps to access a member
+            <strong>only if it does not exist</strong>.</p>
+          </section>
+
+          <section>
+            <h4>__setattr__</h4>
+            <p>It's the <em>post office</em> when trying to assign a value.</p>
+            <pre><code class="python">def __setattr__(self, membername, value):
+  """Replace the entry in self.__dict__ for the
+  membername with value.
+
+  (Well, actually, it's a little bit more
+  complicated)."""</code></pre>
+            <p class="fragment">Intercepts <strong>all</strong> the attemps to
+            set a member with the specified value.</p>
+          </section>
+
+          <section>
+            <p>IMPORTANT:<br/>if not called explicitly, the magic methods are
+            <strong>never called from the instance</strong> but from its class.</p>
+            <pre><code class="python">from types import MethodType as method
+class A(): pass
+
+a = A()
+a.__setattr__ = \
+  method(lambda : print('Doing nothing...'), a)
+a.test = 1</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Fuzzy APIs</h2>
+          </section>
+
+          <section>
+            <blockquote>If I make a little typo, I want the API to be smart
+            enough to figure out which member I'm referring and get it
+            fixing the typo.</blockquote>
+          </section>
+
+          <section>
+            <p>The idea is to use the most similar method without ambiguity
+            when it's not found in the instance.</p>
+          </section>
+
+          <section>
+            <p>We use <code>difflib</code> and <code>SequenceMatcher</code> to calculate similarity:</p>
+            <pre><code class="python">from difflib import SequenceMatcher
+def similarity(n, m):
+  return SequenceMatcher(None, n, m).ratio()</code></pre>
+          </section>
+
+          <section>
+            <p>And add <code>__getattr__()</code> to the class.</p>
+            <pre><code class="python">def __getattr__(self, name):
+  issimilar = lambda n: similarity(n, name) &gt;= 0.8
+  matches = list(filter(issimilar, dir(self)))
+  if not matches or len(matches) &gt; 1:
+    raise AttributeError()
+
+  return getattr(self, matches[0])</code></pre>
+            <p class="fragment">Remeber it's only called if the member <strong>is not found</strong>.</p>
+          </section>
+
+          <section>
+            <p>Download <a href="./demo/fuzzyfy.py"
+            download="fuzzyfy.py">fuzzyfy.py</a> for an implementation.</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Restricted Proxy Subclasses</h2>
+          </section>
+
+          <section>
+            <blockquote>From a base class, I want to derive another with
+            partial access to its public members.</blockquote>
+          </section>
+
+          <section>
+            <p>Provided a base class and a whitelist
+            of members, only allow access to a member if it is in the
+            whitelist.</p>
+          </section>
+
+          <section>
+            <p>So, as it's a metter of access, I need to intercept all access.</p>
+            <pre><code class="python">def __getattribute__(self, name):
+  if name[0] != '_' and name not in whitelist:
+    raise RuntimeError()
+
+  return base.__getattribute__(self, name)</code></pre>
+            <pre><code class="python">def __setattr__(self, name, value):
+  if name[0] != '_' and name not in whitelist:
+    raise RuntimeError()
+
+  return base.__settattr__(self, name, value)</code></pre>
+          </section>
+
+          <section>
+            <p>Download <a href="./demo/restricted.py"
+            download="restricted.py">restricted.py</a> for an implementation.</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Private members</h2>
+          </section>
+
+          <section>
+            <blockquote>Deny the access to a member starting by <code>_</code>
+            if it's being used outside the class' (or subclasses')
+            declarations.</blockquote>
+          </section>
+
+          <section>
+            <p>When accessing a member, inspect the current stack to locate
+            the line of code accessing the member and see if the line
+            is part of the code for the class. If not, deny the access.</p>
+          </section>
+
+          <section>
+            <p>Use the module <code>inspect</code> to get the sourcefile and
+            source lines from a class.</p>
+            <pre><code class="python">class A():
+  """
+
+  Source code
+
+  """
+  def f():
+    print('Hello!')
+
+
+import inspect
+lines, offset = inspect.getsourcelines(A)</code></pre>
+            <p class="fragment">Copy to a file or it won't work.</p>
+          </section>
+
+          <section>
+            <p>Use in combination with <code>__mro__</code> to get the source
+            files and source blocks for all classes in the class hierarchy.</p>
+            <pre><code class="python">klass = type(obj)
+# ignore built-in object class
+klasses = list(klass.__mro__[:-1])
+sources = []
+for k in klasses:
+  sourcefile = inspect.getsourcefile(k)
+  lines, offset = inspect.getsourcelines(k)
+  end = offset + len(lines)
+  sources.append(sourcefile, offset, end)</code></pre>
+          </section>
+
+          <section>
+            <p>Use <code>getouterframes()</code> and
+              <code>currentframe()</code> to get a list of the current
+              execution stack.</p>
+            <pre><code class="python">def a():
+  b()
+
+def b():
+  c()
+
+def c():
+  import inspect
+  frames = inspect.getouterframes(
+           inspect.currentframe())
+  print(list(frames))</code></pre>
+              <p>Each entry is a tuple including the sourcefile
+            and line number.</p>
+          </section>
+
+          <section>
+            <p>Download <a href="./demo/protected.py"
+            download="protected.py">protected.py</a> for an implementation.</p>
+            <p>Jump to <a href="./imgs/python-privates.png">the infography</a>
+            about privates in Python.</p>
+          </section>
+        </section>
+
+        <section>
+          <h2>Further reading</h2>
+          <ul>
+            <li><a href="http://c2.com/cgi/wiki?AlanKayOnMessaging">Alan Kays on Messaging</a></li>
+            <li><a href="http://en.wikipedia.org/wiki/Dynamic_dispatch#Smalltalk_implementation">Smalltalk's dispatching</a></li>
+            <li><a href="https://docs.python.org/3.4/reference/datamodel.html">Ptyhon datamodel</a></li>
+            <li><a href="http://741mhz.com/smart-getopt/">Smart Command Line Opttions Parsing</a></li>
+            <li><a href="https://github.com/gitster/git/blob/master/levenshtein.c">Git implementation of Levenshtein distance</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>About me</h2>
+          <img src="../imgs/contact/perezalva.png" class="plain" style="float:left; width: 250px; height:auto;"/>
+          <dl style="padding-top: 100px;">
+            <dt>me</dt>
+            <dd>Salvador de la Puente González</dd>
+            <dt>twitter</dt>
+            <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+            <dt>My web sites</dt>
+            <dd><a href="http://unoyunodiez.com">http://unoyunodiez.com</a><br/><a href="http://github.com/delapuente">http://github.com/delapuente</a></dd>
+          </dl>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>

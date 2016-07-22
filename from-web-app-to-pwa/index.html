@@ -1,0 +1,641 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>From Web App to Progressive Web App</title>
+    <meta name="description" content="A progressive web application is simply a good old web application that exhibits native behaviour and performance on modern browsers. Discover in 30 minutes and through actual code snippets how to convert a web app into a progressive web app!">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/tabzilla/css/tabzilla.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-light.css"/>
+
+		<!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+  <body>
+    <section id="tabzilla">
+      <a href="https://www.mozilla.org/">Mozilla</a>
+    </section>
+
+		<div class="reveal">
+			<div class="slides">
+        <section>
+          <header>
+            <h1>From Web App to Progressive Web App</h1>
+            <h2>In 30 minutes!</h2>
+          </header>
+        </section>
+
+        <section>
+          <ol>
+            <li>Introducing Pangolink!</li>
+            <li>Client-server architecture.</li>
+            <li>Getting offline!</li>
+            <li>Integration with the mobile platform.</li>
+            <li>Receiving Push notifications</li>
+            <li>Resources</li>
+          </ol>
+        </section>
+
+        <section>
+          <section>
+            <h2>Introducing Pangolink!</h2>
+          </section>
+
+          <section>
+            <p>
+              Pangolink! is a cross platform learning-focused web application.
+              Its <a href="https://github.com/delapuente/pangolink" target="_blank">repository</a>
+              includes the proper instructions for following the code.
+            </p>
+          </section>
+
+          <section>
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/bBbQTCl3JDE" frameborder="0" allowfullscreen></iframe>
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/qqalYNMAa_A" frameborder="0" allowfullscreen></iframe>
+            <br/>
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/Z66-c2vuwCM" frameborder="0" allowfullscreen></iframe>
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/ECU6gLpik18" frameborder="0" allowfullscreen></iframe>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Client-server architecture</h2>
+          </section>
+
+          <section>
+            <img alt="Client-server architecture" src="./imgs/client-server-architecture.svg" />
+            <p>
+              The
+              <a href="https://github.com/delapuente/pangolink/blob/web-application/server/index.js" target="_blank">server</a>
+              is responsible of serving the web application and
+              commuinicate with the client via websockets. A small REST API
+              is provided to upload the files.
+            </p>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              REST API to post files.
+            </p>
+            <pre><code class="js" data-noescape data-trim data-dim>
+<mark>app.post('/api/files', upload.single('file'), (req, res) => {</mark>
+  var destinatary = req.body.destinatary;
+  res.status(201).json({ destinatary });
+  originalNames[req.file.filename] = req.file.originalname;
+  enqueueFile(req.file, destinatary);
+  sendPendingFiles(destinatary);
+<mark>});</mark>
+              </code></pre>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              Every time the server receives a file, it enqueues the file for the destinatary.
+            </p>
+            <pre><code class="js" data-noescape data-trim data-dim>
+app.post('/api/files', upload.single('file'), (req, res) => {
+  var destinatary = req.body.destinatary;
+  res.status(201).json({ destinatary });
+  originalNames[req.file.filename] = req.file.originalname;
+<mark>  enqueueFile(req.file, destinatary);</mark>
+<mark>  sendPendingFiles(destinatary);</mark>
+});
+              </code></pre>
+          </section>
+
+          <section>
+            <p>
+              A static server to get the files.
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+<mark>app.use(
+  '/uploads',
+  express.static('uploads', {
+    setHeaders: customContentDisposition
+  })
+);</mark>
+              </code></pre>
+          </section>
+
+          <section>
+            <p>
+              And websockets for presence&hellip;
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+<mark>socket.on('identify', id => {</mark>
+  console.log(`${id} connected to Pangolink.\n`);
+<mark>  clients[id] = socket;</mark>
+  socket.on('disconnect', () => {
+    delete clients[id];
+    console.log(`Lost connection with ${id}`);
+  });
+
+<mark>  sendPendingFiles(id);</mark>
+<mark>});</mark>
+              </code></pre>
+          </section>
+
+          <section>
+            <p>
+              &hellip;and signals about new incoming files.
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+<mark>function sendPendingFiles(id) {</mark>
+  queues[id] = queues[id] || [];
+  var socket = clients[id];
+  if (socket) {
+<mark>    queues[id].forEach(file => socket.emit('file', {</mark>
+      url: '/uploads/' + file.filename,
+      originalname: file.originalname,
+      mimetype: file.mimetype,
+      size: file.size
+<mark>    }));</mark>
+    queues[id] = [];
+  }
+}
+              </code></pre>
+          </section>
+
+          <section>
+            <img alt="HTTPS tunnel" src="./imgs/https-tunnel.svg" />
+            <p>
+              All the enhancements we are going to explore requires HTTPS so
+              I'm using <a href="https://ngrok.com" target="_blank">ngrok</a>
+              with custom names to provide a secure tunnel to my local running
+              node.js 6.x server.
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Getting offline!</h2>
+            <p>
+              See the
+              <a href="https://github.com/delapuente/pangolink/compare/web-application...offline" target="_blank">diff</a>
+            </p>
+          </section>
+
+          <section>
+            <iframe width="840" height="630" src="https://www.youtube.com/embed/Xnlo1j81pTs" frameborder="0" allowfullscreen></iframe>
+          </section>
+
+          <section>
+            <p>
+              To do that, we are going to use Service Workers and caches.
+            </p>
+            <p class="fragment">
+              Want to know more? <strong>Get your <a href="https://github.com/delapuente/service-workers-101/" target="_blank">101</a></strong>!
+            </p>
+          </section>
+
+          <section>
+            <img alt="Fetch event" src="../imgs/sw-101/fetch-event.png" style="width: 70%"/>
+          </section>
+
+          <section>
+            <p>
+              Register the service worker
+            </p>
+            <pre><code class="js" data-noescape data-trim data-dim>
+if ('serviceWorker' in navigator) {
+<mark>  navigator.serviceWorker.register('sw.js');</mark>
+}
+              </code></pre>
+          </section>
+
+          <section>
+            <p>
+              Hook into the registration process
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+<mark>this.oninstall = evt => {</mark>
+  var precacheAssets = caches.open(PANGOLINK_CACHE)
+    .then(cache => cache.addAll(ASSETS));
+
+  evt.waitUntil(precacheAssets);
+<mark>};</mark>
+              </code></pre>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              Store the assets
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+this.oninstall = evt => {
+<mark>  var precacheAssets = caches.open(PANGOLINK_CACHE)
+    .then(cache => cache.addAll(ASSETS));</mark>
+
+  evt.waitUntil(precacheAssets);
+};
+              </code></pre>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              Wait for the assets to be completely cached
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+this.oninstall = evt => {
+  var precacheAssets = caches.open(PANGOLINK_CACHE)
+    .then(cache => cache.addAll(ASSETS));
+
+<mark>  evt.waitUntil(precacheAssets);</mark>
+};
+              </code></pre>
+          </section>
+
+          <section>
+            <p>
+              Handle fetch event&hellip;
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+<mark>this.onfetch = evt => {</mark>
+  var request = evt.request;
+  var url = new URL(request.url);
+  if (request.method === 'GET' && isAsset(url)) {
+    var cacheResponse = fromCache(request);
+    var networkResponse = fromNetwork(request);
+    evt.respondWith(race(
+      cacheResponse,
+      networkResponse.then(response => response.clone())
+    ));
+    evt.waitUntil(
+      networkResponse.then(response => update(request, response.clone()))
+    );
+  }
+<mark>};</mark>
+              </code></pre>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              Handle just in case we request an asset
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+this.onfetch = evt => {
+  var request = evt.request;
+  var url = new URL(request.url);
+<mark>  if (request.method === 'GET' && isAsset(url)) {</mark>
+    var cacheResponse = fromCache(request);
+    var networkResponse = fromNetwork(request);
+    evt.respondWith(race(
+      cacheResponse,
+      networkResponse.then(response => response.clone())
+    ));
+    evt.waitUntil(
+      networkResponse.then(response => update(request, response.clone()))
+    );
+  }
+};
+              </code></pre>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              Query both cache and network. Let them compete for the response&hellip;
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+this.onfetch = evt => {
+  var request = evt.request;
+  var url = new URL(request.url);
+  if (request.method === 'GET' && isAsset(url)) {
+<mark>    var cacheResponse = fromCache(request);
+    var networkResponse = fromNetwork(request);
+    evt.respondWith(race(
+      cacheResponse,
+      networkResponse.then(response => response.clone())
+    ));</mark>
+    evt.waitUntil(
+      networkResponse.then(response => update(request, response.clone()))
+    );
+  }
+};
+              </code></pre>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              But wait for the network response and update the cache entry.
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+this.onfetch = evt => {
+  var request = evt.request;
+  var url = new URL(request.url);
+  if (request.method === 'GET' && isAsset(url)) {
+    var cacheResponse = fromCache(request);
+    var networkResponse = fromNetwork(request);
+    evt.respondWith(race(
+      cacheResponse,
+      networkResponse.then(response => response.clone())
+    ));
+<mark>    evt.waitUntil(
+      networkResponse.then(response => update(request, response.clone()))
+    );</mark>
+  }
+};
+              </code></pre>
+          </section>
+
+          <section>
+            <p>
+              The app is offline ready but please, inform the user.
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+window.addEventListener('offline', () => offlineUi.show());
+window.addEventListener('online', () => offlineUi.hide());
+offlineUi[navigator.onLine ? 'hide' : 'show']();
+              </code></pre>
+          </section>
+
+          <section>
+            <iframe width="840" height="630" src="https://www.youtube.com/embed/CmMUYkLwEHw" frameborder="0" allowfullscreen></iframe>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Integrating with the mobile platform</h2>
+            <p>
+              See the
+              <a href="https://github.com/delapuente/pangolink/compare/offline...manifest" target="_blank">diff</a>
+            </p>
+          </section>
+
+          <section>
+            <pre><code class="json">{
+  "name": "Pangolink!",
+  "short_name": "Pangolink!",
+  "start_url": "/",
+  "description": "The ephemeral share service",
+  "icons": [
+    {
+      "src": "/icons/192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "display": "standalone",
+  "theme_color": "#FCE100",
+  "background_color": "#FCE100"
+}</code></pre>
+          </section>
+
+          <section>
+            <iframe width="840" height="630" src="https://www.youtube.com/embed/bpvWwHZGooY" frameborder="0" allowfullscreen></iframe>
+          </section>
+
+          <section>
+            <p>
+              This is just a <strong>regular web site</strong>.
+            </p>
+            <p class="fragment">
+              But shown in a special way.
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Getting notifications</h2>
+            <p>
+              See the
+              <a href="https://github.com/delapuente/pangolink/compare/manifest...notifications" target="_blank">diff</a>
+            </p>
+          </section>
+
+          <section>
+            <img alt="Push event" src="../imgs/sw-101/push-event.png" style="width: 70%"/>
+          </section>
+
+          <section>
+            <p>
+              After registering the service worker, subscribe.
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+function startApp() {
+  if (swRegistration) {
+    return swRegistration
+      <mark>.then(subscribe)</mark>
+      // Send the endpoint to the server
+      .then(subscription => pangolink.connect(subscription.endpoint));
+  }
+  return pangolink.connect();
+}</code></pre>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              Use the <strong>broser API</strong> to ask for an endpoint.
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+function subscribe(registration) {
+  <mark>return registration.pushManager.getSubscription()</mark>
+    .then(subscription => {
+      if (subscription) {
+        return subscription;
+      }
+      return registration.pushManager.subscribe({ userVisibleOnly: true });
+    });
+}
+            </code></pre>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              If it already exists, use that&hellip;
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+function subscribe(registration) {
+  return registration.pushManager.getSubscription()
+    .then(subscription => {
+      <mark>if (subscription) {</mark>
+      <mark>  return subscription;</mark>
+      <mark>}</mark>
+      return registration.pushManager.subscribe({ userVisibleOnly: true });
+    });
+}
+            </code></pre>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              &hellip;if not, ask for one.
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+function subscribe(registration) {
+  return registration.pushManager.getSubscription()
+    .then(subscription => {
+      if (subscription) {
+        return subscription;
+      }
+      <mark>return registration.pushManager.subscribe({ userVisibleOnly: true });</mark>
+    });
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <p>
+              Now, send the endpoint to your server!
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+function startApp() {
+  if (swRegistration) {
+    return swRegistration
+      .then(subscribe)
+      // Send the endpoint to the server
+      <mark>.then(subscription => pangolink.connect(subscription.endpoint));</mark>
+  }
+  return pangolink.connect();
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <p>
+              In the server, we keep the endpoint by id.
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+socket.on('identify', (<mark>{id, pushEndpoint}</mark>) => {
+  console.log(
+    `${id} connected to Pangolink with push endpoint ${pushEndpoint}\n`
+  );
+  clients[id] = socket;
+<mark>  endpoints[id] = pushEndpoint;</mark>
+  socket.on('disconnect', () => {
+    delete clients[id];
+    console.log(`Lost connection with ${id}`);
+  });
+
+  sendPendingFiles(id);
+});
+            </code></pre>
+          </section>
+
+          <section>
+            <p>
+              Do you remember we send pending files <strong>if there were</strong> a socket?
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+function sendPendingFiles(id) {
+  queues[id] = queues[id] || [];
+<mark>  var socket = clients[id];</mark>
+<mark>  if (socket) {</mark>
+    queues[id].forEach(file => socket.emit('file', {
+      url: '/uploads/' + file.filename,
+      originalname: file.originalname,
+      mimetype: file.mimetype,
+      size: file.size
+    }));
+    queues[id] = [];
+<mark>  }</mark>
+}
+            </code></pre>
+          </section>
+
+          <section data-transition="none">
+            <p>
+              This time, I'm going to send the Push notification <strong>always</strong>.
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+              function sendPendingFiles(id) {
+  queues[id] = queues[id] || [];
+
+<mark>  var pushEndpoint = endpoints[id];</mark>
+<mark>  if (pushEndpoint && queues[id].length > 0) {</mark>
+<mark>    webPush.sendNotification(pushEndpoint, { ttl: 24 * 60 * 60 })
+    .catch(reason => console.error(reason));</mark>
+<mark>    console.log(`Notification of incoming files sent to ${pushEndpoint}\n`);</mark>
+<mark>  }</mark>
+
+  /* ... */
+
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <p>
+              Finally, in the service worker, we handle the incoming Push notification.
+            </p>
+            <pre><code data-noescape data-trim data-dim class="js">
+<mark>this.onpush = evt => {</mark>
+  evt.waitUntil(<mark>handlePushNotification()</mark>);
+<mark>};</mark>
+
+function handlePushNotification() {
+<mark>  return self.registration.showNotification('New incoming files', {</mark>
+    body: 'You have new files ready to download',
+    icon: '/icons/192x192.png',
+    tag: 'file'
+<mark>  });</mark>
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <iframe width="840" height="630" src="https://www.youtube.com/embed/2-spZ85NLRs" frameborder="0" allowfullscreen></iframe>
+          </section>
+        </section>
+
+        <section>
+          <h2>Resources</h2>
+          <ul>
+            <li><a href="https://ngrok.com/" target="_blank">ngrok</a> to set up HTTPs tunnels.</li>
+            <li>Start with SW with the <a href="https://github.com/delapuente/service-workers-101/" target="_blank">Service Workers 101</a></li>
+            <li><a href="http://serviceworke.rs/" target="_blank">The Service Worker Cookbook</a>: several use cases with actual code.</li>
+            <li><a href="https://github.com/gaia-components/serviceworkerware/" target="_blank">ServiceWorkerWare</a> &amp; <a href="https://github.com/GoogleChrome/sw-toolbox" target="_blank">Service Worker Toolbox</a> are higher level APIs for SW.</li>
+            <li>node.js <a href="https://github.com/marco-c/web-push" target="_blank">Web Push library</a> to hide protocol details.</li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px;"/>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ## Questions?
+        </section>
+      </div>
+		</div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,93 @@
+/**
+ * Mozilla DevRel Theme for reveal.js - Common properties.
+ *
+ * By Salvador de la Puente, http://unoyunodiez.com
+ */
+
+// Include theme-specific fonts
+@import url(../../../lib/font/fira-sans/fira.css);
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #222;
+
+$mainFontSize: 33px;
+$mainFont: 'Fira Sans', Helvetica, sans-serif;
+$monoFont: 'Fira Mono', monospace;
+$headingFont: 'Fira Sans', Helvetica, sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: uppercase;
+$headingFontWeight: 600;
+$dimCodeColor: #CBBE9A; // for solarized-light highlight theme
+
+$heading1Size: 2.0em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+$shadowEffect: 0 4px 10px #000;
+
+// Theme template ------------------------------
+@import "../../template/theme";
+// ---------------------------------------------
+
+// For tabzilla
+body {
+  border-top: 2px solid white;
+}
+
+#tabzilla:before {
+  background-color: #484848;
+}
+
+.reveal {
+
+  pre,
+  iframe,
+  section img {
+    border-radius: 4px;
+    box-shadow: $shadowEffect;
+  }
+
+  header h1 + h2 {
+    color: $strongColor;
+    border: none;
+    padding: inherit;
+  }
+
+  h2 {
+    margin-bottom: 1em;
+  }
+
+  section > section > h2 {
+    border-top: 0.1em solid $mainColor;
+    border-bottom: 0.1em solid $mainColor;
+    padding: 1em 0;
+  }
+
+  strong {
+    color: $strongColor;
+  }
+
+  code[data-dim] mark {
+    color: $dimCodeColor;
+    background-color: transparent;
+    * {
+      color: $dimCodeColor;
+    }
+  }
+
+  pre {
+    width: 106ex;
+    font-size: 0.5em;
+  }
+
+  code {
+    line-height: 1.5em;
+    font-family: $monoFont;
+  }
+
+  li {
+    margin-bottom: 0.7em;
+  }
+}
