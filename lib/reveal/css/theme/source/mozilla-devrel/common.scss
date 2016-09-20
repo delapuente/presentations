@@ -49,10 +49,16 @@ body {
     box-shadow: $shadowEffect;
   }
 
-  header h1 + h2 {
+  header h1 + p,
+  header h2 + p,
+  header h3 + p,
+  header h4 + p,
+  header h5 + p,
+  header h6 + p {
     color: $strongColor;
     border: none;
     padding: inherit;
+    text-transform: uppercase;
   }
 
   h2 {

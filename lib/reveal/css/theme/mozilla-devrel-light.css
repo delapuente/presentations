@@ -300,10 +300,12 @@ body {
   border-radius: 4px;
   box-shadow: 0 4px 10px #000; }
 
-.reveal header h1 + h2 {
+.reveal header h1 + h2,
+.reveal header h1 + p {
   color: #762313;
   border: none;
-  padding: inherit; }
+  padding: inherit;
+  text-transform: uppercase; }
 
 .reveal h2 {
   margin-bottom: 1em; }
