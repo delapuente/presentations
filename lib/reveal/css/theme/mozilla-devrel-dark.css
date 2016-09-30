@@ -300,8 +300,12 @@ body {
   border-radius: 4px;
   box-shadow: 0 4px 10px #000; }
 
-.reveal header h1 + h2,
-.reveal header h1 + p {
+.reveal header h1 + p,
+.reveal header h2 + p,
+.reveal header h3 + p,
+.reveal header h4 + p,
+.reveal header h5 + p,
+.reveal header h6 + p {
   color: #FF9500;
   border: none;
   padding: inherit;
@@ -334,3 +338,6 @@ body {
 
 .reveal li {
   margin-bottom: 0.7em; }
+
+.reveal ul ul {
+  margin-top: 1em; }
