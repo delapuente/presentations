@@ -5,7 +5,7 @@
  */
 
 // Include theme-specific fonts
-@import url(../../../lib/font/fira-sans/fira.css);
+@import url(../../lib/font/fira-sans/fira.css);
 
 // Override theme settings (see ../template/settings.scss)
 $backgroundColor: #222;
@@ -31,6 +31,10 @@ $shadowEffect: 0 4px 10px #000;
 @import "../../template/theme";
 // ---------------------------------------------
 
+/*********************************************
+ * MOZILLA THEME OVERRIDES
+ *********************************************/
+
 // For tabzilla
 body {
   border-top: 2px solid white;
@@ -41,6 +45,15 @@ body {
 }
 
 .reveal {
+
+  .qr {
+    width: 50vw;
+    height: auto;
+  }
+
+  a {
+    text-decoration: underline;
+  }
 
   pre,
   iframe,
@@ -73,6 +86,12 @@ body {
 
   strong {
     color: $strongColor;
+  }
+
+  code:not(.hljs) {
+    padding: 0.3rem 0.5rem;
+    background-color: $inlineCodeBg;
+    border-radius: 8px;
   }
 
   code[data-dim] mark {

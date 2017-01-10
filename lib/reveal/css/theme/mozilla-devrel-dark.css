@@ -8,7 +8,7 @@
  *
  * By Salvador de la Puente, http://unoyunodiez.com
  */
-@import url(../../../lib/font/fira-sans/fira.css);
+@import url(../../lib/font/fira-sans/fira.css);
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -288,11 +288,17 @@ body {
   -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
+/*********************************************
+ * MOZILLA THEME OVERRIDES
+ *********************************************/
 body {
   border-top: 2px solid white; }
 
 #tabzilla:before {
   background-color: #484848; }
+
+.reveal a {
+  text-decoration: underline; }
 
 .reveal pre,
 .reveal iframe,
@@ -321,6 +327,11 @@ body {
 
 .reveal strong {
   color: #FF9500; }
+
+.reveal code:not(.hljs) {
+  padding: 0.3rem 0.5rem;
+  background-color: #35383c;
+  border-radius: 8px; }
 
 .reveal code[data-dim] mark {
   color: #CBBE9A;
