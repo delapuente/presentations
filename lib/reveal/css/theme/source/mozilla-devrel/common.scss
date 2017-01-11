@@ -46,17 +46,11 @@ body {
 
 .reveal {
 
-  .qr {
-    width: 50vw;
-    height: auto;
-  }
-
   a {
     text-decoration: underline;
   }
 
   pre,
-  iframe,
   section img {
     border-radius: 4px;
     box-shadow: $shadowEffect;

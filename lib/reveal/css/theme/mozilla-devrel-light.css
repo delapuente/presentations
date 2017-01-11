@@ -301,7 +301,6 @@ body {
   text-decoration: underline; }
 
 .reveal pre,
-.reveal iframe,
 .reveal section img {
   border-radius: 4px;
   box-shadow: 0 4px 10px #000; }
@@ -330,7 +329,7 @@ body {
 
 .reveal code:not(.hljs) {
   padding: 0.3rem 0.5rem;
-  background-color: #e4e1dA;
+  background-color: #dcd9d4;
   border-radius: 8px; }
 
 .reveal code[data-dim] mark {

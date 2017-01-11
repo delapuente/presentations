@@ -301,7 +301,6 @@ body {
   text-decoration: underline; }
 
 .reveal pre,
-.reveal iframe,
 .reveal section img {
   border-radius: 4px;
   box-shadow: 0 4px 10px #000; }
