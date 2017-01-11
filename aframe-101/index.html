@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>A-Frame 101</title>
+    <meta name="description" content="A-Frame is a web framework to build VR
+    experiences in the Web. A-Frame leverages HTML syntax to support an
+    Entity-Component-System architecture like those on modern game engines.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/tabzilla/css/tabzilla.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-dark.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+  </head>
+  <body>
+    <section id="tabzilla">
+      <a href="https://www.mozilla.org/">Mozilla</a>
+    </section>
+
+    <div class="reveal">
+
+      <div class="slides">
+        <section>
+          <header>
+            <h1>A-Frame 101</h1>
+            <p>Building VR worlds with HTML</p>
+          </header>
+        </section>
+
+        <section data-markdown>
+          1. Virtual Reality in the Web
+          2. A-Frame: HTML for Virtual Reality
+          3. Entities, Components &amp; Systems
+          4. 3rd Party Components
+          5. Resources
+        </section>
+
+        <section>
+          <section data-markdown data-background-image="./imgs/metaverse.png">
+            ## Virtual Reality in the Web
+          </section>
+
+          <section data-markdown>
+            VR is a new media.
+          </section>
+
+          <section data-markdown>
+            For VR to take off, we need **content** and content requires authors
+            and distribution.
+          </section>
+
+          <section data-markdown>
+            The Web and Web technologies are free, frictionless and reach
+            millions. They seems the [perfect choice for such a mission](../web-platform-when-why/).
+          </section>
+
+          <section data-markdown>
+            WebVR is an initiative started by the [MozVR](https://mozvr.com/)
+            team inside Mozilla for bringing VR experiences to the Web.
+          </section>
+
+          <section data-markdown>
+            [Initial implementations](http://web.archive.org/web/20151016091437/http://blog.bitops.com/blog/2014/06/26/first-steps-for-vr-on-the-web)
+            were a hack on the Fullscreen API in Firefox and Chrome experimental
+            versions.
+          </section>
+
+          <section data-markdown>
+            These experiments lead to **WebVR 1.0**.
+          </section>
+
+          <section data-markdown>
+            The [WebVR sepecficiation](https://w3c.github.io/webvr/) is edited
+            by Mozilla and Google, and enables access to VR devices, including
+            head-mounted displays, sensors and controllers.
+          </section>
+
+          <section data-markdown>
+            Companies like Samsung, Microsoft and Oculus are joining the
+            effort to help improving the standard.
+          </section>
+
+          <section data-markdown>
+            So now we have a Web standard, it should be as easy as...
+          </section>
+
+          <section data-markdown>
+            ```js
+            // From Using the WebVR API (https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API/Using_the_WebVR_API)
+
+            var gHMD, gPositionSensor;
+
+            // Get the HMD and its sensors
+            navigator.getVRDevices().then(function(devices) {
+              for (var i = 0; i < devices.length; ++i) {
+                if (devices[i] instanceof HMDVRDevice) {
+                  gHMD = devices[i];
+                  break;
+                }
+              }
+
+              if (gHMD) {
+                // Find the sensors for the HMD
+                for (var i = 0; i < devices.length; ++i) {
+                  if (devices[i] instanceof PositionSensorVRDevice && devices[i].hardwareUnitId === gHMD.hardwareUnitId) {
+                    gPositionSensor = devices[i];
+                    break;
+                  }
+                }
+              }
+            });
+
+            // Create the canvas to render in.
+            var myCanvas = document.createElement('canvas');
+            var ctx = myCanvas.getContext('2d');
+            var body = document.querySelector('body');
+            body.appendChild(myCanvas);
+
+            // Image to display
+            var image = new Image();
+            image.src = 'firefox.png';
+            image.onload = draw;
+
+            var WIDTH, HEIGHT, lCtrOffset, rCtrOffset;
+
+            // Render loop
+            function draw() {
+              WIDTH = window.innerWidth;
+              HEIGHT = window.innerHeight;
+              lCtrOffset = WIDTH*0.25;
+              rCtrOffset = WIDTH*0.25;
+
+              myCanvas.width = WIDTH;
+              myCanvas.height = HEIGHT;
+
+              setView();
+              drawImages();
+              drawCrosshairs();
+
+              requestAnimationFrame(draw);
+            }
+
+            var xPos, yPos, zPos, xOrient, yOrient, zOrien, timePara;
+
+            function setView() {
+              var posState = gPositionSensor.getState();
+
+              if(posState.hasPosition) {
+                posPara.textContent = 'Position: x' +
+                  roundToTwo(posState.position.x) + " y" +
+                  roundToTwo(posState.position.y) + " z" +
+                  roundToTwo(posState.position.z);
+
+                xPos = -posState.position.x * WIDTH * 2;
+                yPos = posState.position.y * HEIGHT * 2;
+                if(-posState.position.z > 0.01) {
+                  zPos = -posState.position.z;
+                } else {
+                  zPos = 0.01;
+                }
+              }
+
+              if(posState.hasOrientation) {
+                orientPara.textContent = 'Orientation: x' +
+                  roundToTwo(posState.orientation.x) + " y" +
+                  roundToTwo(posState.orientation.y) + " z" +
+                  roundToTwo(posState.orientation.z);
+                xOrient = posState.orientation.x * WIDTH;
+                yOrient = -posState.orientation.y * HEIGHT * 2;
+                zOrient = posState.orientation.z * 180;
+              }
+
+              timePara.textContent = 'Timestamp: ' + Math.floor(posState.timeStamp);
+            }
+
+            // Draw the image with the 2.5D effect.
+            function drawImages() {
+              ctx.fillStyle = 'white';
+              ctx.fillRect(0,0,WIDTH,HEIGHT);
+
+              ctx.save();
+                ctx.beginPath();
+                ctx.translate(WIDTH/4,HEIGHT/2);
+                ctx.rect(-(WIDTH/4),-(HEIGHT/2),WIDTH/2,HEIGHT);
+                ctx.clip();
+                ctx.rotate(zOrient * Math.PI / 180);
+                ctx.drawImage(
+                  image,
+                  -(WIDTH/4)+lCtrOffset-((image.width)/(2*(1/zPos)))+xPos-yOrient,
+                  -((image.height)/(2*(1/zPos)))+yPos+xOrient,
+                  image.width*zPos,
+                  image.height*zPos
+                );
+                ctx.strokeStyle = "black";
+                ctx.stroke();
+              ctx.restore();
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            ...oh WAIT!
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-background-image="./imgs/a-frame.png">
+            ## A-Frame
+            HTML for Virtual Reality
+          </section>
+
+          <section data-markdown>
+            A-Frame uses [Custom Elements](http://jonrimmer.github.io/are-we-componentized-yet/)
+            to extend the HTML vocabulary enabling the use of new **tags for
+            the 3D scene management** such as `a-sky`, `a-box` or `a-camera`.
+          </section>
+
+          <section>
+            <p>A-Frame's "Hello World"</p>
+            <p data-height="400" data-theme-id="0" data-slug-hash="KadOpr" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame Hello World" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/KadOpr/">A-Frame Hello World</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          </section>
+
+          <section data-markdown>
+            This time, entering VR mode is as simple as clicking
+
+            ![VR-Mode icon on bottom right corner](./imgs/vr-mode.png)
+          </section>
+
+          <section data-markdown>
+            A-Frame takes advantage and **leverages HTML**:
+          </section>
+
+          <section>
+            <p>The scene hierarchy is built using <strong>tag nesting</strong>.</p>
+            <p data-height="400" data-theme-id="0" data-slug-hash="RKrbbB" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame Scene Hierarchy" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/RKrbbB/">A-Frame Scene Hierarchy</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          </section>
+
+          <section>
+            <p>Scene manipulation is achieved by <strong>modifying the DOM</strong>.</p>
+            <p data-height="400" data-theme-id="0" data-slug-hash="PWZoJG" data-default-tab="js,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame Scene Manipulation" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/PWZoJG/">A-Frame Scene Manipulation</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          </section>
+
+          <section data-markdown>
+            A-Frame provides general primitives for building scenes:
+            * [`a-scene`](https://aframe.io/docs/0.4.0/core/scene.html) is the root of the 3D scene.
+            * [`a-animation`](https://aframe.io/docs/0.4.0/core/animations.html) allows animation of scene elements.
+            * `a-light` creates lights emitters.
+            * `a-camera` instantiates a camera in the scene.
+          </section>
+
+          <section data-markdown>
+            * `a-sound` places positional audio.
+            * `a-videosphere` for playing 360º videos.
+            * `a-curvedimage` displays curved images for improved readability.
+            * `a-plane`, `a-box`, `a-sphere`... as geometry primitives.
+
+            Get the complete list of tags at the [primivitive documentation](https://aframe.io/docs/0.4.0/primitives/).
+          </section>
+
+          <section data-markdown>
+            Since A-Frame works on the top of HTML, integration with other
+            frameworks or libraries such as [React](https://github.com/ngokevin/aframe-react)
+            or jQuery is easy, requiring from none to just a thin adaptation
+            layer.
+          </section>
+
+          <section>
+            <h3>Inspecting the scene</h3>
+            <p>
+              Open the inspector pressing <code>ctrl+alt+i</code>. Show the
+              scene statistics adding the <code>stats</code> property to the
+              scene.
+            </p>
+          </section>
+
+          <section>
+            <p data-height="400" data-theme-id="0" data-slug-hash="jyWwJz" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame inspecting" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/jyWwJz/">A-Frame inspecting</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Entities, Components &amp; Systems
+          </section>
+
+          <section data-markdown>
+            The real power of A-Frame lies in its
+            [ECS architecture](https://aframe.io/docs/0.4.0/core/).
+          </section>
+
+          <section data-markdown>
+            ### E is for Entity
+
+            An [entitiy](https://aframe.io/docs/0.4.0/core/entity.html) is an
+            element of the scene and a container for components.
+
+            ```html
+            &lt;a-entity&gt;&lt;/a-entity&gt;
+            ```
+          </section>
+
+          <section data-markdown>
+            ### C is for Component
+
+            A [component](https://aframe.io/docs/0.4.0/core/component.html) is
+            data associated to an element.
+
+            ```
+            &lt;a-entity position="0 2 -5"&gt;&lt;/a-entity&gt;
+            ```
+
+            Review the [complete list of components](https://aframe.io/docs/0.4.0/components/)!
+          </section>
+
+          <section data-markdown>
+            Components can store multiple data using a sort of CSS syntax.
+
+            ```html
+            &lt;a-entity position="0 2 -5" camera="near: 0.1; far: 100"&gt;&lt;/a-entity&gt;
+            ```
+          </section>
+
+          <section data-markdown>
+            ### S is for System
+
+            A [system](https://aframe.io/docs/0.4.0/core/systems.html) is the
+            logic governing entities' components.
+          </section>
+
+          <section data-markdown>
+            All A-Frame is based on the ECS pattern. Even primitives are
+            actually entities whose attributes map to specific components.
+          </section>
+
+          <section data-markdown>
+            So, the primitive:
+
+            ```html
+            &lt;a-box color="red"&gt;&lt;/a-box&gt;
+            ```
+
+            is actually a shortcut for:
+
+            ```html
+            &lt;a-entity geometry="primitive: box" material="color: red"&gt;&lt;/a-entity&gt;
+            ```
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## 3rd Party Components
+          </section>
+
+          <section data-markdown>
+            Components are the rock stars of A-Frame.
+
+            Some are built-in in A-Frame:
+          </section>
+
+          <section data-markdown>
+            `camera`, `cursor`, `debug`, `embedded`, `geometry`, `ligth`,
+            `position`, `rotation`, `scale`, `sound`, `visible`,
+            `tracked-controls`, `obj-model`...
+          </section>
+
+          <section data-markdown>
+            But developers can create their own components:
+          </section>
+
+          <section data-markdown>
+            `alongpath`, `animation`, `text`, `mountain`, `outline`,
+            `particle-system`, `physics`, `teleport-controls`,
+            `auto-detect-controllers`, `bmfont-text`, `crawling-cursor`,
+            `deferred-renderer`, `firebase`, `gearvr-controls`, `layout`,
+            `speech-command`, `stats-in-vr`, `stereo`, `super-hands`...
+          </section>
+
+          <section data-markdown>
+            And you can find them all in the
+            [A-Frame Registry](https://aframe.io/aframe-registry/)!
+          </section>
+
+          <section data-markdown>
+            Using a 3rd party component is as simple as including the component
+            file.
+            ```html
+            &lt;script src="https://aframe.io/releases/0.4.0/aframe.min.js"&gt;&lt;/script&gt;
+            &lt;script src="https://rawgit.com/ngokevin/kframe/master/components/text/dist/aframe-text-component.min.js"&gt;&lt;/script&gt;
+            ```
+          </section>
+
+          <section>
+            <p>For instance, text is not included in the core library.</p>
+            <p data-height="400" data-theme-id="0" data-slug-hash="RKrpPK" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame text" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/RKrpPK/">A-Frame text</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-background-image="./imgs/a-painter.png">
+            ## A-Painter
+          </section>
+
+          <section data-markdown>
+            A [VR painting experience](https://aframe.io/a-painter/) for the Web.
+          </section>
+
+          <section>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/DpWOKikos7Q?start=165" frameborder="0" allowfullscreen></iframe>
+          </section>
+
+          <section data-markdown>
+            [Tons of features](https://blog.mozvr.com/mastering-a-painter/) being added!
+          </section>
+
+          <section data-markdown>
+            Discover the gallery.
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Resources
+          </section>
+
+          <section data-markdown>
+            WebVR
+
+            * [Is WebVR ready?](https://iswebvrready.org/)
+            * [WebVR specification](https://w3c.github.io/webvr/)
+            * [W3C WebVR Group](https://www.w3.org/community/webvr/)
+            * [WebVR demos](https://mozvr.com/webvr-demos/)
+            * [MozVR team](https://mozvr.com/)
+            * [WebVR team blog](https://blog.mozvr.com/)
+          </section>
+
+          <section data-markdown>
+            A-Frame
+
+            * [A-Frame HQ](https://aframe.io/)
+            * [A-Frame documentation](https://aframe.io/docs/0.4.0/introduction/)
+            * [A-Frame register](https://aframe.io/aframe-registry/)
+            * [A-Painter](https://aframe.io/a-painter/)
+            * [A-Painter showcase](https://github.com/aframevr/a-painter/issues/99)
+          </section>
+
+          <section data-markdown>
+            You can review the [presentation codepens](http://codepen.io/collection/XMjmvm/) also.
+          </section>
+        </section>
+
+        <section>
+          <img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ## Questions?
+        </section>
+      </div>
+    </div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>
