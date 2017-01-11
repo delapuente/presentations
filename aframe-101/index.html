@@ -47,8 +47,9 @@
           1. Virtual Reality in the Web
           2. A-Frame: HTML for Virtual Reality
           3. Entities, Components &amp; Systems
-          4. 3rd Party Components
-          5. Resources
+          4. The Scene Inspector
+          5. 3rd Party Components
+          6. Resources
         </section>
 
         <section>
@@ -71,8 +72,8 @@
           </section>
 
           <section data-markdown>
-            WebVR is an initiative started by the [MozVR](https://mozvr.com/)
-            team inside Mozilla for bringing VR experiences to the Web.
+            WebVR is an initiative started by Mozilla for bringing VR
+            experiences to the Web.
           </section>
 
           <section data-markdown>
@@ -82,13 +83,22 @@
           </section>
 
           <section data-markdown>
-            These experiments lead to **WebVR 1.0**.
+            These experiments lead the to **WebVR 1.0**.
           </section>
 
           <section data-markdown>
             The [WebVR sepecficiation](https://w3c.github.io/webvr/) is edited
-            by Mozilla and Google, and enables access to VR devices, including
-            head-mounted displays, sensors and controllers.
+            by the [Mozilla MozVR team](https://mozvr.com/) and Google, and
+            enables access to VR devices, including head-mounted displays,
+            sensors and controllers.
+          </section>
+
+          <section data-markdown>
+            Browsers supporting WebVR:
+
+            * [Firefox Nightly](https://nightly.mozilla.org/)
+            * [Chromium](https://webvr.info/get-chrome/)
+            * [Samsung Internet](http://developer.samsung.com/internet#gearvr-overview)
           </section>
 
           <section data-markdown>
@@ -101,117 +111,22 @@
           </section>
 
           <section data-markdown>
-            ```js
-            // From Using the WebVR API (https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API/Using_the_WebVR_API)
+            * Getting the VR device
+            * Getting details for each eye
+            * Creating the 3D context
+            * Getting pose
+            * Painting the scene once per eye
 
-            var gHMD, gPositionSensor;
+            ...
+          </section>
 
-            // Get the HMD and its sensors
-            navigator.getVRDevices().then(function(devices) {
-              for (var i = 0; i < devices.length; ++i) {
-                if (devices[i] instanceof HMDVRDevice) {
-                  gHMD = devices[i];
-                  break;
-                }
-              }
+          <section data-markdown>
+            * Providing polyfills
+            * Dealing with fullscreen
+            * Dealing with mobile
+            * Dealing with resize
 
-              if (gHMD) {
-                // Find the sensors for the HMD
-                for (var i = 0; i < devices.length; ++i) {
-                  if (devices[i] instanceof PositionSensorVRDevice && devices[i].hardwareUnitId === gHMD.hardwareUnitId) {
-                    gPositionSensor = devices[i];
-                    break;
-                  }
-                }
-              }
-            });
-
-            // Create the canvas to render in.
-            var myCanvas = document.createElement('canvas');
-            var ctx = myCanvas.getContext('2d');
-            var body = document.querySelector('body');
-            body.appendChild(myCanvas);
-
-            // Image to display
-            var image = new Image();
-            image.src = 'firefox.png';
-            image.onload = draw;
-
-            var WIDTH, HEIGHT, lCtrOffset, rCtrOffset;
-
-            // Render loop
-            function draw() {
-              WIDTH = window.innerWidth;
-              HEIGHT = window.innerHeight;
-              lCtrOffset = WIDTH*0.25;
-              rCtrOffset = WIDTH*0.25;
-
-              myCanvas.width = WIDTH;
-              myCanvas.height = HEIGHT;
-
-              setView();
-              drawImages();
-              drawCrosshairs();
-
-              requestAnimationFrame(draw);
-            }
-
-            var xPos, yPos, zPos, xOrient, yOrient, zOrien, timePara;
-
-            function setView() {
-              var posState = gPositionSensor.getState();
-
-              if(posState.hasPosition) {
-                posPara.textContent = 'Position: x' +
-                  roundToTwo(posState.position.x) + " y" +
-                  roundToTwo(posState.position.y) + " z" +
-                  roundToTwo(posState.position.z);
-
-                xPos = -posState.position.x * WIDTH * 2;
-                yPos = posState.position.y * HEIGHT * 2;
-                if(-posState.position.z > 0.01) {
-                  zPos = -posState.position.z;
-                } else {
-                  zPos = 0.01;
-                }
-              }
-
-              if(posState.hasOrientation) {
-                orientPara.textContent = 'Orientation: x' +
-                  roundToTwo(posState.orientation.x) + " y" +
-                  roundToTwo(posState.orientation.y) + " z" +
-                  roundToTwo(posState.orientation.z);
-                xOrient = posState.orientation.x * WIDTH;
-                yOrient = -posState.orientation.y * HEIGHT * 2;
-                zOrient = posState.orientation.z * 180;
-              }
-
-              timePara.textContent = 'Timestamp: ' + Math.floor(posState.timeStamp);
-            }
-
-            // Draw the image with the 2.5D effect.
-            function drawImages() {
-              ctx.fillStyle = 'white';
-              ctx.fillRect(0,0,WIDTH,HEIGHT);
-
-              ctx.save();
-                ctx.beginPath();
-                ctx.translate(WIDTH/4,HEIGHT/2);
-                ctx.rect(-(WIDTH/4),-(HEIGHT/2),WIDTH/2,HEIGHT);
-                ctx.clip();
-                ctx.rotate(zOrient * Math.PI / 180);
-                ctx.drawImage(
-                  image,
-                  -(WIDTH/4)+lCtrOffset-((image.width)/(2*(1/zPos)))+xPos-yOrient,
-                  -((image.height)/(2*(1/zPos)))+yPos+xOrient,
-                  image.width*zPos,
-                  image.height*zPos
-                );
-                ctx.strokeStyle = "black";
-                ctx.stroke();
-              ctx.restore();
-            }
-            ```
+            ...
           </section>
 
           <section data-markdown>
@@ -226,9 +141,21 @@
           </section>
 
           <section data-markdown>
+            A-Frame is a web framework for **building VR experiences**.
+
+            It drastically reduces the boilerplate to:
+          </section>
+
+          <section data-markdown>
+            ```html
+            &lt;a-scene&gt;&lt;/a-scene&gt;
+            ```
+          </section>
+
+          <section data-markdown>
             A-Frame uses [Custom Elements](http://jonrimmer.github.io/are-we-componentized-yet/)
             to extend the HTML vocabulary enabling the use of new **tags for
-            the 3D scene management** such as `a-sky`, `a-box` or `a-camera`.
+            the 3D scene management** such as `a-scene`, `a-box` or `a-camera`.
           </section>
 
           <section>
@@ -237,7 +164,7 @@
           </section>
 
           <section data-markdown>
-            This time, entering VR mode is as simple as clicking
+            Entering VR mode is as simple as clicking
 
             ![VR-Mode icon on bottom right corner](./imgs/vr-mode.png)
           </section>
@@ -278,19 +205,6 @@
             frameworks or libraries such as [React](https://github.com/ngokevin/aframe-react)
             or jQuery is easy, requiring from none to just a thin adaptation
             layer.
-          </section>
-
-          <section>
-            <h3>Inspecting the scene</h3>
-            <p>
-              Open the inspector pressing <code>ctrl+alt+i</code>. Show the
-              scene statistics adding the <code>stats</code> property to the
-              scene.
-            </p>
-          </section>
-
-          <section>
-            <p data-height="400" data-theme-id="0" data-slug-hash="jyWwJz" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame inspecting" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/jyWwJz/">A-Frame inspecting</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
           </section>
         </section>
 
@@ -365,11 +279,26 @@
 
         <section>
           <section data-markdown>
+            ## The Scene Inspector
+          </section>
+
+          <section data-markdown>
+            Open the inspector pressing `ctrl+alt+i`. Show the scene statistics
+            adding the `stats` property to the scene.
+          </section>
+
+          <section>
+            <p data-height="400" data-theme-id="0" data-slug-hash="jyWwJz" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame inspecting" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/jyWwJz/">A-Frame inspecting</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
             ## 3rd Party Components
           </section>
 
           <section data-markdown>
-            Components are the rock stars of A-Frame.
+            Components are the main point of extension in A-Frame.
 
             Some are built-in in A-Frame:
           </section>
@@ -430,13 +359,23 @@
           </section>
 
           <section data-markdown>
-            Discover the gallery.
+            Discover [the gallery](https://github.com/aframevr/a-painter/issues/99).
           </section>
         </section>
 
         <section>
           <section data-markdown>
             ## Resources
+          </section>
+
+          <section data-markdown>
+            A-Frame
+
+            * [A-Frame HQ](https://aframe.io/)
+            * [A-Frame documentation](https://aframe.io/docs/0.4.0/introduction/)
+            * [A-Frame register](https://aframe.io/aframe-registry/)
+            * [A-Painter](https://aframe.io/a-painter/)
+            * [A-Painter showcase](https://github.com/aframevr/a-painter/issues/99)
           </section>
 
           <section data-markdown>
@@ -451,17 +390,9 @@
           </section>
 
           <section data-markdown>
-            A-Frame
-
-            * [A-Frame HQ](https://aframe.io/)
-            * [A-Frame documentation](https://aframe.io/docs/0.4.0/introduction/)
-            * [A-Frame register](https://aframe.io/aframe-registry/)
-            * [A-Painter](https://aframe.io/a-painter/)
-            * [A-Painter showcase](https://github.com/aframevr/a-painter/issues/99)
-          </section>
-
-          <section data-markdown>
             You can review the [presentation codepens](http://codepen.io/collection/XMjmvm/) also.
+            
+            These resources and more at https://webvr.info/
           </section>
         </section>
 
