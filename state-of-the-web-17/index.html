@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>The State of The Web 2017</title>
+    <meta name="description" content="At least, the Web seems to be prepared to
+    fulfill its promise of being a real multiplatform experience. With the come
+    of new and powerful APIs such as Service Workers, Web Payments, Web
+    Credentials, WebVR, Web Aseembly... the Web has narrowed that gap between
+    native and web applications.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/tabzilla/css/tabzilla.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-light.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+  </head>
+  <body>
+    <section id="tabzilla">
+      <a href="https://www.mozilla.org/">Mozilla</a>
+    </section>
+
+    <div class="reveal">
+
+      <div class="slides">
+        <section>
+          <header>
+            <h1>The State of the Web</h1>
+            <p>A bunch of cool stuff in 2017</p>
+          </header>
+        </section>
+
+        <section data-markdown>
+          ## Stablished technologies
+          [Service Workers](#sw), [Push](#push), [Sync](#sync),
+          [Manifest](#manifest), [Web Animations](#web-animations),
+          [CSS Variables](#css-variables), [Feature Queries](#feature-queries),
+          [SVG](#svg)
+        </section>
+        <!-- TODO: Web Audio? -->
+
+        <section data-markdown>
+          ## Index of patterns &amp; trends
+          [Offline First](#offline-first), [PRPL](#prpl),
+          [Transpilation](#transpilation), [Virtual DOM](#vdom),
+          [Let's encrypt](#lets-encrypt), [Storage Sync](#storage-sync),
+          [Progressive Enhancement](#progressive-enhancement),
+        </section>
+        <!-- TODO: Typed? Functional? -->
+
+        <section data-markdown>
+          ## Coming soon
+          [HTTP2](#http2), [Payment Request](#payment-request),
+          [Credential Management](#credential-management), [CSS Grid](#grid),
+          [WebVR](#webvr), [WebGL 2.0](#webgl2), [Async / await](#async-await),
+          [Web Assembly](#wasm), [Request Idle Callback](#idle)
+        </section>
+        <!-- TODO: Shared Array Buffer? -->
+
+        <section>
+          <a href="../web-platform-when-why/index.html">
+            When the web is the right platform?</a>
+        </section>
+
+        <section id="sw">
+          <section>
+            <h2>Service workers</h2>
+          </section>
+
+          <section>
+            <img style="max-width: 700px"
+                 src="../imgs/sw-101/functional-events.png"
+                 alt="Functional events are fetch, push, sync and other" />
+            <p>
+              Run when an external event is triggered regardless there were open
+              views of the website.
+            </p>
+          </section>
+
+          <section>
+            <img style="max-width: 700px"
+                 src="../imgs/sw-101/fetch-event.png"
+                 alt="Original purpose was to intercept resource requests." />
+            <p>
+              <a href="https://github.com/delapuente/service-workers-101/">
+                Complete infographic</a>
+            </p>
+          </section>
+        </section>
+
+        <section id="push">
+          <section>
+            <h2>Push</h2>
+          </section>
+
+          <section>
+            <img style="max-width: 650px"
+                 src="../imgs/sw-101/push-event.png"
+                 alt="Push allows to receive information even with the browser
+                 closed." />
+          </section>
+
+          <section>
+            <p>
+              <a href="https://serviceworke.rs/web-push.html">
+                Look for Push demos at the Service Worker Cookbook</a>
+            </p>
+          </section>
+        </section>
+
+        <section id="sync">
+          <section>
+            <h2>Sync</h2>
+          </section>
+
+          <section>
+            <img style="max-width: 700px"
+                 src="../imgs/sw-101/sync-event.png"
+                 alt="Sync triggers an event when recovering connectivity." />
+          </section>
+
+          <section>
+            <img style="max-width: 700px"
+                 src="./imgs/sync.png"
+                 alt="Simulate a sync event with the Service Worker tab in
+                 Chrome DevTools." />
+          </section>
+        </section>
+
+        <section id="manifest">
+          <section>
+            <h2>Manifest</h2>
+          </section>
+
+          <section>
+            <h3>Web Manifest</h3>
+            <pre><code>{
+    "name": "Flipkart Lite",
+    "short_name": "Flipkart Lite",
+    "icons": [ {
+      "src": "https://img1a.flixcart.com/www/linchpin/logo_lite-cbb3574d.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    } ],
+    "start_url": "/?start_url=homescreenicon",
+    "orientation": "portrait",
+    "display": "standalone",
+    "theme_color": "#006cb4",
+    "background_color": "#006cb4"
+  }</code></pre>
+            <p>
+              Partial manifest from <a href="https://flipkart.com/" target="_blank">Flipkart Lite</a>.
+            </p>
+          </section>
+
+          <section>
+            <img alt="Flipkart specifying the theme color"
+                 src="../web-platform-when-why/imgs/flipkart-task-switcher.png" style="width: 30%;"/>
+            <img alt="Flipkart theme"
+                 src="../web-platform-when-why/imgs/flipkart-theme.png" style="width: 30%;"/>
+            <img alt="Flipkart splashscreen"
+                 src="../web-platform-when-why/imgs/flipkart-splashscreen.png" style="width: 30%;"/>
+          </section>
+        </section>
+
+        <section id="web-animations">
+          <section>
+            <h2>Web Animations</h2>
+          </section>
+
+          <section>
+            <iframe style="width: 100%; height: 300px" src="https://people-mozilla.org/~bbirtles/demos/jank-example/jank-example.html"></iframe>
+            <pre><code>rightFox.animate(
+  [
+    { transform: 'rotate(0deg)' },  // from
+    { transform: 'rotate(360deg)' } // to
+  ],
+  { duration: 1200, iterations: Infinity }
+)</code></pre>
+          </section>
+
+          <section data-markdown>
+            * Some properties does not trigger a layout recalculation.
+            * Animations on `transform` and `opacity` run on compositor.
+            * CSS property `will-change` helps the browser to optimize
+            animations.
+          </section>
+
+        </section>
+
+        <section id="css-variables">
+          <section>
+            <h2>CSS Variables</h2>
+          </section>
+
+          <section>
+            <style>
+              #css-variables .container {
+                --hl-color: #84b830;
+              }
+
+              #css-variables .container a:link {
+                color: var(--hl-color);
+              }
+
+              #css-variables .container p::selection {
+                background-color: var(--hl-color);
+              }
+
+              #css-variables .container p {
+                border: 3px solid var(--hl-color);
+              }
+
+              #css-variables .container span {
+                color: var(--hl-color);
+              }
+            </style>
+            <div class="container">
+              <p>
+                The highlight color, <span>#b4ff43</span>, is used in many
+                contexts like <a href="#">links</a> or selection. And also in
+                borders and decorative elements.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <pre><code>.container {
+  --hl-color: #84b830;
+}
+
+.container a:link { color: var(--hl-color); }
+.container p::selection { background-color: var(--hl-color); }
+.container p { border: 3px solid var(--hl-color); }
+.container span { color: var(--hl-color); }</code></pre>
+          </section>
+
+        </section>
+
+        <section id="feature-queries">
+          <section>
+            <h2>Feature Queries</h2>
+          </section>
+
+          <section class="container">
+            <style>
+              #feature-queries .container p {
+                text-align: left;
+              }
+
+              #feature-queries .container p::first-letter {
+                color: #FE742F;
+                font-weight: bold;
+              }
+
+              @supports (-webkit-initial-letter: 4) or (initial-letter: 4) {
+                #feature-queries .container p::first-letter {
+                  -webkit-initial-letter: 4;
+                          initial-letter: 4;
+                  margin-right: 0.5em;
+                }
+              }
+            </style>
+            <p>
+              The carrot is a root vegetable, usually orange in colour, though
+              purple, black, red, white, and yellow varieties exist. Carrots are
+              a domesticated form of the wild carrot, Daucus carota, native to
+              Europe and southwestern Asia. The plant probably originated in
+              Persia and originally cultivated for its leaves and seeds. The
+              most commonly eaten part of the plant is the taproot, although the
+              greens are sometimes eaten as well. The domestic carrot has been
+              selectively bred for its greatly enlarged, more palatable, less
+              woody-textured taproot.
+            </p>
+            <small>
+              Try it in Safari which supports <code>initial-letter</code>.
+            </small>
+          </section>
+
+          <section>
+            <pre><code>#feature-queries p::first-letter {
+  color: #FE742F;
+  font-weight: bold;
+}
+
+@supports (-webkit-initial-letter: 4) or (initial-letter: 4) {
+  #feature-queries p::first-letter {
+    -webkit-initial-letter: 4;
+            initial-letter: 4;
+    margin-right: 0.5em;
+  }
+}</code></pre>
+            <p>
+              Example from
+              <a href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/">
+                Using Feature Queries in CSS
+              </a>
+            </p>
+            <p>
+              There is also a
+              <a href="https://developer.mozilla.org/en/docs/Web/API/CSS/supports">
+                JavaScript API to test <code>support</code></a>.
+            </p>
+          </section>
+
+        </section>
+
+        <section id="svg">
+          <style>
+            #hamburger-menu path {
+              transform-origin: left;
+              will-change: transform, opacity;
+              transition: transform 500ms, opacity 500ms;
+            }
+
+            #hamburger-menu.open .top {
+              transform: rotate(45deg);
+            }
+
+            #hamburger-menu.open .middle {
+              opacity: 0;
+            }
+
+            #hamburger-menu.open .bottom {
+              transform: rotate(-45deg);
+            }
+          </style>
+
+          <section>
+            <h2>SVG</h2>
+          </section>
+
+          <section>
+            <svg id="hamburger-menu" width="200" height="150" class="">
+              <g>
+                <path class="top" style="stroke:#000;stroke-width:25;stroke-linecap:round;" d="m 12.5,12.5 175,0"></path>
+                <path class="middle" style="stroke:#000;stroke-width:25;stroke-linecap:round;" d="m 12.5,75 175,0"></path>
+                <path class="bottom" style="stroke:#000;stroke-width:25;stroke-linecap:round;" d="m 12.5,137.5 175,0"></path>
+              </g>
+            </svg>
+            <script>
+              document.getElementById("hamburger-menu").onclick = function () {
+                this.classList.toggle('open');
+              };
+            </script>
+          </section>
+
+          <section>
+            <pre><code>&lt;svg id=&quot;hamburger-menu&quot; width=&quot;200&quot; height=&quot;150&quot;&gt;
+  &lt;g&gt;
+    &lt;path class=&quot;top&quot; style=&quot;stroke:#000;stroke-width:25;stroke-linecap:round;&quot; d=&quot;m 12.5,12.5 175,0&quot;&gt;&lt;/path&gt;
+    &lt;path class=&quot;middle&quot; style=&quot;stroke:#000;stroke-width:25;stroke-linecap:round;&quot; d=&quot;m 12.5,75 175,0&quot;&gt;&lt;/path&gt;
+    &lt;path class=&quot;bottom&quot; style=&quot;stroke:#000;stroke-width:25;stroke-linecap:round;&quot; d=&quot;m 12.5,137.5 175,0&quot;&gt;&lt;/path&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;</code></pre>
+            <pre><code>#hamburger-menu path {
+  transform-origin: left;
+  will-change: transform, opacity;
+  transition: transform 500ms, opacity 500ms;
+}
+
+#hamburger-menu.open .top { transform: rotate(45deg); }
+#hamburger-menu.open .middle { opacity: 0; }
+#hamburger-menu.open .bottom { transform: rotate(-45deg); }</code></pre>
+          </section>
+        </section>
+
+        <section id="offline-first">
+          <section data-markdown>
+            ## Offline First
+          </section>
+
+          <section data-markdown>
+            Offline First is the design philosphy of considering **network as an
+            enhancement** over an offline experience.
+          </section>
+
+          <section data-markdown>
+            Visit the [Offline First site](http://offlinefirst.org/).
+
+            Join [Offline Camp](http://offlinefirst.org/camp/).
+          </section>
+        </section>
+
+        <section id="prpl">
+          <section data-markdown>
+            ## Push, Render, Pre-cache, Lazy-load
+          </section>
+
+          <section data-markdown>
+            * **Push** additional resources for the initial route.
+            * **Render** the initial route.
+            * **Pre-cache** the remaining routes.
+            * **Lazy-load** new resources on demand.
+          </section>
+        </section>
+
+        <section id="transpilation">
+          <section>
+            <h2>Transpilation</h2>
+          </section>
+
+          <section>
+            <iframe src="http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=latest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=async%20function%20search(query)%20%7B%0A%20%20const%20response%20%3D%20await%20fetch(%60%2Fsearch%2F%3Fq%3D%24%7Bquery%7D%60)%3B%0A%20%20const%20json%20%3D%20await%20response.json()%3B%0A%20%20return%20json.results.map(result%20%3D%3E%20result.toUpperCase())%3B%0A%7D&amp;playground=true" width="100%" height="400px" frameborder="0"></iframe>
+            <p><a href="http://babeljs.io/">Babel</a></p>
+          </section>
+
+          <section>
+            <iframe src="http://www.typescriptlang.org/play/" width="100%" height="400px" frameborder="0"></iframe>
+            <p><a href="http://www.typescriptlang.org">TypeScript</a></p>
+          </section>
+        </section>
+
+        <section id="vdom">
+          <section data-markdown>
+            ## Virtual DOM
+          </section>
+
+          <section data-markdown>
+            Manipulating DOM might have side effects:
+
+            * Reading some DOM properties can trigger reflows.
+            * Setting some DOM properties also triggers recalculations.
+            * Setting multiple values per update cycle can lead to several
+            re-calculations.
+          </section>
+
+          <section data-markdown>
+            An isolated implementation of a
+            [Virtual DOM](https://github.com/Matt-Esch/virtual-dom)
+          </section>
+        </section>
+
+        <section id="lets-encrypt">
+          <section data-markdown>
+            ## Let's Encript
+          </section>
+
+          <section data-markdown>
+            * It is a CA
+            * It's **free**
+            * Focused on [automating](https://certbot.eff.org/)
+          </section>
+
+          <section data-markdown>
+            ```sh
+            $ cd /usr/local/sbin
+            $ sudo wget https://dl.eff.org/certbot-auto
+            $ sudo chmod a+x /usr/local/sbin/certbot-auto
+
+            $ certbot-auto certonly -a webroot --webroot-path=/usr/share/nginx/html -d example.com -d www.example.com
+
+            $ certbot-auto renew
+            ```
+          </section>
+        </section>
+
+        <!-- TODO: Storage sync (aka Couch DB) -->
+        <section id="storage-sync">
+          <section>
+            <h2>Storage Sync</h2>
+          </section>
+
+          <section>
+            <p></p>
+          </section>
+        </section>
+
+        <!-- TODO: Progressive enhancement -->
+        <section id="progressive-enhancement">
+          <section data-ma>
+            <h2>Progressive Enhancement</h2>
+          </section>
+
+          <section>
+            <p></p>
+          </section>
+        </section>
+
+        <section id="http2">
+          <section data-markdown>
+            ## HTTP/2
+          </section>
+
+          <section>
+            <p>Multiplexing</p>
+            <img style="height: 500px" src="./imgs/multiplexing.png"
+            alt="With multiplex, several request can be performed with only one
+            TCP connection." />
+          </section>
+
+          <section>
+            <p>Push / Server Hint</p>
+            <img style="height: 500px" src="./imgs/pushstats.jpg"
+            alt="Push can take advantage of one of the connections to send
+            related resources." />
+          </section>
+
+          <section>
+            <p>HPACK</p>
+            <img style="height: 500px" src="./imgs/hpack.svg"
+            alt="HPACK is an algorithm to compress the headers of a request,
+            safer than GZIP." />
+          </section>
+        </section>
+
+        <section id="web-payments">
+          <section>
+            <h2>Web Payments</h2>
+          </section>
+
+          <section>
+            <p>Infografía con el diagrama de flujo de UX</p>
+            <img style="max-width: 700px"
+                 src="../imgs/sw-101/sync-event.png"
+                 alt="Sync triggers an event when recovering connectivity." />
+          </section>
+
+          <section>
+            <img style="max-width: 700px"
+                 src="./imgs/sync.png"
+                 alt="Simulate a sync event with the Service Worker tab in
+                 Chrome DevTools." />
+          </section>
+        </section>
+
+        <section id="credential-management">
+          <section>
+            <h2>Credential Management</h2>
+          </section>
+
+          <section>
+            <p>Diagrama con el flujo de funcionamiento</p>
+            <img style="max-width: 700px"
+                 src="../imgs/sw-101/sync-event.png"
+                 alt="Sync triggers an event when recovering connectivity." />
+          </section>
+
+          <section>
+            <p>Vídeo con la sincronización</p>
+            <img style="max-width: 700px"
+                 src="./imgs/sync.png"
+                 alt="Simulate a sync event with the Service Worker tab in
+                 Chrome DevTools." />
+          </section>
+        </section>
+
+        <section id="grid">
+          <section>
+            <h2>CSS Grid</h2>
+          </section>
+
+          <section>
+            <style>
+            #grid .container > * {
+              border: 1px solid black;
+            }
+
+            #grid .container {
+              display: grid;
+              grid-template-areas:
+                "t t t t t t n n"
+                "a a a b b b n n"
+              ;
+              text-align: left;
+            }
+
+            #grid header {
+              grid-area: t;
+            }
+
+            #grid nav {
+              grid-area: n;
+            }
+
+            #grid article {
+              grid-area: a;
+            }
+
+            #grid footer {
+              grid-area: b;
+            }
+            </style>
+            <div class="container">
+              <header>
+                <h3>CSS Grid Example</h3>
+              </header>
+              <nav>
+                <ul>
+                  <li><a href="#grid">CSS Grid</a></li>
+                  <li><a href="#css-variables">CSS Variables</a></li>
+                  <li><a href="#feature-queries">Feature queries</a></li>
+                </ul>
+              </nav>
+              <article>
+                <p>
+                  Layout never was so easy to declare. Come with some fancy
+                  ASCII art and you'll see how your elements are gracefully
+                  placed around.
+                </p>
+              </article>
+              <footer>
+                <p>
+                  Example by <a href="https://twitter.com/salvadelapuente">
+                    @salvadelapuente</a>
+                </p>
+              </footer>
+            </div>
+          </section>
+
+          <section>
+            <pre><code>.container {
+  display: grid;
+  grid-template-areas:
+    "t t t t n n"
+    "a a b b n n"
+  ;
+}
+
+header { grid-area: t; }
+nav { grid-area: n; }
+article { grid-area: a; }
+footer { grid-area: b; }</code></pre>
+          <p>
+            <a href="https://css-tricks.com/snippets/css/complete-guide-grid/">
+              A Complete Guide to Grid
+            </a>
+          </p>
+          </section>
+        </section>
+
+        <section id="webvr">
+          <section>
+            <h2>WebVR</h2>
+          </section>
+
+          <section>
+            <iframe allowfullscreen width="100%" height="500px" src="http://m.spacelamb.12wave.com/" frameborder="0"></iframe>
+          </section>
+
+          <section>
+            <iframe allowfullscreen width="100%" height="500px" src="https://aframe.io/examples/showcase/shopping/" frameborder="0"></iframe>
+          </section>
+        </section>
+
+        <section id="webgl2">
+          <section>
+            <h2>WebGL 2.0</h2>
+          </section>
+
+          <section>
+            <iframe allowfullscreen width="100%" height="500px" src="https://playcanv.as/e/p/44MRmJRU/" frameborder="0"></iframe>
+          </section>
+
+          <section data-markdown>
+            * Multiple render targets
+            * Geometry shaders
+            * Volume textures
+            * Transform feedback
+
+            ...
+
+            More on [WebGL 2 Lands in Firefox](https://hacks.mozilla.org/2017/01/webgl-2-lands-in-firefox/)
+          </section>
+        </section>
+
+        <section id="async-await">
+          <section>
+            <h2>Async / Await</h2>
+          </section>
+
+          <!-- TODO: Think about a better, more obvious example -->
+          <section>
+            <pre><code>function search(query) {
+  return fetch(`/search/?q=$(query)`)
+         .then(response => response.json())
+         .then(json => json.results.map(...))
+         .catch(reason => console.log(reason));
+}</code></pre>
+          </section>
+
+          <section>
+            <pre><code>async function search(query) {
+  try {
+    let response = await fetch(`/search/?q=${query}`);
+    let json = await response.json();
+    return json.results.map(...);
+  }
+  catch (reason) {
+    console.log(reason);
+  }
+}</code></pre>
+          </section>
+        </section>
+
+        <section id="wasm">
+          <section>
+            <h2>Web Assembly</h2>
+          </section>
+
+          <section>
+            <p>Infografía con la máquina virtual de JavaScript</p>
+          </section>
+
+          <section>
+            <p>Infografía con la máquina virtual de Web Aseembly</p>
+          </section>
+        </section>
+
+        <section id="idle">
+          <section>
+            <h2>Request Idle Callback</h2>
+          </section>
+
+          <section>
+            <p>Te da una ventana en la que el motor está idle.</p>
+          </section>
+
+          <section>
+            <p>Aglo que consuma tiempo y que de otra forma causara jankiness.</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Credits &amp; resources
+          </section>
+
+          <section data-markdown>
+            * [Service Worker 101](https://github.com/delapuente/service-workers-101)
+            * [Payment Request API: an Integration Guide](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/)
+            * [Animating like you just don't care with Element.animate()](https://hacks.mozilla.org/2016/08/animating-like-you-just-dont-care-with-element-animate/)
+            * [A Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)
+            * [Using Feature Queries in CSS](https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/)
+            * [Spacelamb](http://m.spacelamb.12wave.com/)
+          </section>
+
+          <section data-markdown>
+            * [ShopifyVR](https://aframe.io/examples/showcase/shopping/)
+            * [Cooperative Scheduling with requestIdleCallback](https://hacks.mozilla.org/2016/11/cooperative-scheduling-with-requestidlecallback/)
+            * [Offline First](http://offlinefirst.org/)
+            * [The PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/)
+            * [BabelJS](http://babeljs.io/)
+            * [Typescript Playground](http://www.typescriptlang.org/play/)
+            * [Certbot](https://certbot.eff.org/)
+            * [How to Secure Nginx with Let's Encrypt on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04)
+            * [Virtual DOM](https://github.com/Matt-Esch/virtual-dom)
+          </section>
+        </section>
+
+        <section>
+          <img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ## Questions?
+        </section>
+      </div>
+    </div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>
