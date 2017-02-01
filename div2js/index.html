@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>DIV2js</title>
+    <meta name="description" content="My personal intent of translating DIV to JavaScript.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-light.css"/>
+
+		<!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+  <body>
+		<div class="reveal">
+			<div class="slides">
+        <section>
+          <header>
+            <h1>DIV2js</h1>
+            <p>An ugly presentation about transpilation</p>
+          </header>
+        </section>
+
+        <section data-markdown>
+          ## Disclaimer
+          Yes, I know [DIV Go](http://www.divgo.net/), I know
+          [the source code is on GitHub](https://github.com/DIVGAMES/DIV-Games-Studio)
+          and I also know this is probably a useless project but, you know?
+          **I don't care.**
+        </section>
+
+        <section data-markdown>
+          ## Index
+          1. How does DIV work?
+          2. The execution model
+          3. The memory model
+          4. Integration tests
+          5. What's next?
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## How does DIV work?
+          </section>
+
+          <section data-markdown>
+            ![DIV2 running on DOS-BOX](./imgs/div2-dosbox.png)
+          </section>
+
+          <section data-markdown>
+            DIV programs have a point of entry...
+          </section>
+
+          <section data-markdown>
+            ![DIV2 main program](./imgs/div2-main-program.png)
+          </section>
+
+          <section data-markdown>
+            ...and a set of processes.
+          </section>
+
+          <section data-markdown>
+            ![DIV2 processes](./imgs/div2-processes.png)
+          </section>
+
+          <section data-markdown>
+            DIV2 processes are similar to Linux processes in a single-thread.
+          </section>
+
+          <section data-markdown>
+            They run for a while, until executing a `FRAME` sentence.
+            ![Processes list](./imgs/processes-list.png)
+          </section>
+
+          <section data-markdown>
+            ![Process Execution](./imgs/div2-process-execution.png)
+          </section>
+
+          <section data-markdown>
+            When all the processes have executed `FRAME`, the graphic engine draws a new frame.
+          </section>
+
+          <section data-markdown>
+            And the execution continues **after the `FRAME`**...
+            ![Resume process list](./imgs/resume-execution.png)
+            ...until finding another one.
+          </section>
+
+          <section data-markdown>
+            ![Next frame](./imgs/div2-process-execution-next-frame.png)
+          </section>
+
+          <section data-markdown>
+            Do you know what in JavaScript is very similar to this?
+          </section>
+
+          <section data-markdown>
+            A [generator](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/function*)!
+
+            ```js
+            function* process() {
+              let counter = 0;
+              while (true) {
+                yield counter; // This is like FRAME.
+                counter++;
+              }
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            ![Process hierarchy](./imgs/div2-process-hierarchy.png)
+            Processes have a hierarchy, a type, an ID...
+          </section>
+
+          <section data-markdown>
+            ...and memory.
+          </section>
+
+          <section data-markdown>
+            DIV memory is **manuallyt managed**.
+          </section>
+
+          <section data-markdown>
+            ![DIV2 Memory](./imgs/memory.png)
+
+            It is a continous chunk of 4-byte aligned space.
+          </section>
+
+          <section data-markdown>
+            And you know what in JavaScript is very similar to this?
+          </section>
+
+          <section data-markdown>
+            A [TypedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays)!
+
+            ```js
+            const memory = new Int32Array(5); // 5 32-bit intenger
+            ```
+          </section>
+
+        </section>
+
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## The execution model
+          </section>
+
+
+
+          <section data-markdown>
+            So, execution model done!
+          </section>
+
+          <section data-markdown>
+            Memory is much easier.
+          </section>
+
+          <section data-markdown>
+            To emulate continuous memory we can use [typed arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays).
+            ```js
+
+            ```
+          </section>
+
+          <section data-markdown>
+            So, here is the idea:
+          </section>
+
+          <section data-markdown>
+            1) Each process will be a generator.
+            ```js
+            function* process() {
+
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            2) Each process will receive its memory in a
+            ```js
+            const PROCESS_SIZE = 100; // 400 bytes
+            var mem = new
+            function* process(mem) {
+
+            }
+            ```
+          </section>
+        </section>
+
+        <section data-markdown>
+          ## Markdown!
+
+          And remember you can use [markdown](https://github.com/hakimel/reveal.js#markdown)
+          with `data-markdown`.
+        </section>
+      </div>
+		</div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
