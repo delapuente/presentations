@@ -130,7 +130,7 @@
           </section>
 
           <section data-markdown>
-            DIV memory is **manuallyt managed**.
+            DIV memory is **manually managed**.
           </section>
 
           <section data-markdown>
@@ -147,7 +147,10 @@
             A [TypedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays)!
 
             ```js
-            const memory = new Int32Array(5); // 5 32-bit intenger
+            const memory = new Int32Array(5); // 5 32-bit intenger cells.
+            const ANGLE = 2;
+            memory[ANGLE] = 90000;     // Variable assignation.
+            memory[ANGLE + 1] = 90000; // Pointer aritmethic!
             ```
           </section>
 
@@ -160,43 +163,201 @@
             ## The execution model
           </section>
 
-
-
           <section data-markdown>
-            So, execution model done!
+            Let's consider generators.
           </section>
 
           <section data-markdown>
-            Memory is much easier.
-          </section>
+            With generators, a DIV process...
 
-          <section data-markdown>
-            To emulate continuous memory we can use [typed arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays).
-            ```js
-
+            ```div
+            PROCESS asteroid()
+            BEGIN
+              graph = 1;
+              WHILE (NOT out_of_region(ID, 0))
+                graph = ((graph + 1) % 10 + 1);
+                y += 10;
+                FRAME;
+              END
+            END
             ```
           </section>
 
           <section data-markdown>
-            So, here is the idea:
-          </section>
-
-          <section data-markdown>
-            1) Each process will be a generator.
+            ...would be translated into a JavaScript generator:
             ```js
-            function* process() {
-
+            function* asteroid(mem) {
+              const GRAPH = 100;
+              const Y     = 101;
+              mem[GRAPH] = 1;
+              while (!out_of_region(mem[ID], 0)) {
+                mem[GRAPH] = ((mem[GRAPH] + 1) % 10 + 1);
+                mem[Y] += 10;
+                yield { type: 'frame', completion: 100 };
+              }
             }
             ```
           </section>
 
           <section data-markdown>
-            2) Each process will receive its memory in a
-            ```js
-            const PROCESS_SIZE = 100; // 400 bytes
-            var mem = new
-            function* process(mem) {
+            Creating a new process would look like:
 
+            ```js
+            function newProcess(name, args) {
+              const processType = processes[name];
+              const mem = new Int32Array(PROCESS_SIZE);
+              initializeMemory(mem, args);
+              const process = processType(mem);
+              process.mem = mem;
+              processList.push(process);
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            And the scheduler would look like this:
+
+            ```js
+            function runProcessList() {
+              let result;
+              while (processList.length) {
+                for (let i = 0, current; current = processList[i]; i++) {
+                  const action = current.next(result); // run until yield.
+                  result = handle(action, current.mem);
+                };
+                drawFrame();
+              }
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            `handle()` would manipulate the process list according to the result of the execution of
+            the process.
+          </section>
+
+          <section data-markdown>
+            `result` is sent to the process since some statements can return values (i.e. _calling a process returns its ID_).
+          </section>
+
+          <section data-markdown>
+            * `FRAME` continues with the next process.
+            * `&lt;EOP&gt;` removes the process from the list.
+            * `anotherProcess()` adds a new process to the list.
+            * `DEBUG` starts the debugger, then continues with the current process.
+            * `CLONE` adds a new process, copying the state of the current process.
+          </section>
+
+          <section data-markdown>
+            WAIT A SECOND!
+          </section>
+
+          <section data-markdown>
+            `CLONE` does **WHAT!?**
+          </section>
+
+          <section data-markdown>
+            ```div
+            PROGRAM test;
+            BEGIN
+              write_int(0, 0, 0, 0, ID);
+              write(0, 0, 10, 0, "Only the parent.");
+              CLONE
+                x = 100;
+                write_int(0, x, 20, 0, ID);
+                write(0, x, 30, 0, "Only the child.");
+              END
+              write_int(0, x, 40, 0, ID);
+              write(0, x, 50, 0, "Both.");
+              LOOP FRAME; END // alt+x to quit
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            ![Clone execution](./imgs/clone-execution.png)
+          </section>
+
+          <section data-markdown>
+            Here is the problem: copying the memory state is possible but **copying the execution state is not**.
+          </section>
+
+          <section data-markdown>
+            So I tried [the standard way](https://esdiscuss.org/topic/proposal-generator-clone-and-generator-goto).
+
+            ![Discussion about adding generator#clone and generator#goto](./imgs/generator-clone.png)
+          </section>
+
+          <section data-markdown>
+            I knew the solution was a state machine...
+          </section>
+
+          <section>
+            <iframe src="http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=latest%2Creact%2Cstage-2&targets=&browsers=&builtIns=false&experimental=false&loose=false&spec=false&code=function*%20asteroid(mem)%20%7B%0A%20%20const%20GRAPH%20%3D%20100%3B%0A%20%20const%20Y%20%20%20%20%20%3D%20101%3B%0A%20%20mem%5BGRAPH%5D%20%3D%201%3B%0A%20%20while%20(!out_of_region(mem%5BID%5D%2C%200))%20%7B%0A%20%20%20%20mem%5BGRAPH%5D%20%3D%20((mem%5BGRAPH%5D%20%2B%201)%20%25%2010%20%2B%201)%3B%0A%20%20%20%20mem%5BY%5D%20%2B%3D%2010%3B%0A%20%20%20%20yield%20%7B%20type%3A%20'frame'%2C%20completion%3A%20100%20%7D%3B%0A%20%20%7D%0A%7D&amp;playground=true" width="100%" height="800px" frameborder="0"></iframe>
+          </section>
+
+          <section data-background-image="./imgs/babel-extension.jpg">
+
+          </section>
+
+          <section data-background-image="./imgs/totally-inefficient.jpg">
+
+          </section>
+
+          <section data-markdown>
+            So [I wrote my own](https://github.com/delapuente/div2js/blob/master/src/context.js#L139).
+          </section>
+
+          <section data-markdown>
+            This is how translating `CLONE` looks like:
+            ```js
+            translators.CloneSentence = function (divClone, context) {
+              var insideCloneLabel = context.newLabel();
+              var afterCloneLabel = context.newLabel();
+              context.clone(insideCloneLabel, afterCloneLabel);
+              context.label(insideCloneLabel);
+              translateBody(divClone, context);
+              context.label(afterCloneLabel);
+            };
+            ```
+          </section>
+
+          <section data-markdown>
+            And this is how the `CLONE` example looks once transpiled:
+            ```js
+            function program_test(mem, exec, args) {
+              while (true) {
+                switch (exec.pc) {
+                  case 1:
+                    return __yieldCallFunction(2, 'write_int', [0, 0, 0, 0, mem[ID]]);
+                  case 2:
+                    exec.retv.dequeue();
+                    return __yieldCallFunction(4, 'write', [0, 0, 10, 0, 'Only the parent.']);
+                  case 4:
+                    exec.retv.dequeue();
+                    return __yieldClone(6, 11);
+                  case 6:
+                    mem[x] = 100;
+                    return __yieldCallFunction(8, 'write_int', [0, mem[x], 20, 0, mem[ID] ]);
+                  case 8:
+                    exec.retv.dequeue();
+                    return __yieldCallFunction(10, 'write', [0, mem[x], 30, 0, 'Only the child.']);
+                  case 10:
+                    exec.retv.dequeue();
+                  case 11:
+                    return __yieldCallFunction(12, 'write_int', [0, mem[x], 40, 0, mem[ID]]);
+                  case 12:
+                    exec.retv.dequeue();
+                    return __yieldCallFunction(14, 'write', [0, mem[x], 50, 0, 'Both.']);
+                  case 14:
+                    exec.retv.dequeue();
+                  case 15:
+                    exec.pc = 15;
+                    break;
+                  case 16:
+                    return __yieldEnd;
+                }
+              }
             }
             ```
           </section>
@@ -224,7 +385,7 @@
           { src: '../lib/reveal/plugin/markdown/marked.js' },
           { src: '../lib/reveal/plugin/markdown/markdown.js' },
           { src: '../lib/reveal/plugin/notes/notes.js', async: true },
-          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+          { src: './highlight.pack.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
 		</script>
