@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>DIV2js</title>
     <meta name="description" content="My personal intent of translating DIV to JavaScript.">
@@ -11,21 +11,21 @@
     <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
     <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-light.css"/>
 
-		<!-- Theme used for syntax highlighting of code -->
+    <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
       link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
   <body>
-		<div class="reveal">
-			<div class="slides">
+    <div class="reveal">
+      <div class="slides">
         <section>
           <header>
             <h1>DIV2js</h1>
@@ -636,26 +636,833 @@
           <section data-markdown>
             ## The Execution Pipeline
           </section>
+
+          <section data-markdown>
+            The process to execute a DIV program
+            traverses several stages.
+          </section>
+
+          <section data-markdown>
+            1. Transpilation
+            2. Load
+            3. Execution
+          </section>
+
+          <section data-markdown>
+            ### Transpilation
+          </section>
+
+          <section data-markdown>
+            Is the process for which a DIV program is translated into a JavaScript.
+          </section>
+
+          <section data-markdown>
+            ```div
+            PROGRAM test;
+            BEGIN
+              text_z = 1;
+              DEBUG;
+              a();
+              DEBUG;
+              text_z = 3;
+              DEBUG;
+            END
+
+            PROCESS a();
+            BEGIN
+              text_z = 2;
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            During **parsing**, source code is translated into a **DIV Abstract Syntax Tree**.
+          </section>
+
+          <section data-markdown>
+```js
+{
+  "type": "Unit",
+  "program": {
+    "type": "Program",
+    "name": {
+      "type": "Identifier",
+      "name": "test"
+    },
+    "consts": null,
+    "globals": null,
+    "locals": null,
+    "privates": null,
+    "body": {
+      "type": "ProcessBody",
+      "sentences": [
+        {
+          "type": "ExpressionSentence",
+          "expression": {
+            "type": "AssignmentExpression",
+            "operator": "=",
+            "left": {
+              "type": "Identifier",
+              "name": "text_z"
+            },
+            "right": {
+              "type": "Literal",
+              "value": 1,
+              "raw": "1"
+            }
+          }
+        },
+        {
+          "type": "DebugSentence"
+        },
+        {
+          "type": "ExpressionSentence",
+          "expression": {
+            "type": "CallExpression",
+            "callee": {
+              "type": "Identifier",
+              "name": "a"
+            },
+            "arguments": []
+          }
+        },
+        {
+          "type": "DebugSentence"
+        },
+        {
+          "type": "ExpressionSentence",
+          "expression": {
+            "type": "AssignmentExpression",
+            "operator": "=",
+            "left": {
+              "type": "Identifier",
+              "name": "text_z"
+            },
+            "right": {
+              "type": "Literal",
+              "value": 3,
+              "raw": "3"
+            }
+          }
+        },
+        {
+          "type": "DebugSentence"
+        }
+      ]
+    }
+  },
+  "processes": [
+    {
+      "type": "Process",
+      "name": {
+        "type": "Identifier",
+        "name": "a"
+      },
+      "privates": null,
+      "body": {
+        "type": "ProcessBody",
+        "sentences": [
+          {
+            "type": "ExpressionSentence",
+            "expression": {
+              "type": "AssignmentExpression",
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "name": "text_z"
+              },
+              "right": {
+                "type": "Literal",
+                "value": 2,
+                "raw": "2"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+[JISON](http://zaa.ch/jison/) is used to write the grammar and parse the source code.
+          </section>
+
+          <section data-markdown>
+            > JISON: Your friendly JavaScript parser generator!
+
+            [_friendly_](https://github.com/delapuente/div2js/blob/master/src/grammar.y)
+          </section>
+
+          <section data-markdown>
+            The **semantic checker** runs now (which includes the type checker) extracting the enough context to drive the translation.
+          </section>
+
+          <section data-markdown>
+            ```js
+            {
+              "_processes": {
+                "a": true
+              },
+              "_auxNames": {},
+              "_currentProcessPrivates": {}
+            }
+            ```
+          </section>
+
+          <section data-markdown>
+            With the DIV AST + context, the translator has
+            enough information to create a **JavaScript AST**.
+          </section>
+
+          <section data-markdown>
+```js
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "id": {
+            "type": "Identifier",
+            "name": "G_BASE"
+          },
+          "init": {
+            "type": "Literal",
+            "value": 0,
+            "raw": "0"
+          }
+        },
+        {
+          "type": "VariableDeclarator",
+          "id": {
+            "type": "Identifier",
+            "name": "G_TEXT_Z"
+          },
+          "init": {
+            "type": "Literal",
+            "value": 0,
+            "raw": "0"
+          }
+        }
+      ],
+      "kind": "var"
+    },
+    {
+      "type": "FunctionDeclaration",
+      "id": {
+        "type": "Identifier",
+        "name": "program_test"
+      },
+      "params": [
+        {
+          "type": "Identifier",
+          "name": "mem"
+        },
+        {
+          "type": "Identifier",
+          "name": "exec"
+        },
+        {
+          "type": "Identifier",
+          "name": "args"
+        }
+      ],
+      "defaults": [],
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "WhileStatement",
+            "test": {
+              "type": "Literal",
+              "value": true,
+              "raw": "true"
+            },
+            "body": {
+              "type": "BlockStatement",
+              "body": [
+                {
+                  "type": "SwitchStatement",
+                  "discriminant": {
+                    "type": "MemberExpression",
+                    "computed": false,
+                    "object": {
+                      "type": "Identifier",
+                      "name": "exec"
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "name": "pc"
+                    }
+                  },
+                  "cases": [
+                    {
+                      "type": "SwitchCase",
+                      "test": {
+                        "type": "Literal",
+                        "value": 1,
+                        "raw": "1"
+                      },
+                      "consequent": [
+                        {
+                          "type": "ExpressionStatement",
+                          "expression": {
+                            "type": "AssignmentExpression",
+                            "operator": "=",
+                            "left": {
+                              "type": "MemberExpression",
+                              "computed": true,
+                              "object": {
+                                "type": "Identifier",
+                                "name": "mem"
+                              },
+                              "property": {
+                                "type": "BinaryExpression",
+                                "operator": "+",
+                                "left": {
+                                  "type": "Identifier",
+                                  "name": "G_BASE"
+                                },
+                                "right": {
+                                  "type": "Identifier",
+                                  "name": "G_TEXT_Z"
+                                }
+                              }
+                            },
+                            "right": {
+                              "type": "Literal",
+                              "value": 1,
+                              "raw": "1"
+                            }
+                          }
+                        },
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "CallExpression",
+                            "callee": {
+                              "type": "Identifier",
+                              "name": "__yieldDebug"
+                            },
+                            "arguments": [
+                              {
+                                "type": "Literal",
+                                "value": 3,
+                                "raw": "3"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "SwitchCase",
+                      "test": {
+                        "type": "Literal",
+                        "value": 3,
+                        "raw": "3"
+                      },
+                      "consequent": [
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "CallExpression",
+                            "callee": {
+                              "type": "Identifier",
+                              "name": "__yieldNewProcess"
+                            },
+                            "arguments": [
+                              {
+                                "type": "Literal",
+                                "value": 4,
+                                "raw": "4"
+                              },
+                              {
+                                "type": "Literal",
+                                "value": "a",
+                                "raw": "\"a\""
+                              },
+                              {
+                                "type": "ArrayExpression",
+                                "elements": []
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "SwitchCase",
+                      "test": {
+                        "type": "Literal",
+                        "value": 4,
+                        "raw": "4"
+                      },
+                      "consequent": [
+                        {
+                          "type": "ExpressionStatement",
+                          "expression": {
+                            "type": "CallExpression",
+                            "callee": {
+                              "type": "MemberExpression",
+                              "computed": false,
+                              "object": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "Identifier",
+                                  "name": "exec"
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "retv"
+                                }
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "name": "dequeue"
+                              }
+                            },
+                            "arguments": []
+                          }
+                        },
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "CallExpression",
+                            "callee": {
+                              "type": "Identifier",
+                              "name": "__yieldDebug"
+                            },
+                            "arguments": [
+                              {
+                                "type": "Literal",
+                                "value": 6,
+                                "raw": "6"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "SwitchCase",
+                      "test": {
+                        "type": "Literal",
+                        "value": 6,
+                        "raw": "6"
+                      },
+                      "consequent": [
+                        {
+                          "type": "ExpressionStatement",
+                          "expression": {
+                            "type": "AssignmentExpression",
+                            "operator": "=",
+                            "left": {
+                              "type": "MemberExpression",
+                              "computed": true,
+                              "object": {
+                                "type": "Identifier",
+                                "name": "mem"
+                              },
+                              "property": {
+                                "type": "BinaryExpression",
+                                "operator": "+",
+                                "left": {
+                                  "type": "Identifier",
+                                  "name": "G_BASE"
+                                },
+                                "right": {
+                                  "type": "Identifier",
+                                  "name": "G_TEXT_Z"
+                                }
+                              }
+                            },
+                            "right": {
+                              "type": "Literal",
+                              "value": 3,
+                              "raw": "3"
+                            }
+                          }
+                        },
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "CallExpression",
+                            "callee": {
+                              "type": "Identifier",
+                              "name": "__yieldDebug"
+                            },
+                            "arguments": [
+                              {
+                                "type": "Literal",
+                                "value": 8,
+                                "raw": "8"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "SwitchCase",
+                      "test": {
+                        "type": "Literal",
+                        "value": 8,
+                        "raw": "8"
+                      },
+                      "consequent": [
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "Identifier",
+                            "name": "__yieldEnd"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "expression": false
+    },
+    {
+      "type": "FunctionDeclaration",
+      "id": {
+        "type": "Identifier",
+        "name": "process_a"
+      },
+      "params": [
+        {
+          "type": "Identifier",
+          "name": "mem"
+        },
+        {
+          "type": "Identifier",
+          "name": "exec"
+        },
+        {
+          "type": "Identifier",
+          "name": "args"
+        }
+      ],
+      "defaults": [],
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "WhileStatement",
+            "test": {
+              "type": "Literal",
+              "value": true,
+              "raw": "true"
+            },
+            "body": {
+              "type": "BlockStatement",
+              "body": [
+                {
+                  "type": "SwitchStatement",
+                  "discriminant": {
+                    "type": "MemberExpression",
+                    "computed": false,
+                    "object": {
+                      "type": "Identifier",
+                      "name": "exec"
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "name": "pc"
+                    }
+                  },
+                  "cases": [
+                    {
+                      "type": "SwitchCase",
+                      "test": {
+                        "type": "Literal",
+                        "value": 1,
+                        "raw": "1"
+                      },
+                      "consequent": [
+                        {
+                          "type": "ExpressionStatement",
+                          "expression": {
+                            "type": "AssignmentExpression",
+                            "operator": "=",
+                            "left": {
+                              "type": "MemberExpression",
+                              "computed": true,
+                              "object": {
+                                "type": "Identifier",
+                                "name": "mem"
+                              },
+                              "property": {
+                                "type": "BinaryExpression",
+                                "operator": "+",
+                                "left": {
+                                  "type": "Identifier",
+                                  "name": "G_BASE"
+                                },
+                                "right": {
+                                  "type": "Identifier",
+                                  "name": "G_TEXT_Z"
+                                }
+                              }
+                            },
+                            "right": {
+                              "type": "Literal",
+                              "value": 2,
+                              "raw": "2"
+                            }
+                          }
+                        },
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "Identifier",
+                            "name": "__yieldEnd"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "expression": false
+    }
+  ]
+}
+```
+
+The output AST follows the [ESTree](https://github.com/estree/estree) specification which is based in the [Mozilla Parser API](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API).
+          </section>
+
+          <section data-markdown>
+            Which is the AST for this:
+
+```js
+var G_BASE = 0, G_TEXT_Z = 0;
+function program_test(mem, exec, args) {
+  while (true) {
+    switch (exec.pc) {
+    case 1:
+      mem[G_BASE + G_TEXT_Z] = 1;
+      return __yieldDebug(3);
+    case 3:
+      return __yieldNewProcess(4, 'a', []);
+    case 4:
+      exec.retv.dequeue();
+      return __yieldDebug(6);
+    case 6:
+      mem[G_BASE + G_TEXT_Z] = 3;
+      return __yieldDebug(8);
+    case 8:
+      return __yieldEnd;
+    }
+  }
+}
+
+function process_a(mem, exec, args) {
+  while (true) {
+    switch (exec.pc) {
+    case 1:
+      mem[G_BASE + G_TEXT_Z] = 2;
+      return __yieldEnd;
+    }
+  }
+}
+```
+          </section>
+
+          <section data-markdown>
+            This AST is then combined with a fixed one,
+            which contains a set of **bridge functions** to
+            communicate with the runtime.
+          </section>
+
+          <section data-markdown>
+            ```js
+            (function (rt) {
+              'use strict';
+
+              /* Here comes the memory map */
+
+              function __yieldDebug(npc) {
+                return new rt.Baton('debug', { npc: npc });
+              }
+
+              function __yieldNewProcess(npc, processName, args) {
+                return new rt.Baton('newprocess', {
+                  npc: npc,
+                  processName: processName,
+                  args: args
+                });
+              }
+
+              var __yieldEnd = new rt.Baton('end');
+
+              return { /* Here come the process and memory maps */ };
+            });
+            ```
+
+            [Esprima](http://esprima.org/) is used to parse the code above.
+          </section>
+
+          <section data-markdown>
+            Now the &mdash;3rd party&mdash; **generator** ([escodegen](https://github.com/estools/escodegen)) can create the proper JavaScript code.
+          </section>
+
+          <section data-markdown>
+```js
+(function (rt) {
+  'use strict';
+  var G_BASE = 0, G_TEXT_Z = 0;
+  function __yieldDebug(npc) {
+    return new rt.Baton('debug', { npc: npc });
+  }
+  function __yieldNewProcess(npc, processName, args) {
+    return new rt.Baton('newprocess', {
+      npc: npc,
+      processName: processName,
+      args: args
+    });
+  }
+  var __yieldEnd = new rt.Baton('end');
+  return {
+    pmap: {
+      program: function program_test(mem, exec, args) {
+        while (true) {
+          switch (exec.pc) {
+          case 1:
+            mem[G_BASE + G_TEXT_Z] = 1;
+            return __yieldDebug(3);
+          case 3:
+            return __yieldNewProcess(4, 'a', []);
+          case 4:
+            exec.retv.dequeue();
+            return __yieldDebug(6);
+          case 6:
+            mem[G_BASE + G_TEXT_Z] = 3;
+            return __yieldDebug(8);
+          case 8:
+            return __yieldEnd;
+          }
+        }
+      },
+      process_a: function process_a(mem, exec, args) {
+        while (true) {
+          switch (exec.pc) {
+          case 1:
+            mem[G_BASE + G_TEXT_Z] = 2;
+            return __yieldEnd;
+          }
+        }
+      }
+    },
+    mmap: {
+      G: {
+        G_BASE: 0,
+        G_TEXT_Z: 0
+      },
+      L: {},
+      P: {}
+    }
+  };
+});
+```
+          </section>
+
+          <section data-markdown>
+            ### Load
+          </section>
+
+          <section data-markdown>
+            Loading the program means linking the object artefact with the runtime to create a **executable program**.
+          </section>
+
+          <section data-markdown>
+            First the unit is evaluated with `eval()` passing the runtime functions needed to communicate with the scheduler.
+
+            ```js
+            const unit = eval(objText)(runtime);
+            const processMap = unit.pmap;
+            const memoryMap = unit.mmap;
+            ```
+          </section>
+
+          <section data-markdown>
+            Now the process and memory maps are used to create a new program.
+
+            ```js
+            const program = new runtime.Runtime(processMap, memoryMap)
+            ```
+          </section>
+
+          <section data-markdown>
+            ### Execution
+          </section>
+
+          <section data-markdown>
+            Before executing the program, we can listen for some events.
+
+            ```js
+            // Both events don't finish until resolving a promise.
+            program.ondebug = () => openDebugger();
+            program.onfinished = () => showFinishMessage();
+            ```
+          </section>
+
+          <section data-markdown>
+            But our real interest is to run the program.
+
+            ```js
+            program.run();
+            ```
+          </section>
+        </section>
+
+        <section>
+          <img src="../imgs/contact/chibi.jpg" alt="me" style="border:none; width: 250px; height:auto;">
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ## Questions?
         </section>
       </div>
-		</div>
+    </div>
 
     <script src="../lib/reveal/lib/js/head.min.js"></script>
     <script src="../lib/reveal/js/reveal.js"></script>
 
     <script>
       // More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				history: true,
+      Reveal.initialize({
+        history: true,
 
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
           { src: '../lib/reveal/plugin/markdown/marked.js' },
           { src: '../lib/reveal/plugin/markdown/markdown.js' },
           { src: '../lib/reveal/plugin/notes/notes.js', async: true },
           { src: './highlight.pack.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+        ]
+      });
+    </script>
+  </body>
 </html>
