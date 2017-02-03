@@ -46,8 +46,7 @@
           1. How does DIV work?
           2. The execution model
           3. The memory model
-          4. Integration tests
-          5. What's next?
+          4. The execution pipeline
         </section>
 
         <section>
@@ -153,9 +152,6 @@
             memory[ANGLE + 1] = 90000; // Pointer aritmethic!
             ```
           </section>
-
-        </section>
-
         </section>
 
         <section>
@@ -219,11 +215,11 @@
 
             ```js
             function runProcessList() {
-              let result;
+              let retValue;
               while (processList.length) {
                 for (let i = 0, current; current = processList[i]; i++) {
-                  const action = current.next(result); // run until yield.
-                  result = handle(action, current.mem);
+                  const result = current.next(retValue); // run until yield.
+                  retValue = handle(result, current.mem);
                 };
                 drawFrame();
               }
@@ -237,7 +233,7 @@
           </section>
 
           <section data-markdown>
-            `result` is sent to the process since some statements can return values (i.e. _calling a process returns its ID_).
+            `retValue` is sent to the process since some statements can return values (i.e. _calling a process returns its ID_).
           </section>
 
           <section data-markdown>
@@ -361,13 +357,285 @@
             }
             ```
           </section>
+
+          <section data-markdown>
+            ### DEBUGGING
+          </section>
+
+          <section data-markdown>
+            You migh be wondering **why so many yields**?
+          </section>
+
+          <section data-markdown>
+            Is it necessary to yield on **every** call?
+          </section>
+
+          <section>
+            <p>It is.</p>
+            <p class="fragment">(<a href="https://github.com/delapuente/div2js/commit/13042a266614c95e37231f0eea2701f8d14495df">if you want to debug it</a>)</p>
+          </section>
+
+          <section data-markdwon>
+            Because you need to return to the scheduler to have the opportunity of launching the debugger.
+          </section>
         </section>
 
-        <section data-markdown>
-          ## Markdown!
+        <section>
+          <section data-markdown>
+            ## The memory model
+          </section>
 
-          And remember you can use [markdown](https://github.com/hakimel/reveal.js#markdown)
-          with `data-markdown`.
+          <section data-markdown>
+            Each process has a _reserved_ memory region.
+          </section>
+
+          <section data-markdown>
+            ![Local data](./imgs/div2-local-data.png)
+          </section>
+
+          <section>
+            <p>Implementation goal:</p>
+            <p class="fragment"><strong>Preserve pointer semantics <em>across</em> regions.</strong></p>
+          </section>
+
+          <section data-markdown>
+            ### Process size
+          </section>
+
+          <section data-markdown>
+            Kind reminder:
+          </section>
+
+          <section data-markdown>
+            Memory is a `Int32Array`
+            ```
+            const mem = new Int32Array(PROCESS_SIZE);
+            ```
+          </section>
+
+          <section data-markdown>
+            So, first question, what is `PROCESS_SIZE`?
+          </section>
+
+          <section data-markdown>
+            Hypothesis: _with no privates, size of the process is size of locals_.
+          </section>
+
+          <section data-background-image="./imgs/id-is-offset.jpeg">
+          </section>
+
+          <section data-markdown>
+            Gut feeling: _`ID` is the address of the process_.
+          </section>
+
+          <section data-markdown>
+            According to the debugger, there are **44 locals**.
+          </section>
+
+          <section data-markdown>
+            ```div
+            PROGRAM calc_process_size;
+            BEGIN
+              p();
+              p();
+              DEBUG;
+            END
+
+            PROCESS p();
+            BEGIN
+              LOOP FRAME; END
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            ![Substracting one process ID fron another, you have the process size](./imgs/div2-process-size.png)
+          </section>
+
+          <section>
+            <p>
+              1751 - 1707 = <strong>44</strong>; 1795 - 1751 = <strong>44</strong>
+            </p>
+            <p class="fragment">Fair enough.</p>
+          </section>
+
+          <section data-markdown>
+            Hypothesis: _with privates, size of the process is size of locals + privates_.
+          </section>
+
+          <section data-markdown>
+            ```div
+            PROGRAM calc_process_size;
+            BEGIN
+              p();
+              q();
+              DEBUG;
+            END
+
+            PROCESS p();
+            PRIVATE
+              a;
+            BEGIN
+              LOOP FRAME; END
+            END
+
+            PROCESS q();
+            PRIVATE
+              a;
+              b;
+            BEGIN
+              LOOP FRAME; END
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            ![Size is constant](./imgs/div2-constant-size.png)
+          </section>
+
+          <section>
+            <p>
+              1769 - 1723 = <strong>46</strong>; 1815 - 1769 = <strong>46</strong>
+            </p>
+            <p class="fragment">WTF?</p>
+          </section>
+
+          <section data-markdown>
+            So, DIV has a fixed process size, which is the sum of local segment and the biggest private region.
+          </section>
+
+          <section data-markdown>
+            ![Process memory region](./imgs/memory-segment.png)
+
+            Regions include enough space for _locals_ and _private_ variables.
+          </section>
+
+          <section data-markdown>
+            In addition to a fixed number of process, the design leads to:
+            * Fixed program footprint.
+            * Very fast process allocation.
+          </section>
+
+          <section data-markdown>
+            ### Memory map
+          </section>
+
+          <section data-markdown>
+            Variable names will be array indices
+            ```
+            mem[X] = 10; // x = 10
+            mem[Y] = 10; // y = 10
+            ```
+          </section>
+
+          <section data-markdown>
+            So, second question is, where is the data inside these regions?
+          </section>
+
+          <section data-markdown>
+            What is the first variable?
+
+            ```div
+            PROGRAM memory_map;
+            PRIVATE
+              pid;
+            BEGIN
+              pid = p();
+              (*pid) = 1234567890;
+              DEBUG;
+            END
+
+            PROCESS p();
+            BEGIN
+              LOOP FRAME; END
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            ![First local is process id](./imgs/div2-first-local.png)
+          </section>
+
+          <section data-markdown>
+            Where are the other?
+
+            ```div
+            PROGRAM memory_offsets;
+            PRIVATE
+              target;
+              result;
+            BEGIN
+              target = &amp;reserved.id_scan;
+              result = target - ID;
+              write_int(0, 0, 0, 0, &amp;result);
+              LOOP FRAME; END
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            ![id_scan offset is 1](./imgs/div2-memory-locations.png)
+          </section>
+
+          <section data-markdown>
+            Double check privates come after locals.
+
+            ```div
+            PROGRAM segment_order;
+            PRIVATE
+              a;
+            BEGIN
+              *(ID + 44) = 1234567890;
+              DEBUG;
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            ![Privates goes after locals](./imgs/div2-segment-order.png)
+          </section>
+
+          <section data-markdown>
+            ### Pointer arithmetic
+          </section>
+
+          <section data-markdown>
+            Pointer airthmetic goes in between the brackets
+            ```js
+            mem[X] = mem[MOUSE_STRUCT + MOUSE_X]; // x = mouse.x
+            ```
+          </section>
+
+          <section data-markdown>
+            ### Globals and text segments
+          </section>
+
+          <section data-markdown>
+            Is it possible to achieve total pointer compatibility?
+          </section>
+
+          <section data-markdown>
+            Yes, if processes receive **all the memory**.
+          </section>
+
+          <section data-markdown>
+            Fortunately, source is now on GitHub so [figuring
+            out global memory](https://github.com/DIVGAMES/DIV-Games-Studio/blob/0c006cca548f9d6dc66d174d4f05d167148c7e78/dll/div.h) map was much easier.
+          </section>
+
+          <section>
+            <ul>
+              <li>So, where the globals are?</li>
+              <li class="fragment">And the text of the program?</li>
+              <li class="fragment">Are there gaps in between?</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## The Execution Pipeline
+          </section>
         </section>
       </div>
 		</div>
