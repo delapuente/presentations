@@ -607,6 +607,138 @@
           </section>
 
           <section data-markdown>
+            The only type in DIV (first version) was the 4 byte int. So, no need for types at all since this was also the width of the pointer.
+          </section>
+
+          <section data-markdown>
+            But DIV2 adds `BYTE`, `WORD` and `INT` to explicitly refer to 1 byte, 2 byte and 4 byte values respectively.
+          </section>
+
+          <section data-markdown>
+            And it also adds `POINTER` to those types and the `STRING` view.
+          </section>
+
+          <section data-markdown>
+            The alignment is still 4 bytes but DIV2 ensures arrays are continuous. So...
+          </section>
+
+          <section data-markdown>
+            |Value | Space required | Space used |
+            | ------------- |
+            |WORD[1] a; | 4 bytes | 4 bytes|
+            |WORD b, c; | 4 bytes | 8 bytes|
+          </section>
+
+          <section data-markdown>
+            So, how to access `a[1]`?
+          </section>
+
+          <section data-markdown>
+            ```div
+            PROGRAM pointer_arithmetic;
+            PRIVATE
+              WORD POINTER pa, pb, pc;
+              WORD[1] a;
+              WORD b, c;
+            BEGIN
+              pa = &amp;a;
+              pb = &amp;b;
+              pc = &amp;c;
+              DEBUG;
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            ![Contiguous memory](./imgs/div2-contiguous-memory.png)
+          </section>
+
+          <section data-markdown>
+            ```div
+            PROGRAM pointer_arithmetic;
+            PRIVATE
+              WORD POINTER pa, pb, pc;
+              WORD[1] a;
+              WORD b, c;
+            BEGIN
+              pa = &amp;a[1];
+              pb = &amp;b;
+              pc = &amp;c;
+              DEBUG;
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            ![No offset](./imgs/div2-no-offset.png)
+          </section>
+
+          <section data-markdown>
+            ```div
+            PROGRAM pointer_arithmetic;
+            PRIVATE
+              WORD POINTER pa, pb, pc;
+              WORD[1] a;
+              WORD b, c;
+            BEGIN
+              pa = &amp;a[1];
+              pb = &amp;b;
+              pc = &amp;c;
+              *pa = 123;
+              *(pa + 1) = 456;
+              DEBUG;
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            ![Double pointer arithmetic](./imgs/div2-double-arithmetic.png)
+          </section>
+
+          <section data-markdown>
+            ```div
+            PROGRAM pointer_arithmetic;
+            PRIVATE
+              WORD POINTER pa, pb, pc;
+              WORD[1] a;
+              WORD b, c;
+            BEGIN
+              pa = &amp;a[1];
+              pb = &amp;b;
+              pc = &amp;c;
+              *pa = 123;
+              *pa = 456 << 16 or *pa;
+              DEBUG;
+            END
+            ```
+          </section>
+
+          <section data-markdown>
+            ![Pointer arithmetic for array values](./imgs/div2-double-arithmetic-fixed.png)
+          </section>
+
+          <section data-markdown>
+            So, there is a **double pointer arithmetic**.
+          </section>
+
+          <section data-markdown>
+            A DIV legacy one for **4 byte aligned values**.
+
+            ```js
+            mem[A] = 123;
+            mem[A + 1] = 456;
+            ```
+          </section>
+
+          <section data-markdown>
+            Another for **array values**.
+
+            ```js
+            mem[A] = 456 << 16 | mem[A];
+            ```
+          </section>
+
+          <section data-markdown>
             ### Globals and text segments
           </section>
 
