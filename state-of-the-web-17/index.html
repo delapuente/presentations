@@ -59,13 +59,12 @@
           ## Index of patterns &amp; trends
           [Offline First](#offline-first), [PRPL](#prpl),
           [Transpilation](#transpilation), [Virtual DOM](#vdom),
-          [Let's encrypt](#lets-encrypt), [Storage Sync](#storage-sync),
+          [Let's encrypt](#lets-encrypt), [Storage Sync](#storage-sync), [RAIL](#rail),
           [Progressive Enhancement](#progressive-enhancement),
-          [Timely, Relevant, Precise](#timely-relevant-precise)
+          [Timely, Relevant, Precise](#timely-relevant-precise),
+          [On Demand Permissions](#permissions)
         </section>
         <!-- TODO: Typed? Functional? -->
-        <!-- TODO: PUSH: Timely, Relevant, Precise -->
-        <!-- TODO: On Demand Permissions -->
 
         <section data-markdown>
           ## Coming soon
@@ -485,6 +484,19 @@
           </section>
         </section>
 
+        <section id="rail">
+          <section>
+            <h2>Response, Animation, Idle, Load</h2>
+          </section>
+
+          <section data-markdown>
+            * **Response**: react in less that 100 ms to feel instant.
+            * **Animation**: keep 60 fps.
+            * **Idle**: maximize idle time.
+            * **Load**: go interactive under 1 second.
+          </section>
+        </section>
+
         <!-- TODO: Progressive enhancement -->
         <section id="progressive-enhancement">
           <section data-ma>
@@ -496,6 +508,20 @@
           </section>
         </section>
 
+        <section id="timely-relevant-precise">
+          <section data-ma>
+            <h2>Timely, relevant, precise</h2>
+          </section>
+
+          <section data-markdown>
+            Be...
+            
+            * **Timely** to not annoy the user.
+            * **Relevant** for the user to pay attention.
+            * **Precise** to say just what is necessary.
+          </section>
+        </section>
+
         <section id="http2">
           <section data-markdown>
             ## HTTP/2
@@ -503,14 +529,14 @@
 
           <section>
             <p>Multiplexing</p>
-            <img style="height: 500px" src="./imgs/multiplexing.png"
+            <img style="width: 60%" src="./imgs/multiplexing.png"
             alt="With multiplex, several request can be performed with only one
             TCP connection." />
           </section>
 
           <section>
             <p>Push / Server Hint</p>
-            <img style="height: 500px" src="./imgs/pushstats.jpg"
+            <img style="width: 60%" src="./imgs/pushstats.jpg"
             alt="Push can take advantage of one of the connections to send
             related resources." />
           </section>
@@ -528,18 +554,26 @@
             <h2>Web Payments</h2>
           </section>
 
-          <section>
-            <p>Infografía con el diagrama de flujo de UX</p>
-            <img style="max-width: 700px"
-                 src="../imgs/sw-101/sync-event.png"
-                 alt="Sync triggers an event when recovering connectivity." />
+          <section id="payment-instruments">
+            <p>This is <strong>not a payment method</strong>.</p>
+            <p class="fragment">The browser becomes a mediator to manage <strong>payment instruments</strong> and <strong>sensible data</strong> in a safe way.</p>
+            <style>
+              #payment-instruments img {
+                width: 25%;
+                box-shadow: none;
+                border: none;
+                padding: 0 1rem;
+              }
+            </style>
+            <img class="fragment" src="./imgs/Bitcoin.svg" alt="bitcoin">
+            <img class="fragment" src="./imgs/credit-card.png" alt="bitcoin">
+            <img class="fragment" src="./imgs/chrono.png" alt="bitcoin">
           </section>
 
           <section>
-            <img style="max-width: 700px"
-                 src="./imgs/sync.png"
-                 alt="Simulate a sync event with the Service Worker tab in
-                 Chrome DevTools." />
+            <img style="max-height: 800px"
+                 src="./imgs/payment-request.png"
+                 alt="Payment request flow" />
           </section>
         </section>
 
@@ -673,7 +707,7 @@ footer { grid-area: b; }</code></pre>
 
           <section data-markdown>
             * Multiple render targets
-            * Geometry shaders
+            * Mesh instantiation
             * Volume textures
             * Transform feedback
 
@@ -764,6 +798,11 @@ footer { grid-area: b; }</code></pre>
             * [Certbot](https://certbot.eff.org/)
             * [How to Secure Nginx with Let's Encrypt on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04)
             * [Virtual DOM](https://github.com/Matt-Esch/virtual-dom)
+          </section>
+
+          <section data-markdown>
+            * [The RAIL performance model](https://docs.google.com/presentation/d/13AJe2Ip4etqA8qylrva7bEgu1_hAvsq_VQiVOAxwdcI/edit#slide=id.g9ce400068_0_217)
+            * [2016: The Beginning of Individualized Push Notifications](http://info.localytics.com/blog/2016-the-beginning-of-individualized-push-messages)
           </section>
         </section>
 
