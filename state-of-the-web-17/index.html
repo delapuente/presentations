@@ -45,33 +45,51 @@
           </header>
         </section>
 
-        <section data-markdown>
-          ## Stablished technologies
-          [Service Workers](#sw), [Push](#push), [Sync](#sync),
-          [Manifest](#manifest), [Web Animations](#web-animations),
-          [CSS Variables](#css-variables), [Feature Queries](#feature-queries),
-          [SVG](#svg)
+        <section>
+          <h2>Stablished technologies</h2>
+          <ul style="columns: 2; list-style: none;">
+            <li><a href="#sw">Service Workers</a></li>
+            <li><a href="#push">Push notifications</a></li>
+            <li><a href="#sync">Sync</a></li>
+            <li><a href="#manifest">Manifest</a></li>
+            <li><a href="#web-animations">Web Animations</a></li>
+            <li><a href="#css-variables">CSS Variables</a></li>
+            <li><a href="#feature-queries">Feature Queries</a></li>
+            <li><a href="#svg">SVG</a></li>
+          </ul>
         </section>
         <!-- TODO: Web Audio? -->
         <!-- TODO: Autofill -->
 
-        <section data-markdown>
-          ## Index of patterns &amp; trends
-          [Offline First](#offline-first), [PRPL](#prpl),
-          [Transpilation](#transpilation), [Virtual DOM](#vdom),
-          [Let's encrypt](#lets-encrypt), [Storage Sync](#storage-sync), [RAIL](#rail),
-          [Progressive Enhancement](#progressive-enhancement),
-          [Timely, Relevant, Precise](#timely-relevant-precise),
-          [On Demand Permissions](#permissions)
+        <section>
+          <h2>Patterns &amp; trends</h2>
+          <ul style="columns: 2; list-style: none;">
+            <li><a href="#offline-first">Offline First</a></li>
+            <li><a href="#prpl">PRPL (architectural pattern)</a></li>
+            <li><a href="#transpilation">Transpilation</a></li>
+            <li><a href="#vdom">Virtual DOM</a></li>
+            <li><a href="#lets-encrypt">Let's encrypt</a></li>
+            <li><a href="#rail">RAIL (performance model)</a></li>
+            <li><a href="#progressive-enhancement">Progressive Enhancement</a></li>
+            <li><a href="#timely-relevant-precise">Timely, Relevant, Precise</a></li>
+            <li><a href="#permissions">On Demand Permissions</a></li>
+          </ul>
         </section>
         <!-- TODO: Typed? Functional? -->
 
-        <section data-markdown>
-          ## Coming soon
-          [HTTP2](#http2), [Payment Request](#payment-request),
-          [Credential Management](#credential-management), [CSS Grid](#grid),
-          [WebVR](#webvr), [WebGL 2.0](#webgl2), [Async / await](#async-await),
-          [Web Assembly](#wasm), [Request Idle Callback](#idle)
+        <section>
+          <h2>Coming soon</h2>
+          <ul style="columns: 2; list-style: none;">
+            <li><a href="#http2">HTTP2</a></li>
+            <li><a href="#payment-request">Payment Request</a></li>
+            <li><a href="#credential-management">Credential Management</a></li>
+            <li><a href="#grid">CSS Grid</a></li>
+            <li><a href="#webvr">WebVR</a></li>
+            <li><a href="#webgl2">WebGL 2.0</a></li>
+            <li><a href="#async-await">Async / await</a></li>
+            <li><a href="#wasm">Web Assembly</a></li>
+            <li><a href="#idle">Request Idle Callback</a></li>
+          </ul>
         </section>
         <!-- TODO: Shared Array Buffer? -->
 
@@ -473,17 +491,6 @@
           </section>
         </section>
 
-        <!-- TODO: Storage sync (aka Couch DB) -->
-        <section id="storage-sync">
-          <section>
-            <h2>Storage Sync</h2>
-          </section>
-
-          <section>
-            <p></p>
-          </section>
-        </section>
-
         <section id="rail">
           <section>
             <h2>Response, Animation, Idle, Load</h2>
@@ -497,14 +504,27 @@
           </section>
         </section>
 
-        <!-- TODO: Progressive enhancement -->
         <section id="progressive-enhancement">
-          <section data-ma>
-            <h2>Progressive Enhancement</h2>
+          <section data-markdown>
+            ## Progressive Enhancement
           </section>
 
-          <section>
-            <p></p>
+          <section data-markdown>
+            * It is an **app design pattern**
+            * Which puts core functionality **first**
+            * And then enhances the experience based on **user capabilities**
+          </section>
+
+          <section data-markdown>
+            Baseline choice and each enhancment implies discrimination. Each choice must to be conscious.
+          </section>
+
+          <section data-markdown>
+            [Bruce Lawson - WWW: World Wide Web, Not Wealthy Westerners' Web ](https://www.youtube.com/watch?v=uqVRz8CteAg&t=NaN)
+
+            [How Does my Site Cost?](https://whatdoesmysitecost.com/)
+
+            [Popular Devices by Country](http://www.appbrain.com/stats/top-devices-by-country?country=ng)
           </section>
         </section>
 
@@ -515,7 +535,7 @@
 
           <section data-markdown>
             Be...
-            
+
             * **Timely** to not annoy the user.
             * **Relevant** for the user to pay attention.
             * **Precise** to say just what is necessary.
@@ -765,12 +785,22 @@ footer { grid-area: b; }</code></pre>
             <h2>Request Idle Callback</h2>
           </section>
 
-          <section>
-            <p>Te da una ventana en la que el motor está idle.</p>
+          <section data-markdown>
+            ![Piechart for a frame](./imgs/frame-piechart.png)
+
+            Around 2 ~ 3 ms are free to perform other operations.
           </section>
 
-          <section>
-            <p>Aglo que consuma tiempo y que de otra forma causara jankiness.</p>
+          <section data-markdown>
+            ![Timeline for a frame](./imgs/frame-timeline.png)
+
+            Execution is quite unpredictible.
+          </section>
+
+          <section data-markdown>
+            `requestAnimationCallback()` allows to schedule a callback in the
+            idle window to perform additional computations. The callback is
+            passed the **duration of the idle window**.
           </section>
         </section>
 
@@ -803,6 +833,8 @@ footer { grid-area: b; }</code></pre>
           <section data-markdown>
             * [The RAIL performance model](https://docs.google.com/presentation/d/13AJe2Ip4etqA8qylrva7bEgu1_hAvsq_VQiVOAxwdcI/edit#slide=id.g9ce400068_0_217)
             * [2016: The Beginning of Individualized Push Notifications](http://info.localytics.com/blog/2016-the-beginning-of-individualized-push-messages)
+            * [Progressive Enhancement is not dead but it smells funny.](https://nolanlawson.com/2016/10/13/progressive-enhancement-isnt-dead-but-it-smells-funny/)
+            * [WWW: World Wide Web, not Wealthy Westerners' Web](https://www.youtube.com/watch?v=uqVRz8CteAg&t=NaN)
           </section>
         </section>
 
