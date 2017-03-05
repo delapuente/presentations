@@ -58,17 +58,18 @@
             <li><a href="#svg">SVG</a></li>
           </ul>
         </section>
+        <!-- TODO: FileSystem API -->
         <!-- TODO: Web Audio? -->
         <!-- TODO: Autofill -->
 
         <section>
-          <h2>Patterns &amp; trends</h2>
+          <h2>Patterns, trends &amp; topics</h2>
           <ul style="columns: 2; list-style: none;">
             <li><a href="#offline-first">Offline First</a></li>
             <li><a href="#prpl">PRPL (architectural pattern)</a></li>
             <li><a href="#transpilation">Transpilation</a></li>
             <li><a href="#vdom">Virtual DOM</a></li>
-            <li><a href="#lets-encrypt">Let's encrypt</a></li>
+            <li><a href="#privacy">Privacy and Security</a></li>
             <li><a href="#rail">RAIL (performance model)</a></li>
             <li><a href="#progressive-enhancement">Progressive Enhancement</a></li>
             <li><a href="#timely-relevant-precise">Timely, Relevant, Precise</a></li>
@@ -222,6 +223,9 @@
             animations.
           </section>
 
+          <section data-markdown>
+            * [Animating like you just don't care with Element.animate()](https://hacks.mozilla.org/2016/08/animating-like-you-just-dont-care-with-element-animate/)
+          </section>
         </section>
 
         <section id="css-variables">
@@ -428,6 +432,8 @@
             * **Render** the initial route.
             * **Pre-cache** the remaining routes.
             * **Lazy-load** new resources on demand.
+
+            [The PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/)
           </section>
         </section>
 
@@ -444,6 +450,11 @@
           <section>
             <iframe src="http://www.typescriptlang.org/play/" width="100%" height="400px" frameborder="0"></iframe>
             <p><a href="http://www.typescriptlang.org">TypeScript</a></p>
+          </section>
+
+          <section data-markdown>
+            * [BabelJS](http://babeljs.io/)
+            * [Typescript Playground](http://www.typescriptlang.org/play/)
           </section>
         </section>
 
@@ -467,27 +478,48 @@
           </section>
         </section>
 
-        <section id="lets-encrypt">
+        <section id="privacy">
           <section data-markdown>
-            ## Let's Encript
+            ## Privacy &amp; security
           </section>
 
           <section data-markdown>
+            [Internet Health Report](https://internethealthreport.org/v01/)
+
+            Download [PDF version](https://d20x8vt12bnfa2.cloudfront.net/InternetHealthReport_v01.pdf)
+          </section>
+
+          <section data-markdown>
+            [Why People Block Ads and what it means for marketers and advertisers?](https://research.hubspot.com/reports/why-people-block-ads-and-what-it-means-for-marketers-and-advertisers)
+
+            * Firefox has _Tracking protection_ in Private Mode
+            * Brave bases its revenue model on curating ads.
+          </section>
+
+          <section data-markdown>
+            [Web Crypto](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
+
+            * Available through `crypto.subtle`
+            * Set of primitives: _digest_, _mac_, _sign_/_verify_, _encrypt_/_decrypt_, _key generation_, _key wrapping_...
+            * Don't interact with dedicated hardware: smart cards, USB dongles, randomness generators...
+          </section>
+
+          <section data-markdown>
+            [Let's encrypt](https://letsencrypt.org/)
+
             * It is a CA
             * It's **free**
             * Focused on [automating](https://certbot.eff.org/)
           </section>
 
           <section data-markdown>
-            ```sh
-            $ cd /usr/local/sbin
-            $ sudo wget https://dl.eff.org/certbot-auto
-            $ sudo chmod a+x /usr/local/sbin/certbot-auto
+            ![Number of websites using HTTPs has reach almost 50%](./imgs/https-numbers.png)
+          </section>
 
-            $ certbot-auto certonly -a webroot --webroot-path=/usr/share/nginx/html -d example.com -d www.example.com
+          <section data-markdown>
+            [Certbot](https://certbot.eff.org/)
 
-            $ certbot-auto renew
-            ```
+            [How to Secure Nginx with Let's Encrypt on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04)
           </section>
         </section>
 
@@ -501,6 +533,8 @@
             * **Animation**: keep 60 fps.
             * **Idle**: maximize idle time.
             * **Load**: go interactive under 1 second.
+
+            [The RAIL performance model](https://docs.google.com/presentation/d/13AJe2Ip4etqA8qylrva7bEgu1_hAvsq_VQiVOAxwdcI/edit#slide=id.g9ce400068_0_217)
           </section>
         </section>
 
@@ -520,11 +554,10 @@
           </section>
 
           <section data-markdown>
-            [Bruce Lawson - WWW: World Wide Web, Not Wealthy Westerners' Web ](https://www.youtube.com/watch?v=uqVRz8CteAg&t=NaN)
-
-            [How Does my Site Cost?](https://whatdoesmysitecost.com/)
-
-            [Popular Devices by Country](http://www.appbrain.com/stats/top-devices-by-country?country=ng)
+            * [Bruce Lawson - WWW: World Wide Web, Not Wealthy Westerners' Web ](https://www.youtube.com/watch?v=uqVRz8CteAg&t=NaN)
+            * [Progressive Enhancement is not dead but it smells funny.](https://nolanlawson.com/2016/10/13/progressive-enhancement-isnt-dead-but-it-smells-funny/)
+            * [How Does my Site Cost?](https://whatdoesmysitecost.com/)
+            * [Popular Devices by Country](http://www.appbrain.com/stats/top-devices-by-country?country=ng)
           </section>
         </section>
 
@@ -539,6 +572,10 @@
             * **Timely** to not annoy the user.
             * **Relevant** for the user to pay attention.
             * **Precise** to say just what is necessary.
+          </section>
+
+          <section data-markdown>
+            * [2016: The Beginning of Individualized Push Notifications](http://info.localytics.com/blog/2016-the-beginning-of-individualized-push-messages)
           </section>
         </section>
 
@@ -594,6 +631,10 @@
             <img style="max-height: 800px"
                  src="./imgs/payment-request.png"
                  alt="Payment request flow" />
+          </section>
+
+          <section data-markdown>
+            * [Payment Request API: an Integration Guide](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/)
           </section>
         </section>
 
@@ -700,6 +741,18 @@ footer { grid-area: b; }</code></pre>
             </a>
           </p>
           </section>
+
+          <section data-markdown>
+            > So there is your choice. Do you want to let your content control the way it is displayed, on a row by row or column by column basis? **That’s flexbox**.
+
+            > Or, do you want to define a grid, and either allow items to be auto-placed into the cells defined by that grid, or control their positioning using line-based positioning or grid template areas. **That’s grid**.
+
+            Rachel Andrew in [Should I use grid or flexbox](https://rachelandrew.co.uk/archives/2016/03/30/should-i-use-grid-or-flexbox/)
+          </section>
+
+          <section data-markdown>
+            * [Learning CSS Grid](http://jensimmons.com/post/feb-27-2017/learn-css-grid)
+          </section>
         </section>
 
         <section id="webvr">
@@ -713,6 +766,11 @@ footer { grid-area: b; }</code></pre>
 
           <section>
             <iframe allowfullscreen width="100%" height="500px" src="https://aframe.io/examples/showcase/shopping/" frameborder="0"></iframe>
+          </section>
+
+          <section>
+            * [Spacelamb](http://m.spacelamb.12wave.com/)
+            * [ShopifyVR](https://aframe.io/examples/showcase/shopping/)
           </section>
         </section>
 
@@ -730,6 +788,7 @@ footer { grid-area: b; }</code></pre>
             * Mesh instantiation
             * Volume textures
             * Transform feedback
+            * Instantiation
 
             ...
 
@@ -771,12 +830,10 @@ footer { grid-area: b; }</code></pre>
             <h2>Web Assembly</h2>
           </section>
 
-          <section>
-            <p>Infografía con la máquina virtual de JavaScript</p>
-          </section>
+          <section data-markdown>
+            ![Compiling is like trying to communicate with an alien race.](./imgs/the-arrival.png)
 
-          <section>
-            <p>Infografía con la máquina virtual de Web Aseembly</p>
+            [A Cartoon Introduction to Web Aseembly](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/)
           </section>
         </section>
 
@@ -794,7 +851,7 @@ footer { grid-area: b; }</code></pre>
           <section data-markdown>
             ![Timeline for a frame](./imgs/frame-timeline.png)
 
-            Execution is quite unpredictible.
+            GC is quite unpredictible.
           </section>
 
           <section data-markdown>
@@ -802,39 +859,9 @@ footer { grid-area: b; }</code></pre>
             idle window to perform additional computations. The callback is
             passed the **duration of the idle window**.
           </section>
-        </section>
 
-        <section>
-          <section data-markdown>
-            ## Credits &amp; resources
-          </section>
-
-          <section data-markdown>
-            * [Service Worker 101](https://github.com/delapuente/service-workers-101)
-            * [Payment Request API: an Integration Guide](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/)
-            * [Animating like you just don't care with Element.animate()](https://hacks.mozilla.org/2016/08/animating-like-you-just-dont-care-with-element-animate/)
-            * [A Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)
-            * [Using Feature Queries in CSS](https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/)
-            * [Spacelamb](http://m.spacelamb.12wave.com/)
-          </section>
-
-          <section data-markdown>
-            * [ShopifyVR](https://aframe.io/examples/showcase/shopping/)
-            * [Cooperative Scheduling with requestIdleCallback](https://hacks.mozilla.org/2016/11/cooperative-scheduling-with-requestidlecallback/)
-            * [Offline First](http://offlinefirst.org/)
-            * [The PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/)
-            * [BabelJS](http://babeljs.io/)
-            * [Typescript Playground](http://www.typescriptlang.org/play/)
-            * [Certbot](https://certbot.eff.org/)
-            * [How to Secure Nginx with Let's Encrypt on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04)
-            * [Virtual DOM](https://github.com/Matt-Esch/virtual-dom)
-          </section>
-
-          <section data-markdown>
-            * [The RAIL performance model](https://docs.google.com/presentation/d/13AJe2Ip4etqA8qylrva7bEgu1_hAvsq_VQiVOAxwdcI/edit#slide=id.g9ce400068_0_217)
-            * [2016: The Beginning of Individualized Push Notifications](http://info.localytics.com/blog/2016-the-beginning-of-individualized-push-messages)
-            * [Progressive Enhancement is not dead but it smells funny.](https://nolanlawson.com/2016/10/13/progressive-enhancement-isnt-dead-but-it-smells-funny/)
-            * [WWW: World Wide Web, not Wealthy Westerners' Web](https://www.youtube.com/watch?v=uqVRz8CteAg&t=NaN)
+          <section>
+            [Cooperative Scheduling with requestIdleCallback](https://hacks.mozilla.org/2016/11/cooperative-scheduling-with-requestidlecallback/)
           </section>
         </section>
 
