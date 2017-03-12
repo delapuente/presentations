@@ -819,17 +819,56 @@ footer { grid-area: b; }</code></pre>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
-          <section>
-            <iframe allowfullscreen width="100%" height="500px" src="http://m.spacelamb.12wave.com/" frameborder="0"></iframe>
+          <section data-markdown>
+            `navigator.getVRDisplays()`
+
+            ```js
+            // Load polyfills
+
+            // Get the VR device
+
+            // Get details for each eye
+
+            // Create the 3D context
+
+            // Get pose
+
+            // Paint the scene once per eye
+
+            // Deal with fullscreen
+
+            // Deal with mobile
+
+            // Deal with resize
+            
+            ```
+
+            [WebVR 1.0 specification](https://w3c.github.io/webvr/)
+          </section>
+
+          <section data-markdown>
+            ### A-Frame
+
+            ```html
+            &lt;a-scene&gt;
+              &lt;a-box position=&quot;0 1.6 -5&quot; rotation=&quot;45 45 0&quot; color=&quot;red&quot;&gt;&lt;/a-box&gt;
+            &lt;/a-scene&gt;
+            ```
+
+            [A-Frame](https://aframe.io)
           </section>
 
           <section>
-            <iframe allowfullscreen width="100%" height="500px" src="https://aframe.io/examples/showcase/shopping/" frameborder="0"></iframe>
+            <p data-height="265" data-theme-id="0" data-slug-hash="KadOpr" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame Hello World" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/KadOpr/">A-Frame Hello World</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
           </section>
 
-          <section>
-            * [Spacelamb](http://m.spacelamb.12wave.com/)
-            * [ShopifyVR](https://aframe.io/examples/showcase/shopping/)
+          <section data-markdown>
+            [WebVR on MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API)
+
+            [Spacelamb](http://m.spacelamb.12wave.com/)
+
+            [ShopifyVR](https://aframe.io/examples/showcase/shopping/)
           </section>
         </section>
 
