@@ -84,8 +84,6 @@
             <dd>Pattern to reduce time until first interaction</dd>
             <dt><a href="#transpilation">Transpilation</a></dt>
             <dd>A technique to use other languages rather than JavaScript</dd>
-            <dt><a href="#reactive">Reactive Programming</a></dt>
-            <dd>Programming paradigm around data flows</dd>
             <dt><a href="#rail">RAIL</a></dt>
             <dd>Performance model to keep the illusion of real time</dd>
           </dl>
@@ -99,8 +97,8 @@
             <dd>Web development approach that puts effort on baseline</dd>
             <dt><a href="#timely-relevant-precise">Timely, Relevant, Precise</a></dt>
             <dd>Advices for Push notifications</dd>
-            <dt><a href="#permissions">On Demand Permissions</a></dt>
-            <dd>Asking for permission just before doing something</dd>
+            <dt><a href="#reactive">Reactive Programming</a></dt>
+            <dd>Programming paradigm focusing on data flows</dd>
           </dl>
         </section>
         <!-- TODO: Typed? Functional? -->
@@ -514,27 +512,6 @@
           </section>
         </section>
 
-        <section id="reactive">
-          <section>
-            <h2>Reactive Programming</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            Manipulating DOM might have side effects:
-
-            * Reading some DOM properties can trigger reflows.
-            * Setting some DOM properties also triggers recalculations.
-            * Setting multiple values per update cycle can lead to several
-            re-calculations.
-          </section>
-
-          <section data-markdown>
-            An isolated implementation of a
-            [Virtual DOM](https://github.com/Matt-Esch/virtual-dom)
-          </section>
-        </section>
-
         <section id="privacy">
           <section>
             <h2>Privacy &amp; security</h2>
@@ -916,9 +893,10 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            ![Compiling is like trying to communicate with an alien race.](./imgs/the-arrival.png)
+            ![In WASM, parse, compilation and execution times shrink and re-optimization
+            and garbage collection are completely avoided](./imgs/js-wasm-execution.png)
 
-            [A Cartoon Introduction to Web Aseembly](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/)
+            [A Cartoon Introduction to Web Aseembly by Lin Clark](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/)
           </section>
         </section>
 
