@@ -45,6 +45,10 @@
           </header>
         </section>
 
+        <section data-markdown>
+          [bit.ly/2mIJZRx](http://bit.ly/2mIJZRx)
+        </section>
+
         <section id="index">
           <h2>Stablished technologies (1/2)</h2>
           <dl>
@@ -52,23 +56,27 @@
             <dd>Background services in the browser</dd>
             <dt><a href="#push">Push notifications</a></dt>
             <dd>Receive and show Push notifications</dd>
-            <dt><a href="#sync">Sync</a></dt>
-            <dd>Be aware of recovering connectivity</dd>
-            <dt><a href="#manifest">Manifest</a></dt>
-            <dd>Allows your webapp to better integrate with the OS</dd>
-          </dl>
-        </section>
-        <section>
-          <h2>Stablished technologies (2/2)</h2>
-          <dl>
             <dt><a href="#css-variables">CSS Variables</a></dt>
             <dd>Store repeated values in CSS variables</dd>
             <dt><a href="#feature-queries">Feature Queries</a></dt>
             <dd>Check the existence of CSS features withour JavaScript</dd>
             <dt><a href="#svg">SVG</a></dt>
             <dd>Fully supported vectorial graphics on the Web</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Stablished technologies (2/2)</h2>
+          <dl>
             <dt><a href="#web-animations">Web Animations</a></dt>
             <dd>Native performance on dynamic animations</dd>
+            <dt><a href="#grid">CSS Grid</a></dt>
+            <dd>A new CSS layout to build 2D grids</dd>
+            <dt><a href="#webgl2">WebGL 2.0</a></dt>
+            <dd>JavaScript API to access OpenGL ES 3 hardware capabilities</dd>
+            <dt><a href="#wasm">Web Assembly</a></dt>
+            <dd>A new language inside the browser</dd>
+            <dt><a href="#async-await">Async / await</a></dt>
+            <dd>JS syntax enhancement to ease asynchrnonous programming</dd>
           </dl>
         </section>
         <!-- TODO: FileSystem API -->
@@ -84,10 +92,11 @@
             <dd>Pattern to reduce time until first interaction</dd>
             <dt><a href="#transpilation">Transpilation</a></dt>
             <dd>A technique to use other languages rather than JavaScript</dd>
-            <dt><a href="#rail">RAIL</a></dt>
-            <dd>Performance model to keep the illusion of real time</dd>
+            <dt><a href="#rail">RAIL &amp; Optimistic UI</a></dt>
+            <dd>Performance models and techniques to keep the illusion of real time</dd>
           </dl>
         </section>
+
         <section>
           <h2>Patterns, trends &amp; topics (2/2)</h2>
           <dl>
@@ -113,33 +122,26 @@
           <dl>
             <dt><a href="#http2">HTTP2</a></dt>
             <dd>A faster evolution of HTTP</dd>
+            <dt><a href="#sync">Sync</a></dt>
+            <dd>Be aware of recovering connectivity</dd>
+            <dt><a href="#manifest">Manifest</a></dt>
+            <dd>Allows your website to better integrate with the OS</dd>
             <dt><a href="#payment-request">Payment Request</a></dt>
             <dd>JavaScript API to improve payment UX</dd>
-            <dt><a href="#credential-management">Credential Management</a></dt>
-            <dd>JavaScript API to improve login UX</dd>
-            <dt><a href="#grid">CSS Grid</a></dt>
-            <dd>A new CSS layouts to build 2D grids</dd>
-            <dt><a href="#webvr">WebVR</a></dt>
-            <dd>A JavaScript API to use VR devices</dd>
           </dl>
         </section>
         <section>
           <h2>Coming soon (2/2)</h2>
           <dl>
-            <dt><a href="#webgl2">WebGL 2.0</a></dt>
-            <dd>JavaScript API to access OpenGL ES 3 hardware capabilities</dd>
-            <dt><a href="#async-await">Async / await</a></dt>
-            <dd>JS syntax enhancement to ease asynchrnonous programming</dd>
-            <dt><a href="#wasm">Web Assembly</a></dt>
-            <dd>A new language inside the browser</dd>
+            <dt><a href="#credential-management">Credential Management</a></dt>
+            <dd>JavaScript API to improve login UX</dd>
             <dt><a href="#idle">Request Idle Callback</a></dt>
             <dd>An API to get a browser idle time window</dd>
+            <dt><a href="#webvr">WebVR</a></dt>
+            <dd>A JavaScript API to use VR devices</dd>
           </dl>
         </section>
         <!-- TODO: Shared Array Buffer? -->
-
-        <section>
-        </section>
 
         <section id="sw">
           <section>
@@ -186,92 +188,6 @@
               <a href="https://serviceworke.rs/web-push.html">
                 Look for Push demos at the Service Worker Cookbook</a>
             </p>
-          </section>
-        </section>
-
-        <section id="sync">
-          <section>
-            <h2>Sync</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <img style="max-width: 700px"
-                 src="../imgs/sw-101/sync-event.png"
-                 alt="Sync triggers an event when recovering connectivity." />
-          </section>
-
-          <section>
-            <img style="max-width: 700px"
-                 src="./imgs/sync.png"
-                 alt="Simulate a sync event with the Service Worker tab in
-                 Chrome DevTools." />
-          </section>
-        </section>
-
-        <section id="manifest">
-          <section>
-            <h2>Manifest</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <h3>Web Manifest</h3>
-            <pre><code>{
-    "name": "Flipkart Lite",
-    "short_name": "Flipkart Lite",
-    "icons": [ {
-      "src": "https://img1a.flixcart.com/www/linchpin/logo_lite-cbb3574d.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    } ],
-    "start_url": "/?start_url=homescreenicon",
-    "orientation": "portrait",
-    "display": "standalone",
-    "theme_color": "#006cb4",
-    "background_color": "#006cb4"
-  }</code></pre>
-            <p>
-              Partial manifest from <a href="https://flipkart.com/" target="_blank">Flipkart Lite</a>.
-            </p>
-          </section>
-
-          <section>
-            <img alt="Flipkart specifying the theme color"
-                 src="../web-platform-when-why/imgs/flipkart-task-switcher.png" style="width: 30%;"/>
-            <img alt="Flipkart theme"
-                 src="../web-platform-when-why/imgs/flipkart-theme.png" style="width: 30%;"/>
-            <img alt="Flipkart splashscreen"
-                 src="../web-platform-when-why/imgs/flipkart-splashscreen.png" style="width: 30%;"/>
-          </section>
-        </section>
-
-        <section id="web-animations">
-          <section>
-            <h2>Web Animations</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <iframe style="width: 100%; height: 300px" src="https://people-mozilla.org/~bbirtles/demos/jank-example/jank-example.html"></iframe>
-            <pre><code>rightFox.animate(
-  [
-    { transform: 'rotate(0deg)' },  // from
-    { transform: 'rotate(360deg)' } // to
-  ],
-  { duration: 1200, iterations: Infinity }
-)</code></pre>
-          </section>
-
-          <section data-markdown>
-            * Some properties does not trigger a layout recalculation.
-            * Animations on `transform` and `opacity` run on compositor.
-            * CSS property `will-change` helps the browser to optimize
-            animations.
-          </section>
-
-          <section data-markdown>
-            * [Animating like you just don't care with Element.animate()](https://hacks.mozilla.org/2016/08/animating-like-you-just-dont-care-with-element-animate/)
           </section>
         </section>
 
@@ -395,7 +311,6 @@
                 JavaScript API to test <code>support</code></a>.
             </p>
           </section>
-
         </section>
 
         <section id="svg">
@@ -459,6 +374,213 @@
           </section>
         </section>
 
+        <section id="web-animations">
+          <section>
+            <h2>Web Animations</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <iframe style="width: 100%; height: 300px" src="https://people-mozilla.org/~bbirtles/demos/jank-example/jank-example.html"></iframe>
+            <pre><code>rightFox.animate(
+  [
+    { transform: 'rotate(0deg)' },  // from
+    { transform: 'rotate(360deg)' } // to
+  ],
+  { duration: 1200, iterations: Infinity }
+)</code></pre>
+          </section>
+
+          <section data-markdown>
+            * Some properties does not trigger a layout recalculation.
+            * Animations on `transform` and `opacity` run on compositor.
+            * CSS property `will-change` helps the browser to optimize
+            animations.
+          </section>
+
+          <section data-markdown>
+            * [Animating like you just don't care with Element.animate()](https://hacks.mozilla.org/2016/08/animating-like-you-just-dont-care-with-element-animate/)
+          </section>
+        </section>
+
+        <section id="grid">
+          <section>
+            <h2>CSS Grid</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <style>
+            #grid .container > * {
+              border: 1px solid black;
+            }
+
+            #grid .container {
+              display: grid;
+              grid-template-areas:
+                "t t t t t t n n"
+                "a a a b b b n n"
+              ;
+              text-align: left;
+            }
+
+            #grid header {
+              grid-area: t;
+            }
+
+            #grid nav {
+              grid-area: n;
+            }
+
+            #grid article {
+              grid-area: a;
+            }
+
+            #grid footer {
+              grid-area: b;
+            }
+            </style>
+            <div class="container">
+              <header>
+                <h3>CSS Grid Example</h3>
+              </header>
+              <nav>
+                <ul>
+                  <li><a href="#grid">CSS Grid</a></li>
+                  <li><a href="#css-variables">CSS Variables</a></li>
+                  <li><a href="#feature-queries">Feature queries</a></li>
+                </ul>
+              </nav>
+              <article>
+                <p>
+                  Layout never was so easy to declare. Come with some fancy
+                  ASCII art and you'll see how your elements are gracefully
+                  placed around.
+                </p>
+              </article>
+              <footer>
+                <p>
+                  Example by <a href="https://twitter.com/salvadelapuente">
+                    @salvadelapuente</a>
+                </p>
+              </footer>
+            </div>
+          </section>
+
+          <section>
+            <pre><code>.container {
+  display: grid;
+  grid-template-areas:
+    "t t t t n n"
+    "a a b b n n"
+  ;
+}
+
+header { grid-area: t; }
+nav { grid-area: n; }
+article { grid-area: a; }
+footer { grid-area: b; }</code></pre>
+          <p>
+            <a href="https://css-tricks.com/snippets/css/complete-guide-grid/">
+              A Complete Guide to Grid
+            </a>
+          </p>
+          </section>
+
+          <section data-markdown>
+            > So there is your choice. Do you want to let your content control the way it is displayed, on a row by row or column by column basis? **That’s flexbox**.
+
+            > Or, do you want to define a grid, and either allow items to be auto-placed into the cells defined by that grid, or control their positioning using line-based positioning or grid template areas. **That’s grid**.
+
+            Rachel Andrew in [Should I use grid or flexbox](https://rachelandrew.co.uk/archives/2016/03/30/should-i-use-grid-or-flexbox/)
+          </section>
+
+          <section data-markdown>
+            * [Learning CSS Grid](http://jensimmons.com/post/feb-27-2017/learn-css-grid)
+          </section>
+        </section>
+
+        <section id="webgl2">
+          <section>
+            <h2>WebGL 2.0</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <iframe allowfullscreen width="100%" height="500px" src="https://playcanv.as/e/p/44MRmJRU/" frameborder="0"></iframe>
+          </section>
+
+          <section data-markdown>
+            * Multiple render targets
+            * Mesh instantiation
+            * Volume textures
+            * Transform feedback
+            * Instantiation
+
+            ...
+
+            More on [WebGL 2 Lands in Firefox](https://hacks.mozilla.org/2017/01/webgl-2-lands-in-firefox/)
+          </section>
+        </section>
+
+        <section id="wasm">
+          <section>
+            <h2>Web Assembly</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section data-markdown>
+            ![In WASM, parse, compilation and execution times shrink and re-optimization
+            and garbage collection are completely avoided](./imgs/js-wasm-execution.png)
+
+            [A Cartoon Introduction to Web Aseembly by Lin Clark](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/)
+          </section>
+        </section>
+
+        <section id="async-await">
+          <section>
+            <h2>Async / Await</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <pre><code>function search(query) {
+  return fetch(`/search/?q=$(query)`)
+         .then(response => response.json())
+         .then(json => json.results.map(...))
+         .catch(reason => console.log(reason));
+}</code></pre>
+          </section>
+
+          <section>
+            <pre><code>function search(query) {
+  var resp;
+  return fetch(`/search/?q=$(query)`)
+         .then(response => {
+           resp = response;
+           response.json()
+         })
+         .then(json => {
+           json.results.map(result => doSomething(result, resp));
+         })
+         .catch(reason => console.log(reason));
+}</code></pre>
+          </section>
+
+          <section>
+            <pre><code>async function search(query) {
+  try {
+    let response = await fetch(`/search/?q=${query}`);
+    let json = await response.json();
+    return json.results.map(result => doSomething(result, response));
+  }
+  catch (reason) {
+    console.log(reason);
+  }
+}</code></pre>
+          </section>
+        </section>
+
         <section id="offline-first">
           <section>
             <h2>Offline First</h2>
@@ -515,6 +637,22 @@
           </section>
         </section>
 
+        <section id="rail">
+          <section>
+            <h2>Response, Animation, Idle, Load</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section data-markdown>
+            * **Response**: react in less that 100 ms to feel instant.
+            * **Animation**: keep 60 fps.
+            * **Idle**: maximize idle time.
+            * **Load**: go interactive under 1 second.
+
+            [The RAIL performance model](https://docs.google.com/presentation/d/13AJe2Ip4etqA8qylrva7bEgu1_hAvsq_VQiVOAxwdcI/edit#slide=id.g9ce400068_0_217)
+          </section>
+        </section>
+
         <section id="privacy">
           <section>
             <h2>Privacy &amp; security</h2>
@@ -558,22 +696,6 @@
             [Certbot](https://certbot.eff.org/)
 
             [How to Secure Nginx with Let's Encrypt on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04)
-          </section>
-        </section>
-
-        <section id="rail">
-          <section>
-            <h2>Response, Animation, Idle, Load</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            * **Response**: react in less that 100 ms to feel instant.
-            * **Animation**: keep 60 fps.
-            * **Idle**: maximize idle time.
-            * **Load**: go interactive under 1 second.
-
-            [The RAIL performance model](https://docs.google.com/presentation/d/13AJe2Ip4etqA8qylrva7bEgu1_hAvsq_VQiVOAxwdcI/edit#slide=id.g9ce400068_0_217)
           </section>
         </section>
 
@@ -682,6 +804,63 @@
           </section>
         </section>
 
+        <section id="sync">
+          <section>
+            <h2>Sync</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <img style="max-width: 700px"
+                 src="../imgs/sw-101/sync-event.png"
+                 alt="Sync triggers an event when recovering connectivity." />
+          </section>
+
+          <section>
+            <img style="max-width: 700px"
+                 src="./imgs/sync.png"
+                 alt="Simulate a sync event with the Service Worker tab in
+                 Chrome DevTools." />
+          </section>
+        </section>
+
+        <section id="manifest">
+          <section>
+            <h2>Manifest</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <h3>Web Manifest</h3>
+            <pre><code>{
+    "name": "Flipkart Lite",
+    "short_name": "Flipkart Lite",
+    "icons": [ {
+      "src": "https://img1a.flixcart.com/www/linchpin/logo_lite-cbb3574d.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    } ],
+    "start_url": "/?start_url=homescreenicon",
+    "orientation": "portrait",
+    "display": "standalone",
+    "theme_color": "#006cb4",
+    "background_color": "#006cb4"
+  }</code></pre>
+            <p>
+              Partial manifest from <a href="https://flipkart.com/" target="_blank">Flipkart Lite</a>.
+            </p>
+          </section>
+
+          <section>
+            <img alt="Flipkart specifying the theme color"
+                 src="../web-platform-when-why/imgs/flipkart-task-switcher.png" style="width: 30%;"/>
+            <img alt="Flipkart theme"
+                 src="../web-platform-when-why/imgs/flipkart-theme.png" style="width: 30%;"/>
+            <img alt="Flipkart splashscreen"
+                 src="../web-platform-when-why/imgs/flipkart-splashscreen.png" style="width: 30%;"/>
+          </section>
+        </section>
+
         <section id="web-payments">
           <section>
             <h2>Web Payments</h2>
@@ -732,100 +911,32 @@
           </section>
         </section>
 
-        <section id="grid">
+        <section id="idle">
           <section>
-            <h2>CSS Grid</h2>
+            <h2>Request Idle Callback</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
-          <section>
-            <style>
-            #grid .container > * {
-              border: 1px solid black;
-            }
+          <section data-markdown>
+            ![Piechart for a frame](./imgs/frame-piechart.png)
 
-            #grid .container {
-              display: grid;
-              grid-template-areas:
-                "t t t t t t n n"
-                "a a a b b b n n"
-              ;
-              text-align: left;
-            }
-
-            #grid header {
-              grid-area: t;
-            }
-
-            #grid nav {
-              grid-area: n;
-            }
-
-            #grid article {
-              grid-area: a;
-            }
-
-            #grid footer {
-              grid-area: b;
-            }
-            </style>
-            <div class="container">
-              <header>
-                <h3>CSS Grid Example</h3>
-              </header>
-              <nav>
-                <ul>
-                  <li><a href="#grid">CSS Grid</a></li>
-                  <li><a href="#css-variables">CSS Variables</a></li>
-                  <li><a href="#feature-queries">Feature queries</a></li>
-                </ul>
-              </nav>
-              <article>
-                <p>
-                  Layout never was so easy to declare. Come with some fancy
-                  ASCII art and you'll see how your elements are gracefully
-                  placed around.
-                </p>
-              </article>
-              <footer>
-                <p>
-                  Example by <a href="https://twitter.com/salvadelapuente">
-                    @salvadelapuente</a>
-                </p>
-              </footer>
-            </div>
-          </section>
-
-          <section>
-            <pre><code>.container {
-  display: grid;
-  grid-template-areas:
-    "t t t t n n"
-    "a a b b n n"
-  ;
-}
-
-header { grid-area: t; }
-nav { grid-area: n; }
-article { grid-area: a; }
-footer { grid-area: b; }</code></pre>
-          <p>
-            <a href="https://css-tricks.com/snippets/css/complete-guide-grid/">
-              A Complete Guide to Grid
-            </a>
-          </p>
+            Around 2 ~ 3 ms are free to perform other operations.
           </section>
 
           <section data-markdown>
-            > So there is your choice. Do you want to let your content control the way it is displayed, on a row by row or column by column basis? **That’s flexbox**.
+            ![Timeline for a frame](./imgs/frame-timeline.png)
 
-            > Or, do you want to define a grid, and either allow items to be auto-placed into the cells defined by that grid, or control their positioning using line-based positioning or grid template areas. **That’s grid**.
-
-            Rachel Andrew in [Should I use grid or flexbox](https://rachelandrew.co.uk/archives/2016/03/30/should-i-use-grid-or-flexbox/)
+            GC is quite unpredictible.
           </section>
 
           <section data-markdown>
-            * [Learning CSS Grid](http://jensimmons.com/post/feb-27-2017/learn-css-grid)
+            `requestAnimationCallback()` allows to schedule a callback in the
+            idle window to perform additional computations. The callback is
+            passed the **duration of the idle window**.
+          </section>
+
+          <section data-markdown>
+            [Cooperative Scheduling with requestIdleCallback](https://hacks.mozilla.org/2016/11/cooperative-scheduling-with-requestidlecallback/)
           </section>
         </section>
 
@@ -885,116 +996,6 @@ footer { grid-area: b; }</code></pre>
             [Spacelamb](http://m.spacelamb.12wave.com/)
 
             [ShopifyVR](https://aframe.io/examples/showcase/shopping/)
-          </section>
-        </section>
-
-        <section id="webgl2">
-          <section>
-            <h2>WebGL 2.0</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <iframe allowfullscreen width="100%" height="500px" src="https://playcanv.as/e/p/44MRmJRU/" frameborder="0"></iframe>
-          </section>
-
-          <section data-markdown>
-            * Multiple render targets
-            * Mesh instantiation
-            * Volume textures
-            * Transform feedback
-            * Instantiation
-
-            ...
-
-            More on [WebGL 2 Lands in Firefox](https://hacks.mozilla.org/2017/01/webgl-2-lands-in-firefox/)
-          </section>
-        </section>
-
-        <section id="async-await">
-          <section>
-            <h2>Async / Await</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <pre><code>function search(query) {
-  return fetch(`/search/?q=$(query)`)
-         .then(response => response.json())
-         .then(json => json.results.map(...))
-         .catch(reason => console.log(reason));
-}</code></pre>
-          </section>
-
-          <section>
-            <pre><code>function search(query) {
-  var resp;
-  return fetch(`/search/?q=$(query)`)
-         .then(response => {
-           resp = response;
-           response.json()
-         })
-         .then(json => {
-           json.results.map(result => doSomething(result, resp));
-         })
-         .catch(reason => console.log(reason));
-}</code></pre>
-          </section>
-
-          <section>
-            <pre><code>async function search(query) {
-  try {
-    let response = await fetch(`/search/?q=${query}`);
-    let json = await response.json();
-    return json.results.map(result => doSomething(result, response));
-  }
-  catch (reason) {
-    console.log(reason);
-  }
-}</code></pre>
-          </section>
-        </section>
-
-        <section id="wasm">
-          <section>
-            <h2>Web Assembly</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            ![In WASM, parse, compilation and execution times shrink and re-optimization
-            and garbage collection are completely avoided](./imgs/js-wasm-execution.png)
-
-            [A Cartoon Introduction to Web Aseembly by Lin Clark](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/)
-          </section>
-        </section>
-
-        <section id="idle">
-          <section>
-            <h2>Request Idle Callback</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            ![Piechart for a frame](./imgs/frame-piechart.png)
-
-            Around 2 ~ 3 ms are free to perform other operations.
-          </section>
-
-          <section data-markdown>
-            ![Timeline for a frame](./imgs/frame-timeline.png)
-
-            GC is quite unpredictible.
-          </section>
-
-          <section data-markdown>
-            `requestAnimationCallback()` allows to schedule a callback in the
-            idle window to perform additional computations. The callback is
-            passed the **duration of the idle window**.
-          </section>
-
-          <section data-markdown>
-            [Cooperative Scheduling with requestIdleCallback](https://hacks.mozilla.org/2016/11/cooperative-scheduling-with-requestidlecallback/)
           </section>
         </section>
 
