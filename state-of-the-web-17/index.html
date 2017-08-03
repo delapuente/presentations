@@ -29,6 +29,7 @@
     </script>
 
     <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/caniuse-embed/1.1.0/caniuse-embed.min.js"></script>
   </head>
   <body>
     <section id="tabzilla">
@@ -150,6 +151,12 @@
           </section>
 
           <section>
+            <p class="ciu_embed" data-feature="serviceworkers" data-periods="future_1,current,past_1">
+              <a href="http://caniuse.com/#feat=serviceworkers">Can I Use serviceworkers?</a> Data on support for the serviceworkers feature across the major browsers from caniuse.com.
+            </p>
+          </section>
+
+          <section>
             <img style="max-width: 700px"
                  src="../imgs/sw-101/functional-events.png"
                  alt="Functional events are fetch, push, sync and other" />
@@ -160,9 +167,9 @@
           </section>
 
           <section>
-            <img style="max-width: 700px"
+            <a href="../imgs/sw-101/fetch-event.png"><img style="max-width: 700px"
                  src="../imgs/sw-101/fetch-event.png"
-                 alt="Original purpose was to intercept resource requests." />
+                 alt="Original purpose was to intercept resource requests." /></a>
             <p>
               <a href="https://github.com/delapuente/service-workers-101/">
                 Complete infographic</a>
@@ -177,10 +184,16 @@
           </section>
 
           <section>
-            <img style="max-width: 650px"
+            <p class="ciu_embed" data-feature="push-api" data-periods="future_1,current,past_1">
+              <a href="http://caniuse.com/#feat=push-api">Can I Use push-api?</a> Data on support for the push-api feature across the major browsers from caniuse.com.
+            </p>
+          </section>
+
+          <section>
+            <a href="../imgs/sw-101/push-event.png"><img style="max-width: 650px"
                  src="../imgs/sw-101/push-event.png"
                  alt="Push allows to receive information even with the browser
-                 closed." />
+                 closed." /></a>
           </section>
 
           <section>
@@ -198,16 +211,34 @@
           </section>
 
           <section>
+            <p class="ciu_embed" data-feature="css-variables" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=css-variables">Can I Use css-variables?</a> Data on support for the css-variables feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section>
             <style>
-              #css-variables .container {
+              :root {
                 --hl-color: #84b830;
               }
 
+              #css-variables .container {
+                font-size: calc(var(--font-factor, 1) * 1em);
+                box-shadow: 0 0 100px 10px rgba(128, 128, 128, var(--shadow-alpha, 0.1));
+              }
+
+              #css-variables .container:hover {
+                --font-factor: 1.5;
+                --shadow-alpha: 1.0;
+              }
+
               #css-variables .container a:link {
+                /* Override theme variables */
                 color: var(--hl-color) !important;
               }
 
               #css-variables .container a:visited {
+                /* Override theme variables */
                 color: var(--hl-color) !important;
               }
 
@@ -233,14 +264,27 @@
           </section>
 
           <section>
-            <pre><code>.container {
-  --hl-color: #84b830;
+            <pre><code>:root { --hl-color: #84b830; }
+
+.container {
+  font-size: calc(var(--font-factor, 1) * 1em);
+  box-shadow: 0 0 100px 10px rgba(128, 128, 128, var(--shadow-alpha, 0.1));
 }
 
 .container a:link { color: var(--hl-color); }
 .container p::selection { background-color: var(--hl-color); }
 .container p { border: 3px solid var(--hl-color); }
-.container span { color: var(--hl-color); }</code></pre>
+.container span { color: var(--hl-color); }
+
+.container:hover {
+  --font-factor: 2;
+  --shadow-alpha: 1.0;
+}</code></pre>
+          </section>
+
+          <section>
+            <p><a href="https://www.smashingmagazine.com/2017/04/start-using-css-custom-properties/">It's Time To Start Using Custom Properties</a></p>
+            <p><a href="https://una.im/local-css-vars/">Local CSS Vars</a></p>
           </section>
 
         </section>
@@ -249,6 +293,24 @@
           <section>
             <h2>Feature Queries</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="css-featurequeries" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=css-featurequeries">Can I Use css-featurequeries?</a> Data on support for the css-featurequeries feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section>
+            <p>
+              The following example is from
+              <a href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/">
+                Using Feature Queries in CSS by Jen Simmons
+              </a>
+            </p>
+            <small>
+              Try it in Safari which supports <code>initial-letter</code>.
+            </small>
           </section>
 
           <section class="container">
@@ -281,9 +343,6 @@
               selectively bred for its greatly enlarged, more palatable, less
               woody-textured taproot.
             </p>
-            <small>
-              Try it in Safari which supports <code>initial-letter</code>.
-            </small>
           </section>
 
           <section>
@@ -299,17 +358,14 @@
     margin-right: 0.5em;
   }
 }</code></pre>
-            <p>
-              Example from
-              <a href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/">
-                Using Feature Queries in CSS
-              </a>
-            </p>
-            <p>
-              There is also a
-              <a href="https://developer.mozilla.org/en/docs/Web/API/CSS/supports">
-                JavaScript API to test <code>support</code></a>.
-            </p>
+          </section>
+
+          <section data-markdown>
+            There is also a [JavaScript API to test `support`](https://developer.mozilla.org/en/docs/Web/API/CSS/supports)
+
+            ```js
+              CSS.supports('--answer-of-life', 42);
+            ```
           </section>
         </section>
 
@@ -337,6 +393,12 @@
           <section>
             <h2>SVG</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="svg" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=svg">Can I Use svg?</a> Data on support for the svg feature across the major browsers from caniuse.com.
+</p>
           </section>
 
           <section>
@@ -381,7 +443,14 @@
           </section>
 
           <section>
-            <iframe style="width: 100%; height: 300px" src="https://people-mozilla.org/~bbirtles/demos/jank-example/jank-example.html"></iframe>
+            <p class="ciu_embed" data-feature="web-animation" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=web-animation">Can I Use web-animation?</a> Data on support for the web-animation feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section>
+            <!-- Fix this one: make it yourself -->
+            <iframe style="width: 100%; height: 300px" src="https://people.mozilla.org/~bbirtles/demos/jank-example/jank-example.html"></iframe>
             <pre><code>rightFox.animate(
   [
     { transform: 'rotate(0deg)' },  // from
@@ -399,7 +468,9 @@
           </section>
 
           <section data-markdown>
-            * [Animating like you just don't care with Element.animate()](https://hacks.mozilla.org/2016/08/animating-like-you-just-dont-care-with-element-animate/)
+            [Animating like you just don't care with Element.animate()](https://hacks.mozilla.org/2016/08/animating-like-you-just-dont-care-with-element-animate/)
+
+            [Web Animations examples](https://mozdevs.github.io/Animation-examples/)
           </section>
         </section>
 
@@ -407,6 +478,12 @@
           <section>
             <h2>CSS Grid</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="css-grid" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=css-grid">Can I Use css-grid?</a> Data on support for the css-grid feature across the major browsers from caniuse.com.
+</p>
           </section>
 
           <section>
@@ -480,11 +557,6 @@ header { grid-area: t; }
 nav { grid-area: n; }
 article { grid-area: a; }
 footer { grid-area: b; }</code></pre>
-          <p>
-            <a href="https://css-tricks.com/snippets/css/complete-guide-grid/">
-              A Complete Guide to Grid
-            </a>
-          </p>
           </section>
 
           <section data-markdown>
@@ -496,7 +568,10 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            * [Learning CSS Grid](http://jensimmons.com/post/feb-27-2017/learn-css-grid)
+            [Learning CSS Grid](http://jensimmons.com/post/feb-27-2017/learn-css-grid)
+
+            [A Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)
+          </p>
           </section>
         </section>
 
@@ -507,19 +582,35 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section>
+            <p class="ciu_embed" data-feature="webgl2" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=webgl2">Can I Use webgl2?</a> Data on support for the webgl2 feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section data-markdown>
+            Based on [OepnGL ES3](https://www.khronos.org/registry/gles/specs/3.0/es_spec_3.0.pdf)
+          </section>
+
+          <section data-markdown>
+            * GLSL 3.00 ES
+            * Mesh instantiation
+            * 3D textures
+            * Uniform buffers
+            * Transform feedback
+
+            [WebGL 2 New Features](http://www.realtimerendering.com/blog/webgl-2-new-features/)
+          </section>
+
+          <section>
             <iframe allowfullscreen width="100%" height="500px" src="https://playcanv.as/e/p/44MRmJRU/" frameborder="0"></iframe>
           </section>
 
           <section data-markdown>
-            * Multiple render targets
-            * Mesh instantiation
-            * Volume textures
-            * Transform feedback
-            * Instantiation
+            [WebGL 2 Samples](http://webglsamples.org/WebGL2Samples/)
 
-            ...
+            [WebGL 2 from WebGL 1](https://webgl2fundamentals.org/webgl/lessons/webgl1-to-webgl2.html)
 
-            More on [WebGL 2 Lands in Firefox](https://hacks.mozilla.org/2017/01/webgl-2-lands-in-firefox/)
+            [WebGL 2 What's New](https://webgl2fundamentals.org/webgl/lessons/webgl2-whats-new.html)
           </section>
         </section>
 
@@ -529,11 +620,23 @@ footer { grid-area: b; }</code></pre>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
+          <section>
+            <p class="ciu_embed" data-feature="wasm" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=wasm">Can I Use wasm?</a> Data on support for the wasm feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
           <section data-markdown>
             ![In WASM, parse, compilation and execution times shrink and re-optimization
             and garbage collection are completely avoided](./imgs/js-wasm-execution.png)
 
-            [A Cartoon Introduction to Web Aseembly by Lin Clark](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/)
+            Figure from [A Cartoon Intro to WebAssembly, by Lin Clark](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/)
+          </section>
+
+          <section data-markdown>
+            [A crash course in memory management](https://hacks.mozilla.org/2017/06/a-crash-course-in-memory-management/)
+
+            [Creating a WebAssembly module instance with JavaScript](https://hacks.mozilla.org/2017/07/creating-a-webassembly-module-instance-with-javascript/)
           </section>
         </section>
 
@@ -541,6 +644,12 @@ footer { grid-area: b; }</code></pre>
           <section>
             <h2>Async / Await</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="async-functions" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=async-functions">Can I Use async-functions?</a> Data on support for the async-functions feature across the major browsers from caniuse.com.
+</p>
           </section>
 
           <section>
@@ -631,15 +740,23 @@ footer { grid-area: b; }</code></pre>
             <p><a href="http://www.typescriptlang.org">TypeScript</a></p>
           </section>
 
+          <section>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/RUeLd7T7Xi4?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+            <p>
+              <a href="http://elm-lang.org/">Elm Lang</a>
+            </p>
+          </section>
+
           <section data-markdown>
-            * [BabelJS](http://babeljs.io/)
-            * [Typescript Playground](http://www.typescriptlang.org/play/)
+            [What are the best languages that compile to JavaScript?](https://www.slant.co/topics/101/~best-languages-that-compile-to-javascript)
+
+            [List of languages that compile to JS](https://github.com/jashkenas/coffeescript/wiki/List-of-languages-that-compile-to-JS)
           </section>
         </section>
 
         <section id="rail">
           <section>
-            <h2>Response, Animation, Idle, Load</h2>
+            <h2>RAIL &amp; Optimistic UI</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
@@ -648,8 +765,18 @@ footer { grid-area: b; }</code></pre>
             * **Animation**: keep 60 fps.
             * **Idle**: maximize idle time.
             * **Load**: go interactive under 1 second.
+          </section>
 
+          <section data-markdown>
+            ![Optimistic UI](./imgs/optimistic-ui.gif)
+
+            Optimistic UI acts as if everything goes OK, **guessing, instead of knowing,** the true outcome of the performed operation.
+          </section>
+
+          <section data-markdonw>
             [The RAIL performance model](https://docs.google.com/presentation/d/13AJe2Ip4etqA8qylrva7bEgu1_hAvsq_VQiVOAxwdcI/edit#slide=id.g9ce400068_0_217)
+
+            [Optimistic UIs in under 1000 words](https://uxplanet.org/optimistic-1000-34d9eefe4c05)
           </section>
         </section>
 
@@ -706,9 +833,9 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            * It is an **app design pattern**
-            * Which puts core functionality **first**
-            * And then enhances the experience based on **user capabilities**
+            1. It is an **app design pattern**
+            2. Which puts core functionality **first**
+            3. And then enhances the experience based on **user capabilities**
           </section>
 
           <section data-markdown>
@@ -716,10 +843,13 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            * [Bruce Lawson - WWW: World Wide Web, Not Wealthy Westerners' Web ](https://www.youtube.com/watch?v=uqVRz8CteAg&t=NaN)
-            * [Progressive Enhancement is not dead but it smells funny.](https://nolanlawson.com/2016/10/13/progressive-enhancement-isnt-dead-but-it-smells-funny/)
-            * [How Does my Site Cost?](https://whatdoesmysitecost.com/)
-            * [Popular Devices by Country](http://www.appbrain.com/stats/top-devices-by-country?country=ng)
+            [How Does my Site Cost?](https://whatdoesmysitecost.com/)
+
+            [Popular Devices by Country](http://www.appbrain.com/stats/top-devices-by-country?country=ng)
+
+            [Progressive Enhancement is not dead but it smells funny](https://nolanlawson.com/2016/10/13/progressive-enhancement-isnt-dead-but-it-smells-funny/)
+
+            [WWW: World Wide Web, Not Wealthy Westerners' Web ](https://www.youtube.com/watch?v=uqVRz8CteAg&t=NaN)
           </section>
         </section>
 
@@ -802,6 +932,12 @@ footer { grid-area: b; }</code></pre>
             alt="HPACK is an algorithm to compress the headers of a request,
             safer than GZIP." />
           </section>
+
+          <section data-markdown>
+            [Link headers and server hints](https://www.chromium.org/spdy/link-headers-and-server-hint)
+
+            [A Comprehensive Guide To HTTP/2 Server Push](https://www.smashingmagazine.com/2017/04/guide-http2-server-push/)
+          </section>
         </section>
 
         <section id="sync">
@@ -810,10 +946,16 @@ footer { grid-area: b; }</code></pre>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
+          <section data-markdown>
+            [Add Background Sync to CanIUse](https://github.com/Fyrd/caniuse/issues/2677)
+
+            Currently supported by Chrome and Edge 15.
+          </section>
+
           <section>
-            <img style="max-width: 700px"
+            <a href="../imgs/sw-101/sync-event.png"><img style="max-width: 700px"
                  src="../imgs/sw-101/sync-event.png"
-                 alt="Sync triggers an event when recovering connectivity." />
+                 alt="Sync triggers an event when recovering connectivity." /></a>
           </section>
 
           <section>
@@ -828,6 +970,12 @@ footer { grid-area: b; }</code></pre>
           <section>
             <h2>Manifest</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="web-app-manifest" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=web-app-manifest">Can I Use web-app-manifest?</a> Data on support for the web-app-manifest feature across the major browsers from caniuse.com.
+</p>
           </section>
 
           <section>
@@ -867,6 +1015,12 @@ footer { grid-area: b; }</code></pre>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
+          <section>
+            <p class="ciu_embed" data-feature="payment-request" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=payment-request">Can I Use payment-request?</a> Data on support for the payment-request feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
           <section id="payment-instruments">
             <p>This is <strong>not a payment method</strong>.</p>
             <p class="fragment">The browser becomes a mediator to manage <strong>payment instruments</strong> and <strong>sensible data</strong> in a safe way.</p>
@@ -884,13 +1038,17 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section>
-            <img style="max-height: 800px"
+            <a href="./imgs/payment-request.png"><img style="max-height: 600px"
                  src="./imgs/payment-request.png"
-                 alt="Payment request flow" />
+                 alt="Payment request flow" /></a>
           </section>
 
           <section data-markdown>
             [Payment Request API: an Integration Guide](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/)
+
+            [Payment Resquest Spec](https://w3c.github.io/payment-request/)
+
+            [Payment Handler Spec](https://w3c.github.io/payment-handler/)
           </section>
         </section>
 
@@ -901,13 +1059,21 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section>
-            <img style="max-width: 700px"
+            <p class="ciu_embed" data-feature="credential-management" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=credential-management">Can I Use credential-management?</a> Data on support for the credential-management feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section>
+            <a href="./imgs/credential-management.png"><img style="max-width: 400px"
                  src="./imgs/credential-management.png"
-                 alt="Credential management flow." />
+                 alt="Credential management flow." /></a>
           </section>
 
           <section data-markdown>
             [Credential Management](https://developers.google.com/web/fundamentals/security/credential-management/)
+
+            [Credential Management Spec](https://w3c.github.io/webappsec-credential-management/)
           </section>
         </section>
 
@@ -915,6 +1081,12 @@ footer { grid-area: b; }</code></pre>
           <section>
             <h2>Request Idle Callback</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="requestidlecallback" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=requestidlecallback">Can I Use requestidlecallback?</a> Data on support for the requestidlecallback feature across the major browsers from caniuse.com.
+</p>
           </section>
 
           <section data-markdown>
@@ -947,55 +1119,57 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            `navigator.getVRDisplays()`
-
-            ```js
-            // Load polyfills
-
-            // Get the VR device
-
-            // Get details for each eye
-
-            // Create the 3D context
-
-            // Get pose
-
-            // Paint the scene once per eye
-
-            // Deal with fullscreen
-
-            // Deal with mobile
-
-            // Deal with resize
-
-            ```
-
-            [WebVR 1.0 specification](https://w3c.github.io/webvr/)
-          </section>
-
-          <section data-markdown>
-            ### A-Frame
-
-            ```html
-            &lt;a-scene&gt;
-              &lt;a-box position=&quot;0 1.6 -5&quot; rotation=&quot;45 45 0&quot; color=&quot;red&quot;&gt;&lt;/a-box&gt;
-            &lt;/a-scene&gt;
-            ```
-
-            [A-Frame](https://aframe.io)
+            Presence + Reach = WebVR
           </section>
 
           <section>
-            <p data-height="265" data-theme-id="0" data-slug-hash="KadOpr" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame Hello World" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/KadOpr/">A-Frame Hello World</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+            <p class="ciu_embed" data-feature="webvr" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=webvr">Can I Use webvr?</a> Data on support for the webvr feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section>
+            <video src="../aframe-101/imgs/boilerplate-low.mp4" data-autoplay controls></video>
+          </section>
+
+          <section>
+            <h3>A-Frame</h3>
+
+            <p>
+              A 360 picture viewer are <strong>6 lines of HTML code</strong>.
+            </p>
+            <p data-height="265" data-theme-id="0" data-slug-hash="LLyJBr" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="360º panorama viewer" class="codepen">See the Pen <a href="https://codepen.io/lodr/pen/LLyJBr/">360º panorama viewer</a> by Salvador de la Puente González (<a href="https://codepen.io/lodr">@lodr</a>) on <a href="https://codepen.io">CodePen</a>.</p>
           </section>
 
           <section data-markdown>
+            ```js
+            import React from 'react';
+            import {AppRegistry, Pano, Text, View} from 'react-vr';
+
+            class WelcomeToVR extends React.Component { render() {
+              // Displays "hello" text on top of a loaded 360 panorama image.
+              // Text is 0.8 meters in size and is centered three meters in front of you.
+              return (
+                &lt;View&gt;
+                  &lt;Pano source={asset(&apos;chess-world.jpg&apos;)}/&gt;
+                  &lt;Text style={{ fontSize: 0.8, layoutOrigin: [0.5, 0.5], transform: [{translate: [0, 0, -3]}], }}&gt; hello &lt;/Text&gt;
+                &lt;/View&gt;
+              );
+            } };
+            AppRegistry.registerComponent('WelcomeToVR', () => WelcomeToVR);
+            ```
+          </section>
+
+          <section data-markdown>
+            [WebVR Spec](https://github.com/w3c/webvr)
+
+            [WebVR Experiments](https://www.webvrexperiments.com/)
+
             [WebVR on MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API)
 
-            [Spacelamb](http://m.spacelamb.12wave.com/)
+            [A-Frame](https://aframe.io/)
 
-            [ShopifyVR](https://aframe.io/examples/showcase/shopping/)
+            [React VR](https://facebook.github.io/react-vr/)
           </section>
         </section>
 
