@@ -87,8 +87,6 @@
           <dl>
             <dt><a href="#offline-first">Offline First</a></dt>
             <dd>Connectivity as a progressive enhancement</dd>
-            <dt><a href="#prpl">PRPL</a></dt>
-            <dd>Pattern to reduce time until first interaction</dd>
             <dt><a href="#transpilation">Transpilation</a></dt>
             <dd>A technique to use other languages rather than JavaScript</dd>
             <dt><a href="#rail">RAIL &amp; Optimistic UI</a></dt>
@@ -103,8 +101,6 @@
             <dd>Be aware of the threads of the Web</dd>
             <dt><a href="#progressive-enhancement">Progressive Enhancement</a></dt>
             <dd>Web development approach that puts effort on baseline</dd>
-            <dt><a href="#timely-relevant-precise">Timely, Relevant, Precise</a></dt>
-            <dd>Advices for Push notifications</dd>
             <dt><a href="#pwa">Progressive Web Apps</a></dt>
             <dd>Web applications offering native-like user experiences</dd>
             <!--
@@ -155,6 +151,11 @@
           </section>
 
           <section>
+            <blockquote class="twitter-tweet" data-lang="es"><p lang="en" dir="ltr">This day goes to <a href="https://twitter.com/hashtag/PWA?src=hash">#PWA</a> history! Initial steps of <a href="https://twitter.com/hashtag/ServiceWorker?src=hash">#ServiceWorker</a> in <a href="https://twitter.com/hashtag/Safari?src=hash">#Safari</a>: <a href="https://t.co/WU4Uin6ZHP">https://t.co/WU4Uin6ZHP</a>. Kudos to <a href="https://twitter.com/bradeeoh">@bradeeoh</a> &amp; all <a href="https://twitter.com/webkit">@webkit</a> team! <a href="https://t.co/FFf95pDxde">pic.twitter.com/FFf95pDxde</a></p>&mdash; Maxim Salnikov (@webmaxru) <a href="https://twitter.com/webmaxru/status/893027996659060738">3 de agosto de 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+          </section>
+
+          <section>
             <img style="max-width: 700px"
                  src="../imgs/sw-101/functional-events.png"
                  alt="Functional events are fetch, push, sync and other" />
@@ -172,6 +173,16 @@
               <a href="https://github.com/delapuente/service-workers-101/">
                 Complete infographic</a>
             </p>
+          </section>
+
+          <section data-markdown>
+            [Service Workers 101](https://github.com/delapuente/service-workers-101/)
+
+            [Service Workers Recipes in the Service Worker Cookbook](https://serviceworke.rs/caching-strategies.html)
+
+            [Beyond Offline](https://hacks.mozilla.org/2015/12/beyond-offline/)
+
+            [2016 - The year of web streams](https://jakearchibald.com/2016/streams-ftw/)
           </section>
         </section>
 
@@ -194,12 +205,23 @@
                  closed." /></a>
           </section>
 
-          <section>
-            <p>
-              <a href="https://serviceworke.rs/web-push.html">
-                Look for Push demos at the Service Worker Cookbook</a>
+          <section data-markdown>
+            Notifications should be...
+
+            * **Timely** to not annoy the user.
+            * **Relevant** for the user to pay attention.
+            * **Precise** to say just what is necessary.
+          </section>
+
+          <section data-markdown>
+            [Push demos at the Service Worker Cookbook](https://serviceworke.rs/web-push.html)
+
+            [Push libraries](https://github.com/web-push-libs/)
+
+            [Timely, Relevant and Precise by Joseph Medley](https://developers.google.com/web/fundamentals/engage-and-retain/push-notifications/)
             </p>
           </section>
+
         </section>
 
         <section id="css-variables">
@@ -533,7 +555,7 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section>
-            <iframe allowfullscreen width="100%" height="500px" src="https://playcanv.as/e/p/44MRmJRU/" frameborder="0"></iframe>
+            <!--<iframe allowfullscreen width="100%" height="500px" src="https://playcanv.as/e/p/44MRmJRU/" frameborder="0"></iframe>-->
           </section>
 
           <section data-markdown>
@@ -639,22 +661,6 @@ footer { grid-area: b; }</code></pre>
           </section>
         </section>
 
-        <section id="prpl">
-          <section>
-            <h2>Push, Render, Pre-cache, Lazy-load</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            * **Push** additional resources for the initial route.
-            * **Render** the initial route.
-            * **Pre-cache** the remaining routes.
-            * **Lazy-load** new resources on demand.
-
-            [The PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/)
-          </section>
-        </section>
-
         <section id="transpilation">
           <section>
             <h2>Transpilation</h2>
@@ -704,7 +710,7 @@ footer { grid-area: b; }</code></pre>
             Optimistic UI acts as if everything goes OK, **guessing, instead of knowing,** the true outcome of the performed operation.
           </section>
 
-          <section data-markdonw>
+          <section data-markdown>
             [The RAIL performance model](https://docs.google.com/presentation/d/13AJe2Ip4etqA8qylrva7bEgu1_hAvsq_VQiVOAxwdcI/edit#slide=id.g9ce400068_0_217)
 
             [Optimistic UIs in under 1000 words](https://uxplanet.org/optimistic-1000-34d9eefe4c05)
@@ -763,6 +769,10 @@ footer { grid-area: b; }</code></pre>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
+          <section>
+            <iframe src="https://pwa-workshop.glitch.me/recommendations/4" width="400" height="600"></iframe>
+          </section>
+
           <section data-markdown>
             1. It is an **app design pattern**
             2. Which puts core functionality **first**
@@ -770,7 +780,7 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            Baseline choice and each enhancment implies discrimination. Each choice must to be conscious.
+            Baseline choice and each enhancment implies discrimination. Each choice **must be conscious**.
           </section>
 
           <section data-markdown>
@@ -784,27 +794,6 @@ footer { grid-area: b; }</code></pre>
           </section>
         </section>
 
-        <section id="timely-relevant-precise">
-          <section>
-            <h2>Timely, relevant, precise</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            Be...
-
-            * **Timely** to not annoy the user.
-            * **Relevant** for the user to pay attention.
-            * **Precise** to say just what is necessary.
-
-            [Timely, Relevant and Precise by Joseph Medley](https://developers.google.com/web/fundamentals/engage-and-retain/push-notifications/)
-          </section>
-
-          <section data-markdown>
-            [2016: The Beginning of Individualized Push Notifications](http://info.localytics.com/blog/2016-the-beginning-of-individualized-push-messages)
-          </section>
-        </section>
-
         <section id="pwa">
           <section>
             <h2>Progressive Web Apps</h2>
@@ -812,7 +801,68 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            [When the web is the right platform?](../web-platform-when-why/index.html#/app-webapp">)
+            ![Audience is higher in the Web, engagement is higher in native](../web-platform-when-why/imgs/audience-vs-loyalty.png)
+          </section>
+
+          <section data-markdown>
+            Web sites delivering a _native-like_ experience.
+          </section>
+
+          <section>
+            <p>
+              Can you tell what is the native app?
+            </p>
+            <img style="height: 500px;" alt="Twitter Home Screen icons" src="../web-platform-when-why/imgs/home-screen.png"/>
+          </section>
+
+          <section>
+            <p>
+              And now?
+            </p>
+            <img style="width: 30%;" alt="Twitter Native Application" src="../web-platform-when-why/imgs/twitter-native.png"/>
+            <img style="width: 30%;" alt="Twitter Web Application Without Browser UI" src="../web-platform-when-why/imgs/twitter-web-no-ui.png"/>
+          </section>
+
+          <section>
+            <p>
+              But you certainly do now.
+            </p>
+            <img style="width: 30%;" alt="Twitter Native Application" src="../web-platform-when-why/imgs/twitter-native.png"/>
+            <img style="width: 30%;" alt="Twitter Web Application" src="../web-platform-when-why/imgs/twitter-web.png"/>
+          </section>
+
+          <section>
+            <p>
+              Or now.
+            </p>
+            <img style="height: 500px;" alt="Twitter Native Application" src="../web-platform-when-why/imgs/task-switcher.png"/>
+          </section>
+
+          <section data-markdown>
+            A word of caution:
+
+            * PWA are **no more than regular websites**.
+            * The installation banner **is not** an standard.
+            * Operating Systems **must embrace** the Web, _not the other way around_.
+            * Technology **must preserve** Web principles.
+          </section>
+
+          <section data-markdown>
+            [Progressive Web Apps: Escaping Tabs Without Losing Our Soul](https://infrequently.org/2015/06/progressive-apps-escaping-tabs-without-losing-our-soul/)
+
+            [Regressive Web Apps](https://adactio.com/journal/10708)
+
+            [Progressive Web Apps are a toolkit, not a recipe](https://medium.com/samsung-internet-dev/progressive-web-apps-are-a-toolkit-not-a-recipe-b2fd68613de5)
+
+            [Deeply Integrated Progressive Web Apps (WebAPKs) are Live for Chrome on Android](https://www.xda-developers.com/deeply-integrated-progressive-web-apps-are-already-live-for-chrome-on-android/)
+
+            [Why Are App Install Banners Still A Thing?](https://medium.com/dev-channel/why-are-app-install-banners-still-a-thing-18f3952d349a)
+          </section>
+
+          <section data-markdown>
+            **This conference**:
+
+            [PWA Summit 2016](https://www.youtube.com/watch?v=uHgqWg3OIIo&list=PLNYkxOF6rcIAWWNR_Q6eLPhsyx6VvYjVb)
           </section>
         </section>
 
@@ -1049,14 +1099,14 @@ footer { grid-area: b; }</code></pre>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
-          <section data-markdown>
-            Presence + Reach = WebVR
-          </section>
-
           <section>
             <p class="ciu_embed" data-feature="webvr" data-periods="future_1,current,past_1">
   <a href="http://caniuse.com/#feat=webvr">Can I Use webvr?</a> Data on support for the webvr feature across the major browsers from caniuse.com.
 </p>
+          </section>
+
+          <section data-markdown>
+            Presence + Reach = WebVR
           </section>
 
           <section>
@@ -1067,12 +1117,14 @@ footer { grid-area: b; }</code></pre>
             <h3>A-Frame</h3>
 
             <p>
-              A 360 picture viewer are <strong>6 lines of HTML code</strong>.
+              A 360 picture viewer in <strong>6 lines of HTML code</strong>.
             </p>
             <p data-height="265" data-theme-id="0" data-slug-hash="LLyJBr" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="360º panorama viewer" class="codepen">See the Pen <a href="https://codepen.io/lodr/pen/LLyJBr/">360º panorama viewer</a> by Salvador de la Puente González (<a href="https://codepen.io/lodr">@lodr</a>) on <a href="https://codepen.io">CodePen</a>.</p>
           </section>
 
           <section data-markdown>
+            ### React VR
+
             ```js
             import React from 'react';
             import {AppRegistry, Pano, Text, View} from 'react-vr';
