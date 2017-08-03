@@ -51,21 +51,23 @@
         </section>
 
         <section id="index">
-          <h2>Stablished technologies (1/2)</h2>
+          <h2>Stablished technologies</h2>
           <dl>
             <dt><a href="#sw">Service Workers</a></dt>
             <dd>Background services in the browser</dd>
             <dt><a href="#push">Push notifications</a></dt>
             <dd>Receive and show Push notifications</dd>
-            <dt><a href="#css-variables">CSS Variables</a></dt>
-            <dd>Store repeated values in CSS variables</dd>
+            <dt><a href="#async-await">Async functions</a></dt>
+            <dd>JS syntax enhancement to ease asynchrnonous programming</dd>
             <dt><a href="#feature-queries">Feature Queries</a></dt>
             <dd>Check the existence of CSS features withour JavaScript</dd>
           </dl>
         </section>
         <section>
-          <h2>Stablished technologies (2/2)</h2>
+          <h2>Recently added technologies</h2>
           <dl>
+            <dt><a href="#css-variables">CSS Variables</a></dt>
+            <dd>Store repeated values in CSS variables</dd>
             <dt><a href="#web-animations">Web Animations</a></dt>
             <dd>Native performance on dynamic animations</dd>
             <dt><a href="#grid">CSS Grid</a></dt>
@@ -74,8 +76,6 @@
             <dd>JavaScript API to access OpenGL ES 3 hardware capabilities</dd>
             <dt><a href="#wasm">Web Assembly</a></dt>
             <dd>A new language inside the browser</dd>
-            <dt><a href="#async-await">Async / await</a></dt>
-            <dd>JS syntax enhancement to ease asynchrnonous programming</dd>
           </dl>
         </section>
         <!-- TODO: FileSystem API -->
@@ -224,64 +224,56 @@
 
         </section>
 
-        <section id="css-variables">
+        <section id="async-await">
           <section>
-            <h2>CSS Variables</h2>
+            <h2>Async functions</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
           <section>
-            <p class="ciu_embed" data-feature="css-variables" data-periods="future_1,current,past_1">
-  <a href="http://caniuse.com/#feat=css-variables">Can I Use css-variables?</a> Data on support for the css-variables feature across the major browsers from caniuse.com.
+            <p class="ciu_embed" data-feature="async-functions" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=async-functions">Can I Use async-functions?</a> Data on support for the async-functions feature across the major browsers from caniuse.com.
 </p>
           </section>
 
           <section>
-            <style>
-              :root {
-                --hl-color: #84b830;
-              }
-
-              #css-variables .container {
-                font-size: calc(var(--font-factor, 1) * 1em);
-                box-shadow: 0 0 100px 10px rgba(128, 128, 128, var(--shadow-alpha, 0.1));
-              }
-
-              #css-variables .container:hover {
-                --font-factor: 1.5;
-                --shadow-alpha: 1.0;
-              }
-
-              #css-variables .container a:link {
-                /* Override theme variables */
-                color: var(--hl-color) !important;
-              }
-
-              #css-variables .container a:visited {
-                /* Override theme variables */
-                color: var(--hl-color) !important;
-              }
-
-              #css-variables .container p::selection {
-                background-color: var(--hl-color);
-              }
-
-              #css-variables .container p {
-                border: 3px solid var(--hl-color);
-              }
-
-              #css-variables .container span {
-                color: var(--hl-color);
-              }
-            </style>
-            <div class="container">
-              <p>
-                The highlight color, <span>#b4ff43</span>, is used in many
-                contexts like <a href="#">links</a> or selection. And also in
-                borders and decorative elements.
-              </p>
-            </div>
+            <pre><code>function search(query) {
+  return fetch(`/search/?q=$(query)`)
+         .then(response => response.json())
+         .then(json => json.results.map(...))
+         .catch(reason => console.log(reason));
+}</code></pre>
           </section>
+
+          <section>
+            <pre><code>function search(query) {
+  var resp;
+  return fetch(`/search/?q=$(query)`)
+         .then(response => {
+           resp = response;
+           response.json()
+         })
+         .then(json => {
+           json.results.map(result => doSomething(result, resp));
+         })
+         .catch(reason => console.log(reason));
+}</code></pre>
+          </section>
+
+          <section>
+            <pre><code>async function search(query) {
+  try {
+    let response = await fetch(`/search/?q=${query}`);
+    let json = await response.json();
+    return json.results.map(result => doSomething(result, response));
+  }
+  catch (reason) {
+    console.log(reason);
+  }
+}</code></pre>
+          </section>
+        </section>
+
 
           <section>
             <pre><code>:root { --hl-color: #84b830; }
@@ -388,6 +380,65 @@
             ```
           </section>
         </section>
+
+        <section id="css-variables">
+          <section>
+            <h2>CSS Variables</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="css-variables" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=css-variables">Can I Use css-variables?</a> Data on support for the css-variables feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section>
+            <style>
+              :root {
+                --hl-color: #84b830;
+              }
+
+              #css-variables .container {
+                font-size: calc(var(--font-factor, 1) * 1em);
+                box-shadow: 0 0 100px 10px rgba(128, 128, 128, var(--shadow-alpha, 0.1));
+              }
+
+              #css-variables .container:hover {
+                --font-factor: 1.5;
+                --shadow-alpha: 1.0;
+              }
+
+              #css-variables .container a:link {
+                /* Override theme variables */
+                color: var(--hl-color) !important;
+              }
+
+              #css-variables .container a:visited {
+                /* Override theme variables */
+                color: var(--hl-color) !important;
+              }
+
+              #css-variables .container p::selection {
+                background-color: var(--hl-color);
+              }
+
+              #css-variables .container p {
+                border: 3px solid var(--hl-color);
+              }
+
+              #css-variables .container span {
+                color: var(--hl-color);
+              }
+            </style>
+            <div class="container">
+              <p>
+                The highlight color, <span>#b4ff43</span>, is used in many
+                contexts like <a href="#">links</a> or selection. And also in
+                borders and decorative elements.
+              </p>
+            </div>
+          </section>
 
         <section id="web-animations">
           <section>
@@ -590,56 +641,6 @@ footer { grid-area: b; }</code></pre>
             [A crash course in memory management](https://hacks.mozilla.org/2017/06/a-crash-course-in-memory-management/)
 
             [Creating a WebAssembly module instance with JavaScript](https://hacks.mozilla.org/2017/07/creating-a-webassembly-module-instance-with-javascript/)
-          </section>
-        </section>
-
-        <section id="async-await">
-          <section>
-            <h2>Async / Await</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <p class="ciu_embed" data-feature="async-functions" data-periods="future_1,current,past_1">
-  <a href="http://caniuse.com/#feat=async-functions">Can I Use async-functions?</a> Data on support for the async-functions feature across the major browsers from caniuse.com.
-</p>
-          </section>
-
-          <section>
-            <pre><code>function search(query) {
-  return fetch(`/search/?q=$(query)`)
-         .then(response => response.json())
-         .then(json => json.results.map(...))
-         .catch(reason => console.log(reason));
-}</code></pre>
-          </section>
-
-          <section>
-            <pre><code>function search(query) {
-  var resp;
-  return fetch(`/search/?q=$(query)`)
-         .then(response => {
-           resp = response;
-           response.json()
-         })
-         .then(json => {
-           json.results.map(result => doSomething(result, resp));
-         })
-         .catch(reason => console.log(reason));
-}</code></pre>
-          </section>
-
-          <section>
-            <pre><code>async function search(query) {
-  try {
-    let response = await fetch(`/search/?q=${query}`);
-    let json = await response.json();
-    return json.results.map(result => doSomething(result, response));
-  }
-  catch (reason) {
-    console.log(reason);
-  }
-}</code></pre>
           </section>
         </section>
 
@@ -915,6 +916,8 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
+            [HTTP2 implementations](https://github.com/http2/http2-spec/wiki/Implementations)
+
             [Link headers and server hints](https://www.chromium.org/spdy/link-headers-and-server-hint)
 
             [A Comprehensive Guide To HTTP/2 Server Push](https://www.smashingmagazine.com/2017/04/guide-http2-server-push/)
