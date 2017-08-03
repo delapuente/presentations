@@ -97,7 +97,7 @@
         <section>
           <h2>Patterns, trends &amp; topics (2/2)</h2>
           <dl>
-            <dt><a href="#privacy">Privacy and Security</a></dt>
+            <dt><a href="#privacy">Privacy, security &amp; safeness</a></dt>
             <dd>Be aware of the threads of the Web</dd>
             <dt><a href="#progressive-enhancement">Progressive Enhancement</a></dt>
             <dd>Web development approach that puts effort on baseline</dd>
@@ -274,33 +274,6 @@
           </section>
         </section>
 
-
-          <section>
-            <pre><code>:root { --hl-color: #84b830; }
-
-.container {
-  font-size: calc(var(--font-factor, 1) * 1em);
-  box-shadow: 0 0 100px 10px rgba(128, 128, 128, var(--shadow-alpha, 0.1));
-}
-
-.container a:link { color: var(--hl-color); }
-.container p::selection { background-color: var(--hl-color); }
-.container p { border: 3px solid var(--hl-color); }
-.container span { color: var(--hl-color); }
-
-.container:hover {
-  --font-factor: 2;
-  --shadow-alpha: 1.0;
-}</code></pre>
-          </section>
-
-          <section>
-            <p><a href="https://www.smashingmagazine.com/2017/04/start-using-css-custom-properties/">It's Time To Start Using Custom Properties</a></p>
-            <p><a href="https://una.im/local-css-vars/">Local CSS Vars</a></p>
-          </section>
-
-        </section>
-
         <section id="feature-queries">
           <section>
             <h2>Feature Queries</h2>
@@ -383,7 +356,7 @@
 
         <section id="css-variables">
           <section>
-            <h2>CSS Variables</h2>
+            <h2>Custom Properties (CSS Variables)</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
@@ -439,6 +412,31 @@
               </p>
             </div>
           </section>
+
+          <section>
+            <pre><code>:root { --hl-color: #84b830; }
+
+.container {
+  font-size: calc(var(--font-factor, 1) * 1em);
+  box-shadow: 0 0 100px 10px rgba(128, 128, 128, var(--shadow-alpha, 0.1));
+}
+
+.container a:link { color: var(--hl-color); }
+.container p::selection { background-color: var(--hl-color); }
+.container p { border: 3px solid var(--hl-color); }
+.container span { color: var(--hl-color); }
+
+.container:hover {
+  --font-factor: 2;
+  --shadow-alpha: 1.0;
+}</code></pre>
+          </section>
+
+          <section>
+            <p><a href="https://www.smashingmagazine.com/2017/04/start-using-css-custom-properties/">It's Time To Start Using Custom Properties</a></p>
+            <p><a href="https://una.im/local-css-vars/">Local CSS Vars</a></p>
+          </section>
+        </section>
 
         <section id="web-animations">
           <section>
@@ -720,8 +718,12 @@ footer { grid-area: b; }</code></pre>
 
         <section id="privacy">
           <section>
-            <h2>Privacy &amp; security</h2>
+            <h2>Privacy, security &amp; safeness</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section data-markdown>
+            Intrusive advertisement, phishing, [data leakage](https://www.contextis.com/documents/2/Browser_Timing_Attacks.pdf), [finger-printing](https://arstechnica.com/information-technology/2017/02/now-sites-can-fingerprint-you-online-even-when-you-use-multiple-browsers/), centralization, man-in-the-middle attacks, impersonation...
           </section>
 
           <section data-markdown>
@@ -731,14 +733,35 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            [Why People Block Ads and what it means for marketers and advertisers?](https://research.hubspot.com/reports/why-people-block-ads-and-what-it-means-for-marketers-and-advertisers)
+            ### Ad-blockers
 
+            * Chrome is experimenting with tracking protection
             * Firefox has _Tracking protection_ in Private Mode
             * Brave bases its revenue model on curating ads.
           </section>
 
           <section data-markdown>
-            [Web Crypto](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
+            [Google is the internet's largest ad company. So why is it building an ad blocker?](https://www.vox.com/new-money/2017/6/5/15729688/google-chrome-ad-blocking)
+
+            [Why People Block Ads and what it means for marketers and advertisers?](https://research.hubspot.com/reports/why-people-block-ads-and-what-it-means-for-marketers-and-advertisers)
+          </section>
+
+          <section data-markdown>
+            ### [Web Authentication]
+
+            * An API for accessing public key credentials.
+            * I.e. means to access security hardware.
+            * Several devices: tokens, biometrics, one-shot passwords...
+          </section>
+
+          <section data-markdown>
+            [Web authentication and Windows Hello](https://docs.microsoft.com/en-us/microsoft-edge/dev-guide/device/web-authentication)
+
+            [Web Authentication Spec](https://www.w3.org/TR/webauthn/)
+          </section>
+
+          <section data-markdown>
+            ### [Web Crypto](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 
             * Available through `crypto.subtle`
             * Set of primitives: _digest_, _mac_, _sign_/_verify_, _encrypt_/_decrypt_, _key generation_, _key wrapping_...
@@ -746,7 +769,19 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            [Let's encrypt](https://letsencrypt.org/)
+            ### [Subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
+
+            ```html
+            &lt;script src=&quot;https://example.com/example-framework.js&quot;
+        integrity=&quot;sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC&quot;
+        crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+            ```
+          </section>
+
+          <section data-markdown>
+            ### HTTPS
+
+            [Let's encrypt](https://letsencrypt.org/):
 
             * It is a CA
             * It's **free**
@@ -758,8 +793,6 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            [Certbot](https://certbot.eff.org/)
-
             [How to Secure Nginx with Let's Encrypt on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04)
           </section>
         </section>
