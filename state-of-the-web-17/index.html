@@ -61,8 +61,6 @@
             <dd>Store repeated values in CSS variables</dd>
             <dt><a href="#feature-queries">Feature Queries</a></dt>
             <dd>Check the existence of CSS features withour JavaScript</dd>
-            <dt><a href="#svg">SVG</a></dt>
-            <dd>Fully supported vectorial graphics on the Web</dd>
           </dl>
         </section>
         <section>
@@ -369,73 +367,6 @@
           </section>
         </section>
 
-        <section id="svg">
-          <style>
-            #hamburger-menu path {
-              transform-origin: left;
-              will-change: transform, opacity;
-              transition: transform 500ms, opacity 500ms;
-            }
-
-            #hamburger-menu.open .top {
-              transform: rotate(45deg);
-            }
-
-            #hamburger-menu.open .middle {
-              opacity: 0;
-            }
-
-            #hamburger-menu.open .bottom {
-              transform: rotate(-45deg);
-            }
-          </style>
-
-          <section>
-            <h2>SVG</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <p class="ciu_embed" data-feature="svg" data-periods="future_1,current,past_1">
-  <a href="http://caniuse.com/#feat=svg">Can I Use svg?</a> Data on support for the svg feature across the major browsers from caniuse.com.
-</p>
-          </section>
-
-          <section>
-            <svg id="hamburger-menu" width="200" height="150" class="">
-              <g>
-                <path class="top" style="stroke:#000;stroke-width:25;stroke-linecap:round;" d="m 12.5,12.5 175,0"></path>
-                <path class="middle" style="stroke:#000;stroke-width:25;stroke-linecap:round;" d="m 12.5,75 175,0"></path>
-                <path class="bottom" style="stroke:#000;stroke-width:25;stroke-linecap:round;" d="m 12.5,137.5 175,0"></path>
-              </g>
-            </svg>
-            <script>
-              document.getElementById("hamburger-menu").onclick = function () {
-                this.classList.toggle('open');
-              };
-            </script>
-          </section>
-
-          <section>
-            <pre><code>&lt;svg id=&quot;hamburger-menu&quot; width=&quot;200&quot; height=&quot;150&quot;&gt;
-  &lt;g&gt;
-    &lt;path class=&quot;top&quot; style=&quot;stroke:#000;stroke-width:25;stroke-linecap:round;&quot; d=&quot;m 12.5,12.5 175,0&quot;&gt;&lt;/path&gt;
-    &lt;path class=&quot;middle&quot; style=&quot;stroke:#000;stroke-width:25;stroke-linecap:round;&quot; d=&quot;m 12.5,75 175,0&quot;&gt;&lt;/path&gt;
-    &lt;path class=&quot;bottom&quot; style=&quot;stroke:#000;stroke-width:25;stroke-linecap:round;&quot; d=&quot;m 12.5,137.5 175,0&quot;&gt;&lt;/path&gt;
-  &lt;/g&gt;
-&lt;/svg&gt;</code></pre>
-            <pre><code>#hamburger-menu path {
-  transform-origin: left;
-  will-change: transform, opacity;
-  transition: transform 500ms, opacity 500ms;
-}
-
-#hamburger-menu.open .top { transform: rotate(45deg); }
-#hamburger-menu.open .middle { opacity: 0; }
-#hamburger-menu.open .bottom { transform: rotate(-45deg); }</code></pre>
-          </section>
-        </section>
-
         <section id="web-animations">
           <section>
             <h2>Web Animations</h2>
@@ -449,9 +380,9 @@
           </section>
 
           <section>
-            <!-- Fix this one: make it yourself -->
-            <iframe style="width: 100%; height: 300px" src="https://people.mozilla.org/~bbirtles/demos/jank-example/jank-example.html"></iframe>
-            <pre><code>rightFox.animate(
+            <img src="./imgs/jank-example-400.gif" />
+
+            <pre class="js"><code>rightFox.animate(
   [
     { transform: 'rotate(0deg)' },  // from
     { transform: 'rotate(360deg)' } // to
