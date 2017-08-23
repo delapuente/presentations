@@ -10,10 +10,42 @@
     Entity-Component-System architecture like those on modern game engines.">
     <meta name="author" content="Salvador de la Puente González">
     <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+    <script src="./aframe-effects.min.js"></script>
   </head>
   <body>
-    <a-scene>
-      <a-sky color="black"></a-sky>
+    <a-scene effects="godrays"
+             godrays="src: #sun; threshold: 0.1 0.5; intensity: 0.5">
+
+      <a-assets>
+        <img id="sky" src="/aframe-101/imgs/sky.png" />
+      </a-assets>
+
+      <a-entity light="color:#BBB;type:ambient"
+                position="0 11.162 0">
+      </a-entity>
+
+      <a-entity id="sun"
+                geometry="primitive: sphere; radius: 0.5"
+                material="shader: flat; transparent: true"
+                light="type:point;castShadow:true;intensity:0.6"
+                position="10.824 16.892 10.315">
+      </a-entity>
+
+      <a-entity id="trenche"
+                scale="0.1 0.1 0.1"
+                obj-model="obj:/aframe-101/imgs/trenche.obj;mtl:/aframe-101/imgs/trenche.mtl" shadow="">
+      </a-entity>
+      <a-entity id="tie-fighter"
+                position="5.2 8.4 3.6" rotation="-13 73 4" scale="0.1 0.1 0.1"
+                obj-model="obj:/aframe-101/imgs/dv-tie-fighter.obj;mtl:/aframe-101/imgs/dv-tie-fighter.mtl"  shadow="">
+      </a-entity>
+      <a-entity id="x-wing"
+                position="-3.9 4.6 -2.2" rotation="-9 8 -2" scale="0.1 0.1 0.1"
+                obj-model="obj:/aframe-101/imgs/x-wing.obj;mtl:/aframe-101/imgs/x-wing.mtl" shadow="">
+      </a-entity>
+
+      <a-sky src="#sky"></a-sky>
+      <a-entity camera position="-7 6 -2.2" rotation="13 -105 0" wasd-controls look-controls></a-entity>
     </a-scene>
   </body>
 </html>

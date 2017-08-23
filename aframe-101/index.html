@@ -44,14 +44,6 @@
           </header>
         </section>
 
-        <section data-markdown>
-          1. Virtual Reality in the Web
-          2. A-Frame: HTML for Virtual Reality
-          3. Entities, Components &amp; Systems
-          4. The A-Frame registry
-          5. Resources
-        </section>
-
         <section>
           <section data-markdown data-background-image="./imgs/metaverse.png">
             ## Virtual Reality in the Web
@@ -110,25 +102,6 @@
             So now we have a Web standard, it should be as easy as...
           </section>
 
-          <section data-markdown>
-            * Getting the VR display
-            * Creating a WebGL 3D context
-            * Getting pose of the display
-            * Getting the eye parameters
-            * Drawing the scene (once per eye)
-
-            and&hellip;
-          </section>
-
-          <section data-markdown>
-            * Providing polyfills
-            * Dealing with fullscreen
-            * Dealing with mobile
-            * Dealing with resize
-
-            &hellip;
-          </section>
-
           <section>
             <video src="./imgs/boilerplate-low.mp4" data-autoplay controls></video>
           </section>
@@ -144,24 +117,21 @@
         <section>
           <section data-markdown data-background-image="./imgs/a-frame.png">
             ## A-Frame
-            HTML for Virtual Reality
           </section>
 
           <section data-markdown>
-            A-Frame is a web framework for **building VR experiences**.
+            A-Frame is a web framework for **building 3D &amp; VR experiences**.
 
             It drastically reduces the boilerplate to:
           </section>
 
-          <section data-markdown>
-            ```html
-            &lt;a-scene&gt;&lt;/a-scene&gt;
-            ```
+          <section>
+            <pre class="html"><code style="font-size: xx-large;">&lt;a-scene&gt;&lt;/a-scene&gt;</code></pre>
           </section>
 
           <section>
             <p>
-              A 360 picture viewer are <strong>6 lines of HTML code</strong>.
+              A 360 picture viewer are <strong>7 lines of HTML code</strong>.
             </p>
             <p data-height="265" data-theme-id="0" data-slug-hash="LLyJBr" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="360º panorama viewer" class="codepen">See the Pen <a href="https://codepen.io/lodr/pen/LLyJBr/">360º panorama viewer</a> by Salvador de la Puente González (<a href="https://codepen.io/lodr">@lodr</a>) on <a href="https://codepen.io">CodePen</a>.</p>
             <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
@@ -222,9 +192,16 @@
 
           <section>
             <h3>A-Saturday-Night</h3>
-            <p>VR <a href="http://aframe.io/a-saturday-night/">motion capture</a> for </p>
+            <p>Featuring VR <a href="http://aframe.io/a-saturday-night/">motion capture</a>.</p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/MAoVUrmiRZs?rel=0" frameborder="0" allowfullscreen></iframe>
+          </section>
+
+          <section>
             <p>See <a href="https://www.youtube.com/watch?v=2Uq9TImFxBU">the other side of reality</a>!</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/2Uq9TImFxBU?rel=0" frameborder="0" allowfullscreen></iframe>
+            <p class="fragment">
+              Incredibly useful for debugging!
+            </p>
           </section>
 
           <section>
@@ -246,11 +223,19 @@
             <h3>Samsung Bubble</h3>
             <iframe width="560" height="315" src="https://samsunginter.net/bubble/" frameborder="0" allowfullscreen></iframe>
             <p>A <a href="https://samsunginter.net/bubble/">360º image</a> viewer</p>
+            <p class="fragment">
+              Which is also a Progressive Web App!
+            </p>
           </section>
 
           <section>
             <h3>A week of A-Frame series</h3>
-            <p>A <a href="https://aframe.io/blog/awoa-71/" target="_blank">weekly summary</a> of A-Frame supported VR experiences.</p>
+            <p>A <a href="https://aframe.io/blog/awoa-71/" target="_blank">weekly summary</a> of A-Frame based VR experiences.</p>
+          </section>
+
+          <section>
+            <h3>Visit Mozilla booth out there!</h3>
+            <!-- Add funny picture of the booth -->
           </section>
         </section>
 
@@ -266,38 +251,36 @@
 
           <section data-markdown>
             ### E is for Entity
-
-            An [entitiy](https://aframe.io/docs/0.6.0/core/entity.html) is an
-            element of the scene and a container for components.
-
             ```html
             &lt;a-entity&gt;&lt;/a-entity&gt;
             ```
+
+            An [entitiy](https://aframe.io/docs/0.6.0/core/entity.html) is an
+            element of the scene and a container for components.
           </section>
 
           <section data-markdown>
             ### C is for Component
-
-            A [component](https://aframe.io/docs/0.6.0/core/component.html) captures an aspect of an entity.
-
             ```
             &lt;a-entity position="0 2 -5"&gt;&lt;/a-entity&gt;
             ```
 
-            Review the [complete list of components](https://aframe.io/docs/0.6.0/components/)!
+            A [component](https://aframe.io/docs/0.6.0/core/component.html) captures an aspect of an entity.
           </section>
 
           <section data-markdown>
-            Components can store multiple data using a sort of CSS syntax.
-
             ```html
-            &lt;a-entity position="0 2 -5" camera="near: 0.1; far: 100"&gt;&lt;/a-entity&gt;
+            &lt;a-entity position="0 2 -5" camera="near: 0.1; far: 100" wasd-controls&gt;
+            &lt;/a-entity&gt;
             ```
+            An entity can have multiple components and components can store multiple data using a **sort of CSS syntax**.
           </section>
 
           <section data-markdown>
             ### S is for System
-
+            ```html
+            &lt;scene physics=&quot;gravity: -0.3&quot; shadow=&quot;type: pcfsoft&quot;&gt;&lt;/scene&gt;
+            ```
             A [system](https://aframe.io/docs/0.6.0/core/systems.html) is the
             logic governing entities possesing a component of the same aspect.
           </section>
@@ -325,34 +308,18 @@
           </section>
         </section>
 
-        <!--<section>
-          <section data-markdown>
-            ## The Scene Inspector
-          </section>
-
-          <section data-markdown>
-            Open the inspector pressing `ctrl+alt+i`. Show the scene statistics
-            adding the `stats` property to the scene.
-          </section>
-
-          <section>
-            <iframe width="100%" height="400px" src="./inspector.html"></iframe>
-            <a href="./inspector.html" target="_blank">Fullscreen</a>
-          </section>
-        </section>-->
-
         <section>
-          <section data-markdown>
+          <section data-markdown data-background-image="./imgs/bricks.jpg">
             ## The A-Frame registry
           </section>
 
           <section data-markdown>
-            Components are the main point of extension in A-Frame.
-
-            Some are built-in in A-Frame:
+            Components are the **building blocks** of A-Frame scenes.
           </section>
 
           <section data-markdown>
+            Some are [built-in](https://aframe.io/docs/0.6.0/components/) in A-Frame:
+
             `camera`, `cursor`, `debug`, `embedded`, `geometry`, `light`,
             `position`, `rotation`, `scale`, `sound`, `shadow`,
             `hand-controls`, `gltf-model`...
@@ -369,9 +336,15 @@
             `firebase`, `layout`, `speech-command`, `stats-in-vr`, `stereo`, `super-hands`...
           </section>
 
-          <section data-markdown>
-            Find them all in the
-            [A-Frame Registry](https://aframe.io/aframe-registry/)!
+          <section>
+            <p>
+            And publish them in the
+            <a href="https://aframe.io/aframe-registry/">A-Frame Registry</a>
+            </p>
+          </section>
+
+          <section>
+            <video src="./imgs/registry.mp4" data-autoplay controls></video>
           </section>
 
           <section data-markdown>
@@ -389,36 +362,58 @@
         </section>
 
         <section>
+          <section data-markdown data-background-image="./imgs/source.jpg">
+            ## The Scene Inspector
+          </section>
+
           <section data-markdown>
-            ## Resources
+            [The inspector](https://github.com/aframevr/aframe-inspector) allows the developer to look into a scene, manipulating its elements and exporting the resulting HTML.
+          </section>
+
+          <section>
+            <iframe width="100%" height="400px" src="./inspector.html"></iframe>
+            <p>
+              Open the inspector pressing <code>ctrl + alt + i</code>.
+            </p>
+            <a href="./inspector.html" target="_blank">Go standalone.</a>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-background-image="./imgs/aframe-header.png">
+            ## Resources &amp; Community
+          </section>
+
+          <section data-markdown>
+            [@aframevr](https://twitter.com/aframevr)
+
+            Follow us on Twitter!
+          </section>
+
+          <section data-markdown>
+            https://github.com/aframevr/aframe
+
+            And get involved in our GitHub community!
           </section>
 
           <section data-markdown>
             [A-Frame schools](https://aframe.io/aframe-school/#/)
 
-            An excellent tutorial covering tons of aspects.
+            An interactive tutorial covering tons of aspects.
           </section>
 
           <section data-markdown>
-            A-Frame
+            [A-Frame Blog](https://aframe.io/blog/)
 
-            * [A-Frame Blog](https://aframe.io/blog/)
-            * [A-Frame HQ](https://aframe.io/)
-            * [A-Frame documentation](https://aframe.io/docs/0.6.0/introduction/)
-            * [A-Frame register](https://aframe.io/aframe-registry/)
-            * [A-Painter](https://aframe.io/a-painter/)
-            * [A-Painter showcase](https://github.com/aframevr/a-painter/issues/99)
+            News and hot topics regarding A-Frame.
+
+            Participate and [suggest new content](https://github.com/aframevr/aframe/issues/2957)!
           </section>
 
           <section data-markdown>
-            WebVR
+            [A-Frame slack](https://aframevr-slack.herokuapp.com/)
 
-            * [Is WebVR ready?](https://iswebvrready.org/)
-            * [WebVR specification](https://w3c.github.io/webvr/)
-            * [W3C WebVR Group](https://www.w3.org/community/webvr/)
-            * [WebVR demos](https://mozvr.com/webvr-demos/)
-            * [MozVR team](https://mozvr.com/)
-            * [WebVR team blog](https://blog.mozvr.com/)
+            Join live discussions regarding A-Frame and WebVR.
           </section>
 
           <section data-markdown>
