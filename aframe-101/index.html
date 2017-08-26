@@ -45,6 +45,20 @@
         </section>
 
         <section>
+          <img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ![QR of the presentation](./imgs/qr.png)
+
+          http://bit.ly/2w6Gucv
+        </section>
+
+        <section>
           <section data-markdown data-background-image="./imgs/metaverse.png">
             ## Virtual Reality in the Web
           </section>
@@ -53,19 +67,64 @@
             VR is a new media.
           </section>
 
-          <section data-markdown>
-            For VR to take off, we need **content** and content requires authors
-            and distribution.
+          <section>
+            <p>It is about <strong>presence</strong>:</p>
+            <p class="fragment"><em>the feeling of being there</em></p>
           </section>
 
           <section data-markdown>
-            The Web and Web technologies are free, frictionless and reach
-            millions. They seems the [perfect choice for such a mission](../web-platform-when-why/).
+            For WebVR to take off, we need **technology** and **content**; **authors**
+            and **distribution**.
           </section>
 
           <section data-markdown>
-            WebVR is an initiative started by Mozilla for bringing VR
-            experiences to the Web.
+            [WebVR](https://github.com/w3c/webvr) is a new browser API for accessing VR displays and controllers.
+          </section>
+
+          <section data-markdown>
+            Content has not to be graphicly accurate but to provide **meaningful, presence-based interactions**.
+          </section>
+
+          <section data-markdown>
+            The Web is open, frictionless and reach millions of individuals around the world. WebVR experiences are always **one link away**.
+          </section>
+
+          <section data-markdown>
+            The Web is not for programmers only.
+
+            Web technologies **welcome every kind of author**.
+          </section>
+
+          <section data-markdown>
+             HTML and CSS are **friendly**, **accessible** and **powerful** languages and they did great converting this:
+          </section>
+
+          <section data-markdown>
+            ![Physical photo album](./imgs/photo-album.gif)
+          </section>
+
+          <section data-markdown>
+            Into this:
+          </section>
+
+          <section data-markdown>
+            ![Online gallery](./imgs/picture-gallery.jpg)
+          </section>
+
+          <section data-markdown>
+            But HTML and CSS were not designed to deal with 3D scenes and body-based interactions like...
+          </section>
+
+          <section data-markdown>
+            ![VR image gallery](./imgs/vr-picture-gallery.png)
+          </section>
+
+          <section data-markdown>
+            Soon, you will need JavaScript to create and manipulate 3D scenes, which means using [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API), [WebVR](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API), [Web Audio](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API), [Gamepad](https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API) and other powerful but **complex** browser APIs.
+          </section>
+
+          <!--<section data-markdown>
+            WebVR is an initiative started by Mozilla for bringing VR experiences to the Web.
           </section>
 
           <section data-markdown>
@@ -100,17 +159,15 @@
 
           <section data-markdown>
             So now we have a Web standard, it should be as easy as...
-          </section>
+          </section>-->
 
           <section>
+            <p>The boilerplate for a simple VR gets messy fast:</p>
             <video src="./imgs/boilerplate-low.mp4" data-autoplay controls></video>
           </section>
 
-          <section>
-            <video src="./imgs/really.mp4" data-autoplay data-loop></video>
-            <p>
-              ...oh, WAIT!
-            </p>
+          <section data-markdown>
+            Making really hard for authors to start experimenting with VR.
           </section>
         </section>
 
@@ -169,25 +226,42 @@
           </section>
 
           <section data-markdown>
-            A-Frame provides general primitives for building scenes:
-            * [`a-scene`](https://aframe.io/docs/0.6.0/core/scene.html) is the root of the 3D scene.
-            * [`a-animation`](https://aframe.io/docs/0.6.0/core/animations.html) allows animation of scene elements.
-            * [`a-sky`](https://aframe.io/docs/0.6.0/primitives/a-sky.html) for setting a skydome.
-            * [`a-box`](https://aframe.io/docs/0.6.0/primitives/a-box.html), `a-plane`, `a-sphere`... to quicky setup geometric primitives.
+            It uses HTML syntax to expose a **component-based architecture**.
+            ```html
+            &lt;a-entity component
+                      another-component=&quot;value&quot;
+                      yet-another-component=&quot;property: val; anotherProperty: val&quot;&gt;
+            &lt;/a-entity&gt;
+            ```
           </section>
 
           <section data-markdown>
-            However, **`a-entity` elements and _components_** are the real building blocks of A-Frame.
+            ![Component composition on an entity](./imgs/ecs-composition.gif)
           </section>
 
           <section data-markdown>
-            But before digging into the guts of A-Frame&hellip;
+            A-Frame uses [three.js](https://threejs.org/) to render the scene. It exposes all the power of three.js in a **friendly, declarative fashion**.
           </section>
         </section>
 
         <section>
           <section data-markdown data-background-image="./imgs/a-painter.png">
             ## Showcase
+          </section>
+
+          <section>
+            <h3>A-Blast!</h3>
+            <img src="https://blog.mozvr.com/content/images/2017/01/ashooter-10s.gif" />
+            <p><a href="https://aframe.io/a-blast">Defend the Earth</a> against
+              the cutest invaders in the galaxy.</p>
+          </section>
+
+          <section>
+            <h3>A-Painter</h3>
+            <p>A <a href="https://aframe.io/a-painter/">VR painting experience</a> for the Web.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/DpWOKikos7Q?start=165" frameborder="0" allowfullscreen></iframe>
+            <p><a href="https://blog.mozvr.com/mastering-a-painter/">Tons of features</a> being added!</p>
+            <p>Discover <a href="https://github.com/aframevr/a-painter/issues/99">the gallery</a>.</p>
           </section>
 
           <section>
@@ -205,21 +279,6 @@
           </section>
 
           <section>
-            <h3>A-Painter</h3>
-            <p>A <a href="https://aframe.io/a-painter/">VR painting experience</a> for the Web.</p>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/DpWOKikos7Q?start=165" frameborder="0" allowfullscreen></iframe>
-            <p><a href="https://blog.mozvr.com/mastering-a-painter/">Tons of features</a> being added!</p>
-            <p>Discover <a href="https://github.com/aframevr/a-painter/issues/99">the gallery</a>.</p>
-          </section>
-
-          <section>
-            <h3>A-Blast!</h3>
-            <img src="https://blog.mozvr.com/content/images/2017/01/ashooter-10s.gif" />
-            <p><a href="https://aframe.io/a-blast">Defend the Earth</a> against
-              the cutest invaders in the galaxy.</p>
-          </section>
-
-          <section>
             <h3>Samsung Bubble</h3>
             <iframe width="560" height="315" src="https://samsunginter.net/bubble/" frameborder="0" allowfullscreen></iframe>
             <p>A <a href="https://samsunginter.net/bubble/">360º image</a> viewer</p>
@@ -234,18 +293,26 @@
           </section>
 
           <section>
-            <h3>Visit Mozilla booth out there!</h3>
-            <!-- Add funny picture of the booth -->
+            <h3>Visit Mozilla booth just behind us!</h3>
+            <img alt="Rambimba is inviting you to join us at our booth" src="./imgs/booth.jpg" style="width: 40%" />
           </section>
         </section>
 
-        <section>
+<!--        <section>
           <section data-markdown data-background-image="./imgs/faces.jpeg">
             ## Entities, Components &amp; Systems
           </section>
 
           <section data-markdown>
-            The real power of A-Frame lies in its
+            A-Frame provides general primitives for building scenes:
+            * [`a-scene`](https://aframe.io/docs/0.6.0/core/scene.html) is the root of the 3D scene.
+            * [`a-animation`](https://aframe.io/docs/0.6.0/core/animations.html) allows animation of scene elements.
+            * [`a-sky`](https://aframe.io/docs/0.6.0/primitives/a-sky.html) for setting a skydome.
+            * [`a-box`](https://aframe.io/docs/0.6.0/primitives/a-box.html), `a-plane`, `a-sphere`... to quicky setup geometric primitives.
+          </section>
+
+          <section data-markdown>
+            But the real power of A-Frame lies in its
             [ECS architecture](https://aframe.io/docs/0.6.0/core/).
           </section>
 
@@ -288,6 +355,7 @@
           <section data-markdown>
             The ECS pattern is **the source of A-Frame flexibility**.
           </section>
+
           <section data-markdown>
             Even primitives are
             actually entities whose attributes map to specific components.
@@ -306,9 +374,9 @@
             &lt;a-entity geometry="primitive: box" material="color: red"&gt;&lt;/a-entity&gt;
             ```
           </section>
-        </section>
+        </section>-->
 
-        <section>
+        <!--<section>
           <section data-markdown data-background-image="./imgs/bricks.jpg">
             ## The A-Frame registry
           </section>
@@ -359,7 +427,7 @@
           <section>
             <p data-height="400" data-theme-id="0" data-slug-hash="RKrpPK" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame text" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/RKrpPK/">A-Frame text</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
           </section>
-        </section>
+        </section>-->
 
         <section>
           <section data-markdown data-background-image="./imgs/source.jpg">
@@ -367,7 +435,7 @@
           </section>
 
           <section data-markdown>
-            [The inspector](https://github.com/aframevr/aframe-inspector) allows the developer to look into a scene, manipulating its elements and exporting the resulting HTML.
+            [The inspector](https://github.com/aframevr/aframe-inspector) allows the developer to look into the whole scene, manipulate its elements and even export the resulting HTML.
           </section>
 
           <section>
@@ -411,24 +479,22 @@
           </section>
 
           <section data-markdown>
+            [A-Frame registry](https://aframe.io/aframe-registry/)
+
+            Exntend your capabilities by using 3rd party components.
+          </section>
+
+          <section data-markdown>
             [A-Frame slack](https://aframevr-slack.herokuapp.com/)
 
             Join live discussions regarding A-Frame and WebVR.
           </section>
 
           <section data-markdown>
-            You can review the [presentation codepens](http://codepen.io/collection/XMjmvm/) also.
+            Check the [slide deck](http://bit.ly/2w6Gucv)
 
-            These resources and more at https://webvr.info/
+            And its [codepens](http://codepen.io/collection/XMjmvm/) also.
           </section>
-        </section>
-
-        <section>
-          <img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
-          <p>Salvador de la Puente González</p>
-          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
-          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
-          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
         </section>
 
         <section data-markdown>

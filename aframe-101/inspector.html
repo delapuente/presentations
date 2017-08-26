@@ -9,12 +9,10 @@
     experiences in the Web. A-Frame leverages HTML syntax to support an
     Entity-Component-System architecture like those on modern game engines.">
     <meta name="author" content="Salvador de la Puente González">
-    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
-    <script src="./aframe-effects.min.js"></script>
+    <script src="./aframe.min.js"></script>
   </head>
   <body>
-    <a-scene effects="godrays"
-             godrays="src: #sun; threshold: 0.1 0.5; intensity: 0.5">
+    <a-scene inspector="url: ./aframe-inspector.min.js">
 
       <a-assets>
         <img id="sky" src="/aframe-101/imgs/sky.png" />
