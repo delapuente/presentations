@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>A-Frame 101 - Inspector</title>
+    <meta name="description" content="A-Frame is a web framework to build VR
+    experiences in the Web. A-Frame leverages HTML syntax to support an
+    Entity-Component-System architecture like those on modern game engines." />
+    <meta name="author" content="Salvador de la Puente González" />
+    <script src="./aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-animation-component@^3.2.x/dist/aframe-animation-component.min.js" data-component-description="Animations in A-Frame using anime.js" data-component-names="animation" data-component-url="https://npmjs.com/package/aframe-animation-component" data-package-name="aframe-animation-component"></script></head>
+  <body class="a-body " data-gr-c-s-loaded="true">
+    <a-scene inspector="url:./aframe-inspector.min.js" class="fullscreen" canvas="" keyboard-shortcuts="" screenshot="" vr-mode-ui="">
+
+      <a-assets>
+        <img id="sky" src="/aframe-101/imgs/sky.png">
+      </a-assets>
+
+      <a-entity light="color:#9597bb;type:ambient" position="0 11.162 0">
+      </a-entity>
+
+      <a-entity id="sun" geometry="primitive:sphere;radius:0.5" material="shader:flat;transparent:true" light="color:#ffe3f9;type:point;castShadow:true;intensity:0.6" position="10.824 10.132 -0.135">
+      </a-entity>
+
+      <a-entity id="trenche" scale="0.1 0.1 0.1" obj-model="mtl:/aframe-101/imgs/trenche.mtl;obj:/aframe-101/imgs/trenche.obj" shadow="">
+      </a-entity>
+      <a-entity id="tie-fighter" position="5.2 8.4 3.6" rotation="-13 73 4" scale="0.1 0.1 0.1" obj-model="mtl:/aframe-101/imgs/dv-tie-fighter.mtl;obj:/aframe-101/imgs/dv-tie-fighter.obj" shadow="">
+      </a-entity><a-entity id="crashed-tie-fighter" position="2.134 8.4 -5.677" rotation="-2.4637185190625397 49.73273661735546 34.09098881028398" scale="0.1 0.1 0.1" obj-model="mtl:/aframe-101/imgs/dv-tie-fighter.mtl;obj:/aframe-101/imgs/dv-tie-fighter.obj" shadow="" light="intensity:1.9831799566467985;castShadow:true;type:point;color:#ff5e00" animation="dir:alternate;loop:true;to:3;from:1;property:light.intensity">
+      </a-entity>
+      <a-entity id="x-wing" position="-3.9 4.6 -2.2" rotation="-9 8 -2" scale="0.1 0.1 0.1" obj-model="mtl:/aframe-101/imgs/x-wing.mtl;obj:/aframe-101/imgs/x-wing.obj" shadow="">
+      </a-entity>
+
+      <a-sky src="#sky"></a-sky>
+      <a-entity camera="" position="-7 6 -2.2" rotation="13 -105 0" wasd-controls="" look-controls=""></a-entity>
+    <a-entity position="1.907 2.702 -3.696" rotation="0 -90.012 0" scale="0.389 0.389 0.389" id="explosion" obj-model="obj:/aframe-101/imgs/explosion.obj;mtl:/aframe-101/imgs/explosion.mtl"></a-entity></a-scene>
+
+
+</body></html>
