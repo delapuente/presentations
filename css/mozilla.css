@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Zilla+Slab');
+
+#mozilla-brand {
+  float: right;
+  font-family: 'Zilla Slab', serif;
+  font-size: 24pt;
+  font-weight: bolder;
+  color: black;
+  background-color: yellow;
+  padding: 0.2em;
+  box-sizing: border-box;
+  display: flex;
+  position: fixed;
+  right: 1em;
+  z-index: 100;
+}
+
+#mozilla-brand a {
+  color: black;
+  text-decoration: none;
+}
+
+#mozilla-brand a:hover {
+  color: black;
+  text-decoration: underline;
+}
