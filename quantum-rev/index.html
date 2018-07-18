@@ -1,0 +1,613 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>The quantum revolution for people who code</title>
+    <meta name="description" content="Quantum programming for all levels of coders. A bunch of intuition and some math.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/tabzilla/css/tabzilla.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-light.css"/>
+
+		<!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <style>
+      section.no-deco img {
+        border: none;
+        box-shadow: none;
+      }
+    </style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+  <body>
+
+		<div class="reveal">
+			<div class="slides">
+        <section>
+          <header>
+            <h1>La revolución cuántica para gente que programa</h1>
+            <p>(con bastante intuición y algunas mates)</p>
+          </header>
+        </section>
+
+        <section>
+          <img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ## Índice
+          * El futuro
+          * El presente
+          * Circuitos cuánticos
+          * Programación cuántica
+          * Números grandes
+        </section>
+
+        <section data-markdown>
+          > La computación cuántica el uso de las propiedades de la mecánica cuántica para la aceleración en la resolución de problemas computables.
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## El futuro
+          </section>
+
+          <section data-markdown>
+            ![Problem classes](./imgs/problem-classes.jpg)
+            Parece que la computación cuántica es más poderosa que la computación clásica pero **no lo hemos probado**.
+          </section>
+
+          <section data-markdown>
+            ![Install a domain-specific library](imgs/install-acqua.png)
+            En el futuro utilizaremos librerías específicas de dominio como CUDA u OpenCV.
+          </section>
+
+          <section data-markdown>
+            ```python
+from qiskit_acqua import Operator, run_algorithm
+from qiskit_acqua.input import get_input_instance
+
+pauli_dict = {
+    'paulis': [
+      {"coeff": {"imag": 0.0, "real": -1.052373245772859}, "label": "II"},
+      {"coeff": {"imag": 0.0, "real": 0.39793742484318045}, "label": "ZI"},
+      {"coeff": {"imag": 0.0, "real": -0.39793742484318045}, "label": "ZZ"},
+      {"coeff": {"imag": 0.0, "real": 0.18093119978423156}, "label": "XX"}
+    ]
+}
+algo_input = get_input_instance('EnergyInput')
+algo_input.qubit_op = Operator.load_from_dict(pauli_dict)
+params = {
+    'algorithm': {'name': 'VQE'},
+    'optimizer': {'name': 'SPSA'},
+    'variational_form': {'name': 'RY', 'depth': 5},
+    'backend': {'name': 'local_qasm_simulator'}
+}
+result = run_algorithm(params, algo_input)
+print(result['energy'])
+            ```
+            Y utilizaremos los algoritmos que vienen con ella.
+          </section>
+
+          <section data-markdown>
+            ![Nine dots puzzle solved with 1 line](imgs/nine-dots-1.gif)
+
+            El aspecto creativo consistirá en reformular problemas clásicos...
+          </section>
+
+          <section data-markdown>
+            ![Nine dots puzzle solved with 1 line](imgs/nine-dots-2.gif)
+
+            ...en términos de **algoritmos cuánticos**.
+          </section>
+
+          <section data-markdown>
+            ![Toxic science](imgs/toxic-science.jpg)
+
+            ¡Añade tu augurio distópico favorito aquí!
+          </section>
+
+          <section data-markdown>
+            Referencias:
+            * [A Short Guide to Hard Problems](https://www.quantamagazine.org/a-short-guide-to-hard-problems-20180716/)
+            * [Finally, a Problem That Only Quantum Computers Will Ever Be Able to Solve](https://www.quantamagazine.org/finally-a-problem-that-only-quantum-computers-will-ever-be-able-to-solve-20180621/)
+            * [9 Dots Puzzle SOLVED (using just 1 line!)](https://youtu.be/LaMqV-E0vWM?t=50)
+            * [Qiskit Acqua](https://www.qiskit.org/acqua)
+            * [How to measure a molecule’s energy using a quantum computer ](https://www.ibm.com/blogs/research/2017/09/quantum-molecule/)
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## El presente
+          </section>
+
+          <section data-markdown>
+            > The name Quantum Advantage means that in certain key and real application areas we’ll be able to say, (...) that quantum computing provides significant processing time or memory use advantages.
+          </section>
+
+          <section data-markdown>
+            ¿2020? ¿2025? ¿Y mientras?
+          </section>
+
+          <section data-markdown>
+            * [IBM Qiskit](https://github.com/Qiskit/) es una API en Python para contruir algoritmos cuánticos y ejecutarlos en **dispositivos reales** o simuladores.
+            * [Microsoft Q#](https://docs.microsoft.com/en-us/quantum/quantum-qr-intro?view=qsharp-preview) es un lenguaje de **alto nivel** para expresar algoritmos cuánticos.
+            * [Quirk](https://algassert.com/quirk) es un simulador online. **Basta con un navegador** con WebGl.
+          </section>
+
+          <section data-markdown>
+            Datos desalentadores de los procesadores cuánticos actuales:
+            * 100 micro-segundos de [coherencia](https://en.wikipedia.org/wiki/Quantum_decoherence) (tiempo de ejecución).
+            * Puesta a punto de milisegundos; productividad del 10%.
+            * Temperatura de operación de [3 mK](https://en.wikipedia.org/wiki/Absolute_zero).
+            * Del orden de ¡miles! de cúbits extra por cada cúbit lógico libre de error.
+          </section>
+
+          <section data-markdown>
+            Referencias
+            * [Quantum Ready now, Quantum Advantage tomorrow](https://medium.com/@rssutor/quantum-ready-now-quantum-advantage-tomorrow-14739a28c6f5)
+            * [Qiskit and its Fundamental Elements](https://medium.com/qiskit/qiskit-and-its-fundamental-elements-bcd7ead80492)
+            * [My Quantum Circuit Simulator: Quirk](http://algassert.com/2016/05/22/quirk.html)
+            * [Quantum Error Correction for Beginners](https://arxiv.org/pdf/0905.2794.pdf)
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Circuitos cuánticos
+          </section>
+
+          <section data-markdown>
+            ![Procesador cuántico al completo](imgs/procesador-cuantico.png)
+
+            El procesador cuántico al completo.
+          </section>
+
+          <section data-markdown>
+            ![Arquitectura Von Neumann](imgs/von-neumann.png)
+
+            Un procesador cuántico **no sigue una arquitectura de Von Neumann**.
+          </section>
+
+          <section data-markdown>
+            ![Chip de 7 cúbits](imgs/7-qubit-chip.png)
+
+            Un procesador cuántico está formado por cúbits que **son memoria y ALU**, a la vez.
+          </section>
+
+          <section data-markdown>
+            ![El generador de microondas](imgs/microwave-rack.jpg)
+
+            Unos generadores de microondas manipulan los cúbits.
+          </section>
+
+          <section data-markdown>
+            ![Compositor de IBM Q Experience](imgs/composer.png)
+
+            Construir circuitos cuánticos se parece a componer partituras.
+          </section>
+
+          <section data-markdown>
+            [Quirk](https://algassert.com/quirk) es un compositor y simulador para navegador muy **cómodo de usar** y potente.
+          </section>
+
+          <section data-markdown>
+            ### Cúbits y superposición
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Únicos dos estados de un bit](imgs/bit-alternate.gif)
+
+            Un bit clásico puede prepararse en uno de dos estados `0` o `1`.
+            Al leerse, se obtendrá, **con toda seguridad**, el valor en el que se ha preparado.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Probabilidad 50/50 de obtener 0 ó 1](imgs/qubit-alternate.gif)
+
+            Un cúbit puede prepararse de muchas maneras, de forma que podemos **controlar la probabilidad** de que al leerse obtengamos `0` o `1`.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Probabilidad 66/33 de obtener 0 ó 1](imgs/qubit-alternate-2-1.gif)
+
+            Por ejemplo para que haya el **doble de probabilidad de leer `0`, que de leer `1`**.
+          </section>
+
+          <section data-markdown>
+            A este efecto se le llama **superposición de estados**.
+          </section>
+
+          <section class="no-deco">
+            <img alt="Cúbit a 0" src="imgs/qubit-0.png" />
+            <img alt="Hadamard gate" src="imgs/hadamard-gate.png" />
+            <img alt="Cúbit en superposición" src="imgs/qubit-alternate.gif" />
+
+            <p>Para poner un cúbit en superposición, al 50%, utilizamos la puerta de <code>Hadamard</code>.</p>
+          </section>
+
+          <section data-markdown>
+            ### Estados y entrelazamiento
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Histograma en el que toda la probabilidad está en 00](imgs/histogram-00.png)
+
+            Si tenemos dos cúbits a `0`, el histograma de probabilidad tiene esta pinta.
+          </section>
+
+          <section data-markdown>
+            ![Una puerta Hadamard en el cúbit de menor peso, el de más arriba](imgs/circuit-1-hadamard.png)
+
+            Tras añadir una puerta `Hadamard` al cúbit de menor peso...
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Estado al 50% de probabilidad entre 00 y 01](imgs/histogram-50.gif)
+
+            ...se produce un **reparto de la probabilidad**.
+          </section>
+
+          <section data-markdown>
+            ![Otra puerta Hadamard en el cúbit de mayor peso, el de más abajo](imgs/circuit-2-hadamard.png)
+
+            Si añadimos otra puerta `Hadamard` al otro cúbit...
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Ambos cúbits en superposición suponen un 25% de probabilidad para cada resultado](imgs/histogram-25.gif)
+
+            ...se produce otro reparto de probabilidad.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Secuencia de cambios de estado posibles](imgs/all-states-sequence.gif)
+
+            La combinación de puertas anterior produce esta secuencia de cambios de estado.
+          </section>
+
+          <section data-markdown>
+            ![Una puerta Hadamard en el cúbit de menor peso, el de más arriba](imgs/circuit-1-hadamard.png)
+
+            Pero volvamos un momento al ejemplo anterior, con una sola puerta.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Intercambio de las columnas 01 y 11](imgs/histogram-swap.gif)
+
+            Las puertas cuánticas pueden intercambiar las columnas del histograma.
+          </section>
+
+          <section data-markdown>
+            ![Una puerta CNOT en el cúbit de menor peso, controla el de mayor peso](imgs/circuit-bell.png)
+
+            En particular, la puerta `CNOT` correlaciona dos cúbits de forma que **si la entrada de control es `1`, la entrada objetivo se invierte**.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Secuencia de cambios estado tras la correlación](imgs/bell-sequence.gif)
+
+            Esto anula algunos cambios de estado.
+          </section>
+
+          <section data-markdown>
+            A este fenómeno lo llamamos **entrelazamiento**.
+          </section>
+
+          <section data-markdown>
+            ### Amplitudes, fase e interferencia
+          </section>
+
+          <section data-markdown>
+            Algunas operaciones no alteran el histograma de manera perceptible.
+          </section>
+
+          <section data-markdown>
+            ![Circuito en superposición con cambio de fase](imgs/circuit-hadamard-z.png)
+
+            La puerta `Z`, en particular, **invierte la fase cuando el cúbit vale uno**.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![La secuencia completa con cambio de fase](imgs/phase-inversion-sequence.gif)
+
+            Podría decirse que cambia la "dirección" del estado.
+            Pero ello no basta para alterar la probabilidad.
+          </section>
+
+          <section data-markdown>
+            A este efecto lo llamamos **cambio de fase**.
+          </section>
+
+          <section data-markdown>
+            El cambio de fase no se puede observar en el histograma de probabilidad...
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![El cambio de fase invierte el signo de la amplitud en los estados 10 y 11](imgs/histogram-phase.gif)
+
+            ...pero sí en el **histograma de amplitudes**.
+          </section>
+
+          <section data-markdown>
+            La **probabilidad es el cuadrado de la amplitud**:
+            * Si la amplitud es `1/sqr(2)`, la probabilidad es `50%`.
+            * Si la amplitud es `-1/sqr(2)`, la probabilidad es `50%`.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Fenómenos de interferencia](imgs/interference.gif)
+
+            Gracias al cambio de signo, podemos **combinar (sumar/restar) columnas del histograma** de forma que algunas posibilidades se anulen y otras se refuercen.
+          </section>
+
+          <section data-markdown>
+            A este efecto lo llamamos **interferencia**.
+          </section>
+
+          <section data-markdown>
+            ### Las mates
+          </section>
+
+          <section data-markdown>
+            ![El vector de estados](imgs/state-vector.png)
+
+            El histograma de amplitudes se representa como un **vector** columna.
+          </section>
+
+          <section data-markdown>
+            ![La matrix de CNOT](imgs/cnot-gate-matrix.png)
+
+            Las puertas son **matrices unitarias** con tantas filas como posibilidades.
+          </section>
+
+          <section data-markdown>
+            ![Aplicar la puerta CNOT es multiplicar su matriz por el vector de estados](imgs/mult.gif)
+
+            Aplicar una puerta es **multiplicar** la matriz con el vector.
+          </section>
+
+          <section data-markdown>
+            ![El resultado es otro vector de estados](imgs/result-state-vector.png)
+
+            Aplicar una puerta es **multiplicar** la matriz con el vector.
+          </section>
+
+          <section>
+            <p>Los elementos de la matriz son</br><strong><span style="font-size: small">números complejos</span></strong></p>
+          </section>
+
+          <section data-markdown>
+            Referencias:
+            * [Quantum Computing Expert Explains One Concept in 5 Levels of Difficulty | WIRED](https://www.youtube.com/watch?v=OWJCfOvochA)
+            * [Quantum Computing for Computer Scientist](https://www.youtube.com/watch?v=F_Riqjdh2oM)
+            * [How to fold a Julia Fractal](http://acko.net/blog/how-to-fold-a-julia-fractal/)
+          </section>
+        </section>
+
+        <section data-markdown>
+          Recapitulando I:
+          * La unidad operativa del procesador cuántico es el cúbit.
+          * Un cúbit se puede preparar de forma que se lea con resultado `0` o `1`, a una determinada probabilidad.
+          * Algunas puertas cambian estas probabilidades: **superposición**.
+          * Otras correlaccionan unos cúbits con otros: **entrelazamiento**.
+        </section>
+
+        <section data-markdown>
+          Recapitulando II:
+          * La amplitud describe un estado cuántico.
+          * La **probabilidad es el cuadrado de la amplitud**.
+          * Algunas puertas pueden cambiar el signo de la amplitud de un suceso.
+          * Y otras pueden combinar la amplitud de distintos sucesos: **interferencia.**
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Programación cuántica
+          </section>
+
+          <section data-markdown>
+            ![Pesos de los cúbits en el simulador](imgs/bit-weights.png)
+
+            ¡Ojo! En el simulador, los cúbits superiores son los **menos significativos**. Es decir, **los de más a la derecha** en las representaciones binarias.
+          </section>
+
+          <section data-markdown>
+            ### El sumador con acarreo
+          </section>
+
+          <section data-markdown>
+            ```
+            A S I1 I0
+            ---------
+            0 0  0  0
+            0 1  0  1
+            0 1  1  0
+            1 0  1  1
+            ```
+            La tabla de verdad del sumador con acarreo, con las salidas primero.
+          </section>
+
+          <section data-markdown>
+            Nuestro objetivo es, partiendo de este histograma:
+
+            ![Histograma para los cúbits de entrada en superposición](imgs/histogram-source.png)
+          </section>
+
+          <section data-markdown>
+            Llegar a este:
+
+            ![Histograma para las combinaciones del sumador con acarreo](imgs/histogram-target.png)
+          </section>
+
+          <section data-markdown>
+            ### El algoritmo de Grover
+          </section>
+
+          <section data-markdown>
+            ![Identificar el elemento a buscar](imgs/tagging.png)
+
+            Primero identificamos el elemento que queremos buscar.
+          </section>
+
+          <section data-markdown>
+            ![Cambiar la fase del elemento, bajando la media](imgs/tagging-2.png)
+
+            Cambiamos su fase.
+          </section>
+
+          <section data-markdown>
+            ![Invertir sobre la media](imgs/inversion-over-average.png)
+
+            Realizamos la inversión sobre la media.
+          </section>
+
+          <section data-markdown>
+            ```
+            D3 D2 D1 D0  N2 N1 N0
+            ---------------------
+            0  0  0  0   0  0  0
+            0  0  1  0   0  0  1
+            0  1  0  0   0  1  0
+            0  1  1  0   0  1  1
+            1  0  0  0   1  0  0
+            1  0  1  0   1  0  1
+            1  1  0  0   1  1  0
+            1  1  1  0   1  1  1
+            ```
+
+            La tabla de verdad del multiplicador por dos, con las salidas al principio.
+          </section>
+
+          <section data-markdown>
+            ```
+            nuevo_valor = media - (valor - media)
+            nuevo_valor = -valor + 2 * media
+            v' = -I * v + 2 * media
+            media = P * v
+            P <=> matriz constante 1/N = 1/8
+            v' = -I * v + 2 * P * v
+            v' = (-I + 2 * P) * v
+                 |--PUERTA--|
+            ```
+          </section>
+
+          <section data-markdown>
+            ```
+            -1+2/8,2/8,2/8,2/8,2/8,2/8,2/8,2/8,
+            2/8,-1+2/8,2/8,2/8,2/8,2/8,2/8,2/8,
+            2/8,2/8,-1+2/8,2/8,2/8,2/8,2/8,2/8,
+            2/8,2/8,2/8,-1+2/8,2/8,2/8,2/8,2/8,
+            2/8,2/8,2/8,2/8,-1+2/8,2/8,2/8,2/8,
+            2/8,2/8,2/8,2/8,2/8,-1+2/8,2/8,2/8,
+            2/8,2/8,2/8,2/8,2/8,2/8,-1+2/8,2/8,
+            2/8,2/8,2/8,2/8,2/8,2/8,2/8,-1+2/8,
+            ```
+
+            La matriz de difusión puede descomponerse en puertas cuánticas básicas.
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Números grandes
+          </section>
+
+          <section data-markdown>
+            ```python
+            def grover(input_width, hash, reference):
+              for input in binary_combinations(input_width):
+                spawn(i => {
+                  if hash(i) == reference: print('The answer is ' + i)
+                }, input)
+            ```
+
+            Este programa resuelve el problema de la búsqueda desestructurada en, prácticamente, un paso.
+          </section>
+
+          <section data-markdown>
+            ```
+            1 000 000 000 000 000 000 000 000
+            |       |          |
+            |       |          | MIPS para un i7
+            |       |
+            |       | Un año de uso contínuo
+            |
+            | Un millón de años de uso contínuo
+            ```
+            Para 10 caracteres, es necesario recorrer una lista de `2^80` elementos.
+            Un `1` y `24` ceros detrás.
+          </section>
+
+          <section data-markdown>
+            ![Cray Titan](imgs/titan.jpg)
+
+            x 10.000 M ([yobibyte](https://en.wikipedia.org/wiki/Yobibyte))
+
+            La función `binary_combinations` devuelve una lista de `2^80` elementos de 10 bytes.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Circuito clásico para la búsqueda desestructurada](imgs/destructured-search.png)
+
+            Este circuito resuelve el problema de la búsqueda desestructurada en un sólo paso.
+          </section>
+
+          <section data-markdown>
+            Para 10 caracteres necesitaríamos replicar el circuito `2^80` veces.
+            Suponiendo 1M de circuitos completos en 1 milímetro cuadrado.
+          </section>
+
+          <section data-markdown>
+            ![Península Ibérica x 2](imgs/iberian-peninsula.jpg)
+          </section>
+
+          <section data-markdown>
+            x 2
+          </section>
+        </section>
+
+        <section data-markdown>
+          > Si piensas que entiendes la mecánica cuántica, es que no la has entendido.
+
+          [Richard Feynman](https://en.wikipedia.org/wiki/Richard_Feynman)
+        </section>
+      </div>
+		</div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
