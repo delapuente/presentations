@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Everything is a (Python) module</title>
+    <meta name="description" content="Imagine importing a JSON file into Python as a module. Yes, I'm talking about having a config.json file and importing it with import config. Or even more, how about accessing JPG metadata with import gps_coordinates from album.IMG00001? The highly dynamic nature of Python, in addition to the right combination of magic methods and a pinch of monkey-patching, allow us to customise the import machinery up to the point of enabling these and other interesting use cases.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-dark.css"/>
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+
+  <body>
+    <div class="reveal">
+
+      <div class="slides">
+        <section>
+          <section data-markdown>
+            # Everything is a (Python) module
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <blockquote>The tactics… no, amateurs discuss tactics… . Professional soldiers study logistics.</blockquote>
+            <p>— <a href="https://en.wikipedia.org/wiki/Tom_Clancy">Tom Clancy</a>, American novelist</p>
+          </section>
+        </section>
+
+        <section>
+          <h2>About me</h2>
+          <img src="../imgs/contact/perezalva.png" class="plain" style="float:left; width: 250px; height:auto;"/>
+          <dl style="padding-top: 100px;">
+            <dt>me</dt>
+            <dd>Salvador de la Puente González</dd>
+            <dt>github</dt>
+            <dd><a href="http://github.com/delapuente">http://github.com/delapuente</a></dd>
+            <dt>twitter</dt>
+            <dd><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></dd>
+            <dt>site</dt>
+            <dd><a href="http://salvadelapuente.com">http://salvadelapuente.com</a><br/></dd>
+          </dl>
+        </section>
+
+        <section data-markdown>
+          Dicebamus hesterna die...
+        </section>
+
+        <section>
+          <section>
+            <img alt="Logo de la PyConES 2015" src="imgs/pycones-2015.png" style="transform: rotate(5deg)" />
+          </section>
+
+          <section>
+            <div style="transform: rotate(-5deg)">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/in22xoH_-fw" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+              <p>Por <a href="https://twitter.com/salvadelapuente">Salva de la Puente</a>, PyConES 2016</p>
+          </div>
+          </section>
+
+          <section>
+            <img src="imgs/import-mechanism-2015.png" style="transform: rotate(5deg)" alt="Transparencia sobre la maquinaria de import durante la charla de PyConES 2015, a modo de broma, no es relevante." />
+          </section>
+
+          <section>
+            <div style="transform: rotate(-5deg)">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/KhC0DXU6dGE?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+              <p>Por <a href="https://twitter.com/raulcumplido">Raul Cumplido</a>, PyConES 2016</p>
+            </div>
+          </section>
+
+          <section data-markdown>
+            [Syntactic macros in Python](../syntactic-macros-python/)
+
+            [delapuente/mcpy](https://github.com/delapuente/mcpy)
+          </section>
+        </section>
+
+        <section data-markdown>
+          Index
+
+          1. Foreign language integration
+          2. Feasability
+          3. The import machinery
+          3. `abm`: abstract modules
+          4. Conclusions
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Foreging language integration
+          </section>
+
+          <section data-markdown>
+            I've joined IBM Research to work for **Emerging Techonology Experiences**.
+            I work on [Qiskit](), a Python framework for designing and running quantum computing experiments.
+          </section>
+
+          <section data-markdown>
+            Designing cuantum circuits
+
+            ![Bell state circuit](./imgs/bell-state.png)
+
+            This circuit makes reading the register to output `00` or `11` with a
+            50% chance each.
+          </section>
+
+          <section>
+            <p>This is how a quantum experiment looks alike in Qiskit:</p>
+
+            <pre style="float:left; width: auto"><code class="lang-python">from qiskit import *
+def bell():
+  qr = QuantumRegister(2)
+  cr = ClassicalRegister(2)
+  qc = QuantumCircuit(qr, cr)
+  qc.h(qr[1])
+  qc.cnot(qr[1], qr[0])
+  qc.measure(qr, cr)
+  return qc
+
+result = execute(qc, backend='local_qasm_simulator').result()
+result.get_counts()
+# will print {'counts': {'00': 534, '11': 490}}</code></pre>
+            <img src="./imgs/bell-state.png" alt="Bell circuit" style="float: right" />
+
+            <p style="clear: both">Clear but verbose.</p>
+          </section>
+
+          <section>
+            <p>How about a specific language for creating circuits?</p>
+            <pre style="position: relative"><code>bash
+# in circuits.crc
+crc bell q[2] -> c[2]:
+  - :h: q1
+  - q1 :cx: q0
+end</code>
+<img src="./imgs/bell-state.png" alt="Bell circuit" style="position: absolute; right: 1rem; top: 0" />
+</pre>
+
+            <p style="clear: both">More succint and funnier to write...</p>
+          </section>
+
+          <section data-markdown>
+            But also easy to integrate with Python
+
+            ```python
+            import crc
+            from circuits import bell
+            bell()
+            # will print {'counts': {'00': 534, '11': 490}}
+            ```
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Feasability
+          </section>
+
+          <section data-markdown>
+            Python can load from `.zip` modules:
+
+            ```bash
+            $ tree
+.
+└── foo.zip
+            ```
+
+            ```python
+            import os, sys
+            sys.path.insert(0, os.getcwd() + '/foo.zip')
+            import bar
+            bar.__file__
+            # will print '/Users/salva/test/foo.zip/bar.py'
+            ```
+          </section>
+
+          <section data-markdown>
+            Python can load non `.py` modules such as `.pyc` or `.so`.
+            ```bash
+            $ tree
+.
+└── bar.pyc
+            ```
+            ```python
+            import bar
+            bar.__file__
+            # will print 'bar.pyc'
+            ```
+          </section>
+
+          <section data-markdown>
+            How does Python **distinguish** between loading a `.pyc` or a `.py` file?
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## The import machinery
+          </section>
+
+          <section data-markdown>
+            Let's say we execute:
+            ```python
+            import web.utils.json
+            ```
+            ```bash
+            $ tree
+            .
+            └── web
+                ├── __init__.py
+                └── utils
+                    ├── __init__.py
+                    └── json.py
+
+            2 directories, 3 files
+            ```
+          </section>
+
+          <section data-markdown>
+            It first check the `sys.modules` cache, which is a mapping of
+            (fully qualified) module names and module objects. If the module is
+            in the cache, we are done but let's imagine that it's not the case
+            and **the module is not in the cache**...
+          </section>
+
+          <section data-markdown>
+            Per each module name component `web`, `web.utils` and
+            `web.utils.json`, the **finders** in `sys.meta_path` are used
+            to find the modules.
+          </section>
+
+          <section data-markdown data-transition="none">
+            ```bash
+            import web.utils.json
+            ```
+            ```bash
+            sys.meta_path:
+            +------------------+-----------------+-------------+
+            | builtin_importer | frozen_importer | path_finder |
+            +------------------+-----------------+-------------+
+            ```
+          </section>
+
+          <section data-markdown data-transition="none">
+            ```bash
+            import web.utils.json
+                   ^^^ 
+            ```
+            ```bash
+            sys.meta_path:
+            +------------------+-----------------+-------------+
+            | builtin_importer | frozen_importer | path_finder |
+            +------------------+-----------------+-------------+
+             ^^^^^^^^^^^^^^^^^^
+            ```
+            ```python
+            builtin_importer.find_spec('web', None, None)
+            ```
+            Returns `None`
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+import web.utils.json
+       ^^^ 
+```
+```bash
+sys.meta_path:
++------------------+-----------------+-------------+
+| builtin_importer | frozen_importer | path_finder |
++------------------+-----------------+-------------+
+                    ^^^^^^^^^^^^^^^^^
+```
+```python
+frozen_importer.find_spec('web', None, None)
+```
+Returns `None`
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+import web.utils.json
+       ^^^ 
+```
+```bash
+sys.meta_path:
++------------------+-----------------+-------------+
+| builtin_importer | frozen_importer | path_finder |
++------------------+-----------------+-------------+
+                                      ^^^^^^^^^^^^^
+```
+```python
+path_finder.find_spec('web', None, None)
+```
+Returns a **`module_spec`** and use it to load the module!
+          </section>
+
+          <section data-markdown>
+            Now the same for `web.utils`...
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+import web.utils.json
+       ^^^^^^^^^ 
+```
+```bash
+sys.meta_path:
++------------------+-----------------+-------------+
+| builtin_importer | frozen_importer | path_finder |
++------------------+-----------------+-------------+
+ ^^^^^^^^^^^^^^^^^^
+```
+```python
+builtin_importer.find_spec('web.utils', web.__path__, None)
+```
+Returns `None`
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+import web.utils.json
+       ^^^^^^^^^ 
+```
+```bash
+sys.meta_path:
++------------------+-----------------+-------------+
+| builtin_importer | frozen_importer | path_finder |
++------------------+-----------------+-------------+
+                    ^^^^^^^^^^^^^^^^^
+```
+```python
+frozen_importer.find_spec('web.utils', web.__path__, None)
+```
+Returns `None`
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+import web.utils.json
+       ^^^^^^^^^ 
+```
+```bash
+sys.meta_path:
++------------------+-----------------+-------------+
+| builtin_importer | frozen_importer | path_finder |
++------------------+-----------------+-------------+
+                                      ^^^^^^^^^^^^^
+```
+```python
+path_finder.find_spec('web.utils', web.__path__, None)
+```
+Returns a **`module_spec`** and use it to load the module!
+          </section>
+
+          <section data-markdown>
+            And finally, for `web.utils.json`...
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+import web.utils.json
+       ^^^^^^^^^^^^^^ 
+```
+```bash
+sys.meta_path:
++------------------+-----------------+-------------+
+| builtin_importer | frozen_importer | path_finder |
++------------------+-----------------+-------------+
+ ^^^^^^^^^^^^^^^^^^
+```
+```python
+builtin_importer.find_spec('web.utils.json', web.utils.__path__, None)
+```
+Returns `None`
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+import web.utils.json
+       ^^^^^^^^^^^^^^ 
+```
+```bash
+sys.meta_path:
++------------------+-----------------+-------------+
+| builtin_importer | frozen_importer | path_finder |
++------------------+-----------------+-------------+
+                    ^^^^^^^^^^^^^^^^^
+```
+```python
+frozen_importer.find_spec('web.utils.json', web.utils.__path__, None)
+```
+Returns `None`
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+import web.utils.json
+       ^^^^^^^^^^^^^^ 
+```
+```bash
+sys.meta_path:
++------------------+-----------------+-------------+
+| builtin_importer | frozen_importer | path_finder |
++------------------+-----------------+-------------+
+                                      ^^^^^^^^^^^^^
+```
+```python
+path_finder.find_spec('web.utils.json', web.utils.__path__, None)
+```
+Returns a **`module_spec`** and use it to load the module!
+          </section>
+
+          <section data-markdown>
+            The **`module_spec`** contains a `loader` attribute, used to create
+            and execute the module. Something like:
+            ```python
+            module = module_spec.loader.create_module(module_spec)
+            module_spec.loader.exec_module(module)
+            ```
+          </section>
+
+          <section data-markdown>
+            The `PathFinder` instance in the `sys.meta_path` is in charge of
+            searching for modules with a _sort of path_. It turns out, **it is
+            extensible**.
+          </section>
+
+          <section data-markdown>
+            Basically, the path finder uses:
+
+            1. `sys.path`
+            2. `sys.path_hooks`
+            3. the name of the module
+            4. and its parent's `__path__` attribute
+
+            to find the module.
+          </section>
+
+          <section data-markdown>
+            The `sys.path` and `sys.path_hooks` lists are used to determine
+            **where to search** the module.
+          </section>
+
+          <section data-markdown>
+            The module's name and its parent `__path__` are used to determine
+            **what to search**.
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+module_name = 'web.utils.json'
+parent_path = web.utils.__path__
+```
+```bash
+sys.path:
++-----------+----+---------------------------------------------------+
+| 'foo.zip' | '' | '/Users/salva/.venv/lib/python3.6/site-packages/' |
++-----------+----+---------------------------------------------------+
+```
+```bash
+sys.path_hooks:
++--------------+-------------+
+| zip_importer | file_finder |
++--------------+-------------+
+```
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+sys.path:
++-----------+----+---------------------------------------------------+
+| 'foo.zip' | '' | '/Users/salva/.venv/lib/python3.6/site-packages/' |
++-----------+----+---------------------------------------------------+
+ ^^^^^^^^^^^
+```
+```bash
+sys.path_hooks:
++--------------+-------------+
+| zip_importer | file_finder |
++--------------+-------------+
+ ^^^^^^^^^^^^^^
+```
+```python
+entry_finder = zip_importer('foo.zip')
+```
+Returns a **path entry finder**. Meaning:
+
+"The `zip_importer` can search inside `'foo.zip'`...".
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+sys.path:
++-----------+----+---------------------------------------------------+
+| 'foo.zip' | '' | '/Users/salva/.venv/lib/python3.6/site-packages/' |
++-----------+----+---------------------------------------------------+
+  ^^^^^^^^^^^
+```
+```bash
+sys.path_hooks:
++--------------+-------------+
+| zip_importer | file_finder |
++--------------+-------------+
+  ^^^^^^^^^^^^^^
+```
+```python
+entry_finder = zip_importer('foo.zip')
+entry_finder.find_spec(module_name, parent_path)
+```
+Returns `None`. Meaning:
+
+"...but could not find `module_name`."
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+sys.path:
++-----------+----+---------------------------------------------------+
+| 'foo.zip' | '' | '/Users/salva/.venv/lib/python3.6/site-packages/' |
++-----------+----+---------------------------------------------------+
+             ^^^^
+```
+```bash
+sys.path_hooks:
++--------------+-------------+
+| zip_importer | file_finder |
++--------------+-------------+
+ ^^^^^^^^^^^^^^
+```
+```python
+entry_finder = zip_importer('')  # '' means the current working directory
+```
+Returns a `None`. Meaning:
+
+"`zip_importer` cannot search inside the `CWD`"
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+sys.path:
++-----------+----+---------------------------------------------------+
+| 'foo.zip' | '' | '/Users/salva/.venv/lib/python3.6/site-packages/' |
++-----------+----+---------------------------------------------------+
+             ^^^^
+```
+```bash
+sys.path_hooks:
++--------------+-------------+
+| zip_importer | file_finder |
++--------------+-------------+
+                ^^^^^^^^^^^^^
+```
+```python
+entry_finder = file_finder('')  # returns a file entry finder
+```
+Returns a **file entry finder**. Meaning:
+
+"`file_finder` can search inside the `CWD`..."
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+sys.path:
++-----------+----+---------------------------------------------------+
+| 'foo.zip' | '' | '/Users/salva/.venv/lib/python3.6/site-packages/' |
++-----------+----+---------------------------------------------------+
+             ^^^^
+```
+```bash
+sys.path_hooks:
++--------------+-------------+
+| zip_importer | file_finder |
++--------------+-------------+
+                ^^^^^^^^^^^^^
+```
+```python
+entry_finder = file_finder('')  # returns a file entry finder
+entry_finder.find_spec(module_name, parent_path)
+```
+Returns a **`module_spec`**. Meaning:
+
+"...and found `module_name`."
+          </section>
+
+          <section data-markdown>
+            A quick look to the `file_finder` reveals that it deals with
+            the different module kinds (`.so`, `.pyc`, `.py`).
+          </section>
+
+          <section data-markdown>
+            The `file_finder` uses a mapping of extensions and `Loader`
+            classes to determine which loader bind to `module_spec.loader`.
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+parent_path '/path/to/web/utils/'
+module_name = 'json'  # just the last component
+```
+```bash
+file_finder._loaders:
++--------------------+-----------------------+----------------------------+
+| ('.so', ExtLoader) | ('.py', SourceLoader) | ('.pyc', SourcelessLoader) |
++--------------------+-----------------------+----------------------------+
+```
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+parent_path '/path/to/web/utils/'
+module_name = 'json'
+```
+```bash
+file_finder._loaders:
++--------------------+-----------------------+----------------------------+
+| ('.so', ExtLoader) | ('.py', SourceLoader) | ('.pyc', SourcelessLoader) |
++--------------------+-----------------------+----------------------------+
+ ^^^^^^^^^^^^^^^^^^^^
+```
+```python
+if Path(parent_path + module_name + '.so').exists():
+  module_spec.loader = ExtLoader()
+```
+Does not exist, continue searching...
+          </section>
+
+          <section data-markdown data-transition="none">
+```bash
+parent_path '/path/to/web/utils/'
+module_name = 'json'
+```
+```bash
+file_finder._loaders:
++--------------------+-----------------------+----------------------------+
+| ('.so', ExtLoader) | ('.py', SourceLoader) | ('.pyc', SourcelessLoader) |
++--------------------+-----------------------+----------------------------+
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+```
+```python
+if Path(parent_path + module_name + '.py').exists():
+  module_spec.loader = SourceLoader()
+```
+Exists! The `module_spec` has the proper loader in place...
+          </section>
+
+          <section data-markdown>
+            Remeber, now the import machinery runs:
+            ```python
+            module = module_spec.loader.create_module(module_spec)
+            module_spec.loader.exec_module(module)
+            ```
+          </section>
+
+          <section data-markdown>
+            And the module is imported and everything is fine!
+          </section>
+
+          <section data-markdown>
+            So, can we add new pairs extension/loader class?
+          </section>
+
+          <section data-markdown>
+            **Nope**
+          </section>
+
+          <section data-markdown>
+            Loaders are passed during initialization of the import machinery
+            module in a function marked as private and ~~cannot~~ should not be
+            altered.
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            From the Zen of Python
+          </section>
+
+          <section data-markdown>
+            > Special cases aren't special enough to break the rules.
+          </section>
+
+          <section data-markdown>
+            > Although **practicality beats purity**.
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## `abm`: abstract modules
+            [delapuente/abm](https://github.com/delapuente/abm)
+          </section>
+
+          <section data-markdown>
+            You can install it from `pip`:
+            ```bash
+            $ pip install abm
+            ```
+            Or GitHub:
+            ```bash
+            $ pip install -e git+https://github.com/delapuente/abm.git#egg=abm
+            ```
+          </section>
+
+          <section data-markdown>
+            Activate it with the following code:
+            ```python
+            import abm.activate
+            ```
+            Now you can register a new module for an extension with:
+            ```python
+            import sys
+            sys.abm_hooks.append(('.jpg', MyImageLoader))
+            ```
+          </section>
+
+          <section data-markdown>
+            ### How does it work?
+          </section>
+
+          <section data-markdown>
+            The `activate` module creates **`sys.abm_hooks`** and changes the
+            `FileFinder` class to convert the internal `_loaders` attribute
+            into a class property. The getter and setter for this property
+            behave as follows:
+          </section>
+
+          <section data-markdown>
+            1. The setter **diverts the value to a new instance attribute** to
+            retain the original initialization.
+            2. The getter **combines the new attribute with the hooks from
+            `sys.abm_hooks`**.
+          </section>
+
+          <section data-markdown>
+            `_loaders` setter and getter, and activate function:
+            ```python
+            def _set_loaders(self, loaders):
+                self._builtin_loaders = loaders
+
+            def _get_loaders(self):
+                return chain(
+                    self._builtin_loaders, getattr(sys, 'abm_hooks').items())
+
+            def activate():
+                if not hasattr(sys, 'abm_hooks'):
+                    sys.abm_hooks = {}
+                    FileFinder._loaders = property(_get_loaders, _set_loaders)
+            ```
+          </section>
+
+          <section data-markdown>
+            ### Writing loaders
+          </section>
+
+          <section data-markdown>
+            The `.ini` file:
+            ```ini
+            ; config.ini
+            [section]
+            key = value
+            ```
+            ```bash
+            $ tree
+            .
+            └── config.ini
+
+            0 directories, 1 file
+            ```
+          </section>
+
+          <section data-markdown>
+            The module class:
+            ```python
+            from types import ModuleType
+            from configparser import ConfigParser
+
+            class IniModule(ModuleType, ConfigParser):
+
+              def __init__(self, spec_name):
+                ModuleType.__init__(self, spec_name)
+                ConfigParser.__init__(self)
+            ```
+          </section>
+
+          <section data-markdown>
+            The loader:
+            ```python
+            from abm.loaders import AbmLoader
+            class IniLoader(AbmLoader):
+              extensions = ('.ini',)
+
+              def create_module(self, spec):
+                module = IniModule(spec.name)
+                self.init_module_attrs(module)
+                return module
+
+              def exec_module(self, module):
+                module.read(self.path)
+            ```
+          </section>
+
+          <section data-markdown>
+            Usage:
+            ```python
+            import abm.activate
+            IniLoader.register()
+            import config
+            assert(config['section']['key'] == 'value')
+            ```
+          </section>
+
+          <section data-markdown>
+            Remember:
+            1. `create_module` is in charge of creating the module instance.
+            2. `exec_module` is in charge of populating the module.
+          </section>
+
+        </section>
+
+        <section data-markdown>
+          ## See also
+          * [The import system](https://docs.python.org/3/reference/import.html)
+          * [The `importlib` reference](https://docs.python.org/3/library/importlib.html)
+          * [`crc`: a language for writing quantum circuits](https://github.com/delapuente/crc)
+        </section>
+
+    </div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+  </body>
+</html>
