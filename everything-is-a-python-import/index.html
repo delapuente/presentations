@@ -305,7 +305,7 @@ Returns a **`module_spec`** and use it to load the module!
 
           <section data-markdown>
             The `PathFinder` instance in the `sys.meta_path` is in charge of
-            searching for modules with a _sort of path_. It turns out, **it is
+            searching for modules inside _sorts of paths_. It turns out, **it is
             extensible**.
           </section>
 
@@ -354,7 +354,7 @@ sys.path_hooks:
 ```python
 entry_finder = zip_importer('foo.zip')
 ```
-Returns a **path entry finder**. Meaning:
+Returns an **entry finder**. Meaning:
 
 "The `zip_importer` can search inside `'foo.zip'`...".
           </section>
@@ -424,7 +424,7 @@ sys.path_hooks:
 ```python
 entry_finder = file_finder('')  # returns a file entry finder
 ```
-Returns a **file entry finder**. Meaning:
+Returns an **entry finder**. Meaning:
 
 "`file_finder` can search inside the `CWD`..."
           </section>
@@ -589,7 +589,7 @@ file_finder._loaders:
             Now you can register a new loader for an extension with:
             ```python
             import sys
-            sys.abm_hooks.append(('.jpg', MyImageLoader))
+            sys.abm_hooks['.jpg'] = JpgLoader
             ```
           </section>
 
@@ -598,7 +598,7 @@ file_finder._loaders:
           </section>
 
           <section data-markdown>
-            `_loaders` setter and getter, and activate function:
+            `_loaders` setter and getter, and `activate` function:
             ```python
             def activate():
                 if not hasattr(sys, 'abm_hooks'):
@@ -626,6 +626,17 @@ file_finder._loaders:
             retain the original initialization.
             2. The getter **combines the new attribute with the hooks from
             `sys.abm_hooks`**.
+          </section>
+
+          <section data-markdown>
+This way, when reading `_loaders`...
+```bash
+file_finder._loaders:
+----------------------+----------------------------+     +---------------------+
+('.py', SourceLoader) | ('.pyc', SourcelessLoader) |  +  | ('.jpg', JpgLoader) |
+----------------------+----------------------------+     +---------------------+
+file_finder._builtin_loaders                          +  sys.abm_hooks.items()
+```
           </section>
 
           <section data-markdown>
