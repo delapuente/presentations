@@ -36,13 +36,6 @@
         </section>
 
         <section>
-          <section>
-            <blockquote>The tactics… no, amateurs discuss tactics… . Professional soldiers study logistics.</blockquote>
-            <p>— <a href="https://en.wikipedia.org/wiki/Tom_Clancy">Tom Clancy</a>, American novelist</p>
-          </section>
-        </section>
-
-        <section>
           <h2>About me</h2>
           <img src="../imgs/contact/perezalva.png" class="plain" style="float:left; width: 250px; height:auto;"/>
           <dl style="padding-top: 100px;">
@@ -98,7 +91,6 @@
           2. Feasability
           3. The import machinery
           3. `abm`: abstract modules
-          4. Conclusions
         </section>
 
         <section>
@@ -723,7 +715,7 @@ Exists! The `module_spec` has the proper loader in place...
             ```python
             import abm.activate
             ```
-            Now you can register a new module for an extension with:
+            Now you can register a new loader for an extension with:
             ```python
             import sys
             sys.abm_hooks.append(('.jpg', MyImageLoader))
