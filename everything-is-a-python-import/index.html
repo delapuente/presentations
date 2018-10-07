@@ -135,7 +135,7 @@ result.get_counts()
 
           <section>
             <p>How about a specific language for creating circuits?</p>
-            <pre style="position: relative"><code>bash
+            <pre style="position: relative"><code>
 # in circuits.crc
 crc bell q[2] -> c[2]:
   - :h: q1
@@ -209,37 +209,30 @@ end</code>
           <section data-markdown>
             Let's say we execute:
             ```python
-            import web.utils.json
+            import utils
             ```
             ```bash
             $ tree
             .
-            └── web
-                ├── __init__.py
-                └── utils
-                    ├── __init__.py
-                    └── json.py
+            └── utils.py
 
-            2 directories, 3 files
+            0 directories, 1 file
             ```
           </section>
 
           <section data-markdown>
-            It first check the `sys.modules` cache, which is a mapping of
-            (fully qualified) module names and module objects. If the module is
-            in the cache, we are done but let's imagine that it's not the case
-            and **the module is not in the cache**...
+            It first check the **`sys.modules` cache**, which is a mapping of
+            (fully qualified) module names and module objects. If not in the
+            cache...
           </section>
 
           <section data-markdown>
-            Per each module name component `web`, `web.utils` and
-            `web.utils.json`, the **finders** in `sys.meta_path` are used
-            to find the modules.
+            The **finders** in `sys.meta_path` are used to find the modules.
           </section>
 
           <section data-markdown data-transition="none">
             ```bash
-            import web.utils.json
+            import utils
             ```
             ```bash
             sys.meta_path:
@@ -251,8 +244,8 @@ end</code>
 
           <section data-markdown data-transition="none">
             ```bash
-            import web.utils.json
-                   ^^^ 
+            import utils
+                   ^^^^^ 
             ```
             ```bash
             sys.meta_path:
@@ -262,15 +255,15 @@ end</code>
              ^^^^^^^^^^^^^^^^^^
             ```
             ```python
-            builtin_importer.find_spec('web', None, None)
+            builtin_importer.find_spec('utils', None)
             ```
             Returns `None`
           </section>
 
           <section data-markdown data-transition="none">
 ```bash
-import web.utils.json
-       ^^^ 
+import utils
+       ^^^^^
 ```
 ```bash
 sys.meta_path:
@@ -280,15 +273,15 @@ sys.meta_path:
                     ^^^^^^^^^^^^^^^^^
 ```
 ```python
-frozen_importer.find_spec('web', None, None)
+frozen_importer.find_spec('utils', None)
 ```
 Returns `None`
           </section>
 
           <section data-markdown data-transition="none">
 ```bash
-import web.utils.json
-       ^^^ 
+import utils
+       ^^^^^ 
 ```
 ```bash
 sys.meta_path:
@@ -298,133 +291,15 @@ sys.meta_path:
                                       ^^^^^^^^^^^^^
 ```
 ```python
-path_finder.find_spec('web', None, None)
+path_finder.find_spec('utils', None)
 ```
 Returns a **`module_spec`** and use it to load the module!
           </section>
 
           <section data-markdown>
-            Now the same for `web.utils`...
-          </section>
-
-          <section data-markdown data-transition="none">
-```bash
-import web.utils.json
-       ^^^^^^^^^ 
-```
-```bash
-sys.meta_path:
-+------------------+-----------------+-------------+
-| builtin_importer | frozen_importer | path_finder |
-+------------------+-----------------+-------------+
- ^^^^^^^^^^^^^^^^^^
-```
-```python
-builtin_importer.find_spec('web.utils', web.__path__, None)
-```
-Returns `None`
-          </section>
-
-          <section data-markdown data-transition="none">
-```bash
-import web.utils.json
-       ^^^^^^^^^ 
-```
-```bash
-sys.meta_path:
-+------------------+-----------------+-------------+
-| builtin_importer | frozen_importer | path_finder |
-+------------------+-----------------+-------------+
-                    ^^^^^^^^^^^^^^^^^
-```
-```python
-frozen_importer.find_spec('web.utils', web.__path__, None)
-```
-Returns `None`
-          </section>
-
-          <section data-markdown data-transition="none">
-```bash
-import web.utils.json
-       ^^^^^^^^^ 
-```
-```bash
-sys.meta_path:
-+------------------+-----------------+-------------+
-| builtin_importer | frozen_importer | path_finder |
-+------------------+-----------------+-------------+
-                                      ^^^^^^^^^^^^^
-```
-```python
-path_finder.find_spec('web.utils', web.__path__, None)
-```
-Returns a **`module_spec`** and use it to load the module!
-          </section>
-
-          <section data-markdown>
-            And finally, for `web.utils.json`...
-          </section>
-
-          <section data-markdown data-transition="none">
-```bash
-import web.utils.json
-       ^^^^^^^^^^^^^^ 
-```
-```bash
-sys.meta_path:
-+------------------+-----------------+-------------+
-| builtin_importer | frozen_importer | path_finder |
-+------------------+-----------------+-------------+
- ^^^^^^^^^^^^^^^^^^
-```
-```python
-builtin_importer.find_spec('web.utils.json', web.utils.__path__, None)
-```
-Returns `None`
-          </section>
-
-          <section data-markdown data-transition="none">
-```bash
-import web.utils.json
-       ^^^^^^^^^^^^^^ 
-```
-```bash
-sys.meta_path:
-+------------------+-----------------+-------------+
-| builtin_importer | frozen_importer | path_finder |
-+------------------+-----------------+-------------+
-                    ^^^^^^^^^^^^^^^^^
-```
-```python
-frozen_importer.find_spec('web.utils.json', web.utils.__path__, None)
-```
-Returns `None`
-          </section>
-
-          <section data-markdown data-transition="none">
-```bash
-import web.utils.json
-       ^^^^^^^^^^^^^^ 
-```
-```bash
-sys.meta_path:
-+------------------+-----------------+-------------+
-| builtin_importer | frozen_importer | path_finder |
-+------------------+-----------------+-------------+
-                                      ^^^^^^^^^^^^^
-```
-```python
-path_finder.find_spec('web.utils.json', web.utils.__path__, None)
-```
-Returns a **`module_spec`** and use it to load the module!
-          </section>
-
-          <section data-markdown>
-            The **`module_spec`** contains a `loader` attribute, used to create
-            and execute the module. Something like:
+            ![Step into](imgs/step-into.png)
             ```python
-            module = module_spec.loader.create_module(module_spec)
-            module_spec.loader.exec_module(module)
+            path_finder.find_spec('utils', None)
             ```
           </section>
 
@@ -434,31 +309,9 @@ Returns a **`module_spec`** and use it to load the module!
             extensible**.
           </section>
 
-          <section data-markdown>
-            Basically, the path finder uses:
-
-            1. `sys.path`
-            2. `sys.path_hooks`
-            3. the name of the module
-            4. and its parent's `__path__` attribute
-
-            to find the module.
-          </section>
-
-          <section data-markdown>
-            The `sys.path` and `sys.path_hooks` lists are used to determine
-            **where to search** the module.
-          </section>
-
-          <section data-markdown>
-            The module's name and its parent `__path__` are used to determine
-            **what to search**.
-          </section>
-
           <section data-markdown data-transition="none">
 ```bash
-module_name = 'web.utils.json'
-parent_path = web.utils.__path__
+module_name = 'utils'
 ```
 ```bash
 sys.path:
@@ -472,6 +325,15 @@ sys.path_hooks:
 | zip_importer | file_finder |
 +--------------+-------------+
 ```
+          </section>
+
+          <section data-markdown>
+            The `sys.path` and `sys.path_hooks` lists are used to determine
+            **where to search** the module.
+          </section>
+
+          <section data-markdown>
+            The module's name is used to determine **what to search**.
           </section>
 
           <section data-markdown data-transition="none">
@@ -503,14 +365,14 @@ sys.path:
 +-----------+----+---------------------------------------------------+
 | 'foo.zip' | '' | '/Users/salva/.venv/lib/python3.6/site-packages/' |
 +-----------+----+---------------------------------------------------+
-  ^^^^^^^^^^^
+ ^^^^^^^^^^^
 ```
 ```bash
 sys.path_hooks:
 +--------------+-------------+
 | zip_importer | file_finder |
 +--------------+-------------+
-  ^^^^^^^^^^^^^^
+ ^^^^^^^^^^^^^^
 ```
 ```python
 entry_finder = zip_importer('foo.zip')
@@ -592,8 +454,10 @@ Returns a **`module_spec`**. Meaning:
           </section>
 
           <section data-markdown>
-            A quick look to the `file_finder` reveals that it deals with
-            the different module kinds (`.so`, `.pyc`, `.py`).
+            ![Step into](imgs/step-into.png)
+            ```python
+            entry_finder.find_spec(module_name, parent_path)
+            ```
           </section>
 
           <section data-markdown>
@@ -603,8 +467,8 @@ Returns a **`module_spec`**. Meaning:
 
           <section data-markdown data-transition="none">
 ```bash
-parent_path '/path/to/web/utils/'
-module_name = 'json'  # just the last component
+parent_path = None
+module_name = 'utils'  # just the last component
 ```
 ```bash
 file_finder._loaders:
@@ -616,8 +480,8 @@ file_finder._loaders:
 
           <section data-markdown data-transition="none">
 ```bash
-parent_path '/path/to/web/utils/'
-module_name = 'json'
+parent_path = None
+module_name = 'utils'
 ```
 ```bash
 file_finder._loaders:
@@ -627,7 +491,7 @@ file_finder._loaders:
  ^^^^^^^^^^^^^^^^^^^^
 ```
 ```python
-if Path(parent_path + module_name + '.so').exists():
+if Path(module_name + '.so').exists():
   module_spec.loader = ExtLoader()
 ```
 Does not exist, continue searching...
@@ -635,8 +499,8 @@ Does not exist, continue searching...
 
           <section data-markdown data-transition="none">
 ```bash
-parent_path '/path/to/web/utils/'
-module_name = 'json'
+parent_path = None
+module_name = 'utils'
 ```
 ```bash
 file_finder._loaders:
@@ -646,14 +510,16 @@ file_finder._loaders:
                       ^^^^^^^^^^^^^^^^^^^^^^^
 ```
 ```python
-if Path(parent_path + module_name + '.py').exists():
+if Path(module_name + '.py').exists():
   module_spec.loader = SourceLoader()
 ```
-Exists! The `module_spec` has the proper loader in place...
+Exists! The `module_spec` has the proper loader in place and it is returned to
+the import machinery.
           </section>
 
           <section data-markdown>
-            Remeber, now the import machinery runs:
+            The **`loader` attribute** of the `module_spec` is used to create
+            and execute the module. Something like:
             ```python
             module = module_spec.loader.create_module(module_spec)
             module_spec.loader.exec_module(module)
@@ -661,18 +527,23 @@ Exists! The `module_spec` has the proper loader in place...
           </section>
 
           <section data-markdown>
-            And the module is imported and everything is fine!
+            The module is finally cached in **`sys.modules`**.
+
+            And now the module is imported and everything is fine!
           </section>
 
           <section data-markdown>
             So, can we add new pairs extension/loader class?
+```bash
+file_finder._loaders:
++--------------------+-----------------------+----------------------------+
+| ('.so', ExtLoader) | ('.py', SourceLoader) | ('.pyc', SourcelessLoader) |
++--------------------+-----------------------+----------------------------+
+```
           </section>
 
           <section data-markdown>
-            **Nope**
-          </section>
-
-          <section data-markdown>
+            Nope.
             Loaders are passed during initialization of the import machinery
             module in a function marked as private and ~~cannot~~ should not be
             altered.
@@ -727,6 +598,23 @@ Exists! The `module_spec` has the proper loader in place...
           </section>
 
           <section data-markdown>
+            `_loaders` setter and getter, and activate function:
+            ```python
+            def activate():
+                if not hasattr(sys, 'abm_hooks'):
+                    sys.abm_hooks = {}
+                    FileFinder._loaders = property(_get_loaders, _set_loaders)
+
+            def _set_loaders(self, loaders):
+                self._builtin_loaders = loaders
+
+            def _get_loaders(self):
+                return chain(
+                    self._builtin_loaders, getattr(sys, 'abm_hooks').items())
+            ```
+          </section>
+
+          <section data-markdown>
             The `activate` module creates **`sys.abm_hooks`** and changes the
             `FileFinder` class to convert the internal `_loaders` attribute
             into a class property. The getter and setter for this property
@@ -738,23 +626,6 @@ Exists! The `module_spec` has the proper loader in place...
             retain the original initialization.
             2. The getter **combines the new attribute with the hooks from
             `sys.abm_hooks`**.
-          </section>
-
-          <section data-markdown>
-            `_loaders` setter and getter, and activate function:
-            ```python
-            def _set_loaders(self, loaders):
-                self._builtin_loaders = loaders
-
-            def _get_loaders(self):
-                return chain(
-                    self._builtin_loaders, getattr(sys, 'abm_hooks').items())
-
-            def activate():
-                if not hasattr(sys, 'abm_hooks'):
-                    sys.abm_hooks = {}
-                    FileFinder._loaders = property(_get_loaders, _set_loaders)
-            ```
           </section>
 
           <section data-markdown>
