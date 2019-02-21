@@ -211,6 +211,12 @@ print(result['energy'])
           <section data-markdown>
             [Quirk](https://algassert.com/quirk) es un compositor y simulador para navegador muy **cómodo de usar** y potente.
           </section>
+                      
+          <section data-markdown>
+            ![Pesos de los cúbits en el simulador](imgs/bit-weights.png)
+
+            ¡Ojo! En el simulador, los cúbits superiores son los **menos significativos**. Es decir, **los de más a la derecha** en las representaciones binarias.
+          </section>
 
           <section data-markdown>
             ### Cúbits y superposición
@@ -359,10 +365,20 @@ print(result['energy'])
             puertas X para pasar por los 4 estados de la entrada.
             2. Ahora aplica puertas H a los cúbit de entrada para comprobar
             todas las entradas a la vez.
+          </section>
+
+          <section data-markdown>
+            ### Ejercicios
+
+            Comienza con un circuito en blanco.
+
             3. "Dibuja" una puerta [TOFFOLI](https://i.ytimg.com/vi/bX64dYEH_YI/maxresdefault.jpg).
             ¿Qué función hace esta puerta?
-            4. ¿Puedes recrear el funcionamiento de la función OR (usando todas
-            puertas que conoces?
+            4. Prueba a dibujar una puerta CNOT con un "punto blanco".
+            ¿Qué ocurre?
+            5. ¿Podrías crear un circuito que reconociera el número
+            6 (3 cúbits de entrada y otro de salida que valga 1 sólo si los
+            de entrada tienen el patrón 110)? 
           </section>
 
           <section data-markdown>
@@ -449,6 +465,20 @@ print(result['energy'])
           </section>
 
           <section data-markdown>
+            ### Ejercicios
+
+            Partiendo de un circuito en blanco.
+            
+            1. Pon una puerta H en el cúbit q0.
+            2. Haz click en el botón "Make gate" y proporciona la matriz que
+            implementa la puerta CNOT (sección central). ¡Desactiva la opción
+            "ensure unitary"!
+            3. Proporciona la matriz de la puerta CNOT "con punto blanco".
+            4. Introduce una matriz con más de un 1 por fila y comprueba como
+            **NO** es unitaria.
+          </section>
+
+          <section data-markdown>
             Referencias:
             * [Essence of Linear Algebra](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
             * [Quantum Computing Expert Explains One Concept in 5 Levels of Difficulty | WIRED](https://www.youtube.com/watch?v=OWJCfOvochA)
@@ -479,6 +509,8 @@ print(result['energy'])
           </section>
 
           <section data-markdown>
+            ### ¡Recordatorio!
+
             ![Pesos de los cúbits en el simulador](imgs/bit-weights.png)
 
             ¡Ojo! En el simulador, los cúbits superiores son los **menos significativos**. Es decir, **los de más a la derecha** en las representaciones binarias.
@@ -510,6 +542,10 @@ print(result['energy'])
             Llegar a este:
 
             ![Histograma para las combinaciones del sumador con acarreo](imgs/histogram-target.png)
+          </section>
+
+          <section data-markdown>
+            **Ejercicio**: implementa el sumador con acarreo.
           </section>
 
           <section data-markdown>
@@ -549,6 +585,13 @@ print(result['energy'])
             ```
 
             La tabla de verdad del multiplicador por dos, con las salidas al principio.
+          </section>
+          
+          <section data-markdown>
+            ### Ejercicios:
+            
+            1. Implementa el multiplicador por dos (mediante desplazamiento).
+            2. Da con la matriz de la inversión sobre la media. ¿Es unitario?
           </section>
 
           <section data-markdown>
