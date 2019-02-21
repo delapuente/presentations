@@ -248,6 +248,16 @@ print(result['energy'])
           </section>
 
           <section data-markdown>
+            ### Ejercicios
+
+            1. Prepara un cúbit para que sea 1 al ~66% (combina puertas X)
+            2. Prepara un cúbit para que sea 1 al 50% sin usar la puerta H
+            3. ¿Qué pasa si pones dos puerta H seguidas?
+            4. Combina algunas puertas X y luego vuelve a aplicarlas en orden inverso. ¿Qué pasa?
+            5. Prepara un cúbit para que sea 1 al 100%
+          </section>
+
+          <section data-markdown>
             ### Estados y entrelazamiento
           </section>
 
@@ -263,6 +273,16 @@ print(result['energy'])
             Tras añadir una puerta `Hadamard` al cúbit de menor peso...
           </section>
 
+          <section data-markdown>
+            ### Ejercicios
+            
+            1. Trata de predecir qué le pasa al histograma.
+            2. Situa una medida _chance_ sobre un cúbit y extiéndela para cubrir
+            2 cúbits y ver el histograma para 4 estados.
+            3. Reproduce el circuito y comprueba el resultado con el simulador.
+            
+          </section>
+
           <section data-markdown class="no-deco">
             ![Estado al 50% de probabilidad entre 00 y 01](imgs/histogram-50.gif)
 
@@ -273,6 +293,13 @@ print(result['energy'])
             ![Otra puerta Hadamard en el cúbit de mayor peso, el de más abajo](imgs/circuit-2-hadamard.png)
 
             Si añadimos otra puerta `Hadamard` al otro cúbit...
+          </section>
+
+          <section data-markdown>
+            ### Ejercicios
+
+            1. Trata de predecir de nuevo qué le pasa al histograma.
+            2. Comprueba el resultado con el simulador.
           </section>
 
           <section data-markdown class="no-deco">
@@ -305,6 +332,13 @@ print(result['energy'])
             En particular, la puerta `CNOT` correlaciona dos cúbits de forma que **si la entrada de control es `1`, la entrada objetivo se invierte**.
           </section>
 
+          <section data-markdown>
+            ### Ejercicios
+
+            1. Razona qué le pasa al histograma.
+            2. Compruébalo en el simulador.
+          </section>
+
           <section data-markdown class="no-deco">
             ![Secuencia de cambios estado tras la correlación](imgs/bell-sequence.gif)
 
@@ -313,6 +347,22 @@ print(result['energy'])
 
           <section data-markdown>
             A este fenómeno lo llamamos **entrelazamiento**.
+          </section>
+
+          <section data-markdown>
+            ### Ejercicios
+
+            Comienza con un circuito en blanco.
+
+            1. Usando 3 cúbits, (2 de entrada y uno de salida), implementa la
+            puerta XOR a base de puertas CNOT. Compruébalo con la ayuda de
+            puertas X para pasar por los 4 estados de la entrada.
+            2. Ahora aplica puertas H a los cúbit de entrada para comprobar
+            todas las entradas a la vez.
+            3. "Dibuja" una puerta [TOFFOLI](https://i.ytimg.com/vi/bX64dYEH_YI/maxresdefault.jpg).
+            ¿Qué función hace esta puerta?
+            4. ¿Puedes recrear el funcionamiento de la función OR (usando todas
+            puertas que conoces?
           </section>
 
           <section data-markdown>
@@ -624,7 +674,12 @@ print(result['energy'])
           { src: '../lib/reveal/plugin/markdown/markdown.js' },
           { src: '../lib/reveal/plugin/notes/notes.js', async: true },
           { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
+				],
+
+        keyboard: {
+          39: 'next',
+          37: 'prev'
+        }
 			});
 		</script>
 	</body>
