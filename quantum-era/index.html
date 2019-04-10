@@ -57,7 +57,7 @@
           ## Índice
           1. IBM-Q
           2. Computación cuántica
-          3. Qiskit
+          3. Qiskit &amp;
         </section>
 
         <section>
@@ -68,15 +68,7 @@
           <section data-markdown>
             ![Juan Gómez, Diego Moreda and Salvador de la Puente](./imgs/qiskit-eng.jpeg)
             
-            The engineering team
-          </section>
-
-          <section data-markdown>
-            <!-- Equipo científico -->
-          </section>
-
-          <section data-markdown>
-            <!-- Equipo comunidad -->
+            The engineering team: Juan, Diego and Salva.
           </section>
 
           <section data-markdown>
@@ -137,6 +129,13 @@
             ![Problem classes](./imgs/problem-classes.jpg)
             Quantum computers can solve **all the easy** problems,
             **some hard** problems and **some unique** problems.
+          </section>
+
+          <section data-markdown>
+            ![Dropbox 68 million hacked accounts](./imgs/dropbox-password-hack.png)
+            
+            > [...] over 68 million accounts, which contains email addresses and
+            **hashed passwords** for Dropbox users.
           </section>
 
           <section data-markdown>
@@ -230,14 +229,19 @@
             be read one of the values with a **controlled probability**.
           </section>
 
-          <section>
-            <!-- Shift to probabilty certainty -->
-          </section>
-
           <section data-markdown class="no-deco">
             ![66% chance of reading 0](imgs/qubit-alternate-2-1.gif)
 
-            I.e.: prepare the qubit to get **double chance of reading `0`**.
+            For instance: we can prepare the qubit to get
+            **double chance of reading `0` than `1`**.
+          </section>
+
+          <section>
+            <img alt="spinning coin value is unknown" style="width: 260px" src="./imgs/spinning-coin.gif">
+            <img alt="distribution is 50%/50%" src="./imgs/one-coin-histogram.png">
+
+            <p>The value of the spinning coin is unknown but the histogram
+              is <strong>well known</strong>.</p>
           </section>
 
           <section data-markdown>
@@ -272,34 +276,56 @@
             ...will cause another division of probability.
           </section>
 
-          <section data-markdown class="no-deco">
-            ![Intercambio de las columnas 01 y 11](imgs/histogram-swap.gif)
-
-            Las puertas cuánticas pueden intercambiar las columnas del histograma.
+          <section data-markdown>
+            There are other means of controlling the histogram...
           </section>
 
-          <section data-markdown>
-            A este fenómeno lo llamamos **entrelazamiento**.
-          </section>
-
-          <section data-markdown>
-            El cambio de fase no se puede observar en el histograma de probabilidad...
+          <section>
+            <img style="height: 300px" alt="Each modification is a set of pulses..." src="./imgs/microwave-rack.jpg"/>
+            <img style="height: 300px" alt="...to the chip" src="./imgs/7-qubit-chip.png" />
+            <p>(each alteration being a set of pulses on the quantum chip)</p>
           </section>
 
           <section data-markdown class="no-deco">
-            ![El cambio de fase invierte el signo de la amplitud en los estados 10 y 11](imgs/histogram-phase.gif)
+            ![Interchange of 01 and 11 states](imgs/histogram-swap.gif)
 
-            ...pero sí en el **histograma de amplitudes**.
+            ...such as **interchanging probability**...
           </section>
 
           <section data-markdown class="no-deco">
-            ![Fenómenos de interferencia](imgs/interference.gif)
+            ![Changing the sign of probability](imgs/histogram-phase.gif)
 
-            Gracias al cambio de signo, podemos **combinar (sumar/restar) columnas del histograma** de forma que algunas posibilidades se anulen y otras se refuercen.
+            ...or "**inverting probability**".
           </section>
 
           <section data-markdown>
-            A este efecto lo llamamos **interferencia**.
+            The key for understanding quantum computing is to start accepting
+            that the **"probability can be negative"**.
+          </section>
+
+          <section data-markdown>
+            Such "probability" is actually called **amplitude**.
+          </section> 
+
+          <section data-markdown class="no-deco">
+            ![Mutating histogram](imgs/interference.gif)
+
+            Quantum algorithms use the signed nature of amplitudes to make
+            **incorrect solutions to shrink**, causing the probability to
+            **concentrate in the correct solution**.
+          </section>
+
+          <section data-markdown>
+            This effect is called **interference**.
+          </section>
+
+          <section data-markdown>
+            ![Pascal law in two syringes](./imgs/syringe_hydraulics.gif)
+            
+            As in hydraulics systems where the liquid volume is preserved,
+            the total probability is always 100%, so reducing probability
+            of bad answers will **naturally increase** the correct answer
+            chance.
           </section>
 
           <section data-markdown>
@@ -307,51 +333,78 @@
           </section>
 
           <section data-markdown>
-            References:
-            * [A Short Guide to Hard Problems](https://www.quantamagazine.org/a-short-guide-to-hard-problems-20180716/)
-            * [Finally, a Problem That Only Quantum Computers Will Ever Be Able to Solve](https://www.quantamagazine.org/finally-a-problem-that-only-quantum-computers-will-ever-be-able-to-solve-20180621/)
-            * [9 Dots Puzzle SOLVED (using just 1 line!)](https://youtu.be/LaMqV-E0vWM?t=50)
+            ![Dropbox 68 million hacked accounts](./imgs/dropbox-password-hack.png)
+
+            Friendly reminder: we do have the **hash of the password**.
           </section>
 
           <section data-markdown>
-            Math references:
-            * [Essence of Linear Algebra](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
+            ![Identify the element to search](imgs/tagging.png)
+
+            First **identify the element** we want to search.
+          </section>
+
+          <section data-markdown>
+            ![Change the sign and reduce the average](imgs/tagging-2.png)
+
+            **Invert the sign** of that element.*
+          </section>
+
+          <section data-markdown>
+            ![Inversion over the average](imgs/inversion-over-average.png)
+
+            Perform an **inversion over the average**.
+          </section>
+
+          <section data-markdown>
+            After some iterations, the probability is maximum.
+
+            Perform the algorithm several times to reduce the error and
+            **increase certainty**.
+          </section>
+
+          <section data-markdown>
+            ![The elephant in the room](./imgs/elephant-in-the-room.jpg)
+          </section>
+
+          <section data-markdown>
+            ### Entanglement
+          </section>
+
+          <section data-markdown>
+            ![Histogram of the adder with carrier](./imgs/adder.gif)
+            
+            We can prepare a 4-qubit histogram that implements an adder.
+          </section>
+
+          <section data-markdown>
+            ![The little prince](./imgs/little-prince.jpg)
+
+            Measuring the input, **immediately conditions the output.**
+          </section>
+
+          <section data-markdown>
+            But it also works the opposite way. Measuring the output
+            **immediately determines the input**.
+          </section>
+
+          <section data-markdown>
+            Thanks to entanglement, all the classical algorithms fit inside
+            a quantum computer.
+          </section>
+
+          <section data-markdown>
+            ![A hash-focused hardware](./imgs/antminer.jpg)
+
+            Including hashing algorithms.
+          </section>
+
+          <section data-markdown>
+            References:
             * [Quantum Computing Expert Explains One Concept in 5 Levels of Difficulty | WIRED](https://www.youtube.com/watch?v=OWJCfOvochA)
             * [Quantum Computing for Computer Scientist](https://www.youtube.com/watch?v=F_Riqjdh2oM)
-            * [How to fold a Julia Fractal](http://acko.net/blog/how-to-fold-a-julia-fractal/)
-          </section>
-
-          <section data-markdown>
-            ![Identificar el elemento a buscar](imgs/tagging.png)
-
-            Primero identificamos el elemento que queremos buscar.
-          </section>
-
-          <section data-markdown>
-            ![Cambiar la fase del elemento, bajando la media](imgs/tagging-2.png)
-
-            Cambiamos su fase.
-          </section>
-
-          <section data-markdown>
-            ![Invertir sobre la media](imgs/inversion-over-average.png)
-
-            Realizamos la inversión sobre la media.
-          </section>
-
-          <section data-markdown>
-            ```
-            -1+2/8,2/8,2/8,2/8,2/8,2/8,2/8,2/8,
-            2/8,-1+2/8,2/8,2/8,2/8,2/8,2/8,2/8,
-            2/8,2/8,-1+2/8,2/8,2/8,2/8,2/8,2/8,
-            2/8,2/8,2/8,-1+2/8,2/8,2/8,2/8,2/8,
-            2/8,2/8,2/8,2/8,-1+2/8,2/8,2/8,2/8,
-            2/8,2/8,2/8,2/8,2/8,-1+2/8,2/8,2/8,
-            2/8,2/8,2/8,2/8,2/8,2/8,-1+2/8,2/8,
-            2/8,2/8,2/8,2/8,2/8,2/8,2/8,-1+2/8,
-            ```
-
-            La matriz de difusión puede descomponerse en puertas cuánticas básicas.
+            * [A Short Guide to Hard Problems](https://www.quantamagazine.org/a-short-guide-to-hard-problems-20180716/)
+            * [Finally, a Problem That Only Quantum Computers Will Ever Be Able to Solve](https://www.quantamagazine.org/finally-a-problem-that-only-quantum-computers-will-ever-be-able-to-solve-20180621/)
           </section>
         </section>
       </div>
