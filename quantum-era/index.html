@@ -1,0 +1,383 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>The Quantum Era &amp; IBM&nbsp;Q</title>
+    <meta name="description" content="A gentle introduction to quantum computing and the work of IBM in advancing the field.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/ibm-devrel-dark.css"/>
+
+		<!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <style>
+      section.no-deco img {
+        border: none;
+        box-shadow: none;
+      }
+    </style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+  <body>
+
+		<div class="reveal">
+			<div class="slides">
+        <section>
+          <header>
+            <h1>The Quantum Era & IBM&nbsp;Q</h1>
+          </header>
+        </section>
+
+        <section class="no-deco">
+          <img src="imgs/qr.png" /><br/>
+          <a href="https://bit.ly/2SpbZKR">https://bit.ly/2SpbZKR</a>
+        </section>
+
+        <section style="text-align: left">
+          <img style="float: right; margin: 1rem" src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://salvadelapuente.com">https://salvadelapuente.com</a></p>
+          <p><a href="https://github.com/delapuente">https://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ## Índice
+          1. IBM-Q
+          2. Computación cuántica
+          3. Qiskit
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## IBM-Q
+          </section>
+
+          <section data-markdown>
+            ![Juan Gómez, Diego Moreda and Salvador de la Puente](./imgs/qiskit-eng.jpeg)
+            
+            The engineering team
+          </section>
+
+          <section data-markdown>
+            <!-- Equipo científico -->
+          </section>
+
+          <section data-markdown>
+            <!-- Equipo comunidad -->
+          </section>
+
+          <section data-markdown>
+            <!-- Ordenadores cuánticos -->
+          </section>
+
+          <section data-markdown>
+            <!-- Volúmen cuántico -->
+          </section>
+
+          <section data-markdown>
+            <!-- Tecnología propia -->
+          </section>
+
+          <section data-markdown>
+            <!-- Arquitectura -->
+          </section>
+
+          <section data-markdown>
+            <!-- Quantum Experience -->
+          </section>
+
+          <section data-markdown>
+            <!-- Comunidad -->
+          </section>
+
+          <section data-markdown>
+            <!-- Qiskit Camp -->
+          </section>
+
+          <section data-markdown>
+            <!-- Training Camps -->
+          </section>
+
+          <section data-markdown>
+            Datos (desalentadores) de los procesadores cuánticos actuales:
+            * 100 micro-segundos de [coherencia](https://en.wikipedia.org/wiki/Quantum_decoherence) (tiempo de ejecución).
+            * Puesta a punto de milisegundos; productividad del 10%.
+            * Temperatura de operación de [3 mK](https://en.wikipedia.org/wiki/Absolute_zero).
+            * Del orden de ¡miles! de cúbits extra por cada cúbit lógico libre de error.
+          </section>
+
+          <section data-markdown>
+            References
+            * [Quantum Ready now, Quantum Advantage tomorrow](https://medium.com/@rssutor/quantum-ready-now-quantum-advantage-tomorrow-14739a28c6f5)
+            * [Qiskit and its Fundamental Elements](https://medium.com/qiskit/qiskit-and-its-fundamental-elements-bcd7ead80492)
+            * [My Quantum Circuit Simulator: Quirk](http://algassert.com/2016/05/22/quirk.html)
+            * [Quantum Error Correction for Beginners](https://arxiv.org/pdf/0905.2794.pdf)
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Quantum Computing
+          </section>
+
+          <section data-markdown>
+            ![Problem classes](./imgs/problem-classes.jpg)
+            Quantum computers can solve **all the easy** problems,
+            **some hard** problems and **some unique** problems.
+          </section>
+
+          <section data-markdown>
+            ### Big numbers
+          </section>
+
+          <section data-markdown>
+            ```python
+            def grover(input_width, hash, reference):
+              for input in binary_combinations(input_width):
+                spawn(i => {
+                  if hash(i) == reference: print('The answer is ' + i)
+                }, input)
+            ```
+
+            This program solves hash inversion in one step.
+          </section>
+
+          <section data-markdown>
+            The `binary_combinations` function returns a list of `2^80`
+            10-byte items.
+
+            ![Cray Titan](imgs/titan.jpg)
+
+            x 10.000 M ([yobibyte](https://en.wikipedia.org/wiki/Yobibyte))
+          </section>
+
+          <section data-markdown>
+            ```
+            1 000 000 000 000 000 000 000 000
+            |       |          |
+            |       |          | MIPS for an i7
+            |       |
+            |       | A continued year of processing
+            |
+            | A million years of continued processing
+            ```
+            For a 10 `latin-1` characters, you will loop over `2^80` items.
+            One `1` leading `24` zeroes.
+          </section>
+
+          <section data-markdown>
+            A hardware solution, supposing an integration technology of
+            1M complete circuits in 1 mm<sup>2</sup> would require...
+          </section>
+
+          <section data-markdown>
+            ![Península Ibérica x 2](imgs/iberian-peninsula.jpg)
+          </section>
+
+          <section data-markdown>
+            x 2
+          </section>
+
+          <section data-markdown>
+            ### Quantum algorithms
+          </section>
+
+          <section data-markdown>
+            ![Nine dots puzzle solved with 1 line](imgs/nine-dots-1.gif)
+
+            Quantum computing requires a different approach of
+            addressing problems...
+          </section>
+
+          <section data-markdown>
+            ![Nine dots puzzle solved with 1 line](imgs/nine-dots-2.gif)
+
+            ...to take advantage of **quantum mechanics**.
+          </section>
+
+          <section data-markdown>
+            ### Quantum systems
+          </section>
+
+          <section data-markdown>
+            **Certainty is in the probability**, not in the value.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![2-only states of a bit](imgs/bit-alternate.gif)
+
+            A classical bit can hold `0` or `1` and can be read with
+            **absolute certainty**.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![50% chance of reading a value or another](imgs/qubit-alternate.gif)
+
+            A quantum bit can hold a combination of `0` and `1` and can
+            be read one of the values with a **controlled probability**.
+          </section>
+
+          <section>
+            <!-- Shift to probabilty certainty -->
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![66% chance of reading 0](imgs/qubit-alternate-2-1.gif)
+
+            I.e.: prepare the qubit to get **double chance of reading `0`**.
+          </section>
+
+          <section data-markdown>
+            This is **superposition**.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![100%-chance of getting 00 histogram](imgs/histogram-00.png)
+
+            With 2 qubits set to `0` and `0`, all the probability is concentrated
+            in the `00` state.
+          </section>
+
+          <section>
+            But if we set the second qubit for being in a 50%-chance
+            superposition...
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![50%-change of getting 00 and 01 histogram](imgs/histogram-50.gif)
+
+            ...there is a **division of probability**.
+          </section>
+
+          <section data-markdown>
+            Making the first qubit to be in superposition too...
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![25% change for every result histogram](imgs/histogram-25.gif)
+
+            ...will cause another division of probability.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Intercambio de las columnas 01 y 11](imgs/histogram-swap.gif)
+
+            Las puertas cuánticas pueden intercambiar las columnas del histograma.
+          </section>
+
+          <section data-markdown>
+            A este fenómeno lo llamamos **entrelazamiento**.
+          </section>
+
+          <section data-markdown>
+            El cambio de fase no se puede observar en el histograma de probabilidad...
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![El cambio de fase invierte el signo de la amplitud en los estados 10 y 11](imgs/histogram-phase.gif)
+
+            ...pero sí en el **histograma de amplitudes**.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Fenómenos de interferencia](imgs/interference.gif)
+
+            Gracias al cambio de signo, podemos **combinar (sumar/restar) columnas del histograma** de forma que algunas posibilidades se anulen y otras se refuercen.
+          </section>
+
+          <section data-markdown>
+            A este efecto lo llamamos **interferencia**.
+          </section>
+
+          <section data-markdown>
+            ### The Grover algorithm
+          </section>
+
+          <section data-markdown>
+            References:
+            * [A Short Guide to Hard Problems](https://www.quantamagazine.org/a-short-guide-to-hard-problems-20180716/)
+            * [Finally, a Problem That Only Quantum Computers Will Ever Be Able to Solve](https://www.quantamagazine.org/finally-a-problem-that-only-quantum-computers-will-ever-be-able-to-solve-20180621/)
+            * [9 Dots Puzzle SOLVED (using just 1 line!)](https://youtu.be/LaMqV-E0vWM?t=50)
+          </section>
+
+          <section data-markdown>
+            Math references:
+            * [Essence of Linear Algebra](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
+            * [Quantum Computing Expert Explains One Concept in 5 Levels of Difficulty | WIRED](https://www.youtube.com/watch?v=OWJCfOvochA)
+            * [Quantum Computing for Computer Scientist](https://www.youtube.com/watch?v=F_Riqjdh2oM)
+            * [How to fold a Julia Fractal](http://acko.net/blog/how-to-fold-a-julia-fractal/)
+          </section>
+
+          <section data-markdown>
+            ![Identificar el elemento a buscar](imgs/tagging.png)
+
+            Primero identificamos el elemento que queremos buscar.
+          </section>
+
+          <section data-markdown>
+            ![Cambiar la fase del elemento, bajando la media](imgs/tagging-2.png)
+
+            Cambiamos su fase.
+          </section>
+
+          <section data-markdown>
+            ![Invertir sobre la media](imgs/inversion-over-average.png)
+
+            Realizamos la inversión sobre la media.
+          </section>
+
+          <section data-markdown>
+            ```
+            -1+2/8,2/8,2/8,2/8,2/8,2/8,2/8,2/8,
+            2/8,-1+2/8,2/8,2/8,2/8,2/8,2/8,2/8,
+            2/8,2/8,-1+2/8,2/8,2/8,2/8,2/8,2/8,
+            2/8,2/8,2/8,-1+2/8,2/8,2/8,2/8,2/8,
+            2/8,2/8,2/8,2/8,-1+2/8,2/8,2/8,2/8,
+            2/8,2/8,2/8,2/8,2/8,-1+2/8,2/8,2/8,
+            2/8,2/8,2/8,2/8,2/8,2/8,-1+2/8,2/8,
+            2/8,2/8,2/8,2/8,2/8,2/8,2/8,-1+2/8,
+            ```
+
+            La matriz de difusión puede descomponerse en puertas cuánticas básicas.
+          </section>
+        </section>
+      </div>
+		</div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+
+        keyboard: {
+          39: 'next',
+          37: 'prev'
+        }
+			});
+		</script>
+	</body>
+</html>
