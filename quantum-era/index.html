@@ -41,23 +41,15 @@
         </section>
 
         <section class="no-deco">
-          <img src="imgs/qr.png" /><br/>
-          <a href="https://bit.ly/2SpbZKR">https://bit.ly/2SpbZKR</a>
-        </section>
-
-        <section style="text-align: left">
-          <img style="float: right; margin: 1rem" src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
-          <p>Salvador de la Puente González</p>
-          <p><a href="https://salvadelapuente.com">https://salvadelapuente.com</a></p>
-          <p><a href="https://github.com/delapuente">https://github.com/delapuente</a></p>
-          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+          <img src="imgs/qr.png" style="background: none" /><br/>
+          <a href="https://bit.ly/2Ub87Kj">https://bit.ly/2Ub87Kj</a>
         </section>
 
         <section data-markdown>
-          ## Índice
+          ## Index
           1. IBM-Q
           2. Computación cuántica
-          3. Qiskit &amp;
+          3. Qiskit &amp; Quantum Experience
         </section>
 
         <section>
@@ -72,50 +64,50 @@
           </section>
 
           <section data-markdown>
-            <!-- Ordenadores cuánticos -->
+            ### The quantum computer
           </section>
 
           <section data-markdown>
-            <!-- Volúmen cuántico -->
+            ![Quantum processor temperatures](./imgs/procesador-cuantico.png)
+
+            The quantum computer is mostly a big refrigerator and isolator.
+          </section>
+
+          <section>
+            <img alt="7 qubit chip" style="height: 300px" src="./imgs/7-qubit-chip.png">
+            <img alt="7 qubit chip with elements highlighted" style="height: 300px" src="./imgs/7-qubit-chip-elements.jpeg">
+
+            <p>We use <a href="https://medium.com/@jonathan_hui/qc-how-to-build-a-quantum-computer-with-superconducting-circuit-4c30b1b296cd" target="_blank">superconductor qubits</a>
+            based on capacitors combined with a Josephson junction that
+            <strong>behaves like a 2-energy-levels atom</strong>.</p>
           </section>
 
           <section data-markdown>
-            <!-- Tecnología propia -->
+            This is a **general-purpose** quantum computer.
           </section>
 
           <section data-markdown>
-            <!-- Arquitectura -->
+            Quantum volume is a measurement of the power of a quantum computer.
+            It requires **error correction to improve** before increasing
+            the power of a computer.
           </section>
 
           <section data-markdown>
-            <!-- Quantum Experience -->
+            ![Quantum volume requires improving error correction for improving power](./imgs/quantum-volume.png)
           </section>
 
           <section data-markdown>
-            <!-- Comunidad -->
-          </section>
-
-          <section data-markdown>
-            <!-- Qiskit Camp -->
-          </section>
-
-          <section data-markdown>
-            <!-- Training Camps -->
-          </section>
-
-          <section data-markdown>
-            Datos (desalentadores) de los procesadores cuánticos actuales:
-            * 100 micro-segundos de [coherencia](https://en.wikipedia.org/wiki/Quantum_decoherence) (tiempo de ejecución).
-            * Puesta a punto de milisegundos; productividad del 10%.
-            * Temperatura de operación de [3 mK](https://en.wikipedia.org/wiki/Absolute_zero).
-            * Del orden de ¡miles! de cúbits extra por cada cúbit lógico libre de error.
+            Dissapointing facts of quantum processors right now:
+              * 100 micro-secongs until [decoherence](https://en.wikipedia.org/wiki/Quantum_decoherence) (execution time).
+              * Re-calibration in the order of miliseconds; 10% of productivity.
+              * Operation temperature of [20 mK](https://en.wikipedia.org/wiki/Absolute_zero).
+              * Error mitigation requires **thousands** of physical qubits to ensure a
+              logical one.
           </section>
 
           <section data-markdown>
             References
             * [Quantum Ready now, Quantum Advantage tomorrow](https://medium.com/@rssutor/quantum-ready-now-quantum-advantage-tomorrow-14739a28c6f5)
-            * [Qiskit and its Fundamental Elements](https://medium.com/qiskit/qiskit-and-its-fundamental-elements-bcd7ead80492)
-            * [My Quantum Circuit Simulator: Quirk](http://algassert.com/2016/05/22/quirk.html)
             * [Quantum Error Correction for Beginners](https://arxiv.org/pdf/0905.2794.pdf)
           </section>
         </section>
@@ -444,6 +436,44 @@
             * [Quantum Computing for Computer Scientist](https://www.youtube.com/watch?v=F_Riqjdh2oM)
             * [A Short Guide to Hard Problems](https://www.quantamagazine.org/a-short-guide-to-hard-problems-20180716/)
             * [Finally, a Problem That Only Quantum Computers Will Ever Be Able to Solve](https://www.quantamagazine.org/finally-a-problem-that-only-quantum-computers-will-ever-be-able-to-solve-20180621/)
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Qiskit &amp; Quantum Experience
+          </section>
+
+          <section data-markdown>
+            ### Community
+          </section>
+
+          <section data-markdown>
+            Reach out!
+              * [Join us in Slack](https://qiskit.slack.com/join/shared_invite/enQtNDc2NjUzMjE4Mzc0LTMwZmE0YTM4ZThiNGJmODkzN2Y2NTNlMDIwYWNjYzA2ZmM1YTRlZGQ3OGM0NjcwMjZkZGE0MTA4MGQ1ZTVmYzk)
+              * [Follow us on Twitter](https://twitter.com/qiskit)
+              * [Contribute to Open Source](https://github.com/qiskit/qiskit-terra)
+              * [Read more on Medium](https://medium.com/@qiskit)
+          </section>
+
+          <section data-markdown>
+            ### Qiskit Camps
+          </section>
+
+          <section>
+            <iframe width="800" height="600" src="https://www.youtube.com/embed/o2DNEhAKJeo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <p><a href="https://qiskit.camp/">NY Qiskit Camp</a>: 3-day learning and hacking experience.</p>
+          </section>
+
+          <section data-markdown>
+            [Madrid Qiskit Training Camp](https://madrid.qiskit.camp/)
+          </section>
+
+          <section data-markdown>
+            References:
+              * [Qiskit](https://qiskit.org/)
+              * [Qiskit Organization on GitHub](https://github.com/qiskit)
+              * [Qiskit and its Fundamental Elements](https://medium.com/qiskit/qiskit-and-its-fundamental-elements-bcd7ead80492)
           </section>
         </section>
       </div>
