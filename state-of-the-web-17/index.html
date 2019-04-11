@@ -29,6 +29,7 @@
     </script>
 
     <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/caniuse-embed/1.1.0/caniuse-embed.min.js"></script>
   </head>
   <body>
     <section id="tabzilla">
@@ -45,30 +46,36 @@
           </header>
         </section>
 
+        <section data-markdown>
+          [bit.ly/2mIJZRx](http://bit.ly/2mIJZRx)
+        </section>
+
         <section id="index">
-          <h2>Stablished technologies (1/2)</h2>
+          <h2>Stablished technologies</h2>
           <dl>
             <dt><a href="#sw">Service Workers</a></dt>
             <dd>Background services in the browser</dd>
             <dt><a href="#push">Push notifications</a></dt>
             <dd>Receive and show Push notifications</dd>
-            <dt><a href="#sync">Sync</a></dt>
-            <dd>Be aware of recovering connectivity</dd>
-            <dt><a href="#manifest">Manifest</a></dt>
-            <dd>Allows your webapp to better integrate with the OS</dd>
+            <dt><a href="#async-await">Async functions</a></dt>
+            <dd>JS syntax enhancement to ease asynchrnonous programming</dd>
+            <dt><a href="#feature-queries">Feature Queries</a></dt>
+            <dd>Check the existence of CSS features withour JavaScript</dd>
           </dl>
         </section>
         <section>
-          <h2>Stablished technologies (2/2)</h2>
+          <h2>Recently added technologies</h2>
           <dl>
             <dt><a href="#css-variables">CSS Variables</a></dt>
             <dd>Store repeated values in CSS variables</dd>
-            <dt><a href="#feature-queries">Feature Queries</a></dt>
-            <dd>Check the existence of CSS features withour JavaScript</dd>
-            <dt><a href="#svg">SVG</a></dt>
-            <dd>Fully supported vectorial graphics on the Web</dd>
             <dt><a href="#web-animations">Web Animations</a></dt>
             <dd>Native performance on dynamic animations</dd>
+            <dt><a href="#grid">CSS Grid</a></dt>
+            <dd>A new CSS layout to build 2D grids</dd>
+            <dt><a href="#webgl2">WebGL 2.0</a></dt>
+            <dd>JavaScript API to access OpenGL ES 3 hardware capabilities</dd>
+            <dt><a href="#wasm">Web Assembly</a></dt>
+            <dd>A new language inside the browser</dd>
           </dl>
         </section>
         <!-- TODO: FileSystem API -->
@@ -80,23 +87,20 @@
           <dl>
             <dt><a href="#offline-first">Offline First</a></dt>
             <dd>Connectivity as a progressive enhancement</dd>
-            <dt><a href="#prpl">PRPL</a></dt>
-            <dd>Pattern to reduce time until first interaction</dd>
             <dt><a href="#transpilation">Transpilation</a></dt>
             <dd>A technique to use other languages rather than JavaScript</dd>
-            <dt><a href="#rail">RAIL</a></dt>
-            <dd>Performance model to keep the illusion of real time</dd>
+            <dt><a href="#rail">RAIL &amp; Optimistic UI</a></dt>
+            <dd>Performance models and techniques to keep the illusion of real time</dd>
           </dl>
         </section>
+
         <section>
           <h2>Patterns, trends &amp; topics (2/2)</h2>
           <dl>
-            <dt><a href="#privacy">Privacy and Security</a></dt>
+            <dt><a href="#privacy">Privacy, security &amp; safeness</a></dt>
             <dd>Be aware of the threads of the Web</dd>
             <dt><a href="#progressive-enhancement">Progressive Enhancement</a></dt>
             <dd>Web development approach that puts effort on baseline</dd>
-            <dt><a href="#timely-relevant-precise">Timely, Relevant, Precise</a></dt>
-            <dd>Advices for Push notifications</dd>
             <dt><a href="#pwa">Progressive Web Apps</a></dt>
             <dd>Web applications offering native-like user experiences</dd>
             <!--
@@ -113,38 +117,42 @@
           <dl>
             <dt><a href="#http2">HTTP2</a></dt>
             <dd>A faster evolution of HTTP</dd>
+            <dt><a href="#sync">Sync</a></dt>
+            <dd>Be aware of recovering connectivity</dd>
+            <dt><a href="#manifest">Manifest</a></dt>
+            <dd>Allows your website to better integrate with the OS</dd>
             <dt><a href="#payment-request">Payment Request</a></dt>
             <dd>JavaScript API to improve payment UX</dd>
-            <dt><a href="#credential-management">Credential Management</a></dt>
-            <dd>JavaScript API to improve login UX</dd>
-            <dt><a href="#grid">CSS Grid</a></dt>
-            <dd>A new CSS layouts to build 2D grids</dd>
-            <dt><a href="#webvr">WebVR</a></dt>
-            <dd>A JavaScript API to use VR devices</dd>
           </dl>
         </section>
         <section>
           <h2>Coming soon (2/2)</h2>
           <dl>
-            <dt><a href="#webgl2">WebGL 2.0</a></dt>
-            <dd>JavaScript API to access OpenGL ES 3 hardware capabilities</dd>
-            <dt><a href="#async-await">Async / await</a></dt>
-            <dd>JS syntax enhancement to ease asynchrnonous programming</dd>
-            <dt><a href="#wasm">Web Assembly</a></dt>
-            <dd>A new language inside the browser</dd>
+            <dt><a href="#credential-management">Credential Management</a></dt>
+            <dd>JavaScript API to improve login UX</dd>
             <dt><a href="#idle">Request Idle Callback</a></dt>
             <dd>An API to get a browser idle time window</dd>
+            <dt><a href="#webvr">WebVR</a></dt>
+            <dd>A JavaScript API to use VR devices</dd>
           </dl>
         </section>
         <!-- TODO: Shared Array Buffer? -->
-
-        <section>
-        </section>
 
         <section id="sw">
           <section>
             <h2>Service workers</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="serviceworkers" data-periods="future_1,current,past_1">
+              <a href="http://caniuse.com/#feat=serviceworkers">Can I Use serviceworkers?</a> Data on support for the serviceworkers feature across the major browsers from caniuse.com.
+            </p>
+          </section>
+
+          <section>
+            <blockquote class="twitter-tweet" data-lang="es"><p lang="en" dir="ltr">This day goes to <a href="https://twitter.com/hashtag/PWA?src=hash">#PWA</a> history! Initial steps of <a href="https://twitter.com/hashtag/ServiceWorker?src=hash">#ServiceWorker</a> in <a href="https://twitter.com/hashtag/Safari?src=hash">#Safari</a>: <a href="https://t.co/WU4Uin6ZHP">https://t.co/WU4Uin6ZHP</a>. Kudos to <a href="https://twitter.com/bradeeoh">@bradeeoh</a> &amp; all <a href="https://twitter.com/webkit">@webkit</a> team! <a href="https://t.co/FFf95pDxde">pic.twitter.com/FFf95pDxde</a></p>&mdash; Maxim Salnikov (@webmaxru) <a href="https://twitter.com/webmaxru/status/893027996659060738">3 de agosto de 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
           </section>
 
           <section>
@@ -158,13 +166,23 @@
           </section>
 
           <section>
-            <img style="max-width: 700px"
+            <a href="../imgs/sw-101/fetch-event.png"><img style="max-width: 700px"
                  src="../imgs/sw-101/fetch-event.png"
-                 alt="Original purpose was to intercept resource requests." />
+                 alt="Original purpose was to intercept resource requests." /></a>
             <p>
               <a href="https://github.com/delapuente/service-workers-101/">
                 Complete infographic</a>
             </p>
+          </section>
+
+          <section data-markdown>
+            [Service Workers 101](https://github.com/delapuente/service-workers-101/)
+
+            [Service Workers Recipes in the Service Worker Cookbook](https://serviceworke.rs/caching-strategies.html)
+
+            [Beyond Offline](https://hacks.mozilla.org/2015/12/beyond-offline/)
+
+            [2016 - The year of web streams](https://jakearchibald.com/2016/streams-ftw/)
           </section>
         </section>
 
@@ -175,164 +193,109 @@
           </section>
 
           <section>
-            <img style="max-width: 650px"
+            <p class="ciu_embed" data-feature="push-api" data-periods="future_1,current,past_1">
+              <a href="http://caniuse.com/#feat=push-api">Can I Use push-api?</a> Data on support for the push-api feature across the major browsers from caniuse.com.
+            </p>
+          </section>
+
+          <section>
+            <a href="../imgs/sw-101/push-event.png"><img style="max-width: 650px"
                  src="../imgs/sw-101/push-event.png"
                  alt="Push allows to receive information even with the browser
-                 closed." />
-          </section>
-
-          <section>
-            <p>
-              <a href="https://serviceworke.rs/web-push.html">
-                Look for Push demos at the Service Worker Cookbook</a>
-            </p>
-          </section>
-        </section>
-
-        <section id="sync">
-          <section>
-            <h2>Sync</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <img style="max-width: 700px"
-                 src="../imgs/sw-101/sync-event.png"
-                 alt="Sync triggers an event when recovering connectivity." />
-          </section>
-
-          <section>
-            <img style="max-width: 700px"
-                 src="./imgs/sync.png"
-                 alt="Simulate a sync event with the Service Worker tab in
-                 Chrome DevTools." />
-          </section>
-        </section>
-
-        <section id="manifest">
-          <section>
-            <h2>Manifest</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <h3>Web Manifest</h3>
-            <pre><code>{
-    "name": "Flipkart Lite",
-    "short_name": "Flipkart Lite",
-    "icons": [ {
-      "src": "https://img1a.flixcart.com/www/linchpin/logo_lite-cbb3574d.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    } ],
-    "start_url": "/?start_url=homescreenicon",
-    "orientation": "portrait",
-    "display": "standalone",
-    "theme_color": "#006cb4",
-    "background_color": "#006cb4"
-  }</code></pre>
-            <p>
-              Partial manifest from <a href="https://flipkart.com/" target="_blank">Flipkart Lite</a>.
-            </p>
-          </section>
-
-          <section>
-            <img alt="Flipkart specifying the theme color"
-                 src="../web-platform-when-why/imgs/flipkart-task-switcher.png" style="width: 30%;"/>
-            <img alt="Flipkart theme"
-                 src="../web-platform-when-why/imgs/flipkart-theme.png" style="width: 30%;"/>
-            <img alt="Flipkart splashscreen"
-                 src="../web-platform-when-why/imgs/flipkart-splashscreen.png" style="width: 30%;"/>
-          </section>
-        </section>
-
-        <section id="web-animations">
-          <section>
-            <h2>Web Animations</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <iframe style="width: 100%; height: 300px" src="https://people-mozilla.org/~bbirtles/demos/jank-example/jank-example.html"></iframe>
-            <pre><code>rightFox.animate(
-  [
-    { transform: 'rotate(0deg)' },  // from
-    { transform: 'rotate(360deg)' } // to
-  ],
-  { duration: 1200, iterations: Infinity }
-)</code></pre>
+                 closed." /></a>
           </section>
 
           <section data-markdown>
-            * Some properties does not trigger a layout recalculation.
-            * Animations on `transform` and `opacity` run on compositor.
-            * CSS property `will-change` helps the browser to optimize
-            animations.
+            Notifications should be...
+
+            * **Timely** to not annoy the user.
+            * **Relevant** for the user to pay attention.
+            * **Precise** to say just what is necessary.
           </section>
 
           <section data-markdown>
-            * [Animating like you just don't care with Element.animate()](https://hacks.mozilla.org/2016/08/animating-like-you-just-dont-care-with-element-animate/)
+            [Push demos at the Service Worker Cookbook](https://serviceworke.rs/web-push.html)
+
+            [Push libraries](https://github.com/web-push-libs/)
+
+            [Timely, Relevant and Precise by Joseph Medley](https://developers.google.com/web/fundamentals/engage-and-retain/push-notifications/)
+            </p>
           </section>
+
         </section>
 
-        <section id="css-variables">
+        <section id="async-await">
           <section>
-            <h2>CSS Variables</h2>
+            <h2>Async functions</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
           <section>
-            <style>
-              #css-variables .container {
-                --hl-color: #84b830;
-              }
-
-              #css-variables .container a:link {
-                color: var(--hl-color) !important;
-              }
-
-              #css-variables .container a:visited {
-                color: var(--hl-color) !important;
-              }
-
-              #css-variables .container p::selection {
-                background-color: var(--hl-color);
-              }
-
-              #css-variables .container p {
-                border: 3px solid var(--hl-color);
-              }
-
-              #css-variables .container span {
-                color: var(--hl-color);
-              }
-            </style>
-            <div class="container">
-              <p>
-                The highlight color, <span>#b4ff43</span>, is used in many
-                contexts like <a href="#">links</a> or selection. And also in
-                borders and decorative elements.
-              </p>
-            </div>
+            <p class="ciu_embed" data-feature="async-functions" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=async-functions">Can I Use async-functions?</a> Data on support for the async-functions feature across the major browsers from caniuse.com.
+</p>
           </section>
 
           <section>
-            <pre><code>.container {
-  --hl-color: #84b830;
-}
-
-.container a:link { color: var(--hl-color); }
-.container p::selection { background-color: var(--hl-color); }
-.container p { border: 3px solid var(--hl-color); }
-.container span { color: var(--hl-color); }</code></pre>
+            <pre><code>function search(query) {
+  return fetch(`/search/?q=$(query)`)
+         .then(response => response.json())
+         .then(json => json.results.map(...))
+         .catch(reason => console.log(reason));
+}</code></pre>
           </section>
 
+          <section>
+            <pre><code>function search(query) {
+  var resp;
+  return fetch(`/search/?q=$(query)`)
+         .then(response => {
+           resp = response;
+           response.json()
+         })
+         .then(json => {
+           json.results.map(result => doSomething(result, resp));
+         })
+         .catch(reason => console.log(reason));
+}</code></pre>
+          </section>
+
+          <section>
+            <pre><code>async function search(query) {
+  try {
+    let response = await fetch(`/search/?q=${query}`);
+    let json = await response.json();
+    return json.results.map(result => doSomething(result, response));
+  }
+  catch (reason) {
+    console.log(reason);
+  }
+}</code></pre>
+          </section>
         </section>
 
         <section id="feature-queries">
           <section>
             <h2>Feature Queries</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="css-featurequeries" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=css-featurequeries">Can I Use css-featurequeries?</a> Data on support for the css-featurequeries feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section>
+            <p>
+              The following example is from
+              <a href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/">
+                Using Feature Queries in CSS by Jen Simmons
+              </a>
+            </p>
+            <small>
+              Try it in Safari which supports <code>initial-letter</code>.
+            </small>
           </section>
 
           <section class="container">
@@ -365,9 +328,6 @@
               selectively bred for its greatly enlarged, more palatable, less
               woody-textured taproot.
             </p>
-            <small>
-              Try it in Safari which supports <code>initial-letter</code>.
-            </small>
           </section>
 
           <section>
@@ -383,352 +343,136 @@
     margin-right: 0.5em;
   }
 }</code></pre>
-            <p>
-              Example from
-              <a href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/">
-                Using Feature Queries in CSS
-              </a>
-            </p>
-            <p>
-              There is also a
-              <a href="https://developer.mozilla.org/en/docs/Web/API/CSS/supports">
-                JavaScript API to test <code>support</code></a>.
-            </p>
           </section>
 
+          <section data-markdown>
+            There is also a [JavaScript API to test `support`](https://developer.mozilla.org/en/docs/Web/API/CSS/supports)
+
+            ```js
+              CSS.supports('--answer-of-life', 42);
+            ```
+          </section>
         </section>
 
-        <section id="svg">
-          <style>
-            #hamburger-menu path {
-              transform-origin: left;
-              will-change: transform, opacity;
-              transition: transform 500ms, opacity 500ms;
-            }
-
-            #hamburger-menu.open .top {
-              transform: rotate(45deg);
-            }
-
-            #hamburger-menu.open .middle {
-              opacity: 0;
-            }
-
-            #hamburger-menu.open .bottom {
-              transform: rotate(-45deg);
-            }
-          </style>
-
+        <section id="css-variables">
           <section>
-            <h2>SVG</h2>
+            <h2>Custom Properties (CSS Variables)</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
           <section>
-            <svg id="hamburger-menu" width="200" height="150" class="">
-              <g>
-                <path class="top" style="stroke:#000;stroke-width:25;stroke-linecap:round;" d="m 12.5,12.5 175,0"></path>
-                <path class="middle" style="stroke:#000;stroke-width:25;stroke-linecap:round;" d="m 12.5,75 175,0"></path>
-                <path class="bottom" style="stroke:#000;stroke-width:25;stroke-linecap:round;" d="m 12.5,137.5 175,0"></path>
-              </g>
-            </svg>
-            <script>
-              document.getElementById("hamburger-menu").onclick = function () {
-                this.classList.toggle('open');
-              };
-            </script>
+            <p class="ciu_embed" data-feature="css-variables" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=css-variables">Can I Use css-variables?</a> Data on support for the css-variables feature across the major browsers from caniuse.com.
+</p>
           </section>
 
           <section>
-            <pre><code>&lt;svg id=&quot;hamburger-menu&quot; width=&quot;200&quot; height=&quot;150&quot;&gt;
-  &lt;g&gt;
-    &lt;path class=&quot;top&quot; style=&quot;stroke:#000;stroke-width:25;stroke-linecap:round;&quot; d=&quot;m 12.5,12.5 175,0&quot;&gt;&lt;/path&gt;
-    &lt;path class=&quot;middle&quot; style=&quot;stroke:#000;stroke-width:25;stroke-linecap:round;&quot; d=&quot;m 12.5,75 175,0&quot;&gt;&lt;/path&gt;
-    &lt;path class=&quot;bottom&quot; style=&quot;stroke:#000;stroke-width:25;stroke-linecap:round;&quot; d=&quot;m 12.5,137.5 175,0&quot;&gt;&lt;/path&gt;
-  &lt;/g&gt;
-&lt;/svg&gt;</code></pre>
-            <pre><code>#hamburger-menu path {
-  transform-origin: left;
-  will-change: transform, opacity;
-  transition: transform 500ms, opacity 500ms;
-}
-
-#hamburger-menu.open .top { transform: rotate(45deg); }
-#hamburger-menu.open .middle { opacity: 0; }
-#hamburger-menu.open .bottom { transform: rotate(-45deg); }</code></pre>
-          </section>
-        </section>
-
-        <section id="offline-first">
-          <section>
-            <h2>Offline First</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            Offline First is the design philosphy of considering **network as an
-            enhancement** over an offline experience.
-          </section>
-
-          <section data-markdown>
-            Visit the [Offline First site](http://offlinefirst.org/).
-
-            Join [Offline Camp](http://offlinefirst.org/camp/).
-          </section>
-        </section>
-
-        <section id="prpl">
-          <section>
-            <h2>Push, Render, Pre-cache, Lazy-load</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            * **Push** additional resources for the initial route.
-            * **Render** the initial route.
-            * **Pre-cache** the remaining routes.
-            * **Lazy-load** new resources on demand.
-
-            [The PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/)
-          </section>
-        </section>
-
-        <section id="transpilation">
-          <section>
-            <h2>Transpilation</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <iframe src="http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=latest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=async%20function%20search(query)%20%7B%0A%20%20const%20response%20%3D%20await%20fetch(%60%2Fsearch%2F%3Fq%3D%24%7Bquery%7D%60)%3B%0A%20%20const%20json%20%3D%20await%20response.json()%3B%0A%20%20return%20json.results.map(result%20%3D%3E%20result.toUpperCase())%3B%0A%7D&amp;playground=true" width="100%" height="400px" frameborder="0"></iframe>
-            <p><a href="http://babeljs.io/">Babel</a></p>
-          </section>
-
-          <section>
-            <iframe src="http://www.typescriptlang.org/play/" width="100%" height="400px" frameborder="0"></iframe>
-            <p><a href="http://www.typescriptlang.org">TypeScript</a></p>
-          </section>
-
-          <section data-markdown>
-            * [BabelJS](http://babeljs.io/)
-            * [Typescript Playground](http://www.typescriptlang.org/play/)
-          </section>
-        </section>
-
-        <section id="privacy">
-          <section>
-            <h2>Privacy &amp; security</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            [Internet Health Report](https://internethealthreport.org/v01/)
-
-            Download [PDF version](https://d20x8vt12bnfa2.cloudfront.net/InternetHealthReport_v01.pdf)
-          </section>
-
-          <section data-markdown>
-            [Why People Block Ads and what it means for marketers and advertisers?](https://research.hubspot.com/reports/why-people-block-ads-and-what-it-means-for-marketers-and-advertisers)
-
-            * Firefox has _Tracking protection_ in Private Mode
-            * Brave bases its revenue model on curating ads.
-          </section>
-
-          <section data-markdown>
-            [Web Crypto](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
-
-            * Available through `crypto.subtle`
-            * Set of primitives: _digest_, _mac_, _sign_/_verify_, _encrypt_/_decrypt_, _key generation_, _key wrapping_...
-            * Don't interact with dedicated hardware: smart cards, USB dongles, randomness generators...
-          </section>
-
-          <section data-markdown>
-            [Let's encrypt](https://letsencrypt.org/)
-
-            * It is a CA
-            * It's **free**
-            * Focused on [automating](https://certbot.eff.org/)
-          </section>
-
-          <section data-markdown>
-            ![Number of websites using HTTPs has reach almost 50%](./imgs/https-numbers.png)
-          </section>
-
-          <section data-markdown>
-            [Certbot](https://certbot.eff.org/)
-
-            [How to Secure Nginx with Let's Encrypt on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04)
-          </section>
-        </section>
-
-        <section id="rail">
-          <section>
-            <h2>Response, Animation, Idle, Load</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            * **Response**: react in less that 100 ms to feel instant.
-            * **Animation**: keep 60 fps.
-            * **Idle**: maximize idle time.
-            * **Load**: go interactive under 1 second.
-
-            [The RAIL performance model](https://docs.google.com/presentation/d/13AJe2Ip4etqA8qylrva7bEgu1_hAvsq_VQiVOAxwdcI/edit#slide=id.g9ce400068_0_217)
-          </section>
-        </section>
-
-        <section id="progressive-enhancement">
-          <section>
-            <h2>Progressive Enhancement</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            * It is an **app design pattern**
-            * Which puts core functionality **first**
-            * And then enhances the experience based on **user capabilities**
-          </section>
-
-          <section data-markdown>
-            Baseline choice and each enhancment implies discrimination. Each choice must to be conscious.
-          </section>
-
-          <section data-markdown>
-            * [Bruce Lawson - WWW: World Wide Web, Not Wealthy Westerners' Web ](https://www.youtube.com/watch?v=uqVRz8CteAg&t=NaN)
-            * [Progressive Enhancement is not dead but it smells funny.](https://nolanlawson.com/2016/10/13/progressive-enhancement-isnt-dead-but-it-smells-funny/)
-            * [How Does my Site Cost?](https://whatdoesmysitecost.com/)
-            * [Popular Devices by Country](http://www.appbrain.com/stats/top-devices-by-country?country=ng)
-          </section>
-        </section>
-
-        <section id="timely-relevant-precise">
-          <section>
-            <h2>Timely, relevant, precise</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            Be...
-
-            * **Timely** to not annoy the user.
-            * **Relevant** for the user to pay attention.
-            * **Precise** to say just what is necessary.
-
-            [Timely, Relevant and Precise by Joseph Medley](https://developers.google.com/web/fundamentals/engage-and-retain/push-notifications/)
-          </section>
-
-          <section data-markdown>
-            [2016: The Beginning of Individualized Push Notifications](http://info.localytics.com/blog/2016-the-beginning-of-individualized-push-messages)
-          </section>
-        </section>
-
-        <section id="pwa">
-          <section>
-            <h2>Progressive Web Apps</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            [When the web is the right platform?](../web-platform-when-why/index.html#/app-webapp">)
-          </section>
-        </section>
-
-        <!--
-        <section id="reactive">
-          <section>
-            <h2>Reactive Programming</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <h3>Streams</h3>
-          </section>
-
-          <section>
-            <h3>Data binding</h3>
-          </section>
-
-          <section>
-            <h3>Virtual DOM</h3>
-          </section>
-        </section>
-        -->
-
-        <section id="http2">
-          <section>
-            <h2>HTTP/2</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <p>Multiplexing</p>
-            <img style="width: 60%" src="./imgs/multiplexing.png"
-            alt="With multiplex, several request can be performed with only one
-            TCP connection." />
-          </section>
-
-          <section>
-            <p>Push / Server Hint</p>
-            <img style="width: 60%" src="./imgs/pushstats.jpg"
-            alt="Push can take advantage of one of the connections to send
-            related resources." />
-          </section>
-
-          <section>
-            <p>HPACK</p>
-            <img style="height: 500px" src="./imgs/hpack.svg"
-            alt="HPACK is an algorithm to compress the headers of a request,
-            safer than GZIP." />
-          </section>
-        </section>
-
-        <section id="web-payments">
-          <section>
-            <h2>Web Payments</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section id="payment-instruments">
-            <p>This is <strong>not a payment method</strong>.</p>
-            <p class="fragment">The browser becomes a mediator to manage <strong>payment instruments</strong> and <strong>sensible data</strong> in a safe way.</p>
             <style>
-              #payment-instruments img {
-                width: 25%;
-                box-shadow: none;
-                border: none;
-                padding: 0 1rem;
+              :root {
+                --hl-color: #84b830;
+              }
+
+              #css-variables .container {
+                font-size: calc(var(--font-factor, 1) * 1em);
+                box-shadow: 0 0 100px 10px rgba(128, 128, 128, var(--shadow-alpha, 0.1));
+              }
+
+              #css-variables .container:hover {
+                --font-factor: 1.5;
+                --shadow-alpha: 1.0;
+              }
+
+              #css-variables .container a:link {
+                /* Override theme variables */
+                color: var(--hl-color) !important;
+              }
+
+              #css-variables .container a:visited {
+                /* Override theme variables */
+                color: var(--hl-color) !important;
+              }
+
+              #css-variables .container p::selection {
+                background-color: var(--hl-color);
+              }
+
+              #css-variables .container p {
+                border: 3px solid var(--hl-color);
+              }
+
+              #css-variables .container span {
+                color: var(--hl-color);
               }
             </style>
-            <img class="fragment" src="./imgs/Bitcoin.svg" alt="bitcoin">
-            <img class="fragment" src="./imgs/credit-card.png" alt="bitcoin">
-            <img class="fragment" src="./imgs/chrono.png" alt="bitcoin">
+            <div class="container">
+              <p>
+                The highlight color, <span>#b4ff43</span>, is used in many
+                contexts like <a href="#">links</a> or selection. And also in
+                borders and decorative elements.
+              </p>
+            </div>
           </section>
 
           <section>
-            <img style="max-height: 800px"
-                 src="./imgs/payment-request.png"
-                 alt="Payment request flow" />
+            <pre><code>:root { --hl-color: #84b830; }
+
+.container {
+  font-size: calc(var(--font-factor, 1) * 1em);
+  box-shadow: 0 0 100px 10px rgba(128, 128, 128, var(--shadow-alpha, 0.1));
+}
+
+.container a:link { color: var(--hl-color); }
+.container p::selection { background-color: var(--hl-color); }
+.container p { border: 3px solid var(--hl-color); }
+.container span { color: var(--hl-color); }
+
+.container:hover {
+  --font-factor: 2;
+  --shadow-alpha: 1.0;
+}</code></pre>
           </section>
 
-          <section data-markdown>
-            [Payment Request API: an Integration Guide](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/)
+          <section>
+            <p><a href="https://www.smashingmagazine.com/2017/04/start-using-css-custom-properties/">It's Time To Start Using Custom Properties</a></p>
+            <p><a href="https://una.im/local-css-vars/">Local CSS Vars</a></p>
           </section>
         </section>
 
-        <section id="credential-management">
+        <section id="web-animations">
           <section>
-            <h2>Credential Management</h2>
+            <h2>Web Animations</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
           <section>
-            <img style="max-width: 700px"
-                 src="./imgs/credential-management.png"
-                 alt="Credential management flow." />
+            <p class="ciu_embed" data-feature="web-animation" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=web-animation">Can I Use web-animation?</a> Data on support for the web-animation feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section>
+            <img src="./imgs/jank-example-400.gif" />
+
+            <pre class="js"><code>rightFox.animate(
+  [
+    { transform: 'rotate(0deg)' },  // from
+    { transform: 'rotate(360deg)' } // to
+  ],
+  { duration: 1200, iterations: Infinity }
+)</code></pre>
           </section>
 
           <section data-markdown>
-            [Credential Management](https://developers.google.com/web/fundamentals/security/credential-management/)
+            * Some properties does not trigger a layout recalculation.
+            * Animations on `transform` and `opacity` run on compositor.
+            * CSS property `will-change` helps the browser to optimize
+            animations.
+          </section>
+
+          <section data-markdown>
+            [Animating like you just don't care with Element.animate()](https://hacks.mozilla.org/2016/08/animating-like-you-just-dont-care-with-element-animate/)
+
+            [Web Animations examples](https://mozdevs.github.io/Animation-examples/)
           </section>
         </section>
 
@@ -736,6 +480,12 @@
           <section>
             <h2>CSS Grid</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="css-grid" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=css-grid">Can I Use css-grid?</a> Data on support for the css-grid feature across the major browsers from caniuse.com.
+</p>
           </section>
 
           <section>
@@ -809,11 +559,6 @@ header { grid-area: t; }
 nav { grid-area: n; }
 article { grid-area: a; }
 footer { grid-area: b; }</code></pre>
-          <p>
-            <a href="https://css-tricks.com/snippets/css/complete-guide-grid/">
-              A Complete Guide to Grid
-            </a>
-          </p>
           </section>
 
           <section data-markdown>
@@ -825,66 +570,10 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section data-markdown>
-            * [Learning CSS Grid](http://jensimmons.com/post/feb-27-2017/learn-css-grid)
-          </section>
-        </section>
+            [Learning CSS Grid](http://jensimmons.com/post/feb-27-2017/learn-css-grid)
 
-        <section id="webvr">
-          <section>
-            <h2>WebVR</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section data-markdown>
-            `navigator.getVRDisplays()`
-
-            ```js
-            // Load polyfills
-
-            // Get the VR device
-
-            // Get details for each eye
-
-            // Create the 3D context
-
-            // Get pose
-
-            // Paint the scene once per eye
-
-            // Deal with fullscreen
-
-            // Deal with mobile
-
-            // Deal with resize
-
-            ```
-
-            [WebVR 1.0 specification](https://w3c.github.io/webvr/)
-          </section>
-
-          <section data-markdown>
-            ### A-Frame
-
-            ```html
-            &lt;a-scene&gt;
-              &lt;a-box position=&quot;0 1.6 -5&quot; rotation=&quot;45 45 0&quot; color=&quot;red&quot;&gt;&lt;/a-box&gt;
-            &lt;/a-scene&gt;
-            ```
-
-            [A-Frame](https://aframe.io)
-          </section>
-
-          <section>
-            <p data-height="265" data-theme-id="0" data-slug-hash="KadOpr" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame Hello World" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/KadOpr/">A-Frame Hello World</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-          </section>
-
-          <section data-markdown>
-            [WebVR on MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API)
-
-            [Spacelamb](http://m.spacelamb.12wave.com/)
-
-            [ShopifyVR](https://aframe.io/examples/showcase/shopping/)
+            [A Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)
+          </p>
           </section>
         </section>
 
@@ -895,63 +584,35 @@ footer { grid-area: b; }</code></pre>
           </section>
 
           <section>
+            <p class="ciu_embed" data-feature="webgl2" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=webgl2">Can I Use webgl2?</a> Data on support for the webgl2 feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section data-markdown>
+            Based on [OepnGL ES3](https://www.khronos.org/registry/gles/specs/3.0/es_spec_3.0.pdf)
+          </section>
+
+          <section data-markdown>
+            * GLSL 3.00 ES
+            * Mesh instantiation
+            * 3D textures
+            * Uniform buffers
+            * Transform feedback
+
+            [WebGL 2 New Features](http://www.realtimerendering.com/blog/webgl-2-new-features/)
+          </section>
+
+          <section>
             <iframe allowfullscreen width="100%" height="500px" src="https://playcanv.as/e/p/44MRmJRU/" frameborder="0"></iframe>
           </section>
 
           <section data-markdown>
-            * Multiple render targets
-            * Mesh instantiation
-            * Volume textures
-            * Transform feedback
-            * Instantiation
+            [WebGL 2 Samples](http://webglsamples.org/WebGL2Samples/)
 
-            ...
+            [WebGL 2 from WebGL 1](https://webgl2fundamentals.org/webgl/lessons/webgl1-to-webgl2.html)
 
-            More on [WebGL 2 Lands in Firefox](https://hacks.mozilla.org/2017/01/webgl-2-lands-in-firefox/)
-          </section>
-        </section>
-
-        <section id="async-await">
-          <section>
-            <h2>Async / Await</h2>
-            <a style="font-size: small; float: right;" href="#index">Go to index</a>
-          </section>
-
-          <section>
-            <pre><code>function search(query) {
-  return fetch(`/search/?q=$(query)`)
-         .then(response => response.json())
-         .then(json => json.results.map(...))
-         .catch(reason => console.log(reason));
-}</code></pre>
-          </section>
-
-          <section>
-            <pre><code>function search(query) {
-  var resp;
-  return fetch(`/search/?q=$(query)`)
-         .then(response => {
-           resp = response;
-           response.json()
-         })
-         .then(json => {
-           json.results.map(result => doSomething(result, resp));
-         })
-         .catch(reason => console.log(reason));
-}</code></pre>
-          </section>
-
-          <section>
-            <pre><code>async function search(query) {
-  try {
-    let response = await fetch(`/search/?q=${query}`);
-    let json = await response.json();
-    return json.results.map(result => doSomething(result, response));
-  }
-  catch (reason) {
-    console.log(reason);
-  }
-}</code></pre>
+            [WebGL 2 What's New](https://webgl2fundamentals.org/webgl/lessons/webgl2-whats-new.html)
           </section>
         </section>
 
@@ -961,11 +622,475 @@ footer { grid-area: b; }</code></pre>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
           </section>
 
+          <section>
+            <p class="ciu_embed" data-feature="wasm" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=wasm">Can I Use wasm?</a> Data on support for the wasm feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
           <section data-markdown>
             ![In WASM, parse, compilation and execution times shrink and re-optimization
             and garbage collection are completely avoided](./imgs/js-wasm-execution.png)
 
-            [A Cartoon Introduction to Web Aseembly by Lin Clark](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/)
+            Figure from [A Cartoon Intro to WebAssembly, by Lin Clark](https://hacks.mozilla.org/2017/02/a-cartoon-intro-to-webassembly/)
+          </section>
+
+          <section data-markdown>
+            [A crash course in memory management](https://hacks.mozilla.org/2017/06/a-crash-course-in-memory-management/)
+
+            [Creating a WebAssembly module instance with JavaScript](https://hacks.mozilla.org/2017/07/creating-a-webassembly-module-instance-with-javascript/)
+          </section>
+        </section>
+
+        <section id="offline-first">
+          <section>
+            <h2>Offline First</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section data-markdown>
+            Offline First is the design philosphy of considering **network as an
+            enhancement** over an offline experience.
+          </section>
+
+          <section data-markdown>
+            Visit the [Offline First site](http://offlinefirst.org/).
+
+            Join [Offline Camp](http://offlinefirst.org/camp/).
+          </section>
+        </section>
+
+        <section id="transpilation">
+          <section>
+            <h2>Transpilation</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <iframe src="http://babeljs.io/repl/#?babili=false&evaluate=true&lineWrap=false&presets=latest%2Creact%2Cstage-2&experimental=false&loose=false&spec=false&code=async%20function%20search(query)%20%7B%0A%20%20const%20response%20%3D%20await%20fetch(%60%2Fsearch%2F%3Fq%3D%24%7Bquery%7D%60)%3B%0A%20%20const%20json%20%3D%20await%20response.json()%3B%0A%20%20return%20json.results.map(result%20%3D%3E%20result.toUpperCase())%3B%0A%7D&amp;playground=true" width="100%" height="400px" frameborder="0"></iframe>
+            <p><a href="http://babeljs.io/">Babel</a></p>
+          </section>
+
+          <section>
+            <iframe src="http://www.typescriptlang.org/play/" width="100%" height="400px" frameborder="0"></iframe>
+            <p><a href="http://www.typescriptlang.org">TypeScript</a></p>
+          </section>
+
+          <section>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/RUeLd7T7Xi4?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+            <p>
+              <a href="http://elm-lang.org/">Elm Lang</a>
+            </p>
+          </section>
+
+          <section data-markdown>
+            [What are the best languages that compile to JavaScript?](https://www.slant.co/topics/101/~best-languages-that-compile-to-javascript)
+
+            [List of languages that compile to JS](https://github.com/jashkenas/coffeescript/wiki/List-of-languages-that-compile-to-JS)
+          </section>
+        </section>
+
+        <section id="rail">
+          <section>
+            <h2>RAIL &amp; Optimistic UI</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section data-markdown>
+            * **Response**: react in less that 100 ms to feel instant.
+            * **Animation**: keep 60 fps.
+            * **Idle**: maximize idle time.
+            * **Load**: go interactive under 1 second.
+          </section>
+
+          <section data-markdown>
+            ![Optimistic UI](./imgs/optimistic-ui.gif)
+
+            Optimistic UI acts as if everything goes OK, **guessing, instead of knowing,** the true outcome of the performed operation.
+          </section>
+
+          <section data-markdown>
+            [The RAIL performance model](https://docs.google.com/presentation/d/13AJe2Ip4etqA8qylrva7bEgu1_hAvsq_VQiVOAxwdcI/edit#slide=id.g9ce400068_0_217)
+
+            [Optimistic UIs in under 1000 words](https://uxplanet.org/optimistic-1000-34d9eefe4c05)
+          </section>
+        </section>
+
+        <section id="privacy">
+          <section>
+            <h2>Privacy, security &amp; safeness</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section data-markdown>
+            Intrusive advertisement, phishing, [data leakage](https://www.contextis.com/documents/2/Browser_Timing_Attacks.pdf), [finger-printing](https://arstechnica.com/information-technology/2017/02/now-sites-can-fingerprint-you-online-even-when-you-use-multiple-browsers/), centralization, man-in-the-middle attacks, impersonation...
+          </section>
+
+          <section data-markdown>
+            [Internet Health Report](https://internethealthreport.org/v01/)
+
+            Download [PDF version](https://d20x8vt12bnfa2.cloudfront.net/InternetHealthReport_v01.pdf)
+          </section>
+
+          <section data-markdown>
+            ### Ad-blockers
+
+            * Chrome is experimenting with tracking protection
+            * Firefox has _Tracking protection_ in Private Mode
+            * Brave bases its revenue model on curating ads.
+          </section>
+
+          <section data-markdown>
+            [Google is the internet's largest ad company. So why is it building an ad blocker?](https://www.vox.com/new-money/2017/6/5/15729688/google-chrome-ad-blocking)
+
+            [Why People Block Ads and what it means for marketers and advertisers?](https://research.hubspot.com/reports/why-people-block-ads-and-what-it-means-for-marketers-and-advertisers)
+          </section>
+
+          <section data-markdown>
+            ### [Web Authentication]
+
+            * An API for accessing public key credentials.
+            * I.e. means to access security hardware.
+            * Several devices: tokens, biometrics, one-shot passwords...
+          </section>
+
+          <section data-markdown>
+            [Web authentication and Windows Hello](https://docs.microsoft.com/en-us/microsoft-edge/dev-guide/device/web-authentication)
+
+            [Web Authentication Spec](https://www.w3.org/TR/webauthn/)
+          </section>
+
+          <section data-markdown>
+            ### [Web Crypto](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
+
+            * Available through `crypto.subtle`
+            * Set of primitives: _digest_, _mac_, _sign_/_verify_, _encrypt_/_decrypt_, _key generation_, _key wrapping_...
+            * Don't interact with dedicated hardware: smart cards, USB dongles, randomness generators...
+          </section>
+
+          <section data-markdown>
+            ### [Subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
+
+            ```html
+            &lt;script src=&quot;https://example.com/example-framework.js&quot;
+        integrity=&quot;sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC&quot;
+        crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+            ```
+          </section>
+
+          <section data-markdown>
+            ### HTTPS
+
+            [Let's encrypt](https://letsencrypt.org/):
+
+            * It is a CA
+            * It's **free**
+            * Focused on [automating](https://certbot.eff.org/)
+          </section>
+
+          <section data-markdown>
+            ![Number of websites using HTTPs has reach almost 50%](./imgs/https-numbers.png)
+          </section>
+
+          <section data-markdown>
+            [How to Secure Nginx with Let's Encrypt on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04)
+          </section>
+        </section>
+
+        <section id="progressive-enhancement">
+          <section>
+            <h2>Progressive Enhancement</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <iframe src="https://pwa-workshop.glitch.me/recommendations/4" width="400" height="600"></iframe>
+          </section>
+
+          <section data-markdown>
+            1. It is an **app design pattern**
+            2. Which puts core functionality **first**
+            3. And then enhances the experience based on **user capabilities**
+          </section>
+
+          <section data-markdown>
+            Baseline choice and each enhancment implies discrimination. Each choice **must be conscious**.
+          </section>
+
+          <section data-markdown>
+            [How Does my Site Cost?](https://whatdoesmysitecost.com/)
+
+            [Popular Devices by Country](http://www.appbrain.com/stats/top-devices-by-country?country=ng)
+
+            [Progressive Enhancement is not dead but it smells funny](https://nolanlawson.com/2016/10/13/progressive-enhancement-isnt-dead-but-it-smells-funny/)
+
+            [WWW: World Wide Web, Not Wealthy Westerners' Web ](https://www.youtube.com/watch?v=uqVRz8CteAg&t=NaN)
+          </section>
+        </section>
+
+        <section id="pwa">
+          <section>
+            <h2>Progressive Web Apps</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section data-markdown>
+            ![Audience is higher in the Web, engagement is higher in native](../web-platform-when-why/imgs/audience-vs-loyalty.png)
+          </section>
+
+          <section data-markdown>
+            Web sites delivering a _native-like_ experience.
+          </section>
+
+          <section>
+            <p>
+              Can you tell what is the native app?
+            </p>
+            <img style="height: 500px;" alt="Twitter Home Screen icons" src="../web-platform-when-why/imgs/home-screen.png"/>
+          </section>
+
+          <section>
+            <p>
+              And now?
+            </p>
+            <img style="width: 30%;" alt="Twitter Native Application" src="../web-platform-when-why/imgs/twitter-native.png"/>
+            <img style="width: 30%;" alt="Twitter Web Application Without Browser UI" src="../web-platform-when-why/imgs/twitter-web-no-ui.png"/>
+          </section>
+
+          <section>
+            <p>
+              But you certainly do now.
+            </p>
+            <img style="width: 30%;" alt="Twitter Native Application" src="../web-platform-when-why/imgs/twitter-native.png"/>
+            <img style="width: 30%;" alt="Twitter Web Application" src="../web-platform-when-why/imgs/twitter-web.png"/>
+          </section>
+
+          <section>
+            <p>
+              Or now.
+            </p>
+            <img style="height: 500px;" alt="Twitter Native Application" src="../web-platform-when-why/imgs/task-switcher.png"/>
+          </section>
+
+          <section data-markdown>
+            A word of caution:
+
+            * PWA are **no more than regular websites**.
+            * The installation banner **is not** an standard.
+            * Operating Systems **must embrace** the Web, _not the other way around_.
+            * Technology **must preserve** Web principles.
+          </section>
+
+          <section data-markdown>
+            [Progressive Web Apps: Escaping Tabs Without Losing Our Soul](https://infrequently.org/2015/06/progressive-apps-escaping-tabs-without-losing-our-soul/)
+
+            [Regressive Web Apps](https://adactio.com/journal/10708)
+
+            [Progressive Web Apps are a toolkit, not a recipe](https://medium.com/samsung-internet-dev/progressive-web-apps-are-a-toolkit-not-a-recipe-b2fd68613de5)
+
+            [Deeply Integrated Progressive Web Apps (WebAPKs) are Live for Chrome on Android](https://www.xda-developers.com/deeply-integrated-progressive-web-apps-are-already-live-for-chrome-on-android/)
+
+            [Why Are App Install Banners Still A Thing?](https://medium.com/dev-channel/why-are-app-install-banners-still-a-thing-18f3952d349a)
+          </section>
+
+          <section data-markdown>
+            **This conference**:
+
+            [PWA Summit 2016](https://www.youtube.com/watch?v=uHgqWg3OIIo&list=PLNYkxOF6rcIAWWNR_Q6eLPhsyx6VvYjVb)
+          </section>
+        </section>
+
+        <!--
+        <section id="reactive">
+          <section>
+            <h2>Reactive Programming</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <h3>Streams</h3>
+          </section>
+
+          <section>
+            <h3>Data binding</h3>
+          </section>
+
+          <section>
+            <h3>Virtual DOM</h3>
+          </section>
+        </section>
+        -->
+
+        <section id="http2">
+          <section>
+            <h2>HTTP/2</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p>Multiplexing</p>
+            <img style="width: 60%" src="./imgs/multiplexing.png"
+            alt="With multiplex, several request can be performed with only one
+            TCP connection." />
+          </section>
+
+          <section>
+            <p>Push / Server Hint</p>
+            <img style="width: 60%" src="./imgs/pushstats.jpg"
+            alt="Push can take advantage of one of the connections to send
+            related resources." />
+          </section>
+
+          <section>
+            <p>HPACK</p>
+            <img style="height: 500px" src="./imgs/hpack.svg"
+            alt="HPACK is an algorithm to compress the headers of a request,
+            safer than GZIP." />
+          </section>
+
+          <section data-markdown>
+            [HTTP2 implementations](https://github.com/http2/http2-spec/wiki/Implementations)
+
+            [Link headers and server hints](https://www.chromium.org/spdy/link-headers-and-server-hint)
+
+            [A Comprehensive Guide To HTTP/2 Server Push](https://www.smashingmagazine.com/2017/04/guide-http2-server-push/)
+          </section>
+        </section>
+
+        <section id="sync">
+          <section>
+            <h2>Sync</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section data-markdown>
+            [Add Background Sync to CanIUse](https://github.com/Fyrd/caniuse/issues/2677)
+
+            Currently supported by Chrome and Edge 15.
+          </section>
+
+          <section>
+            <a href="../imgs/sw-101/sync-event.png"><img style="max-width: 700px"
+                 src="../imgs/sw-101/sync-event.png"
+                 alt="Sync triggers an event when recovering connectivity." /></a>
+          </section>
+
+          <section>
+            <img style="max-width: 700px"
+                 src="./imgs/sync.png"
+                 alt="Simulate a sync event with the Service Worker tab in
+                 Chrome DevTools." />
+          </section>
+        </section>
+
+        <section id="manifest">
+          <section>
+            <h2>Manifest</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="web-app-manifest" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=web-app-manifest">Can I Use web-app-manifest?</a> Data on support for the web-app-manifest feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section>
+            <h3>Web Manifest</h3>
+            <pre><code>{
+    "name": "Flipkart Lite",
+    "short_name": "Flipkart Lite",
+    "icons": [ {
+      "src": "https://img1a.flixcart.com/www/linchpin/logo_lite-cbb3574d.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    } ],
+    "start_url": "/?start_url=homescreenicon",
+    "orientation": "portrait",
+    "display": "standalone",
+    "theme_color": "#006cb4",
+    "background_color": "#006cb4"
+  }</code></pre>
+            <p>
+              Partial manifest from <a href="https://flipkart.com/" target="_blank">Flipkart Lite</a>.
+            </p>
+          </section>
+
+          <section>
+            <img alt="Flipkart specifying the theme color"
+                 src="../web-platform-when-why/imgs/flipkart-task-switcher.png" style="width: 30%;"/>
+            <img alt="Flipkart theme"
+                 src="../web-platform-when-why/imgs/flipkart-theme.png" style="width: 30%;"/>
+            <img alt="Flipkart splashscreen"
+                 src="../web-platform-when-why/imgs/flipkart-splashscreen.png" style="width: 30%;"/>
+          </section>
+        </section>
+
+        <section id="web-payments">
+          <section>
+            <h2>Web Payments</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="payment-request" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=payment-request">Can I Use payment-request?</a> Data on support for the payment-request feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section id="payment-instruments">
+            <p>This is <strong>not a payment method</strong>.</p>
+            <p class="fragment">The browser becomes a mediator to manage <strong>payment instruments</strong> and <strong>sensible data</strong> in a safe way.</p>
+            <style>
+              #payment-instruments img {
+                width: 25%;
+                box-shadow: none;
+                border: none;
+                padding: 0 1rem;
+              }
+            </style>
+            <img class="fragment" src="./imgs/Bitcoin.svg" alt="bitcoin">
+            <img class="fragment" src="./imgs/credit-card.png" alt="bitcoin">
+            <img class="fragment" src="./imgs/chrono.png" alt="bitcoin">
+          </section>
+
+          <section>
+            <a href="./imgs/payment-request.png"><img style="max-height: 600px"
+                 src="./imgs/payment-request.png"
+                 alt="Payment request flow" /></a>
+          </section>
+
+          <section data-markdown>
+            [Payment Request API: an Integration Guide](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/)
+
+            [Payment Resquest Spec](https://w3c.github.io/payment-request/)
+
+            [Payment Handler Spec](https://w3c.github.io/payment-handler/)
+          </section>
+        </section>
+
+        <section id="credential-management">
+          <section>
+            <h2>Credential Management</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="credential-management" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=credential-management">Can I Use credential-management?</a> Data on support for the credential-management feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section>
+            <a href="./imgs/credential-management.png"><img style="max-width: 400px"
+                 src="./imgs/credential-management.png"
+                 alt="Credential management flow." /></a>
+          </section>
+
+          <section data-markdown>
+            [Credential Management](https://developers.google.com/web/fundamentals/security/credential-management/)
+
+            [Credential Management Spec](https://w3c.github.io/webappsec-credential-management/)
           </section>
         </section>
 
@@ -973,6 +1098,12 @@ footer { grid-area: b; }</code></pre>
           <section>
             <h2>Request Idle Callback</h2>
             <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="requestidlecallback" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=requestidlecallback">Can I Use requestidlecallback?</a> Data on support for the requestidlecallback feature across the major browsers from caniuse.com.
+</p>
           </section>
 
           <section data-markdown>
@@ -995,6 +1126,69 @@ footer { grid-area: b; }</code></pre>
 
           <section data-markdown>
             [Cooperative Scheduling with requestIdleCallback](https://hacks.mozilla.org/2016/11/cooperative-scheduling-with-requestidlecallback/)
+          </section>
+        </section>
+
+        <section id="webvr">
+          <section>
+            <h2>WebVR</h2>
+            <a style="font-size: small; float: right;" href="#index">Go to index</a>
+          </section>
+
+          <section>
+            <p class="ciu_embed" data-feature="webvr" data-periods="future_1,current,past_1">
+  <a href="http://caniuse.com/#feat=webvr">Can I Use webvr?</a> Data on support for the webvr feature across the major browsers from caniuse.com.
+</p>
+          </section>
+
+          <section data-markdown>
+            Presence + Reach = WebVR
+          </section>
+
+          <section>
+            <video src="../aframe-101/imgs/boilerplate-low.mp4" data-autoplay controls></video>
+          </section>
+
+          <section>
+            <h3>A-Frame</h3>
+
+            <p>
+              A 360 picture viewer in <strong>6 lines of HTML code</strong>.
+            </p>
+            <p data-height="265" data-theme-id="0" data-slug-hash="LLyJBr" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="360º panorama viewer" class="codepen">See the Pen <a href="https://codepen.io/lodr/pen/LLyJBr/">360º panorama viewer</a> by Salvador de la Puente González (<a href="https://codepen.io/lodr">@lodr</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+          </section>
+
+          <section data-markdown>
+            ### React VR
+
+            ```js
+            import React from 'react';
+            import {AppRegistry, Pano, Text, View} from 'react-vr';
+
+            class WelcomeToVR extends React.Component { render() {
+              // Displays "hello" text on top of a loaded 360 panorama image.
+              // Text is 0.8 meters in size and is centered three meters in front of you.
+              return (
+                &lt;View&gt;
+                  &lt;Pano source={asset(&apos;chess-world.jpg&apos;)}/&gt;
+                  &lt;Text style={{ fontSize: 0.8, layoutOrigin: [0.5, 0.5], transform: [{translate: [0, 0, -3]}], }}&gt; hello &lt;/Text&gt;
+                &lt;/View&gt;
+              );
+            } };
+            AppRegistry.registerComponent('WelcomeToVR', () => WelcomeToVR);
+            ```
+          </section>
+
+          <section data-markdown>
+            [WebVR Spec](https://github.com/w3c/webvr)
+
+            [WebVR Experiments](https://www.webvrexperiments.com/)
+
+            [WebVR on MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API)
+
+            [A-Frame](https://aframe.io/)
+
+            [React VR](https://facebook.github.io/react-vr/)
           </section>
         </section>
 

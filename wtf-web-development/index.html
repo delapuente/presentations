@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>What the hell happend with Web development?</title>
+    <meta name="description" content="I don't know about your case but I started programming on the Web with a notepad, a browser and some reference books. Gone are those days where you faced a new project with almost no doubts about the tools and pipelines to choose. Nowadays, I can not imagine what a newcomer feels when facing web development for the first time. This talk is both a review and a dissection of the web programming scene.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../css/mozilla.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-dark.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+  </head>
+  <body>
+    <div class="reveal">
+
+      <div class="slides">
+        <section>
+          <header>
+            <h1>What the hell happened with Web development?</h1>
+          </header>
+        </section>
+
+        <section>
+          <img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ![QR of the presentation](./imgs/qr.png)
+
+          http://bit.ly/2ofTRTb
+        </section>
+
+        <section>
+          <code>&lt;rant&gt;</code>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Not so long ago
+          </section>
+
+          <section data-markdown>
+            ![Editing HTML on notepad](./imgs/img_notepad.png)
+          </section>
+
+          <section data-markdown>
+            ![Saving the file as index.html](./imgs/img_saveas.png)
+          </section>
+
+          <section data-markdown>
+            ![Open it with a browser](./imgs/img_chrome.png)
+          </section>
+        </section>
+ 
+        <section>
+          <section data-markdown>
+            ## Yesterday
+          </section>
+
+          <section data-background-image="./imgs/el-jardin-de-las-delicias.jpg" data-background-size="contain"
+          data-background-repeat="repeat">&nbsp;</section>
+
+          <section data-background-image="./imgs/index-1.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/source.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/npm-install-0.png" data-background-size="contain">&nbsp;</section> 
+          
+          <section data-background-image="./imgs/npm-install-1.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/npx-babel.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/babelrc.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/index-2.png" data-background-size="contain">&nbsp;</section>
+          
+          <section data-background-image="./imgs/npm-install-2.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/webpack-1.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/dependencies.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/webpack-2.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/index-3.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/webpack-3.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/webpack-result.png" data-background-size="contain">&nbsp;</section>
+
+          <section data-background-image="./imgs/package.png" data-background-size="contain">&nbsp;</section>
+        </section>
+
+        <section>
+          <code>&lt;/rant&gt;</code>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Watchers &amp; live-reloading servers
+          </section>
+
+          <section data-markdown>
+            > Re-run the build process when needed.
+          </section>
+
+          <section data-markdown>
+            * [nodemon](https://www.npmjs.com/package/nodemon) simply monitors and re-run tasks upon changes.
+            * [npm-watch](https://www.npmjs.com/package/npm-watch) wraps `nodemon` providing a declarative syntax for the `package.json` file.
+            * [MS Code Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) integrates with MS Code. It's easy, ready-to-go and also configurable.
+            * [webpack-dev-server](https://github.com/webpack/webpack-dev-server) provides live reloading and in-memory access for fast rebuilds.
+          </section>
+
+          <section data-markdown>
+            [Tools to Automate Restarting Node.js Server After Code Changes](https://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev/) by StrongLoop
+          </section>
+
+          <section data-markdown>
+            my choice:
+            
+            _**webpack dev server**_
+          </section>
+        </section>
+
+        <section>
+            <section data-markdown>
+              ## Linters
+            </section>
+  
+            <section data-markdown>
+              > Keep a consistent coding style.
+            </section>
+  
+            <section data-markdown>
+              * [JSLint](http://requirejs.org/) is strict and ready-to-go but old.
+              * [JSHint](http://jshint.com/) is the configurable version of the previous one.
+              * [ESLint](https://eslint.org/) features a completly extensible framework to write new rules.
+              * [tslint](https://github.com/palantir/tslint) is the ESLint for TypeScript.
+              * [standard](https://github.com/standard/standard) is strict, ready-to-go and pragmatic.
+            </section>
+  
+            <section data-markdown>
+              [A Comparison of JavaScript Linting Tools](https://www.sitepoint.com/comparison-javascript-linting-tools/) by Sitepoint
+            </section>
+  
+            <section data-markdown>
+              my choice:
+              
+              _**semistandard**_
+            </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Bundlers
+          </section>
+
+          <section data-markdown>
+            > Reconcile maintainability with distribution performance.
+          </section>
+
+          <section data-markdown>
+            * [RequireJS](http://requirejs.org/) provides a regular and standardized asynchronous module system.
+            * [webpack](https://webpack.js.org/) balances size and separation of modules.
+            * [rollup](https://github.com/rollup/rollup) puts the effort in minimizing the bundle.
+          </section>
+
+          <section data-markdown>
+            [The cost of small modules](https://nolanlawson.com/2016/08/15/the-cost-of-small-modules/) by Nolan Lawson
+          </section>
+
+          <section data-markdown>
+            my choice:
+            
+            _**webpack**_
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Preprocessors/transpilers
+          </section>
+
+          <section data-markdown>
+            > Fill the gap of lacking features.
+          </section>
+
+          <section data-markdown>
+            * [babel](https://babeljs.io/) an extensible compiler.
+            * [typescript](https://www.typescriptlang.org/) adds _designing utilities_ to JavaScript. TS empowers JS developers through expressiveness. Bivariant method parameters.
+            * [flow](http://jasmine.github.io/) emphasizes on correctness.
+          </section>
+
+          <section data-markdown>
+            [Flow vs TypeScript 2](http://djcordhose.github.io/flow-vs-typescript/flow-typescript-2.html#/) by Oliver Zeigermann
+          </section>
+
+          <section data-markdown>
+            my choice:
+            
+            _**typescript**_
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Optimizers
+          </section>
+
+          <section data-markdown>
+            > Transform JavaScript into better JavaScript.
+          </section>
+
+          <section data-markdown>
+            * [Closure Compiler](https://github.com/google/closure-compiler-js) bundles, minimizes and optimize JS. It focuses on file size and includes a type system.
+            * [UglifyJS3](https://github.com/mishoo/UglifyJS2) is more than a minifier, it also performs dead-code removal.
+            * [prepack](https://prepack.io/) is kind of a _partial evaluator_ focusing on aggressive optimization.
+          </section>
+
+          <section data-markdown>
+            [Combining Prepack And Closure Compiler](http://www.syntaxsuccess.com/viewarticle/combining-prepack-and-closure-compiler) by Syntax Success
+          </section>
+
+          <section data-markdown>
+            my choice:
+            
+            _**UglifyJS**_
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Test frameworks
+          </section>
+
+          <section data-markdown>
+            > Automatically and selectively run test suites.
+          </section>
+
+          <section data-markdown>
+            * [karma](https://karma-runner.github.io/2.0/index.html) runs your test suites in multiple browser environments.
+            * [Mocha](https://mochajs.org/) helps you define and manage test suites.
+            * [Jasmine](http://jasmine.github.io/) is an all-in-one solution.
+            * [Istanbul](https://gotwarlost.github.io/istanbul/) focuses on code-coverage.
+          </section>
+
+          <section data-markdown>
+            [An Overview of JavaScript Testing in 2017](https://medium.com/powtoon-engineering/a-complete-guide-to-testing-javascript-in-2017-a217b4cd5a2a) by Vitali Zaidman
+          </section>
+
+          <section data-markdown>
+            my choice:
+            
+            _**mocha &amp; karma**_
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Task runners
+          </section>
+
+          <section data-markdown>
+            > Automatize, centralize and run common tasks in the development cycle.
+          </section>
+
+          <section data-markdown>
+            * [make](https://www.gnu.org/software/make/) is powerful but UNIX only.
+            * [Grunt](https://gruntjs.com/) seems old but has a huge community.
+            * [Gulp](https://gulpjs.com/) is the modern concurrent version.
+            * npm [scripts](https://docs.npmjs.com/misc/scripts) are the built-in npm solution:
+              * `prescript`, `script`, `postscript`
+              * [concurrently](https://www.npmjs.com/package/concurrently) for running tasks in parallel.
+              * [shx](https://www.npmjs.com/package/shx) for cross-platform shell utils
+          </section>
+
+          <section data-markdown>
+            [Comparison of Build Tools](https://survivejs.com/webpack/appendices/comparison/) by SurviveJS
+          </section>
+
+          <section data-markdown>
+            my choice:
+            
+            _**npm scripts**_
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Documentation generators
+          </section>
+
+          <section data-markdown>
+            > Generate API and general project documentation.
+          </section>
+
+          <section data-markdown>
+            * [jsdoc](http://usejsdoc.org/), ala JavaDoc but for JS.
+            * [tsdoc](https://github.com/TypeStrong/typedoc) is the TypeScript `jsdoc`.
+            * [docco](https://github.com/jashkenas/docco) follows _literate programming_ style.
+            * [yuidoc](http://yui.github.io/yuidoc/) provides an excellent output.
+          </section>
+
+          <section data-markdown>
+            [Choosing a JavaScript Documentation Generator – JSDoc vs YUIDoc vs Doxx vs Docco](https://www.fusioncharts.com/blog/jsdoc-vs-yuidoc-vs-doxx-vs-docco-choosing-a-javascript-documentation-generator/) by FusionBrew
+          </section>
+
+          <section data-markdown>
+            my choice:
+            
+            _**yuidoc**_
+          </section>
+        </section>
+
+        <section data-markdown>
+          ## Advices
+          * Choose the **simplest** tool covering your use case.
+          * **Understand** your tools.
+          * Don't forget **sourcemaps**.
+          * When configuring pipelines, think **backwards**.
+        </section>
+
+        <section data-markdown>
+          ## Conclusions
+          * Personally, I **need** most of these steps.
+          * I like the **freedom** to mix &amp; match.
+          * But I'm always in the search of **simpler** alternatives.
+        </section>
+
+        <section>
+          <section data-markdown>
+            A solution for the boilerplate problem:
+            
+            **project templates**!
+
+            [yeoman](http://yeoman.io/authoring/)? [plop](https://github.com/amwmedia/plop)? [slush](http://slushjs.github.io/#/)?
+          </section>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>
