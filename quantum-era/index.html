@@ -1,0 +1,507 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>The Quantum Era &amp; IBM&nbsp;Q</title>
+    <meta name="description" content="A gentle introduction to quantum computing and the work of IBM in advancing the field.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/ibm-devrel-dark.css"/>
+
+		<!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <style>
+      section.no-deco img {
+        border: none;
+        box-shadow: none;
+      }
+    </style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+  <body>
+
+		<div class="reveal">
+			<div class="slides">
+        <section>
+          <header>
+            <h1>The Quantum Era & IBM&nbsp;Q</h1>
+          </header>
+        </section>
+
+        <section class="no-deco">
+          <img src="imgs/qr.png" style="background: none" /><br/>
+          <a href="https://bit.ly/2Ub87Kj">https://bit.ly/2Ub87Kj</a>
+        </section>
+
+        <section data-markdown>
+          ## Index
+          1. IBM-Q
+          2. Quantum Computing
+          3. Qiskit &amp; Quantum Experience
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## IBM-Q
+          </section>
+
+          <section data-markdown>
+            ![Juan Gómez, Diego Moreda and Salvador de la Puente](./imgs/qiskit-eng.jpeg)
+            
+            The engineering team: Juan, Diego and Salva.
+          </section>
+
+          <section data-markdown>
+            ### The quantum computer
+          </section>
+
+          <section data-markdown>
+            ![Quantum processor temperatures](./imgs/procesador-cuantico.png)
+
+            The quantum computer is mostly a big refrigerator and isolator.
+          </section>
+
+          <section>
+            <img alt="7 qubit chip" style="height: 300px" src="./imgs/7-qubit-chip.png">
+            <img alt="7 qubit chip with elements highlighted" style="height: 300px" src="./imgs/7-qubit-chip-elements.jpeg">
+
+            <p>We use <a href="https://medium.com/@jonathan_hui/qc-how-to-build-a-quantum-computer-with-superconducting-circuit-4c30b1b296cd" target="_blank">superconductor qubits</a>
+            based on capacitors combined with a Josephson junction that
+            <strong>behaves like a 2-energy-levels atom</strong>.</p>
+          </section>
+
+          <section data-markdown>
+            This is a **general-purpose** quantum computer.
+          </section>
+
+          <section data-markdown>
+            Quantum volume is a measurement of the power of a quantum computer.
+            It requires **error correction to improve** before increasing
+            the power of a computer.
+          </section>
+
+          <section data-markdown>
+            ![Quantum volume requires improving error correction for improving power](./imgs/quantum-volume.png)
+          </section>
+
+          <section data-markdown>
+            Dissapointing facts of quantum processors right now:
+              * 100 micro-secongs until [decoherence](https://en.wikipedia.org/wiki/Quantum_decoherence) (execution time).
+              * Re-calibration in the order of miliseconds; 10% of productivity.
+              * Operation temperature of [20 mK](https://en.wikipedia.org/wiki/Absolute_zero).
+              * Error mitigation requires **thousands** of physical qubits to ensure a
+              logical one.
+          </section>
+
+          <section data-markdown>
+            References
+            * [Quantum Ready now, Quantum Advantage tomorrow](https://medium.com/@rssutor/quantum-ready-now-quantum-advantage-tomorrow-14739a28c6f5)
+            * [Quantum Error Correction for Beginners](https://arxiv.org/pdf/0905.2794.pdf)
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Quantum Computing
+          </section>
+
+          <section data-markdown>
+            ![Problem classes](./imgs/problem-classes.jpg)
+            Quantum computers can solve **all the easy** problems,
+            **some hard** problems and **some unique** problems.
+          </section>
+
+          <section data-markdown>
+            ![Dropbox 68 million hacked accounts](./imgs/dropbox-password-hack.png)
+            
+            > [...] over 68 million accounts, which contains email addresses and
+            **hashed passwords** for Dropbox users.
+          </section>
+
+          <section data-markdown>
+            ### Big numbers
+          </section>
+
+          <section data-markdown>
+            ```python
+            def grover(input_width, hash, reference):
+              for input in binary_combinations(input_width):
+                spawn(i => {
+                  if hash(i) == reference: print('The answer is ' + i)
+                }, input)
+            ```
+
+            This program solves hash inversion in one step.
+          </section>
+
+          <section data-markdown>
+            The `binary_combinations` function returns a list of `2^80`
+            10-byte items.
+
+            ![Cray Titan](imgs/titan.jpg)
+
+            x 10.000 M ([yobibyte](https://en.wikipedia.org/wiki/Yobibyte))
+          </section>
+
+          <section data-markdown>
+            ```
+            1 000 000 000 000 000 000 000 000
+            |       |          |
+            |       |          | MIPS for an i7
+            |       |
+            |       | A continued year of processing
+            |
+            | A million years of continued processing
+            ```
+            For a 10 `latin-1` characters, you will loop over `2^80` items.
+            One `1` leading `24` zeroes.
+          </section>
+
+          <section data-markdown>
+            A hardware solution, supposing an integration technology of
+            1M complete circuits in 1 mm<sup>2</sup> would require...
+          </section>
+
+          <section data-markdown>
+            ![Península Ibérica x 2](imgs/iberian-peninsula.jpg)
+          </section>
+
+          <section data-markdown>
+            x 2
+          </section>
+
+          <section data-markdown>
+            ### Quantum algorithms
+          </section>
+
+          <section data-markdown>
+            ![Nine dots puzzle solved with 1 line](imgs/nine-dots-1.gif)
+
+            Quantum computing requires a different approach of
+            addressing problems...
+          </section>
+
+          <section data-markdown>
+            ![Nine dots puzzle solved with 1 line](imgs/nine-dots-2.gif)
+
+            ...to take advantage of **quantum mechanics**.
+          </section>
+
+          <section data-markdown>
+            ### Quantum systems
+          </section>
+
+          <section data-markdown>
+            **Certainty is in the probability**, not in the value.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![2-only states of a bit](imgs/bit-alternate.gif)
+
+            A classical bit can hold `0` or `1` and can be read with
+            **absolute certainty**.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![50% chance of reading a value or another](imgs/qubit-alternate.gif)
+
+            A quantum bit can hold a combination of `0` and `1` and can
+            be read one of the values with a **controlled probability**.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![66% chance of reading 0](imgs/qubit-alternate-2-1.gif)
+
+            For instance: we can prepare the qubit to get
+            **double chance of reading `0` than `1`**.
+          </section>
+
+          <section>
+            <img alt="spinning coin value is unknown" style="width: 260px" src="./imgs/spinning-coin.gif">
+            <img alt="distribution is 50%/50%" src="./imgs/one-coin-histogram.png">
+
+            <p>The value of the spinning coin is unknown but the histogram
+              is <strong>well known</strong>.</p>
+          </section>
+
+          <section data-markdown>
+            This is **superposition**.
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![100%-chance of getting 00 histogram](imgs/histogram-00.png)
+
+            With 2 qubits set to `0` and `0`, all the probability is concentrated
+            in the `00` state.
+          </section>
+
+          <section>
+            But if we set the second qubit for being in a 50%-chance
+            superposition...
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![50%-change of getting 00 and 01 histogram](imgs/histogram-50.gif)
+
+            ...there is a **division of probability**.
+          </section>
+
+          <section data-markdown>
+            Making the first qubit to be in superposition too...
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![25% change for every result histogram](imgs/histogram-25.gif)
+
+            ...will cause another division of probability.
+          </section>
+
+          <section data-markdown>
+            There are other means of controlling the histogram...
+          </section>
+
+          <section>
+            <img style="height: 300px" alt="Each modification is a set of pulses..." src="./imgs/microwave-rack.jpg"/>
+            <img style="height: 300px" alt="...to the chip" src="./imgs/7-qubit-chip.png" />
+            <p>(each alteration being a set of pulses on the quantum chip)</p>
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Interchange of 01 and 11 states](imgs/histogram-swap.gif)
+
+            ...such as **interchanging probability**...
+          </section>
+
+          <section data-markdown class="no-deco">
+            ![Changing the sign of probability](imgs/histogram-phase.gif)
+
+            ...or "**inverting probability**".
+          </section>
+
+          <section data-markdown>
+            The key for understanding quantum computing is to start accepting
+            that the **"probability can be negative"**.
+          </section>
+
+          <section data-markdown>
+            Such "probability" is actually called **amplitude**.
+          </section> 
+
+          <section data-markdown class="no-deco">
+            ![Mutating histogram](imgs/interference.gif)
+
+            Quantum algorithms use the signed nature of amplitudes to make
+            **incorrect solutions to cancel each other**, causing the
+            probability to **concentrate in the correct solution**.
+          </section>
+
+          <section data-markdown>
+            This effect is called **interference**.
+          </section>
+
+          <section data-markdown>
+            ![Pascal law in two syringes](./imgs/syringe_hydraulics.gif)
+            
+            As in hydraulics systems where the liquid volume is preserved,
+            the total probability is always 100%, so reducing probability
+            of bad answers will **naturally increase** the correct answer
+            chance.
+          </section>
+
+          <section data-markdown>
+            ### The Grover algorithm
+          </section>
+
+          <section data-markdown>
+            ![Dropbox 68 million hacked accounts](./imgs/dropbox-password-hack.png)
+
+            Friendly reminder: we do have the **hash of the password**.
+          </section>
+
+          <section data-markdown>
+            ![Identify the element to search](imgs/tagging.png)
+
+            First **identify the element** we want to search.
+          </section>
+
+          <section data-markdown>
+            ![Change the sign and reduce the average](imgs/tagging-2.png)
+
+            **Invert the sign** of that element.*
+          </section>
+
+          <section data-markdown>
+            ![Inversion over the average](imgs/inversion-over-average.png)
+
+            Perform an **inversion over the average**.
+          </section>
+
+          <section data-markdown>
+            After some iterations, the probability is maximum.
+
+            Perform the algorithm several times to reduce the error and
+            **increase certainty**.
+          </section>
+
+          <section data-markdown>
+            ![The elephant in the room](./imgs/elephant-in-the-room.jpg)
+          </section>
+
+          <section data-markdown>
+            ### Entanglement
+          </section>
+
+          <section data-markdown>
+            ![Histogram of the adder with carrier](./imgs/adder.gif)
+            
+            We can prepare a 4-qubit histogram that implements an adder:
+            `qubit1 + qubit2 = qubit3 (qubit4 is carry)`
+          </section>
+
+          <section data-markdown>
+            ![The adder histogram, split](./imgs/adder-split.gif)
+
+            Measuring the input, **immediately conditions the output.**
+          </section>
+
+          <section data-markdown>
+            ![The adder histogram, split](./imgs/adder-split.gif)
+            
+            But it also works the opposite way. Measuring the output
+            **immediately determines the input**.
+          </section>
+
+          <section data-markdown>
+            Thanks to entanglement, all the **classical circuits fit inside
+            a quantum computer**.
+          </section>
+
+          <section data-markdown>
+            ![A hash-focused hardware](./imgs/antminer.jpg)
+
+            Classical algorithms can be translated to classical circuits.
+          </section>
+
+          <section data-markdown>
+            ### Cracking the password
+          </section>
+
+          <section data-markdown>
+            ![Dropbox 68 million hacked accounts](./imgs/dropbox-password-hack.png)
+
+            Now yessssss!
+          </section>
+
+          <section data-markdown>
+            ![Password and hash entangled](./imgs/password-hash.gif)
+
+            Implement the hash function in the quantum system: **passwords
+            and hashes are now entangled**.
+          </section>
+
+          <section data-markdown>
+            ![Superposition of all passwords](./imgs/all-passwords.gif)
+            
+            Put the input in a superposition of equal chance: **all possible
+            passwords with equal probability**.
+          </section>
+
+          <section data-markdown>
+            ![Grover on the hash part](./imgs/grover-on-hashes.gif)
+
+            Use **Grover on the hash part** to increase the chance of
+            getting the target hash.
+          </section>
+
+          <section data-markdown>
+            ![Measure the password](./imgs/measure-password.gif)
+
+            **Measure the password part**. Voilà!
+          </section>
+
+          <section data-markdown>
+            References:
+            * [Quantum Computing Expert Explains One Concept in 5 Levels of Difficulty | WIRED](https://www.youtube.com/watch?v=OWJCfOvochA)
+            * [Quantum Computing for Computer Scientist](https://www.youtube.com/watch?v=F_Riqjdh2oM)
+            * [A Short Guide to Hard Problems](https://www.quantamagazine.org/a-short-guide-to-hard-problems-20180716/)
+            * [Finally, a Problem That Only Quantum Computers Will Ever Be Able to Solve](https://www.quantamagazine.org/finally-a-problem-that-only-quantum-computers-will-ever-be-able-to-solve-20180621/)
+            * [Grover and its Cryptographic Applications](https://www.henrycg.com/files/academic/pres/quals17-slides.pdf)
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Qiskit &amp; Quantum Experience
+          </section>
+
+          <section data-markdown>
+            ### Community
+          </section>
+
+          <section data-markdown>
+            Reach out!
+              * [Join us in Slack](https://qiskit.slack.com/join/shared_invite/enQtNDc2NjUzMjE4Mzc0LTMwZmE0YTM4ZThiNGJmODkzN2Y2NTNlMDIwYWNjYzA2ZmM1YTRlZGQ3OGM0NjcwMjZkZGE0MTA4MGQ1ZTVmYzk)
+              * [Follow us on Twitter](https://twitter.com/qiskit)
+              * [Contribute to Open Source](https://github.com/qiskit/qiskit-terra)
+              * [Read more on Medium](https://medium.com/@qiskit)
+          </section>
+
+          <section data-markdown>
+            ### Qiskit Camps
+          </section>
+
+          <section>
+            <iframe width="800" height="600" src="https://www.youtube.com/embed/o2DNEhAKJeo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <p><a href="https://qiskit.camp/">NY Qiskit Camp</a>: 3-day learning and hacking experience.</p>
+          </section>
+
+          <section data-markdown>
+            [Madrid Qiskit Training Camp](https://madrid.qiskit.camp/)
+          </section>
+
+          <section data-markdown>
+            References:
+              * [Qiskit](https://qiskit.org/)
+              * [Qiskit Organization on GitHub](https://github.com/qiskit)
+              * [Qiskit and its Fundamental Elements](https://medium.com/qiskit/qiskit-and-its-fundamental-elements-bcd7ead80492)
+          </section>
+        </section>
+      </div>
+		</div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+
+        keyboard: {
+          39: 'next',
+          37: 'prev'
+        }
+			});
+		</script>
+	</body>
+</html>

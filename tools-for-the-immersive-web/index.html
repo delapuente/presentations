@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Tools for the Immersive Web</title>
+    <meta name="description" content="A-Frame is a framework to build VR
+    experiences in the Web. A-Frame leverages HTML syntax to support an
+    Entity-Component-System architecture like those on modern game engines.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-dark.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+  </head>
+  <body>
+    <div class="reveal">
+
+      <div class="slides">
+        <section>
+          <header>
+            <h1>Tools for the Immersive Web</h1>
+            <p>A-Frame &amp; Unity</p>
+          </header>
+        </section>
+
+        <section>
+          <img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
+          <p>Salvador de la Puente González</p>
+          <p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+          <p><a href="http://github.com/delapuente">http://github.com/delapuente</a></p>
+          <p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ![QR of the presentation](./imgs/qr.png)
+
+          https://bit.ly/2HWGNuR
+        </section>
+
+        <section>
+          <section data-background-image="./imgs/limits.jpg">
+            <h2 style="text-shadow: 2px 2px 0 black">The limits of HTML</h2>
+          </section>
+
+          <section data-markdown>
+            Do you remember writing your first webpage?
+          </section>
+
+          <section data-markdown>
+            ![Editing HTML on notepad](../aframe-101/imgs/img_notepad.png)
+          </section>
+
+          <section data-markdown>
+            ![Saving the file as index.html](../aframe-101/imgs/img_saveas.png)
+          </section>
+
+          <section data-markdown>
+            ![Open it with a browser](../aframe-101/imgs/img_chrome.png)
+
+            [HTML editors at W3Schools](https://www.w3schools.com/html/html_editors.asp)
+          </section>
+
+          <section>
+            <p>
+              Web technologies <strong>welcome every kind of author</strong>.
+            </p>
+            <p class="fragment">
+              HTML and CSS are <strong>friendly</strong>, <strong>accessible</strong> and <strong>powerful</strong> languages.
+            </p>
+          </section>
+
+          <section>
+            <p>They do great for <strong>2D layouts</strong>!</p>
+          </section>
+
+          <section>
+            <p><img src="../aframe-101/imgs/grid-layout.png" alt="A complex grid layout in CSS" style="width: 80%"></p>
+            <p><a href="http://labs.jensimmons.com/2017/01-009K.html">Example by Jen Simmons</a></p>
+          </section>
+
+          <section data-markdown>
+            But for immersive scenes...
+          </section>
+
+          <section data-markdown>
+            You will need JavaScript to create and manipulate 3D scenes, which means using [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API), [WebVR](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API), [Web Audio](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API), [Gamepad](https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API) and other powerful but **complex** browser APIs.
+          </section>
+
+          <section>
+            <p>The boilerplate for a simple VR scene gets messy quickly:</p>
+            <video src="../aframe-101/imgs/boilerplate-low.mp4" data-autoplay controls></video>
+          </section>
+
+          <section data-markdown>
+            Making really hard for authors to start experimenting with VR.
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-background-image="./imgs/a-frame.png">
+            ## A-Frame
+          </section>
+
+          <section data-markdown>
+            A framework for **building 3D, VR &amp; AR experiences**.
+
+            It drastically reduces the boilerplate to:
+          </section>
+
+          <section>
+            <pre class="html"><code style="font-size: xx-large;">&lt;a-scene&gt;&lt;/a-scene&gt;</code></pre>
+          </section>
+
+          <section data-markdown>
+            A-Frame uses [Custom Elements](http://jonrimmer.github.io/are-we-componentized-yet/)
+            to extend the HTML vocabulary enabling the use of new **tags for
+            scene management** such as `a-scene`, `a-box` or `a-camera`.
+          </section>
+
+          <section data-markdown>
+            A-Frame uses [three.js](https://threejs.org/) to render the scene. It exposes all the power of three.js in a **friendly, declarative fashion**.
+          </section>
+
+          <section>
+            <p>
+              A 360 picture viewer is <strong>7 lines of HTML code</strong>.
+            </p>
+            <p data-height="265" data-theme-id="0" data-slug-hash="LLyJBr" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="360º panorama viewer" class="codepen">See the Pen <a href="https://codepen.io/lodr/pen/LLyJBr/">360º panorama viewer</a> by Salvador de la Puente González (<a href="https://codepen.io/lodr">@lodr</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+          </section>
+
+          <section>
+            <p>
+              An AR model viewer in <strong>10 lines of HTML code</strong>.
+            </p>
+            <p data-height="265" data-theme-id="0" data-slug-hash="LjMXRw" data-default-tab="html" data-user="lodr" data-embed-version="2" data-pen-title="AR Viewer" class="codepen">See the Pen <a href="https://codepen.io/lodr/pen/LjMXRw/">AR Viewer</a> by Salvador de la Puente González (<a href="https://codepen.io/lodr">@lodr</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+          </section>
+
+          <section data-markdown>
+            Entering VR mode is as simple as clicking
+
+            ![VR-Mode icon on bottom right corner](./imgs/vr-mode.png)
+          </section>
+
+          <section data-markdown>
+            A-Frame also takes advantage and **leverages HTML**:
+          </section>
+
+          <section>
+            <p>The scene hierarchy is built using <strong>tag nesting</strong>.</p>
+            <p data-height="400" data-theme-id="0" data-slug-hash="RKrbbB" data-default-tab="html,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame Scene Hierarchy" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/RKrbbB/">A-Frame Scene Hierarchy</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          </section>
+
+          <section>
+            <p>Scene manipulation is achieved by <strong>modifying the DOM</strong>.</p>
+            <p data-height="400" data-theme-id="0" data-slug-hash="PWZoJG" data-default-tab="js,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame Scene Manipulation" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/PWZoJG/">A-Frame Scene Manipulation</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          </section>
+
+          <section data-markdown>
+            It uses HTML syntax to expose a **component-based architecture**.
+            ```html
+            &lt;a-entity component
+                      another-component=&quot;value&quot;
+                      yet-another-component=&quot;property: val; anotherProperty: val&quot;&gt;
+            &lt;/a-entity&gt;
+            ```
+          </section>
+
+          <section data-markdown>
+            ![Component composition on an entity](./imgs/ecs-composition.gif)
+          </section>
+
+        </section>
+
+        <section>
+          <section data-markdown data-background-image="./imgs/asset-store.png">
+            ## Unity + WebVR Assets
+          </section>
+
+          <section data-markdown>
+            A complete **IDE + game engine** to create games.
+
+            With a built-in exporter to **WebGL + wasm**.
+          </section>
+
+          <section data-markdown>
+            ### WebVR Assets
+            ![Download the assets from Unity Store](./imgs/asset-store-download.png)
+          </section>
+
+          <section data-markdown>
+            ![Adapt the Survival Shooter demo](./imgs/tutorial-project.png)
+
+            We are going to adapt the _Survival Shooter_ Unity tutorial project.
+          </section>
+
+          <section data-markdown>
+            ![](./imgs/loading.png)
+          </section>
+
+          <section data-markdown>
+            ![Some assets to interface with WebVR and a HTML5 template](./imgs/asset-store-import-options.png)
+
+            A combination of a HTML5 template and C# scripts.
+          </section>
+
+          <section data-markdown>
+            ![The VR camera riggin prefab is the core piece of the assets](./imgs/adding-camera-prefab.png)
+
+            As simple as replacing the main camera with the **VR camera rigging prefab**.
+          </section>
+          
+          <section data-markdown>
+            ![You can consider the mono camera as the center of the eyes](./imgs/make-main-camera.png)
+
+            Consider the **CameraMain camera** as the center of the eyes.
+          </section>
+
+          <section data-markdown>
+            ![Code adaptation](./imgs/adapt-rotation.png)
+
+            Adapt the gameplay, considering **CameraMain** as a your regular _main camera_.
+          </section>
+
+          <section data-markdown>
+            ![UI placement](./imgs/ui-placement.png)
+
+            And **place the UI into world space**, child of the camera.
+          </section>
+          
+          <section data-markdown>
+            ![Change platform to WebGL](./imgs/build-settings.png)
+
+            Switch platform to **WebGL**.
+          </section>
+  
+          <section data-markdown>
+            ![Choose the WebVR template](./imgs/configure-template.png)
+
+            And choose the **WebVR template**.
+          </section>
+
+          <section>
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/ipLwVV31lEo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+              <p>Check the demo!</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Resources &amp; Community
+          </section>
+
+          <section data-markdown>
+            ### Other important players
+
+            * [Three.js](https://threejs.org/)
+            * [BabylonJS](https://www.babylonjs.com/)
+            * [Amazon Sumerian](https://aws.amazon.com/sumerian/)
+            * [PlayCanvas](https://playcanvas.com/)
+          </section>
+
+          <section data-markdown>
+            ### A-Frame
+
+            * [A-Frame](https://github.com/aframevr/aframe)
+            * [A-Frame Twitter](https://twitter.com/aframevr)
+            * [A-Frame Slack](https://aframevr-slack.herokuapp.com/)
+            * [A-Frame Blog](https://aframe.io/blog/)
+            * [A-Frame Schools](https://aframe.io/aframe-school/#/)
+            * [A-Frame Registry](https://aframe.io/aframe-registry/)
+          </section>
+
+          <section data-markdown>
+            ### Unity WebVR Assets
+
+            * [Unity WebVR Assets](https://assetstore.unity.com/packages/templates/systems/webvr-assets-109152)
+            * [#Unity Channel on WebVR Slack](http://webvr-slack.herokuapp.com/)
+            * [On GitHub](https://github.com/mozilla/unity-webvr-export)
+          </section>
+
+        </section>
+
+        <section data-markdown>
+          ## Questions?
+        </section>
+      </div>
+    </div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>

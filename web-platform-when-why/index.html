@@ -43,10 +43,10 @@
         <section>
           <ol>
             <li>The Bright Side of the Web</li>
-            <li>User Expectations for the Mobile World</li>
+            <li>Expectations on the Mobile Word</li>
+            <li>The Native Paradox</li>
             <li>Modern Web to the Rescue</li>
-            <li>The Right choice</li>
-            <li>Successful Examples</li>
+            <li>PWA? A Word of Caution</li>
             <li>Resources and Credits</li>
           </ol>
         </section>
@@ -117,36 +117,48 @@
 
         <section>
           <section id="app-webapp">
-            <h2>User Expectations<br/>for Applications<br/>in the Mobile World</h2>
+            <h2>Expectaction on the Mobile World</h2>
           </section>
 
           <section>
-            <blockquote>
-              <p>It's not an App on Android because it's made with Java. It's not an app on Android because it's made with C++. It's not an App on Android because you distribute it one way or the other. It's an app because the overall user experience is set by the OS about what is a first class citizen and what isn't.</p>
-              <p>And so being an app is simply meeting the user's expectations of all of the other things that the OS has given privilege to and all the other affordances that you're integrated into.</p>
-              <p style="text-align: right;"><a href="https://youtu.be/EyyEfxrk_NU?list=PLNYkxOF6rcIAWWNR_Q6eLPhsyx6VvYjVb&t=2075" target="_blank">Alex Russell at PWA Dev Summit 2016</a></p>
-            </blockquote>
-          </section>
-
-          <section>
-            <p>Apps run independent on connectivity</p>
+            <p>Apps run independent on connectivity.</p>
             <img alt="Application with no connectivity" src="./imgs/youtube-offline.png" style="width: 34%;"/>
             <img alt="Dinosaur game in Chrome" src="./imgs/dinosaur-game-chrome.png" style="width: 34%;"/>
             <p>App vs. tab</p>
           </section>
 
           <section>
-            <p>Apps are first class citizens of the OS</p>
+            <p>Apps are independent, they don't run on other apps.</p>
             <img style="width: 34%;" alt="App task switcher" src="./imgs/app-task-switcher.png" />
             <img style="width: 34%;" alt="Browser tab switcher" src="./imgs/browser-tab-switcher.png"/>
             <p>App vs. tab</p>
           </section>
 
           <section>
-            <p>Apps can re-engage the user even if they are closed</p>
+            <p>Apps can re-engage the user, even after closed.</p>
             <img style="width: 34%;" alt="New e-mail notification" src="./imgs/push-notification.png" />
             <img style="width: 34%;" alt="Highlghting new content in app" src="./imgs/in-app-highlight.png"/>
             <p>App vs. tab</p>
+          </section>
+
+          <section>
+            <p>
+              Can the Web do better?
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <blockquote>
+            <p>It's not an App on Android because it's made with Java. It's not an app on Android because it's made with C++. (&hellip;) It's an app because the overall user experience is set by the OS about what is a first class citizen and what isn't.</p>
+            <p>And so being an app is simply meeting the user's expectations of all of the other things that the OS has given privilege to (&hellip;)</p>
+            <p style="text-align: right;"><a href="https://youtu.be/EyyEfxrk_NU?list=PLNYkxOF6rcIAWWNR_Q6eLPhsyx6VvYjVb&t=2075" target="_blank">Alex Russell at PWA Dev Summit 2016</a></p>
+          </blockquote>
+        </section>
+
+        <section>
+          <section id="native-paradox">
+            <h2>The Native Paradox</h2>
           </section>
 
           <section>
@@ -209,10 +221,11 @@
             </blockquote>
           </section>
 
-          <section>
-            <p>
-              Can we do better?
-            </p>
+        </section>
+
+        <section>
+          <section style="transform: rotate(5deg);">
+            <h2><del>PWA to the rescue</del></h2>
           </section>
         </section>
 
@@ -223,9 +236,11 @@
 
           <section>
             <p>Fulfilling user expectation for apps requires web sites&hellip;</p>
-            <p class="fragment">To integrate with the OS.</p>
-            <p class="fragment">To provide reliable performance<br/>(even on flaky connections).</p>
-            <p class="fragment">To be independent on the browser.</p>
+          </section>
+          <section>
+            <p>To integrate with the OS.</p>
+            <p class="fragment">To be independent of the browser.</p>
+            <p class="fragment">To perform good enough.</p>
           </section>
 
           <section>
@@ -253,6 +268,7 @@
             <img alt="Flipkart specifying the theme color" src="./imgs/flipkart-task-switcher.png" style="width: 30%;"/>
             <img alt="Flipkart theme" src="./imgs/flipkart-theme.png" style="width: 30%;"/>
             <img alt="Flipkart splashscreen" src="./imgs/flipkart-splashscreen.png" style="width: 30%;"/>
+            <p><a href="https://flipkart.com" target="_blank">Flipkart Lite</a> progressive web app</p>
           </section>
 
           <section>
@@ -260,15 +276,10 @@
           </section>
 
           <section>
-            <p>
-              Service Workers are&hellip;
-            </p>
-            <ul>
-              <li class="fragment">JavaScript programs</li>
-              <li class="fragment">Run in a separate thread</li>
-              <li class="fragment">Independent from the browser being open</li>
-              <li class="fragment">Driven by events</li>
-            </ul>
+            <p>JavaScript programs</p>
+            <p class="fragment">In charge of <em>service-like</em> tasks</p>
+            <p class="fragment">Runnng in parallel</p>
+            <p class="fragment">Driven by events</p>
           </section>
 
           <section>
@@ -307,7 +318,7 @@
 
           <section>
             <p>
-              Three words of caution:
+              Three words of warning:
               <a href="../state-of-the-web-17/#timely-relevant-precise">
                 Timely, Relevant, Precise</a>.
             </p>
@@ -318,81 +329,47 @@
           </section>
 
           <section>
-            <h3>Sync</h3>
-            <img alt="Sync event" src="../imgs/sw-101/sync-event.png" style="width: 70%"/>
-          </section>
-
-          <section>
-            <p>And there is more to come...</p>
-            <ul>
-              <li class="fragment">Web Payments</li>
-              <li class="fragment">Credential Management</li>
-            </ul>
+            <h3>Performance</h3>
           </section>
         </section>
 
         <section>
           <section>
-            <h2>The Right Choice</h2>
+            <h2>PWA? A Word of Caution</h2>
           </section>
 
           <section>
             <p>
-              My recommendation:
+              A Progressive Web App is a website following a progressive enhancement strategy to deliver native-like interactions by using modern Web standards.
             </p>
           </section>
 
           <section>
-            <ol>
-              <li>The <strong>Web by default</strong></li>
-              <li class="fragment">If you have business arguments, stay away</li>
-              <li class="fragment">If you need access to non-available APIs, stay away</li>
-            </ol>
-          </section>
-        </section>
-
-        <section>
-          <section>
-            <h2>Successful examples</h2>
+            <p>PWAs are not a new kind of Web thing.</p>
+            <p class="fragment">PWAs are not a <a href="https://www.aaron-gustafson.com/notebook/your-site-should-be-a-pwa/" target="_blank">silver bullet.</a></p>
+            <p class="fragment">PWAs do not give you <a href="https://medium.com/samsung-internet-dev/heres-what-you-get-for-free-with-a-progressive-web-app-74b7ac5bdb3a" target="_blank">anything for free.</a></p>
+            <p class="fragment">The term PWA should not be used to <a href="https://twitter.com/SachaGreif/status/888182866496045056" target="_blank">deceive non-technical folks</a>.</p>
           </section>
 
           <section>
-            <h3>e-Commerce</h3>
-            <ul>
-              <li>Flipkart triples time-on-site with Progressive Web App</li>
-              <li>AliExpress increases conversion rate for new users by 104%</li>
-              <li>United eXtra Electronics grows eCommerce sales by 100% with Web Push Notifications</li>
-              <li>Push Notifications help Jumia reverse cart abandonment</li>
-              <li>Konga cuts data usage 92%</li>
-              <li>5miles increases conversions 60%</li>
-            </ul>
-            <p>
-              Source: <a href="https://developers.google.com/web/showcase/">Google showcase</a>
-            </p>
-          </section>
-
-          <section>
-            <h3>Heroes of Paragon</h3>
-            <img alt="Daily Average Revenue per User" src="./imgs/heores-of-parangon-darpu.png" style="width: 70%;"/>
-            <p>
-              <a href="https://medium.com/@vvergon/webgl-matures-into-a-commercial-ready-technology-ba71e254cae6#.4xop0bf6k">WebGL matures into a commercial-ready technology</a>
-            </p>
-            <p>
-              The Web holds 2nd position in DARPU.
-            </p>
+            <p>Fear the Walled Gardens&hellip;</p>
+            <blockquote>
+              <p>Walled gardens look beautiful. They’re home to the most popular flora. But make no mistake, you won’t be able to venture very far in any one direction without encountering a wall.</p>
+              <p>And every walled garden has a gatekeeper, who uproots plants that look like weeds. If you want to plant something in a walled garden, you have to get approval from that gatekeeper.</p>
+              <p style="text-align: right;">&mdash;Quincy Larson on <a href="https://medium.freecodecamp.org/inside-the-invisible-war-for-the-open-internet-dd31a29a3f08" target="_blank">Inside the Invisible War for the Open Internet</a></p>
+            </blockquote>
           </section>
         </section>
 
         <section>
           <h2>Resources</h2>
           <ul>
-            <li>Alex Russell on <a href="https://www.youtube.com/watch?v=x7cfLDFVyHo&feature=youtu.be&t=143" taget="_blank">Progressive Web Apps</a></li>
-            <li><a href="https://flipkart.com" target="_blank">Flipkart Lite</a> progressive web app</li>
-            <li>Google <a href="https://developers.google.com/web/showcase/" taget="_blank">showcase</a></li>
-            <li>Paul Lewis <a href="https://aerotwist.com" target="_blank">aerotwist.com</a> blog on performance</li>
-            <li><a href="https://github.com/delapuente/service-workers-101/">Sevice Worker 101</a></li>
+            <li><a href="https://pwastats.com" taget="_blank">PWA Stats</a></li>
+            <li>Alex Russell on <a href="https://medium.com/@slightlylate/progressive-apps-escaping-tabs-without-losing-our-soul-3b93a8561955" taget="_blank">Escaping Tabs Without Loosing Our Soul</a></li>
             <li><a href="https://www.youtube.com/playlist?list=PLNYkxOF6rcIAWWNR_Q6eLPhsyx6VvYjVb">PWA Dev Summit talks</a></li>
-            <li><a href="http://www.quirksmode.org/blog/archives/2015/05/web_vs_native_l.html">Web vs. native: let’s concede defeat</a></li>
+            <li><a href="https://developers.google.com/web/fundamentals/performance/" target="_blank">Performance</a> on Google Web Fundamentals</li>
+            <li><a href="https://github.com/delapuente/service-workers-101/">Service Worker 101</a></li>
+            <li>Peter O'Shaugnessy<a href="https://medium.com/samsung-internet-dev/progressive-web-apps-are-a-toolkit-not-a-recipe-b2fd68613de5">Progressive Web Apps are a toolkit, not a recipe.</a></li>
           </ul>
         </section>
 

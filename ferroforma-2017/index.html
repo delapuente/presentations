@@ -1,0 +1,248 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>What the Web can do for you - Ferroforma 2017</title>
+    <meta name="description" content="A presentation about the latest technologies on the Web for an industrial perspective.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/mozilla-devrel-light.css"/>
+
+		<!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+	</head>
+  <body>
+		<div class="reveal">
+			<div class="slides">
+        <section>
+          <header>
+            <h1>What the Web can do for you</h1>
+            <p>Ferroforma 2017</p>
+          </header>
+        </section>
+
+				<section>
+					<h2>Who am I?</h2>
+					<img alt="Me" src="../imgs/contact/me.png" style="float: left; margin-right: 1em" />
+					<p style="text-align: left">
+						My name is <a href="https://salvadelapuente.com" target="_blank">Salvador de la Puente</a>. I'm software engineer at <strong>Mozilla</strong>. I work for the Web: <strong>HTML5</strong>, standards, new technologies, developer relations... Previously, I worked for <strong>Telefonica I+D</strong> in <strong>Firefox OS</strong>.
+					</p>
+					<p>
+						<a href="mailto:salva@unoyunodiez.com">salva@unoyunodiez.com</a><br/>
+						<a href="https://twitter.com/salvadelapuente" target="_blank">@salvadelapuente</a>
+					</br/>
+
+					</p>
+				</section>
+
+				<section>
+					<section>
+						<h2>What's an app?</h2>
+					</section>
+
+          <section>
+						<p>
+              Can you tell what is the native app?
+						</p>
+            <img style="height: 600px;" alt="Twitter Home Screen icons" src="../web-platform-when-why/imgs/home-screen.png"/>
+          </section>
+
+          <section>
+						<p>
+							And now?
+						</p>
+						<img style="width: 34%;" alt="Twitter Native Application" src="../web-platform-when-why/imgs/twitter-native.png"/>
+						<img style="width: 34%;" alt="Twitter Web Application Without Browser UI" src="../web-platform-when-why/imgs/twitter-web-no-ui.png"/>
+          </section>
+
+          <section>
+            <p>
+              But you certainly do now.
+            </p>
+            <img style="width: 34%;" alt="Twitter Native Application" src="../web-platform-when-why/imgs/twitter-native.png"/>
+            <img style="width: 34%;" alt="Twitter Web Application" src="../web-platform-when-why/imgs/twitter-web.png"/>
+          </section>
+
+          <section>
+            <p>
+              Or now.
+            </p>
+            <img style="height: 600px;" alt="Twitter Native Application" src="../web-platform-when-why/imgs/task-switcher.png"/>
+          </section>
+
+          <section>
+            <p>In the mobile world, users expect to interact with <strong>apps</strong>.</p>
+            <p>Webs are those things we visit using the <strong>browser</strong>.</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Some numbers</h2>
+          </section>
+
+          <section>
+            <img src="../web-platform-when-why/imgs/audience-vs-loyalty.png" />
+						<p>
+							Mobile apps retain the user attention more time while the Web reaches more people.
+						</p>
+          </section>
+
+          <section>
+            <img src="../web-platform-when-why/imgs/unique-visitors-milestones.png" />
+						<p>
+							There is more opportunity in the Web.
+						</p>
+          </section>
+
+					<section>
+            <img src="../web-platform-when-why/imgs/native-vs-hybrid-app-costs.png" />
+						<p>
+							Targeting the Web involves one development and save costs.
+						</p>
+          </section>
+				</section>
+
+        <section>
+					<section>
+						<h2>Progressive Web Apps</h2>
+					</section>
+
+          <section>
+            <img alt="Flipkart in Offline mode" src="../web-platform-when-why/imgs/flipkart-offline.png" style="width: 34%;"/>
+            <img alt="Flipkart showing custom no content warning" src="../web-platform-when-why/imgs/flipkart-no-content.png" style="width: 34%;"/>
+						<p>
+							<a href="https://github.com/delapuente/service-workers-101" target="_blank">Service Workers</a> enables offline experiences and reliable performance even in situations of flaky connections.
+						</p>
+          </section>
+
+          <section>
+            <img alt="Flipkart specifying the theme color" src="../web-platform-when-why/imgs/flipkart-task-switcher.png" style="width: 30%;"/>
+            <img alt="Flipkart theme" src="../web-platform-when-why/imgs/flipkart-theme.png" style="width: 30%;"/>
+            <img alt="Flipkart splashscreen" src="../web-platform-when-why/imgs/flipkart-splashscreen.png" style="width: 30%;"/>
+						<p>
+							Thanks to the <a href="https://developer.mozilla.org/en-US/docs/Web/Manifest" target="_blank">manifest file</a>, the web app can be better integrated with the OS.
+						</p>
+          </section>
+
+					<section>
+						<img alt="Flipkart notification" src="../web-platform-when-why/imgs/flipkart-notification.png" style="width: 30%;"/>
+						<p>
+							<a href="https://serviceworke.rs/web-push.html" taget="_blank">Web Push</a> allows users to receive notifications from the webs they visit.
+						</p>
+					</section>
+
+					<section>
+						Do you want to know more?
+					</section>
+
+					<section>
+						<img src="./imgs/pwa-stats-1.png" />
+					</section>
+
+					<section>
+						<img src="./imgs/pwa-stats-2.png" />
+					</section>
+
+					<section>
+						<p>
+							More statistics at <a href="https://www.pwastats.com/" target="_blank">PWA Stats</a>.
+						</p>
+					</section>
+        </section>
+
+				<section>
+					<img src="./imgs/mind_the_gap.jpg" />
+				</section>
+
+				<section>
+					<section>
+						<h2>WebVR</h2>
+					</section>
+
+					<section>
+						<img src="./imgs/oculus-touch-2.jpg" alt="A person wearing an Oculus head mounted display and their presence control."/>
+						<p>
+							A <a href="https://w3c.github.io/webvr/" target="_blank">new API</a> for sending content to HMDs and tracking the pose of VR peripherals.
+						</p>
+					</section>
+
+					<section>
+						<h3>A-Frame</h3>
+						<p>
+							A framework to develop <strong>quality VR experiences using Web technologies</strong>: HTML, CSS and JavaScript.
+						</p>
+					</section>
+
+					<section>
+            <p data-height="400" data-theme-id="0" data-slug-hash="PWZoJG" data-default-tab="js,result" data-user="lodr" data-embed-version="2" data-pen-title="A-Frame Scene Manipulation" class="codepen">See the Pen <a href="http://codepen.io/lodr/pen/PWZoJG/">A-Frame Scene Manipulation</a> by Salvador de la Puente González (<a href="http://codepen.io/lodr">@lodr</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+					</section>
+
+					<section>
+						<img src="../web-platform-when-why/imgs/step-cost-20.png" />
+						<p>
+							An additional step costs you <strong>20% of users</strong>.
+						</p>
+						<p>
+							Friction is specially relevant in VR.
+						</p>
+					</section>
+
+					<section>
+						<p>
+							But with WebVR, VR experiences are <a href="https://aframe.io/a-blast/" blank="_target">one-click away</a> from your desktop.
+						</p>
+					</section>
+
+					<section>
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/MAoVUrmiRZs?rel=0" frameborder="0" allowfullscreen></iframe>
+						<p>
+							And applications don't end with games.
+						</p>
+					</section>
+        </section>
+
+        <section>
+					<img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
+					<p>Salvador de la Puente González</p>
+					<p><a href="https://salvadelapuente.com">salvadelapuente.com</a></p>
+					<p><a href="https://twitter.com/salvadelapuente">@salvadelapuente</a></p>
+					<p><a href="https://github.com/delapuente">https://github.com/delapuente</a></p>
+					<p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+      </div>
+		</div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
