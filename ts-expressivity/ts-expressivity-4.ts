@@ -5,7 +5,9 @@
 type Nullable<T> = T | null
 type Intentional<T> = {
   [Key in keyof T]-?:
-    any | undefined extends T[Key] ? Exclude<T[Key], undefined> | null : T[Key]
+    T[Key] extends Exclude<any, undefined | null> | undefined
+    ? Exclude<T[Key], undefined> | null
+    : T[Key]
 }
 
 type CharacterPayload = {

@@ -8,8 +8,8 @@ type GetterName<AttrName extends string> = `get${Capitalize<AttrName>}`
 const nameGetter: GetterName<'name'> = 'getname'
 const ageGetter: GetterName<'age'> = 'getAge'
 
-// Type mappings
-// -------------
+// Mapped types
+// ------------
 
 // "A set of perms from a set of capabilities."
 type Capabilities = Record<string, boolean>
