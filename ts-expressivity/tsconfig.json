@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "lib": ["ES2017", "DOM"],
+    "target": "ES5"
+  }
+}

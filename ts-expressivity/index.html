@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>TypeScript Expressivity</title>
+    <meta name="description" content="Typing patterns in TypeScript.">
+    <meta name="author" content="Salvador de la Puente González">
+
+    <link rel="stylesheet" href="../lib/reveal/css/reveal.css"/>
+    <link rel="stylesheet" href="../lib/reveal/css/theme/ibm-devrel-dark.css"/>
+
+		<!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../lib/reveal/lib/css/solarized-light.css" />
+
+    <style>
+      section.no-deco img {
+        border: none;
+        box-shadow: none;
+      }
+    </style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../lib/reveal/css/print/pdf.css' : '../lib/reveal/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+  <body>
+
+		<div class="reveal">
+			<div class="slides">
+        <section>
+          <header>
+            <h1>TypeScript Expressivity</h1>
+          </header>
+        </section>
+
+        <section class="no-deco">
+          <img src="imgs/qr.png" style="background: none" /><br/>
+          <a href="https://bit.ly/2Ub87Kj">https://bit.ly/2Ub87Kj</a>
+          <p></p>
+        </section>
+
+        <section>
+					<img src="../imgs/contact/chibi.jpg" alt="me" class="plain" style="width: 250px; height:auto;"/>
+					<p>Salvador de la Puente González</p>
+					<p><a href="mailto:hola@salvadelapuente.com">hola@salvadelapuente.com</a></p>
+					<p><a href="https://www.linkedin.com/in/delapuente/">in/delapuente</a></p>
+					<p><a href="https://github.com/delapuente">https://github.com/delapuente</a></p>
+					<p><a href="https://delapuente.github.io/presentations/">https://delapuente.github.io/presentations/</a></p>
+        </section>
+
+        <section data-markdown>
+          ## Index
+          1. Generalities
+          2. Everyday types
+          3. Common patterns
+          4. Advance typing
+          5. Limits of expressivity
+          6. Resources
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Generalities
+          </section>
+
+          <section data-markdown>
+            - Powerful inference leverages **intentionality**
+            - Type compatibility is structural subtyping
+            - Embraces JavaScript common patterns
+            - Assumes **you** know more
+            - Has no effect on runtime
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Everyday types
+          </section>
+
+          <section data-markdown>
+            - Common types
+            - `unknown` vs `any`
+            - Optional keys, `null` and `undefined`
+            - Type aliases
+
+            [Try it out](https://www.typescriptlang.org/play?#code/PTAEFEDVwJQTQCIEE6gCpwArgMoCgRQBeE0ssvAsAYQHsBbe2gO1ABcBPABwFMBnKqAC0I0WJGVCAIjQALAJZ9Qi0AENQfNgCd5zAOYAadgqUr1zAK70ARjy0A6R1LwAbHm1AKAYloYA5OAAuDW1dPWJQAHJZWhd1ADNfelAAgEJI13c1LR0ANzC4HlUtYMsbOwiAJgAGGsyPAHdVPiQAcVpaABNC4uDrDrdVViJ2LQseetBOvLCAGXkAYx5mPh4kNjYeei42PmCEVU2AbQBdCKO8UFBmHgbQA82ACkiAKQtWSoBGIxqvyIBKAyXa63e6HHjPJAWcKfADMP1qnwBQKuNzuDwhkQA8gsPAA2BF-f54E6TGL0Hh0WhaTq6cF7UAAb1ALhYenkbAsnR4pSsti0RjibA5XJ51z5FQAvhFGcDWfoRdzgkIAOyw+wqvG1FEsw6KsUAFk+9mqsLxAFY8JLJGApEhQPF3rj5CxjIc1AsljslOpNDp9PZnI7mM7XXotDx3I9w5HhfoGX6wv8mcCFiw+LEePZWXpoxH3GE+MTrYI7Q6ncLXWxZO6I5ytCs1OLyg4gxWXawhnwGnY0LR5vEeABVZjyXJ2VZIZidcDjrQcathR7-XktlNXOsWBugA2VK020AyWQ8DQ8NPT0BcYqqCmbLTKJS0HYd1QuQN4YOh1hbLg1vjyAAvHhOlafM2DzWNC2CRN9CMH8-0UWYeHHFwAH5giGDhk1lK54OaRDkJ4FwIjw-8+CQlDQFQ1DQGqVN00zbNaFzGMC3jUAAGoonSewI14Q5HlIgiUP+YsDykK9OiQ+JwOTehVA4dhVAAaxPX1Qn0UBqSbMp+XfT9K1YSTpPAjNbwUfRoI0wxL1UTpaUs5t+VAAAfEJ-T0Fd3LCddlHiUBHk4XhaH8ySHPCUgol0uwAV8jd3C3VhIiiXieH48CwqTTiNAYdwLL0YFrXi+sjLs8LsrMvKwn3UtqCGUAtg5LSbi0-zq34E9COYXYok0YpNk6SIjEiTQn14QbnCCk9MDiDhZ2WDwRhGth+uA5K3OWsa1rwXQ73iVQllAGaFLscB6A5O9fJYQTx264Jjrm262CMeJmHQ0AvHbFgvNyWh5E6GrCAAA3eZTmFoBpmCB0BciUIHMKBwRxGRlHKDcDxVD8CUSicioRk+SZKsXRzMMmcGAEluVUYJQfByHKCJ-KIkx7G8EZnyRgpqm8BZtcRnZ-QeaxvnrloSminEuQTwMjsPS9HrCPnYm9H0r7WBzR4Bb0DDmCw3zzwzNwmNzLWxNLcmphYSIPDBiHQAaGsPBURclCvLQb3cOxVZDQyHU13LlZp5hbch7D6JWRiNdNwGwCxZ8WFfUBVI4PgjCBywXBcaGhk6UAQenHh4l0YDEcIFHy4ryvREl49bI4Vk7NABZ6rTCl7Y5GILA8dqHXkIjc8iCkWxwXQlkiSbuBPagLFGiktEwBSG9zkYcOUTpV35HVmA9qyPJ1If+RHkMeHejF93RpuZ7YXKcen2e7AX+vaEblfgX+4Jqi3neohwV9clUDI1oL6rFHNSDkikRgYnsHTZcwhL73wcAfOwR8lg1xPP-Fw4wm71VsKAd43Ii43E6BPXgR1fCdAsLiGUb9164wFMCbeFJd5hB1NyPgCwdDx2YMwzSbl8GF2LgDIBWRR4MC4OjHgmByGULYPdaRVDX5XHfrRL+TCohIHkgBV04AFgxEAZMLg8jZFkK6DI6hSjaHfAYd-SI7RmJuFAAACVykNYEbCOHyC4byTO58shDFoO1eeRi5GmIUb5ZRVjUQ2KQFwcRJ5nEUkwF0VxVx3GcMMkHAhgiY6HiljDV8WCVBPkMq+EhJ4ABC7g7xSNCYtcJtDor0KiWomChg3H8A8V48UPjhEY0qRsB+wTQD9OqUY8xa9giROuDYxxxR5KsAANLFE6K6cmzBfqqRSVMDp6SOzeJcDktAk81AuHkM0fgSMq7iQtk0bq7BaCgD4hGEBGNQCVAQJeP63V3wXyWN1OwwQjiNKMI0s4Iwjif1oqSUsABZRShjaAACszxOx9JnNQ-Qu6fN2qnUANyhgeHoIpCGrApoOm0u1eg74yVJN2u884wK6Gkgvu7acDBaV3SOl8tg9LwUwsOLIXiOcGDLiMPy6sQq2X0GXKSIAA) in the TypeScript playground!
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Common patterns
+          </section>
+
+          <section data-markdown>
+            - OOP goodies
+            - Generics
+            - Utility types
+
+            [Try it out](https://www.typescriptlang.org/play?#code/PTAEGEHkFlsg5UAFAggFTQUQErwMoBQIoAvGeRZQUWJJEqAOYD2zAJgJYCmAzjaAFohwkQOrEARHmYBbLgBcAFhwB2jUAGMAhitAcZABwA2XOSvmglXUBIAyOtjK0AnANYS95rs4BmWjVwAdBIEqvLefgGg9iqOLq6gAN4EoKBGzGoc8gCubFwAXKAq2TIARt4paVryWbkFRSXlzgQAvtQaRlo8PBBZAJ56hiZm8j0xcW5JlRoZPPLO2RryzM4AFJWpBtmlRhwaRVpyhXPOqowANBugWzt7aRmMtXmFxWXel6mb27v7nTU5zwab2aqQAlFNUm02iYLPIXIwFOBWM5OCpqrxSEUuAB3XryPqrADkAHVlOFkJ1VDxCedBAB2ADMgTpADYAEwATlpABYAIyBAAMDO5AtB4jAEhQumYpQAVlwlnoelpNLIDMweFlrMwfDZwOkeFw2HhFFoDFwPA49cx0s4jSazRbgqEvL5-NZ9Rr7abzRDQC4uFpVqCXo13pUTGolMHQ8DWtQwhF3RAbStvY6-TNbcd5md4wQYaAdtkuABVFRZABCzAAHoVPYbjT7rAAyFO29O+kh+gNB8GJUB2nLOXS80AtD5pLhRxTBpKDhTZEegbnjydZlaFQnFriE-OSFCaTrdUA+FaqjtsIu1jH6Yymac1NSWRRezzhN0BHjOjpdHpIy9qxrQZ7xGf8DU7LhaQAtMmwzZJUgAfU1QFXiaSpEI3Zwc1ONRqFSGYVBORZljWLCcLOWkUPqNDvExXl+yuJQOG-ZCODyTFqKY5RWKwzEsMqNpKl7OcByHJddGY1jqNAAAqF8WMCNiOLaVJI0YaN+wXYddFXeSpKUmTVKYBQLxWUTtIkhTeNTZxx3jQs7TYIDMRUHF21goCiScwkxX4SU0hY8I3LsnxshUJYOAyEIwoimoMlAOYXHkAARZwtGxM5VikwoAAk0GgWxwB0AA3LpMGGR9GII2YLCWYDuwMhF5CRLwa3kIk2TYXyHNM7QVDKng8oKorSvKyrzExNhmA0EpH0CABHEtnD6PAuBMJZzMJfrBt8gBCAgdq6QItDYNhMBKx9bCC6dvCJDo9lcGlErhZxUvSzK1D84gAHFbtODQ+GIURhHFGxD3mLhtV1FxSiydKVtAMqjBLHgQnxX00DtLh4HYLgAB40AAPkxAdkZLQo0FpDRlCMNg7RUSnsdxvJCaJgBtABdezC0UBRvGYBE3OYbIeCxqGmahlmCZ0PoSe7BCka0FH6l5ddafp6dCnZq4yeVinQEJLRnppjg6YZ7XuYnXWlZVwp5hLamNYt0AubXSpOd6ixaOccX6j96X8Z9+W-XJ1X1bNzXGddm2w8KNkncjl23etz55zj0AGUT82tddq3J09oSD2lOUFVhU0LFMLJEtkaweHNDQOB8O4uEu8w0cO48egux9MBkLIP3xzBQC4drpzYHoTjOEnFcQ3Y5n+ob53ZhJVFATBOYAfkKAAxcLIoyFP8NVIiHc2tZqs+Ay55ukKegV4yhNSDJVjRI519pefgu8Xf9-ilRL6pGvl-Re7M35cG5o1HiSkQF3zAYcCBoBN6bzztxRSN8F5wPAVvQIWweCzlgd4MUkJj5Vw6uAwomBaSBBoQYLQfR0inUKLLLmgCT5zECpg7w99rIwNvtw+BchubINQWnQhzhvxnmcJgfwBD+F2RICTcRqwaG4PoYwtgoJiH2SEhjawSBOh9G8D3Sa3ZCTGHoYSUAAAfQ2cxmAGD3L+E8Bj6F0VHsFCe6827yD7gPbw+NXFGOkT4mex8LEEjYQZMhRIIk9TToRHgNogjpEYESIJZwijMGxKo+J9lKj2IMKJNB34YmEkKXkmqRFkmBFSUSPAywDCZJUNk3J2ioTtFqtcVy7kgl3TFAYQIL9zGGOenORRSQWgDKGSobyvA5pjPBBMxIUywalhqLsfElg+jmiBmAEGBywYBTtKdDIRgBglW4LiHUL5rCQwtJ3P8oA-YAEkiIN1ImzP0iEWmAgDnjNmx9Eln1Iq-PGkscYAuJlE6BPy8auTxoJY+zVbYlhjKAbAgZpoqHOYTZmUKOaEjDoSTmYS07iWXNfX5QQw5IsqCi02OdZkhgxVis5fQ8VSwJezbaztpwkrJZ8ClklYXUsCIyqOSKhKFipB8883Y3K4lee8su5kfZ+zFIWCVDNMSytVc4cVfKVCHSNbg0Ws49Z2xXNnKOltxygiAA) in the TypeScript playground!
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Advance typing
+          </section>
+
+          <section data-markdown>
+            - Template literal types
+            - Mapping types
+            - Type predicates
+
+            [Try it out](https://www.typescriptlang.org/play?#code/PTAEEEBEDVwOQMIFFQBUCaAFAknA4gFAigC8Z5FFBRYAMgJYAuApgE4CGANqPQHYusADgHtO7RvWG8aoALTyFipcuqMAnoOag8zRgLjsAtswA84PawPHQzAB4teAEwDOoZ41Z8A5gD5SoAAMvXQASAG8EdkEmLnoAL1NzDytmHwBfAIIAYyl3UF4jZh09NgAubV19QpMAcgLjGr8SUBrgxnrmGuzcxlB2YOKBcsG2FNr+zqaWtvBgrplUDS1DKOjeL2cZZW3qYgAicDddUGEAM1BNVkNXU9ZhQz6j3rPQLKj2ACN6TiZ6ZmcAHR7AjqTSgSKCT7fX7-fwAJWYOVYjhM7k86wANKAPsJRMx2LwfCClqBMGxriYEDZ7MwnK4IVCfhJ-lMEUiUQBrZhqF4ILE4vEEokETjHRzMABu9CyzAZXyZf1czTCBFAJ00vEwAFdOM5mOUPFrmBjVaAAI7CD4AKwNrCNJrVZvYzkMAGZyqcuHqCGlqDleHktXrWGSrkrQCq1cINdrdfrQJ64w7zZabQmvcbTU6Xe7QIbmD7dmADk8TudaRJGKLjPwbncHowABZaHKGL4FCRSMuvd7ymGuAmOC7kwHA0FaJD8JjVitjADS1IcLjcHm8UwCb14AFU9eEITEfgkTHP0plx6BJ5WZ7XKYvacu5dDmc4ppHQABtOfcni8UBcnnnFSzoXlOVbMDWjBjGi3igAAZKAX5qD4AC65QCqKBKFqKvRBmwl7TuBFbhm0+FgRBzgABTilKMqPgq-xYrhIYjgAlAQTGkdejCAtGtKxt6HGgVxgKbjuzAAPIxjq3oEKcWq8Fkna-iRQmETeVJ2Eu9K9k+io+BRppvJCfbPuUfKmpc1zlKGFIIESLHlJxancZSfhvv6eQVgR5HlGywjIqiq6YtiuIYYS-hhL6aqnP5oAUR5vTvkZKRYhKXBGsh3bidaiKMACFaeP88U6fRzgsSxEammqCU2PwKT+BuBJieERkHvEzDFYIKQsRkVW1VeznOO+s6FJlzSWUNyWjXB8FpZwRqmlFoCsLoWqsL+XlkURfSuE55GuYWsnyYpki-q1jCxAkFEdOU0HrA5K7ol4lVqitjBrb+HQAlkjbsKw5gUQADCxAKMMIW6CJckR6hRFUANT5IUALOD8MoUQAjGxvoLCSggrY40riP8WzbDsMglq2kKKViPxeI2jAAO7MPQdO9CteP-BW4ind2AASqAALK0D+Cb+Q8LzsHmWqCKKQLEmCqD9HAwjiv4753V4WK84whicMr4rvshWKprlyHy1oqCafrWjNBr5ugNruvW-4iteM7AA+aBWyrBbk4cckKUpebCK8wjyb0TZaLwPvOMCAcnV2OTh47esxxRdzCIw5Qp9bD28FqbZsC9y2retofh9b6e4owWPUPHQdJ3VPvXT72c66n4p5wXHxF2+9DnBR9DOJb9iV9HncVW+r2l7+6OLTYcbF9VPSvI23yOCtv7NOPzDvujZtqtP71l+joAI43jAIGvnAb7S8XX7fvBsWqvrY-XPNDyPkHNzvbdOz7ecfY8FcF-Z2b43ofTzEsF4O9SBkBaBrLob9joNzDvwK+69N730wbSP+Hdd7IS7oXVgxcIFlx+jg6Qh9QAAhWIIFuqsSB+AvmPABz9D4AnxlqNGFEJRYmcAXCqTC3AFzPqAPhoBgY+iAA) in the TypeScript playground!
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Limits of expressivity
+          </section>
+
+          <section data-markdown>
+            Some relations [I cannot get them work](https://www.typescriptlang.org/play?#code/PTAEEEBEDVwOQMIFFQBUCaAFAknA4gFAigC8Z5FFBRYAMgJYAuApgE4CGANqPQHYusADgHtO7RvWG8aoALTyFipcuqMAnoOag8zRgLjsAtswA84PawPHQzAB4teAEwDOoZ41Z8A5gD5SoAAMvXQASAG8EdkEmLnoAL1NzDytmHwBfAIIAYyl3UF4jZh09NgAubV19QpMAcgLjGr8SUBrgxnrmGuzcxlB2YOKBcsG2FNr+zqaWtvBgrplUDS1DKOjeL2cZZW3qYgAicDddUGEAM1BNVkNXU9ZhQz6j3rPQLKj2ACN6TiZ6ZmcAHR7AjqTSgSKCT7fX7-fwAJWYOVYjhM7k86wANKAPsJRMx2LwfCClqBMGxriYEDZ7MwnK4IVCfhJ-lMEUiUQBrZhqF4ILE4vEEokETjHRzMABu9CyzAZXyZf1czTCBFAJ00vEwAFdOM5mOUPFrmBjVaAAI7CD4AKwNrCNJrVZvYzkMAGZyqcuHqCGlqDleHktXrWGSrkrQCq1cINdrdfrQJ64w7zZabQmvcbTU6Xe7QIbmD7dmADk8TudaRJGKLjPwbncHowABZaHKGL4FCRSMuvd7ymGuAmOC7kwHA0FaJD8JjVitjADS1IcLjcHm8UwCb14AFU9eEITEfgkTHP0plx6BJ5WZ7XKYvacu5dDmc4ppHQABtOfcni8UBcnnnFSzoXlOVbMDWjBjGi3igAAZKAX5qD4AC65QCqKBKFqKvRBmwl7TuBFbhm0+FgRBzgABTilKMqPgq-xYrhIYjgAlAQTGkdejCAtGtKxt6HGgVxgKbjuzAAPIxjq3oEKcWq8Fkna-iRQmETeVJ2Eu9K9k+io+BRppvJCfbPuUfKmpc1zlKGFIIESLHlJxancZSfhvv6eQVgR5HlGywjIqiq6YtiuIYYS-hhL6aqnP5oAUR5vTvkZKRYhKXBGsh3bidaiKMACFaeP88U6fRzgsSxEammqCU2PwKT+BuBJieERkHvEzDFYIKQsRkVW1VeznOO+s6FJlzSWUNyWjXB8FpZwRqmlFoCsLoWqsL+XlkURfSuE55GuYWsnyYpki-q1jCxAkFEdOU0HrA5K7ol4lVqitjBrb+HQAlkjbsKw5gUQADCxAKMMIW6CJckR6hRFUANT5IUALOD8MoUQAjGxvoyHsqDNj+DhKVwLS8DqnA1KAEpsM4p3duwFzCM4NMfJwag-q2gjYVokJqJwwjsI4Y4knAZOfKKJioFMqCgAAPvkZPEmC2D8F5UhcBLr6mp+358H+3IvKgyGyAA-OUqDa2omWaferh8KcbCgAAyrLoDyeKpx8MwQ7G07oDlLwkpsIdNXCBFprsOU6PJh85QAExYcctjlP+Lzji8wiqCSCC-RwilsJg7C8-zQ7KqaN2Pd4yZiO4psV5iFl3PbTOnbXd1eId2GgFawiNrw5TK4Tp3q9nf3sHnIaF3zAua2q5c1AAUj3vA1FXzqMP7ZPJoIjf-DTUgb5wnCHcQixgtvXvSuI-xbNsOw44cHNj4wWI-F4jaMAA7sw9Bv70K3n3qfg4haYvAABKoAALK0B-AmfyDwXj03epzZgQJFZaFQP0OAwhxT+HfG3LEoDGCGE4Fg8U75kJYlTLlZCaC0CaVIVoZobdaGEOIQw-wGCvDsLlqgeh2CCz3wTMdJSeZQ45Hkr0JsWheD8OcMCOSCkRHiP4KwkhsiKJ3GEOvUAqiGEPVJm2B2b43ofVeMICRDCNG4kYFjagCiTpdmUZBfh11+HlF0fw-RWpDGsBejwc4FF6DOF4fYSxMjxTlT8a9Va61QDo0WjYOMUSzEBl6D9b4jgVq-maOE5g750Y0LVNE96sT0agARk47OGSsnxUbNU2kbE1S+mxvYkRQSQnOPFK48U7iiFqIif7fhPBXAdPYcYmJv407nFyaQMgLQ25dBacI2mlS6mcEybSWp9S+46L6Qw8hXifF+JMbE9J6ysl9QBCsQQ3TGF+CcWEzxjSikAhWo4LUaMKISixM4bxFUSB+F+Q8BG3zQDAx9EAA) in the TypeScript playground!
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Resources
+          </section>
+
+          <section data-markdown>
+            - TypeScript [handbook](https://www.typescriptlang.org/docs/handbook/).
+            - TypeScript [playground](https://www.typescriptlang.org/play).
+            - [Type compatibility]().
+            - [Generics]().
+            - [Mapped types]().
+            - [Conditional types]().
+            - [EqualType]() implementation.
+          </section>
+        </section>
+      </div>
+		</div>
+
+    <script src="../lib/reveal/lib/js/head.min.js"></script>
+    <script src="../lib/reveal/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+          { src: '../lib/reveal/plugin/markdown/marked.js' },
+          { src: '../lib/reveal/plugin/markdown/markdown.js' },
+          { src: '../lib/reveal/plugin/notes/notes.js', async: true },
+          { src: '../lib/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+
+        keyboard: {
+          39: 'next',
+          37: 'prev'
+        }
+			});
+		</script>
+	</body>
+</html>
