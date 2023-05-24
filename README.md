@@ -140,5 +140,5 @@ The presentation is an introduction about CPS in JavaScript that covers the foll
  * Comparison between CPS and classical style
  * Current use of CPS
  * Problems using CPS (The Pyramid of DOOM)
- * Non-blocking programming
- * Coordinating async functions (flatting the Pyramid of DOOM)
+ * Non-blocking programming.
+ * The presentation is a simple approach to specific way of handling progressive web pages through various methods of CPS .
